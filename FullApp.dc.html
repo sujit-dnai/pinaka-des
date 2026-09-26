@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0..1,0" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#0074D9}a:hover{color:#0060B5}
+[data-fa]{--f:'IBM Plex Sans',system-ui,sans-serif;--m:'IBM Plex Mono',ui-monospace,monospace}
+[data-fa=light]{--bg:#EEF3F9;--card:#FFFFFF;--ink:#0B2540;--body:#33475B;--mut:#5A708C;--line:#D7E2EF;--line2:#E7EEF6;--sky:#E3F0FC;--blue:#0074D9;--link:#0060B5;--grad:linear-gradient(135deg,#001F3F 0%,#0074D9 100%);--fld:#F6F9FD;--ok:#1E7A3D;--okt:#E4F6EA;--okb:#2E9E4B;--red:#A3271B;--redt:#FCE9E7;--redb:#D93A2B;--amb:#9A6A00;--ambt:#FFF3D6;--map:#E4ECF4;--mapl:#D0DCE8}
+[data-fa=dark]{--bg:#07111D;--card:#0E1C2E;--ink:#E7EEF7;--body:#C3D0DE;--mut:#93A6BC;--line:#22374F;--line2:#1A2C42;--sky:#14304F;--blue:#5AAEF5;--link:#7CC0FF;--grad:linear-gradient(135deg,#000E1C 0%,#0A4B8C 100%);--fld:#0A1726;--ok:#6FD39A;--okt:#0F2E1E;--okb:#2E9E4B;--red:#FF9A8C;--redt:#3A1612;--redb:#C8382A;--amb:#F5BE6A;--ambt:#35260E;--map:#0C1A2A;--mapl:#15283D}
+[data-fa] *{box-sizing:border-box}
+[data-fa] button{font-family:var(--f);cursor:pointer}
+[data-fa] input,[data-fa] textarea{font-family:var(--f)}
+[data-fa] i{font-family:'Material Symbols Rounded';font-style:normal;font-weight:normal;font-size:22px;line-height:1;display:inline-block;white-space:nowrap;-webkit-font-smoothing:antialiased;font-feature-settings:'liga'}
+</style>
+</helmet>
+<div data-fa="{{ theme }}" style="width:{{ W }}px;height:{{ H }}px;position:relative;overflow:hidden;background:var(--bg);color:var(--ink);font-family:var(--f);font-size:15px;line-height:1.4">
+<sc-if value="{{ isAnd }}" hint-placeholder-val="{{ true }}"><div style="position:absolute;top:0;left:0;right:0;height:24px;background:{{ sbBg }};color:{{ sbFg }};display:flex;align-items:center;justify-content:space-between;padding:0 14px;font:500 12px var(--f);z-index:60"><span>{{ clock }}</span><span style="display:flex;gap:3px;align-items:center"><i style="font-size:15px">location_on</i><i style="font-size:15px">wifi</i><i style="font-size:15px">signal_cellular_alt</i><i style="font-size:15px">battery_5_bar</i></span></div></sc-if>
+<sc-if value="{{ isIOS }}" hint-placeholder-val="{{ false }}"><div style="position:absolute;top:0;left:0;right:0;height:47px;background:{{ sbBg }};color:{{ sbFg }};display:flex;align-items:center;justify-content:space-between;padding:0 30px 0 34px;font:600 16px -apple-system,system-ui,sans-serif;z-index:60"><span>{{ clock }}</span><span style="position:absolute;left:50%;top:11px;transform:translateX(-50%);width:122px;height:35px;border-radius:18px;background:#000"></span><span style="display:flex;gap:5px;align-items:center"><i style="font-size:17px">signal_cellular_alt</i><i style="font-size:17px">wifi</i><i style="font-size:20px">battery_full</i></span></div></sc-if>
+<div style="position:absolute;left:0;right:0;top:{{ sbH }}px;bottom:{{ bH }}px;overflow:hidden;display:flex;flex-direction:column">
+
+<sc-if value="{{ s.login }}" hint-placeholder-val="{{ true }}">
+<div style="flex:1;display:flex;flex-direction:column;background:var(--grad);color:#fff;min-height:0">
+  <div style="display:flex;justify-content:flex-end;padding:10px 12px"><span style="height:32px;padding:0 10px;border-radius:16px;background:rgba(255,255,255,.18);font-size:13px;font-weight:600;display:flex;align-items:center;gap:4px"><i style="font-size:17px">translate</i>English<i style="font-size:17px">expand_more</i></span></div>
+  <div style="display:flex;flex-direction:column;align-items:center;gap:8px;padding:10px 0 26px"><img src="assets/pinaka-eagle.png" alt="" style="width:84px;height:84px;border-radius:22px;background:#fff;object-fit:contain;padding:8px"><b style="font-size:26px;letter-spacing:.02em">Pinaka</b><span style="font-size:13px;opacity:.8">TaaSen Claims · field app</span></div>
+  <div style="flex:1;background:var(--card);color:var(--ink);border-radius:24px 24px 0 0;padding:20px 16px;display:flex;flex-direction:column;gap:14px">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;background:var(--bg);border-radius:12px;padding:4px"><sc-for list="{{ roles }}" as="r" hint-placeholder-count="2"><button onClick="{{ r.pick }}" style="height:44px;border-radius:9px;border:0;background:{{ r.bg }};color:{{ r.fg }};font-size:14px;font-weight:600;display:flex;align-items:center;justify-content:center;gap:6px;box-shadow:{{ r.sh }}"><i style="font-size:19px">{{ r.ic }}</i>{{ r.n }}</button></sc-for></div>
+    <div><div style="font-size:13px;color:var(--mut);margin-bottom:5px">Employee ID</div><div style="height:52px;border:1.5px solid var(--blue);border-radius:10px;padding:0 12px;display:flex;align-items:center;gap:8px;font-size:16px"><i style="color:var(--mut)">badge</i>TSN-FO-0412</div></div>
+    <div><div style="font-size:13px;color:var(--mut);margin-bottom:5px">Password</div><div style="height:52px;border:1.5px solid var(--line);border-radius:10px;padding:0 12px;display:flex;align-items:center;gap:8px;font-size:18px;letter-spacing:.2em"><i style="color:var(--mut);letter-spacing:0">lock</i>••••••••<i style="margin-left:auto;color:var(--mut);letter-spacing:0">visibility</i></div></div>
+    <button onClick="{{ toPin }}" style="height:54px;border-radius:12px;border:0;background:var(--grad);color:#fff;font-size:16px;font-weight:600;margin-top:4px">Sign in</button>
+    <div style="font-size:12.5px;color:var(--mut);text-align:center;line-height:1.5">You sign in once on this phone. After that a 4–6 digit PIN opens Pinaka each day. Only the admin can sign this phone out.</div>
+  </div>
+</div>
+</sc-if>
+
+<sc-if value="{{ s.pin }}" hint-placeholder-val="{{ false }}">
+<div style="flex:1;display:flex;flex-direction:column;align-items:center;background:var(--card);padding:36px 24px 16px;gap:10px">
+  <img src="assets/pinaka-eagle.png" alt="" style="width:56px;height:56px;border-radius:14px;background:#001F3F;object-fit:contain;padding:4px">
+  <b style="font-size:20px">Welcome back, Ravi</b>
+  <span style="font-size:14px;color:var(--mut)">Enter your PIN</span>
+  <div style="display:flex;gap:14px;margin:14px 0 20px"><sc-for list="{{ dots }}" as="d" hint-placeholder-count="6"><span style="width:16px;height:16px;border-radius:8px;border:2px solid var(--blue);background:{{ d.bg }}"></span></sc-for></div>
+  <div style="display:grid;grid-template-columns:repeat(3,76px);gap:12px 22px"><sc-for list="{{ keys }}" as="k" hint-placeholder-count="12"><button onClick="{{ k.tap }}" style="width:76px;height:64px;border-radius:32px;border:0;background:{{ k.bg }};color:var(--ink);font-size:24px;font-weight:500;display:grid;place-items:center"><sc-if value="{{ k.isIc }}" hint-placeholder-val="{{ false }}"><i style="font-size:24px">{{ k.n }}</i></sc-if><sc-if value="{{ k.isTx }}" hint-placeholder-val="{{ true }}">{{ k.n }}</sc-if></button></sc-for></div>
+  <span style="margin-top:auto;font-size:13px;color:var(--link);font-weight:600">Forgot PIN? Ask your manager to reset it</span>
+</div>
+</sc-if>
+
+<sc-if value="{{ s.punch }}" hint-placeholder-val="{{ false }}">
+<div style="flex:1;display:flex;flex-direction:column;background:#02101E;color:#fff;min-height:0">
+  <div style="padding:14px 16px 8px;display:flex;align-items:center;gap:10px"><div style="flex:1"><b style="font-size:19px">Punch attendance</b><div style="font-size:13px;opacity:.8">Saturday 26-09-2026 · {{ punchTime }}</div></div><sc-if value="{{ late }}" hint-placeholder-val="{{ false }}"><span style="height:28px;padding:0 10px;border-radius:14px;background:#D93A2B;font-size:12.5px;font-weight:700;display:flex;align-items:center">Late</span></sc-if></div>
+  <div style="margin:4px 16px;flex:1;min-height:0;border-radius:22px;background:linear-gradient(170deg,#3A4A5C,#1A2430);position:relative;overflow:hidden;display:grid;place-items:center">
+    <div style="width:180px;height:230px;border-radius:50%;border:3px dashed rgba(255,255,255,.55)"></div>
+    <span style="position:absolute;top:12px;left:0;right:0;text-align:center;font-size:13px;opacity:.85">Selfie · keep your face inside the oval</span>
+    <div style="position:absolute;left:10px;right:10px;bottom:10px;display:grid;grid-template-columns:64px 1fr;gap:8px;background:rgba(0,0,0,.55);border-radius:10px;padding:6px;font-size:11px;line-height:1.35"><span style="height:56px;border-radius:6px;background:linear-gradient(135deg,#7FA3C7,#C9D8E8)"></span><span><b style="display:block;font-size:12px">Tambaram, Chennai 600045</b>Lat 12.92493° Long 80.12710°<br>26-09-2026 {{ punchTime }} GMT +05:30</span></div>
+  </div>
+  <sc-if value="{{ late }}" hint-placeholder-val="{{ false }}"><div style="margin:10px 16px 0;background:rgba(255,255,255,.1);border-radius:12px;padding:10px 12px;display:grid;grid-template-columns:1fr 56px;gap:8px;align-items:center"><span style="font-size:13.5px"><b style="display:block;font-size:12px;opacity:.75;font-weight:600">Why late? (goes to your manager)</b>Bike puncture near Pallavaram, fixed and came.</span><span style="display:flex;flex-direction:column;align-items:center;font-size:9.5px;font-weight:700;color:#9CC3EC"><i style="font-size:22px">mic</i>Translator</span></div></sc-if>
+  <div style="padding:12px 16px 14px;display:flex;flex-direction:column;gap:8px"><button onClick="{{ doPunch }}" style="height:58px;border-radius:14px;border:0;background:#2E9E4B;color:#fff;font-size:17px;font-weight:700;display:flex;align-items:center;justify-content:center;gap:8px"><i>photo_camera</i>Take selfie & punch in</button><span style="font-size:12px;opacity:.7;text-align:center">{{ punchNote }}</span></div>
+</div>
+</sc-if>
+
+<sc-if value="{{ hasHead }}" hint-placeholder-val="{{ false }}">
+  <div style="background:var(--grad);color:#fff;flex:none;height:56px;display:flex;align-items:center;gap:10px;padding:0 12px">
+    <img src="assets/pinaka-eagle.png" alt="" style="width:32px;height:32px;border-radius:8px;background:#fff;object-fit:contain;padding:2px">
+    <div style="flex:1;min-width:0"><div style="font-size:17px;font-weight:600">{{ title }}</div><div style="font:500 11px var(--m);opacity:.82">{{ sub }}</div></div>
+    <span style="height:28px;padding:0 9px;border-radius:14px;background:rgba(255,255,255,.18);font-size:12px;font-weight:600;display:flex;align-items:center;gap:3px"><i style="font-size:15px">translate</i>EN</span>
+    <span style="width:36px;height:36px;border-radius:18px;background:rgba(255,255,255,.18);display:grid;place-items:center;position:relative"><i style="font-size:20px">notifications</i><span style="position:absolute;top:4px;right:5px;width:8px;height:8px;border-radius:4px;background:#FF6B5B"></span></span>
+  </div>
+  <div style="flex:1;overflow-y:auto;min-height:0;position:relative">
+
+  <sc-if value="{{ s.homeA }}" hint-placeholder-val="{{ false }}">
+  <div style="padding:12px;display:flex;flex-direction:column;gap:12px">
+    <div style="display:flex;align-items:center;gap:8px"><span style="height:28px;padding:0 10px;border-radius:14px;background:var(--okt);color:var(--ok);font-size:12.5px;font-weight:600;display:flex;align-items:center;gap:5px"><i style="font-size:16px">how_to_reg</i>Punched in 8:12 am</span><span style="height:28px;padding:0 10px;border-radius:14px;background:var(--card);border:1px solid var(--line);font-size:12.5px;font-weight:600;display:flex;align-items:center;gap:5px;color:var(--body)"><i style="font-size:16px;color:var(--okb)">my_location</i>On duty</span></div>
+    <div style="background:var(--card);border:1.5px solid var(--blue);border-radius:18px;padding:14px;display:flex;flex-direction:column;gap:10px">
+      <span style="font-size:12px;font-weight:700;color:var(--link);text-transform:uppercase;letter-spacing:.06em">Next · planned 11:00 am</span>
+      <div><b style="font-size:18px">K Murugan · visit insured</b><div style="font:500 12.5px var(--m);color:var(--mut)">CHO-TP-50011290 · Cholamandalam MS</div></div>
+      <div style="display:flex;gap:6px;align-items:center;font-size:13px;color:var(--body)"><i style="font-size:18px;color:var(--mut)">location_on</i>Maduravoyal · 8.4 km · 22 min</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px"><button style="height:46px;border-radius:12px;border:1.5px solid var(--line);background:transparent;color:var(--ink);font-size:14.5px;font-weight:600;display:flex;align-items:center;justify-content:center;gap:6px"><i style="font-size:19px">directions</i>Navigate</button><button style="height:46px;border-radius:12px;border:0;background:var(--grad);color:#fff;font-size:14.5px;font-weight:600;display:flex;align-items:center;justify-content:center;gap:6px"><i style="font-size:19px">play_arrow</i>Open case</button></div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px"><sc-for list="{{ kpis }}" as="k" hint-placeholder-count="3"><div style="background:{{ k.bg }};border:1px solid var(--line);border-radius:14px;padding:10px 12px"><b style="font-size:22px;color:{{ k.c }}">{{ k.v }}</b><div style="font-size:12px;color:var(--mut)">{{ k.n }}</div></div></sc-for></div>
+    <div style="display:flex;align-items:center"><b style="font-size:15px">My cases</b><span style="margin-left:auto;font-size:13px;color:var(--link);font-weight:600">See all 4</span></div>
+    <sc-for list="{{ minis }}" as="c" hint-placeholder-count="3"><div style="background:var(--card);border:1px solid var(--line);border-radius:14px;padding:10px 12px;display:grid;grid-template-columns:1fr auto;gap:2px 10px;align-items:center"><b style="font-size:14.5px;font-weight:600">{{ c.name }}</b><span style="height:22px;padding:0 8px;border-radius:11px;background:{{ c.tBg }};color:{{ c.tFg }};font-size:11.5px;font-weight:700;display:flex;align-items:center">{{ c.tat }}</span><span style="font:500 11.5px var(--m);color:var(--mut)">{{ c.claim }}</span><span style="font-size:12px;color:var(--mut);text-align:right">{{ c.km }}</span></div></sc-for>
+  </div>
+  </sc-if>
+
+  <sc-if value="{{ s.homeB }}" hint-placeholder-val="{{ false }}">
+  <div style="padding:12px;display:flex;flex-direction:column;gap:12px">
+    <div style="display:flex;align-items:baseline;gap:8px"><b style="font-size:20px">Good morning, Ravi</b><span style="margin-left:auto;font-size:12.5px;color:var(--mut)">4 cases · 1 out of TAT</span></div>
+    <div style="background:var(--card);border:1px solid var(--line);border-radius:18px;padding:14px 14px 4px">
+      <sc-for list="{{ plan }}" as="p" hint-placeholder-count="7"><div style="display:grid;grid-template-columns:52px 18px 1fr;gap:8px;min-height:54px"><span style="font:500 12px var(--m);color:{{ p.tc }};padding-top:2px">{{ p.t }}</span><span style="display:flex;flex-direction:column;align-items:center"><span style="width:14px;height:14px;border-radius:7px;background:{{ p.dot }};border:2px solid {{ p.ring }};flex:none"></span><span style="flex:1;width:2px;background:var(--line2);visibility:{{ p.lineVis }}"></span></span><span style="padding-bottom:10px"><b style="font-size:14.5px;font-weight:600;color:{{ p.nc }}">{{ p.n }}</b><span style="display:block;font-size:12.5px;color:var(--mut)">{{ p.d }}</span></span></div></sc-for>
+    </div>
+  </div>
+  </sc-if>
+
+  <sc-if value="{{ s.homeC }}" hint-placeholder-val="{{ false }}">
+  <div style="position:absolute;inset:0;background:var(--map)">
+    <svg viewBox="0 0 360 520" width="100%" height="520" preserveAspectRatio="xMidYMid slice" style="position:absolute;top:0;left:0"><g stroke="var(--mapl)" stroke-width="10" fill="none"><path d="M-10 120 C80 150 160 90 370 130"></path><path d="M60 -10 C90 160 150 300 120 530"></path><path d="M-10 360 C120 330 240 380 370 330"></path></g></svg>
+    <sc-for list="{{ mapPins }}" as="p" hint-placeholder-count="4"><span style="position:absolute;left:{{ p.x }}px;top:{{ p.y }}px;transform:translate(-50%,-100%);display:flex;flex-direction:column;align-items:center"><span style="background:{{ p.c }};color:#fff;border-radius:8px;padding:3px 7px;font-size:11.5px;font-weight:700;white-space:nowrap">{{ p.n }}</span><span style="width:0;height:0;border-left:6px solid transparent;border-right:6px solid transparent;border-top:7px solid {{ p.c }}"></span></span></sc-for>
+    <span style="position:absolute;left:150px;top:250px;width:22px;height:22px;border-radius:11px;background:#0074D9;border:4px solid #fff;box-shadow:0 0 0 8px rgba(0,116,217,.2)"></span>
+    <div style="position:absolute;left:0;right:0;bottom:0;background:var(--card);border-radius:22px 22px 0 0;padding:8px 12px 12px;display:flex;flex-direction:column;gap:8px;box-shadow:0 -8px 24px rgba(0,0,0,.12)">
+      <div style="width:36px;height:4px;border-radius:2px;background:var(--line);margin:2px auto 4px"></div>
+      <div style="display:flex;align-items:center"><b style="font-size:15px">Nearest first</b><span style="margin-left:auto;font-size:12.5px;color:var(--mut)">from Porur · now</span></div>
+      <sc-for list="{{ near }}" as="c" hint-placeholder-count="3"><div style="display:grid;grid-template-columns:40px 1fr auto;gap:10px;align-items:center;padding:6px 0;border-top:1px solid var(--line2)"><span style="width:40px;height:40px;border-radius:20px;background:{{ c.bg }};color:{{ c.c }};display:grid;place-items:center;font-size:12px;font-weight:700">{{ c.km }}</span><span style="min-width:0"><b style="font-size:14px;font-weight:600;display:block">{{ c.name }}</b><span style="font-size:12px;color:var(--mut)">{{ c.what }}</span></span><span style="height:22px;padding:0 8px;border-radius:11px;background:{{ c.tBg }};color:{{ c.tFg }};font-size:11.5px;font-weight:700;display:flex;align-items:center">{{ c.tat }}</span></div></sc-for>
+    </div>
+  </div>
+  </sc-if>
+
+  <sc-if value="{{ s.cardsA }}" hint-placeholder-val="{{ false }}">
+  <div style="padding:12px;display:flex;flex-direction:column;gap:0;background:var(--card);margin:12px;border:1px solid var(--line);border-radius:16px">
+    <sc-for list="{{ cardList }}" as="c" hint-placeholder-count="5"><div style="display:grid;grid-template-columns:6px 1fr auto;gap:10px;align-items:center;padding:10px 4px;border-bottom:1px solid var(--line2)"><span style="width:6px;height:36px;border-radius:3px;background:{{ c.bar }}"></span><span style="min-width:0"><b style="font-size:14.5px;font-weight:600;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ c.name }}</b><span style="font:500 11.5px var(--m);color:var(--mut)">{{ c.claim }} · {{ c.prod }}</span></span><span style="text-align:right"><b style="font-size:13px;color:{{ c.tFg }};display:block">{{ c.tat }}</b><span style="font-size:11.5px;color:var(--mut)">{{ c.km }}</span></span></div></sc-for>
+  </div>
+  </sc-if>
+
+  <sc-if value="{{ s.cardsB }}" hint-placeholder-val="{{ false }}">
+  <div style="padding:12px;display:flex;flex-direction:column;gap:12px">
+    <sc-for list="{{ cardList }}" as="c" hint-placeholder-count="4"><div style="background:var(--card);border:1.5px solid {{ c.bd }};border-radius:18px;overflow:hidden">
+      <div style="padding:12px 14px;display:flex;flex-direction:column;gap:8px">
+        <div style="display:flex;align-items:center;gap:6px"><span style="height:22px;padding:0 8px;border-radius:11px;background:var(--sky);color:var(--link);font-size:11.5px;font-weight:600;display:flex;align-items:center">{{ c.prod }}</span><span style="font-size:12px;color:var(--mut)">{{ c.ins }}</span><span style="margin-left:auto;font:600 12px var(--m);color:{{ c.tFg }}">{{ c.tat }}</span></div>
+        <div><b style="font-size:17px">{{ c.name }}</b><div style="font:500 12px var(--m);color:var(--mut)">{{ c.claim }}</div></div>
+        <div style="height:6px;border-radius:3px;background:var(--line2);overflow:hidden"><div style="height:100%;width:{{ c.pct }}%;background:{{ c.bar }}"></div></div>
+        <div style="display:flex;align-items:center;gap:6px"><sc-for list="{{ c.dots }}" as="d" hint-placeholder-count="4"><span style="width:26px;height:26px;border-radius:13px;background:{{ d.bg }};color:{{ d.c }};display:grid;place-items:center"><i style="font-size:15px">{{ d.ic }}</i></span></sc-for><span style="margin-left:auto;font-size:12.5px;color:var(--mut)">{{ c.km }}</span></div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;border-top:1px solid var(--line2)"><span style="height:42px;display:flex;align-items:center;justify-content:center;gap:5px;font-size:13px;font-weight:600;color:var(--link)"><i style="font-size:18px">call</i>Call</span><span style="height:42px;display:flex;align-items:center;justify-content:center;gap:5px;font-size:13px;font-weight:600;color:var(--link);border-left:1px solid var(--line2)"><i style="font-size:18px">directions</i>Go</span><span style="height:42px;display:flex;align-items:center;justify-content:center;gap:5px;font-size:13px;font-weight:600;color:var(--link);border-left:1px solid var(--line2)"><i style="font-size:18px">open_in_new</i>Open</span></div>
+    </div></sc-for>
+  </div>
+  </sc-if>
+
+  <sc-if value="{{ s.cardsC }}" hint-placeholder-val="{{ false }}">
+  <div style="padding:12px;display:flex;flex-direction:column;gap:14px">
+    <sc-for list="{{ groupsC }}" as="g" hint-placeholder-count="3"><div style="display:flex;flex-direction:column;gap:8px"><div style="display:flex;align-items:center;gap:8px"><span style="width:10px;height:10px;border-radius:5px;background:{{ g.c }}"></span><b style="font-size:13px;text-transform:uppercase;letter-spacing:.06em;color:{{ g.tc }}">{{ g.n }}</b><span style="font-size:12.5px;color:var(--mut)">{{ g.count }}</span></div>
+      <sc-for list="{{ g.items }}" as="c" hint-placeholder-count="2"><div style="position:relative;border-radius:16px;overflow:hidden"><div style="position:absolute;inset:0;background:var(--okb);display:flex;align-items:center;justify-content:flex-end;padding-right:18px;color:#fff;font-size:13px;font-weight:600;gap:6px;visibility:{{ c.swipeVis }}"><i style="font-size:19px">play_arrow</i>Start</div><div style="position:relative;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:12px 14px;display:flex;flex-direction:column;gap:4px;transform:translateX({{ c.dx }}px)"><div style="display:flex;align-items:center"><b style="font-size:15px;font-weight:600">{{ c.name }}</b><span style="margin-left:auto;font:600 12px var(--m);color:{{ c.tFg }}">{{ c.tat }}</span></div><span style="font-size:12.5px;color:var(--mut)">{{ c.claim }} · {{ c.next }}</span></div></div></sc-for>
+    </div></sc-for>
+    <span style="font-size:12px;color:var(--mut);text-align:center">Swipe left on a card to start it</span>
+  </div>
+  </sc-if>
+
+  <sc-if value="{{ s.today }}" hint-placeholder-val="{{ false }}">
+  <div style="padding:12px;display:flex;flex-direction:column;gap:12px">
+    <div style="border-radius:14px;padding:12px;background:{{ tdBg }};color:{{ tdFg }};display:flex;gap:10px;font-size:13.5px"><i>{{ tdIc }}</i><span><b style="display:block">{{ tdT }}</b><span style="color:var(--body)">{{ tdD }}</span></span></div>
+    <div style="display:flex;align-items:center;gap:8px"><b style="font-size:14px">{{ tdCount }}</b><div style="flex:1;height:6px;border-radius:3px;background:var(--line2);overflow:hidden"><div style="height:100%;width:{{ tdPct }}%;background:var(--okb)"></div></div></div>
+    <sc-for list="{{ updates }}" as="u" hint-placeholder-count="4"><div style="background:var(--card);border:1.5px solid {{ u.bd }};border-radius:16px;padding:12px;display:flex;flex-direction:column;gap:8px"><div style="display:flex;align-items:center;gap:8px"><i style="font-size:20px;color:{{ u.ic_c }}">{{ u.ic }}</i><div style="flex:1;min-width:0"><b style="font-size:15px;font-weight:600">{{ u.name }}</b><div style="font:500 11.5px var(--m);color:var(--mut)">{{ u.claim }} · plan: {{ u.plan }}</div></div></div><div style="display:grid;grid-template-columns:1fr 56px;gap:8px"><div style="min-height:48px;border:1.5px solid var(--line);border-radius:10px;background:var(--fld);padding:8px 10px;font-size:13.5px;color:{{ u.tc }}">{{ u.text }}</div><span style="border-radius:10px;background:var(--sky);color:var(--blue);display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:9.5px;font-weight:700"><i style="font-size:21px">mic</i>Translator</span></div></div></sc-for>
+  </div>
+  </sc-if>
+
+  <sc-if value="{{ s.profile }}" hint-placeholder-val="{{ false }}">
+  <div style="padding:12px;display:flex;flex-direction:column;gap:12px">
+    <div style="background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px;display:flex;gap:14px;align-items:center"><span style="width:64px;height:64px;border-radius:32px;background:linear-gradient(160deg,#4A5666,#222B35);flex:none"></span><div style="flex:1;min-width:0"><b style="font-size:18px">Ravi Kumar</b><div style="font:500 12px var(--m);color:var(--mut)">TSN-FO-0412 · Field Officer</div><div style="font-size:12.5px;color:var(--mut)">OHS Team Chennai · Manager Priya S</div><div style="display:flex;gap:2px;margin-top:4px;color:#F0A500"><i style="font-size:17px;font-variation-settings:'FILL' 1">star</i><i style="font-size:17px;font-variation-settings:'FILL' 1">star</i><i style="font-size:17px;font-variation-settings:'FILL' 1">star</i><i style="font-size:17px;font-variation-settings:'FILL' 1">star</i><i style="font-size:17px">star</i><span style="font-size:12.5px;color:var(--mut);margin-left:4px">4.1 rating</span></div></div></div>
+    <div style="background:var(--card);border:1px solid var(--line);border-radius:18px;overflow:hidden"><sc-for list="{{ menu }}" as="m" hint-placeholder-count="8"><div style="display:grid;grid-template-columns:40px 1fr auto 20px;gap:10px;align-items:center;padding:10px 14px;border-bottom:1px solid var(--line2)"><span style="width:36px;height:36px;border-radius:18px;background:{{ m.bg }};color:{{ m.c }};display:grid;place-items:center"><i style="font-size:19px">{{ m.ic }}</i></span><span style="font-size:15px;font-weight:500">{{ m.n }}</span><span style="font-size:13px;font-weight:600;color:{{ m.vc }}">{{ m.v }}</span><i style="font-size:20px;color:var(--mut)">chevron_right</i></div></sc-for></div>
+    <div style="border-radius:14px;padding:12px;background:var(--sky);font-size:13px;display:flex;gap:10px;color:var(--body)"><i style="color:var(--blue)">phonelink_lock</i><span>Signed in on this phone since 02-09-2026. Only the admin can sign this phone out, from the portal.</span></div>
+    <div style="font:500 11.5px var(--m);color:var(--mut);text-align:center">Pinaka 3.4.0 · sample</div>
+  </div>
+  </sc-if>
+  </div>
+
+  <sc-if value="{{ todayFoot }}" hint-placeholder-val="{{ false }}"><div style="flex:none;padding:10px 12px;background:var(--card);border-top:1px solid var(--line)"><button style="width:100%;height:50px;border-radius:12px;border:0;background:var(--okb);color:#fff;font-size:15.5px;font-weight:600;display:flex;align-items:center;justify-content:center;gap:8px"><i>task_alt</i>{{ todayBtn }}</button></div></sc-if>
+  <div style="flex:none;height:64px;background:var(--card);border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(5,1fr)"><sc-for list="{{ tabs }}" as="t" hint-placeholder-count="5"><span style="color:{{ t.c }};display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;font-size:11px;font-weight:600;position:relative"><span style="width:52px;height:30px;border-radius:15px;background:{{ t.bg }};display:grid;place-items:center"><i style="font-size:21px">{{ t.ic }}</i></span>{{ t.n }}<sc-if value="{{ t.badge }}" hint-placeholder-val="{{ false }}"><span style="position:absolute;top:6px;right:14px;min-width:16px;height:16px;border-radius:8px;background:var(--redb);color:#fff;font-size:10px;display:grid;place-items:center;padding:0 4px">{{ t.badge }}</span></sc-if></span></sc-for></div>
+</sc-if>
+</div>
+<sc-if value="{{ isAnd }}" hint-placeholder-val="{{ true }}"><div style="position:absolute;bottom:0;left:0;right:0;height:16px;background:{{ navBg }};display:grid;place-items:center"><span style="width:108px;height:4px;border-radius:2px;background:{{ navFg }}"></span></div></sc-if>
+<sc-if value="{{ isIOS }}" hint-placeholder-val="{{ false }}"><div style="position:absolute;bottom:0;left:0;right:0;height:34px;background:{{ navBg }};display:grid;place-items:center"><span style="width:134px;height:5px;border-radius:3px;background:{{ navFg }}"></span></div></sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:360,&quot;height&quot;:800},&quot;platform&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;android&quot;,&quot;ios&quot;],&quot;default&quot;:&quot;android&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;theme&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;light&quot;,&quot;dark&quot;],&quot;default&quot;:&quot;light&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;scene&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;login&quot;,&quot;pin&quot;,&quot;punch&quot;,&quot;late&quot;,&quot;homeA&quot;,&quot;homeB&quot;,&quot;homeC&quot;,&quot;cardsA&quot;,&quot;cardsB&quot;,&quot;cardsC&quot;,&quot;today&quot;,&quot;todayMissed&quot;,&quot;profile&quot;],&quot;default&quot;:&quot;login&quot;,&quot;tsType&quot;:&quot;string&quot;}}">
+const CASES=[
+ {name:'K Murugan',claim:'CHO-TP-50011290',prod:'Motor TP',ins:'Cholamandalam MS',tat:'Out by 1d',tBg:'var(--redt)',tFg:'var(--red)',bar:'var(--redb)',pct:100,km:'8.4 km',tp:[1,1,1,0],next:'Insured visit 11:00',grp:0},
+ {name:'Suddala Revanth',claim:'RR-HS26-15985394',prod:'Health',ins:'Star Health',tat:'18h left',tBg:'var(--ambt)',tFg:'var(--amb)',bar:'#F0A500',pct:80,km:'11 km',tp:[1,0,0],next:'Hospital 1:00 pm',grp:1},
+ {name:'Lakshmi Narayanan',claim:'MOT17819657',prod:'Motor TP',ins:'ICICI Lombard',tat:'2d 4h left',tBg:'var(--okt)',tFg:'var(--ok)',bar:'var(--okb)',pct:35,km:'6.2 km',tp:[0,0,0,0],next:'Police station 3:00',grp:1},
+ {name:'Meena Sundaram',claim:'NIA-HL-22031877',prod:'Health',ins:'New India',tat:'3d left',tBg:'var(--okt)',tFg:'var(--ok)',bar:'var(--okb)',pct:20,km:'14 km',tp:[0,0],next:'Call MRD tomorrow',grp:2}];
+class Component extends DCLogic {
+  state={role:0,pin:4};
+  renderVals(){
+    const P=this.props,ios=P.platform==='ios',dark=P.theme==='dark',sc=P.scene||'login',S=this.state;
+    const s={}; ['login','pin','punch','homeA','homeB','homeC','cardsA','cardsB','cardsC','today','profile'].forEach(k=>s[k]=k===sc||(k==='punch'&&sc==='late')||(k==='today'&&sc==='todayMissed'));
+    const hasHead=!s.login&&!s.pin&&!s.punch;
+    const tabIdx={homeA:0,homeB:0,homeC:0,cardsA:1,cardsB:1,cardsC:1,today:2,todayMissed:2,profile:4}[sc];
+    const titles={homeA:'Home',homeB:'Home',homeC:'Home',cardsA:'My Cases',cardsB:'My Cases',cardsC:'My Cases',today:'Today\'s work',todayMissed:'Today\'s work',profile:'Profile'};
+    const late=sc==='late', missed=sc==='todayMissed';
+    const upd=[[1,'Visited the insured at Maduravoyal. DL copy collected; RC pending.'],[1,'Hospital visit done. Case sheet and bills photographed.'],[0,''],[0,'']];
+    const saved=missed?2:2;
+    const dots=(c)=>c.tp.map((d,i)=>({ic:['person','local_police','local_hospital','directions_car'][i]||'place',bg:d?'var(--okt)':'var(--line2)',c:d?'var(--ok)':'var(--mut)'}));
+    const cardList=CASES.map(c=>({...c,dots:dots(c),bd:c.grp===0?'var(--redb)':'var(--line)'}));
+    return {theme:dark?'dark':'light',isIOS:ios,isAnd:!ios,W:ios?390:360,H:ios?844:800,sbH:ios?47:24,bH:ios?34:16,
+      sbBg:s.punch?'#02101E':(s.pin?(dark?'#0E1C2E':'#FFFFFF'):(dark?'#000E1C':'#001F3F')),
+      sbFg:s.pin&&!dark?'#0B2540':'#fff',clock:s.punch?(late?'8:47':'8:12'):(s.today?'6:24':'10:24'),
+      navBg:s.punch?'#02101E':'var(--card)',navFg:s.punch?'#fff':'var(--ink)',s,
+      roles:[['Field Officer','badge'],['Insurer client','apartment']].map(([n,ic],i)=>({n,ic,bg:S.role===i?'var(--card)':'transparent',fg:S.role===i?'var(--ink)':'var(--mut)',sh:S.role===i?'0 1px 3px rgba(0,0,0,.12)':'none',pick:()=>this.setState({role:i})})),
+      toPin:()=>{},
+      dots:[0,1,2,3,4,5].map(i=>({bg:i<S.pin?'var(--blue)':'transparent'})),
+      keys:['1','2','3','4','5','6','7','8','9','fingerprint','0','backspace'].map(n=>{ const ic=n==='fingerprint'||n==='backspace'; return {n,isIc:ic,isTx:!ic,bg:ic?'transparent':'var(--bg)',tap:()=>this.setState({pin:n==='backspace'?Math.max(0,S.pin-1):(ic?S.pin:Math.min(6,S.pin+1))})}; }),
+      late,punchTime:late?'8:47 am':'8:12 am',punchNote:late?'After 8:30 AM the day is marked Late and your manager sees the reason.':'Opens from 7:00 AM. The selfie shows on the portal dashboard.',doPunch:()=>{},
+      hasHead,title:titles[sc]||'',sub:'Ravi Kumar · sample',
+      kpis:[['4','Cases held','var(--ink)','var(--card)'],['1','Out of TAT','var(--red)','var(--redt)'],['2','Due today','var(--amb)','var(--card)']].map(([v,n,c,bg])=>({v,n,c,bg})),
+      minis:CASES.slice(1),
+      plan:[['8:12','Punched in','Tambaram · on time','ok'],['9:30','Daily FO meeting','Anand R · join by 9:40','ok'],['11:00','K Murugan · insured','CHO-TP-50011290 · out of TAT · release first','now'],['1:00','Suddala Revanth · hospital','Reach + GPS photo before 8:00 pm','next'],['3:00','Lakshmi Narayanan · police station','MOT17819657','next'],['6:00','Today\'s work opens','Update every case','next'],['7:30','Day closes','Updates after this: ₹250','next']].map(([t,n,d,k],i,a)=>({t,n,d,dot:k==='ok'?'var(--okb)':(k==='now'?'var(--blue)':'var(--card)'),ring:k==='ok'?'var(--okb)':(k==='now'?'var(--blue)':'var(--line)'),tc:k==='now'?'var(--link)':'var(--mut)',nc:k==='next'?'var(--body)':'var(--ink)',lineVis:i===a.length-1?'hidden':'visible'})),
+      mapPins:[['Murugan · 8.4 km',250,110,'#D93A2B'],['Revanth · 11 km',90,190,'#F0A500'],['Lakshmi · 6.2 km',270,300,'#2E9E4B'],['Meena · 14 km',80,380,'#2E9E4B']].map(([n,x,y,c])=>({n,x,y,c})),
+      near:[CASES[2],CASES[0],CASES[1]].map(c=>({name:c.name,what:c.next,km:c.km.replace(' km',''),tat:c.tat,tBg:c.tBg,tFg:c.tFg,bg:c.tBg,c:c.tFg})),
+      cardList,
+      groupsC:[['Out of TAT · release first','var(--redb)','var(--red)',0],['Due today','#F0A500','var(--amb)',1],['Later','var(--okb)','var(--ok)',2]].map(([n,c,tc,g])=>{ const items=CASES.filter(x=>x.grp===g).map((x,i)=>({...x,dx:g===0&&i===0?-56:0,swipeVis:g===0&&i===0?'visible':'hidden'})); return {n,c,tc,count:items.length,items}; }),
+      tdBg:missed?'var(--redt)':'var(--ambt)',tdFg:missed?'var(--red)':'var(--amb)',tdIc:missed?'block':'schedule',
+      tdT:missed?'Yesterday\'s updates are not finished':'Update every case before 7:30 PM',
+      tdD:missed?'₹250 added and your manager is told. Finish these to open today\'s punch.':'All 4 must be saved. The day closes at 7:30 PM; after that it is ₹250.',
+      tdCount:saved+' of 4 saved',tdPct:saved*25,
+      updates:CASES.map((c,i)=>({name:c.name,claim:c.claim,plan:c.next,text:upd[i][1]||'What happened on this case today?',tc:upd[i][1]?'var(--ink)':'var(--mut)',ic:upd[i][0]?'check_circle':'radio_button_unchecked',ic_c:upd[i][0]?'var(--ok)':(missed?'var(--red)':'var(--mut)'),bd:!upd[i][0]&&missed?'var(--redb)':'var(--line)'})),
+      todayFoot:s.today,todayBtn:missed?'Save and open punch':'Save and close the day',
+      menu:[['currency_rupee','Fine Amount','₹600','var(--redt)','var(--red)','var(--red)'],['receipt_long','My Expenses','₹8,940','var(--sky)','var(--blue)','var(--body)'],['event_available','Attendance','24 of 25 days','var(--sky)','var(--blue)','var(--body)'],['beach_access','Leave','Apply','var(--sky)','var(--blue)','var(--link)'],['account_balance_wallet','Advance Salary','Request','var(--sky)','var(--blue)','var(--link)'],['translate','Language','English','var(--sky)','var(--blue)','var(--body)'],['pin','Change PIN','','var(--sky)','var(--blue)','var(--body)'],['battery_saver','Battery settings','Done','var(--okt)','var(--ok)','var(--ok)']].map(([ic,n,v,bg,c,vc])=>({ic,n,v,bg,c,vc})),
+      tabs:[['home','Home'],['work','Cases'],['today','Today'],['forum','Chat'],['person','Profile']].map(([ic,n],i)=>({ic,n,c:tabIdx===i?'var(--link)':'var(--mut)',bg:tabIdx===i?'var(--sky)':'transparent',badge:i===3?'3':(i===2&&s.today?'2':'')}))};
+  }
+}
+</script>
+</body>
+</html>

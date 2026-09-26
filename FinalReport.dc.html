@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600;700&family=Noto+Sans+Tamil:wght@400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0..1,0" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#0074D9}a:hover{color:#0060B5}
+[data-fr]{--f:'IBM Plex Sans','Noto Sans Tamil',system-ui,sans-serif;--m:'IBM Plex Mono',ui-monospace,monospace}
+[data-fr=light]{--bg:#EEF3F9;--card:#FFFFFF;--ink:#0B2540;--body:#33475B;--mut:#5A708C;--line:#D7E2EF;--line2:#E7EEF6;--sky:#E3F0FC;--blue:#0074D9;--link:#0060B5;--grad:linear-gradient(135deg,#001F3F 0%,#0074D9 100%);--fld:#F6F9FD;--ok:#1E7A3D;--okt:#E4F6EA;--okb:#2E9E4B;--red:#A3271B;--redt:#FCE9E7;--redb:#D93A2B;--amb:#9A6A00;--ambt:#FFF3D6;--scrim:rgba(3,17,34,.5);--sh:0 12px 30px rgba(2,32,64,.22);--dis:#C4D2E3}
+[data-fr=dark]{--bg:#07111D;--card:#0E1C2E;--ink:#E7EEF7;--body:#C3D0DE;--mut:#93A6BC;--line:#22374F;--line2:#1A2C42;--sky:#14304F;--blue:#5AAEF5;--link:#7CC0FF;--grad:linear-gradient(135deg,#000E1C 0%,#0A4B8C 100%);--fld:#0A1726;--ok:#6FD39A;--okt:#0F2E1E;--okb:#2E9E4B;--red:#FF9A8C;--redt:#3A1612;--redb:#C8382A;--amb:#F5BE6A;--ambt:#35260E;--scrim:rgba(0,0,0,.62);--sh:0 12px 30px rgba(0,0,0,.5);--dis:#2A3C52}
+[data-fr] *{box-sizing:border-box}
+[data-fr] button{font-family:var(--f);cursor:pointer}
+[data-fr] textarea{font-family:var(--f)}
+[data-fr] i{font-family:'Material Symbols Rounded';font-style:normal;font-weight:normal;font-size:22px;line-height:1;display:inline-block;white-space:nowrap;-webkit-font-smoothing:antialiased;font-feature-settings:'liga'}
+[data-fr] textarea::placeholder{color:var(--mut)}
+@keyframes frspin{to{transform:rotate(360deg)}}
+@keyframes frshim{0%{background-position:200% 0}100%{background-position:-200% 0}}
+</style>
+</helmet>
+<div data-fr="{{ theme }}" style="width:{{ W }}px;height:{{ H }}px;position:relative;overflow:hidden;background:var(--bg);color:var(--ink);font-family:var(--f);font-size:15px;line-height:1.4">
+<sc-if value="{{ isAnd }}" hint-placeholder-val="{{ true }}"><div style="position:absolute;top:0;left:0;right:0;height:24px;background:{{ sbBg }};color:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 14px;font:500 12px var(--f);z-index:60"><span>10:42</span><span style="display:flex;gap:3px;align-items:center"><i style="font-size:15px">{{ netIc }}</i><i style="font-size:15px">signal_cellular_alt</i><i style="font-size:15px">battery_5_bar</i></span></div></sc-if>
+<sc-if value="{{ isIOS }}" hint-placeholder-val="{{ false }}"><div style="position:absolute;top:0;left:0;right:0;height:47px;background:{{ sbBg }};color:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 30px 0 34px;font:600 16px -apple-system,system-ui,sans-serif;z-index:60"><span>10:42</span><span style="position:absolute;left:50%;top:11px;transform:translateX(-50%);width:122px;height:35px;border-radius:18px;background:#000"></span><span style="display:flex;gap:5px;align-items:center"><i style="font-size:17px">signal_cellular_alt</i><i style="font-size:17px">{{ netIc }}</i><i style="font-size:20px">battery_full</i></span></div></sc-if>
+
+<div style="position:absolute;left:0;right:0;top:{{ sbH }}px;bottom:{{ bH }}px;overflow:hidden;display:flex;flex-direction:column">
+  <div style="background:var(--grad);color:#fff;flex:none;height:56px;display:grid;grid-template-columns:96px 1fr 96px;align-items:center;padding:0 4px">
+    <button onClick="{{ back }}" style="height:48px;border:0;background:transparent;color:#fff;display:flex;align-items:center;font-size:16px;padding:0 6px;visibility:{{ backVis }}"><i>{{ backIc }}</i><span>{{ backLabel }}</span></button>
+    <div style="text-align:center;min-width:0"><div style="font-size:17px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ title }}</div><div style="font:500 11px var(--m);opacity:.82;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ claim }}</div></div>
+    <div style="display:flex;justify-content:flex-end;gap:6px;padding-right:4px"><sc-if value="{{ s.ws }}" hint-placeholder-val="{{ false }}"><span style="width:40px;height:40px;border-radius:20px;background:rgba(255,255,255,.18);display:grid;place-items:center"><i style="font-size:20px">chat_bubble</i></span><span style="width:40px;height:40px;border-radius:20px;background:rgba(255,255,255,.18);display:grid;place-items:center"><i style="font-size:20px">call</i></span></sc-if></div>
+  </div>
+  <sc-if value="{{ offline }}" hint-placeholder-val="{{ false }}"><div style="flex:none;min-height:32px;background:var(--ambt);color:var(--amb);display:flex;align-items:center;gap:8px;padding:6px 12px;font-size:12.5px;font-weight:600"><i style="font-size:18px">cloud_off</i>Offline · draft saved on this phone · sends when online</div></sc-if>
+
+  <div ref="{{ bodyRef }}" style="flex:1;overflow-y:auto;min-height:0;position:relative">
+
+  <!-- WORKSPACE -->
+  <sc-if value="{{ s.ws }}" hint-placeholder-val="{{ false }}">
+  <div style="padding:12px;display:flex;flex-direction:column;gap:12px">
+    <sc-if value="{{ wsSendBack }}" hint-placeholder-val="{{ false }}"><div style="border-radius:14px;padding:12px 14px;background:var(--ambt);display:flex;gap:10px"><i style="color:var(--amb);font-variation-settings:'FILL' 1">undo</i><div style="font-size:13.5px"><b style="color:var(--amb);display:block">Sent back by Priya (CM) · 26-09-2026 3:05 pm</b>“Q3: add the treating doctor’s name and registration number. Reason details are too short.” The report is editable again.</div></div></sc-if>
+    <sc-if value="{{ wsRO }}" hint-placeholder-val="{{ false }}"><div style="border-radius:14px;padding:12px 14px;background:var(--sky);display:flex;gap:10px"><i style="color:var(--blue)">lock</i><div style="font-size:13.5px">Final Report becomes read-only from CM Reviewed onward. FO can edit it only up to status 4 (FO Completed).</div></div></sc-if>
+    <sc-if value="{{ wsQueued }}" hint-placeholder-val="{{ false }}"><div style="border-radius:14px;padding:12px 14px;background:var(--ambt);display:flex;gap:10px"><i style="color:var(--amb)">schedule_send</i><div style="font-size:13.5px"><b style="color:var(--amb);display:block">Completing — will send when online</b>Completed at 10:58 am on this phone. The portal gets the real time when it syncs.</div></div></sc-if>
+    <div style="background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:10px">
+      <div style="display:flex;gap:12px;align-items:center"><span style="width:44px;height:44px;border-radius:22px;background:var(--sky);color:var(--blue);display:grid;place-items:center;border:1px solid var(--line)"><i>work</i></span><div style="flex:1;min-width:0"><div style="font-size:17px;font-weight:600">{{ person }}</div><div style="font-size:13px;color:var(--mut)">Claim: <span style="font-family:var(--m)">{{ claim }}</span></div></div></div>
+      <div style="display:flex;gap:8px"><span style="height:30px;padding:0 12px;border-radius:15px;background:{{ stBg }};color:{{ stFg }};font-size:13px;font-weight:600;display:flex;align-items:center;gap:6px"><i style="font-size:17px">{{ stIc }}</i>{{ stLabel }}</span></div>
+    </div>
+    <div style="display:flex;align-items:center;gap:8px;font-size:16px;font-weight:600"><i style="color:var(--blue)">grid_view</i>Workspace Tools<span style="margin-left:auto;font-size:13px;font-weight:400;color:var(--mut)">5 modules</span></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+      <sc-for list="{{ tools }}" as="t" hint-placeholder-count="5"><div style="background:var(--card);border:1px solid var(--line);border-radius:16px;padding:12px 8px;display:flex;flex-direction:column;align-items:center;gap:5px;text-align:center"><span style="width:48px;height:48px;border-radius:24px;background:var(--sky);color:var(--blue);display:grid;place-items:center;border:1px solid var(--line)"><i>{{ t.ic }}</i></span><b style="font-size:14px;font-weight:600">{{ t.n }}</b><span style="font-size:11.5px;color:var(--mut)">{{ t.d }}</span></div></sc-for>
+    </div>
+  </div>
+  </sc-if>
+
+  <!-- LOADING / EMPTY / ERROR -->
+  <sc-if value="{{ s.loading }}" hint-placeholder-val="{{ false }}"><div style="padding:12px;display:flex;flex-direction:column;gap:12px"><sc-for list="{{ skel }}" as="k" hint-placeholder-count="3"><div style="height:{{ k.h }}px;border-radius:14px;background:linear-gradient(90deg,var(--line2),var(--line),var(--line2));background-size:200% 100%;animation:frshim 1.2s linear infinite"></div></sc-for><div style="text-align:center;color:var(--mut);font-size:13.5px">Loading report questions…</div></div></sc-if>
+  <sc-if value="{{ s.msg }}" hint-placeholder-val="{{ false }}"><div style="padding:60px 24px;display:flex;flex-direction:column;align-items:center;gap:12px;text-align:center"><span style="width:68px;height:68px;border-radius:34px;background:{{ msgBg }};color:{{ msgFg }};display:grid;place-items:center"><i style="font-size:32px">{{ msgIc }}</i></span><b style="font-size:17px">{{ msgT }}</b><span style="font-size:14px;color:var(--mut);max-width:270px">{{ msgD }}</span><sc-if value="{{ msgRetry }}" hint-placeholder-val="{{ false }}"><button onClick="{{ retry }}" style="height:48px;padding:0 24px;border-radius:12px;border:0;background:var(--grad);color:#fff;font-size:15px;font-weight:600;display:flex;align-items:center;gap:6px"><i>refresh</i>Retry</button></sc-if></div></sc-if>
+
+  <!-- FINAL REPORT -->
+  <sc-if value="{{ s.report }}" hint-placeholder-val="{{ true }}">
+  <div style="padding:12px;display:flex;flex-direction:column;gap:12px">
+    <sc-if value="{{ draftBanner }}" hint-placeholder-val="{{ false }}"><div style="border-radius:12px;padding:10px 12px;background:var(--sky);font-size:13px;display:flex;gap:8px;align-items:center"><i style="color:var(--blue)">restore</i><span><b>Draft restored</b> · your answers from 10:31 am are back.</span></div></sc-if>
+    <sc-if value="{{ hasErr }}" hint-placeholder-val="{{ false }}"><div style="border-radius:12px;padding:10px 12px;background:var(--redt);color:var(--red);font-size:13.5px;font-weight:600;display:flex;gap:8px;align-items:center"><i style="font-variation-settings:'FILL' 1">error</i>{{ errMsg }}</div></sc-if>
+    <sc-if value="{{ hasPickers }}" hint-placeholder-val="{{ true }}">
+    <div style="background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px;display:flex;flex-direction:column;gap:10px">
+      <b style="font-size:15px">Select Report Details</b>
+      <sc-for list="{{ pickers }}" as="k" hint-placeholder-count="3"><div><div style="height:54px;border:1.5px solid {{ k.bd }};border-radius:10px;padding:0 12px;display:flex;align-items:center;justify-content:space-between;background:var(--fld)"><span style="min-width:0"><span style="display:block;font-size:11px;color:var(--mut)">{{ k.l }}</span><span style="font-size:14.5px;color:{{ k.vc }}">{{ k.v }}</span></span><i style="color:var(--mut)">expand_more</i></div></div></sc-for>
+      <div style="font-size:12px;color:var(--mut);display:flex;gap:6px;align-items:center"><i style="font-size:16px">info</i>Changing any of these clears the answers.</div>
+    </div>
+    </sc-if>
+    <div style="position:sticky;top:0;z-index:5;background:var(--bg);padding:4px 0 6px;display:flex;flex-direction:column;gap:6px">
+      <div style="display:flex;align-items:center;gap:8px"><b style="font-size:14px">{{ answered }} of {{ qTotal }} answered</b><span style="margin-left:auto;font-size:12px;color:var(--mut);display:flex;gap:4px;align-items:center"><i style="font-size:16px">{{ draftIc }}</i>{{ draftText }}</span></div>
+      <div style="height:6px;border-radius:3px;background:var(--line2);overflow:hidden"><div style="height:100%;width:{{ pct }}%;background:var(--blue)"></div></div>
+      <sc-if value="{{ hasEmpty }}" hint-placeholder-val="{{ false }}"><div style="display:flex;gap:6px;align-items:center;overflow-x:auto"><span style="font-size:12px;color:var(--mut);white-space:nowrap">Empty:</span><sc-for list="{{ empties }}" as="e" hint-placeholder-count="2"><button onClick="{{ e.jump }}" style="height:32px;padding:0 12px;border-radius:16px;border:1px solid var(--line);background:var(--card);color:var(--link);font-size:12.5px;font-weight:600;white-space:nowrap">{{ e.n }}</button></sc-for></div></sc-if>
+    </div>
+    <sc-if value="{{ plainHead }}" hint-placeholder-val="{{ false }}"><b style="font-size:16px">Corporate Visit</b></sc-if>
+    <sc-for list="{{ qs }}" as="q" hint-placeholder-count="6">
+      <div data-q="{{ q.i }}" style="background:var(--card);border:1.5px solid {{ q.bd }};border-radius:14px;padding:12px;display:flex;flex-direction:column;gap:10px">
+        <div style="font-size:15px;font-weight:600">{{ q.n }}. {{ q.h }} <span style="color:#E74C3C">*</span></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+          <button onClick="{{ q.yes }}" style="height:48px;border-radius:10px;border:1.5px solid {{ q.yBd }};background:{{ q.yBg }};color:{{ q.yFg }};font-size:15px;font-weight:600;display:flex;align-items:center;justify-content:center;gap:6px"><i style="font-size:19px">{{ q.yIc }}</i>Yes</button>
+          <button onClick="{{ q.no }}" style="height:48px;border-radius:10px;border:1.5px solid {{ q.nBd }};background:{{ q.nBg }};color:{{ q.nFg }};font-size:15px;font-weight:600;display:flex;align-items:center;justify-content:center;gap:6px"><i style="font-size:19px">{{ q.nIc }}</i>No</button>
+        </div>
+        <div style="position:relative">
+          <textarea value="{{ q.v }}" onChange="{{ q.set }}" placeholder="{{ q.ph }}" rows="3" style="width:100%;min-height:84px;border:1.5px solid {{ q.tBd }};border-radius:10px;background:var(--fld);color:var(--ink);font-size:14.5px;padding:10px 52px 10px 12px;resize:none;outline:none"></textarea>
+          <button onClick="{{ q.mic }}" style="position:absolute;right:6px;top:6px;width:44px;height:44px;border-radius:22px;border:0;background:var(--sky);color:var(--blue);display:grid;place-items:center"><i>mic</i></button>
+        </div>
+        <div style="display:flex;justify-content:space-between;font-size:12px"><span style="color:var(--red);font-weight:600">{{ q.err }}</span><span style="color:var(--mut);font-family:var(--m)">{{ q.cnt }}</span></div>
+      </div>
+    </sc-for>
+  </div>
+  </sc-if>
+
+  <!-- REVIEW -->
+  <sc-if value="{{ s.review }}" hint-placeholder-val="{{ false }}">
+  <div style="padding:12px;display:flex;flex-direction:column;gap:12px">
+    <div style="font-size:13.5px;color:var(--body)">Check every answer once. After Confirm &amp; Save there is no option to edit this Final Report.</div>
+    <div style="background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px;display:flex;flex-direction:column;gap:8px">
+      <div style="font-size:11px;color:var(--mut);font-weight:600;text-transform:uppercase;letter-spacing:.06em">Evidence by touch point</div>
+      <div style="display:flex;gap:8px;overflow-x:auto;padding-bottom:2px"><sc-for list="{{ evid }}" as="t" hint-placeholder-count="3"><div style="flex:none;width:104px;border:1px solid var(--line);border-radius:10px;overflow:hidden"><div style="height:58px;background:{{ t.th }};display:grid;place-items:center;color:rgba(255,255,255,.6)"><i style="font-size:20px">{{ t.ic }}</i></div><div style="padding:6px 7px;font-size:11.5px;line-height:1.35"><b style="display:block">{{ t.n }}</b><span style="color:{{ t.fc }}">{{ t.form }}</span><span style="display:block;color:var(--mut)">{{ t.files }}</span></div></div></sc-for></div>
+    </div>
+    <div style="background:var(--card);border:1px solid var(--line);border-radius:14px;padding:4px 12px">
+      <div style="display:grid;grid-template-columns:100px 1fr;gap:6px;padding:10px 0;font-size:13px;border-bottom:1px solid var(--line2)"><span style="color:var(--mut)">Category</span><span>{{ pk1 }}</span><span style="color:var(--mut)">Stage</span><span>{{ pk2 }}</span><span style="color:var(--mut)">Case Field</span><span>{{ pk3 }}</span><span style="color:var(--mut)">Time taken</span><span>18 min</span></div>
+      <sc-for list="{{ rqs }}" as="q" hint-placeholder-count="6"><div style="padding:10px 0;border-bottom:1px solid var(--line2)"><div style="font-size:14px;font-weight:600">{{ q.n }}. {{ q.h }}</div><div style="display:flex;gap:8px;align-items:flex-start;margin-top:4px"><span style="height:22px;padding:0 9px;border-radius:11px;background:{{ q.bg }};color:{{ q.fg }};font-size:12px;font-weight:700;display:flex;align-items:center;flex:none">{{ q.yn }}</span><span style="font-size:13.5px;color:var(--body)">{{ q.v }}</span></div></div></sc-for>
+    </div>
+  </div>
+  </sc-if>
+
+  <!-- CASE COMPLETE REPORT -->
+  <sc-if value="{{ s.complete }}" hint-placeholder-val="{{ false }}">
+  <div style="padding:12px;display:flex;flex-direction:column;gap:14px">
+    <div style="font-size:13.5px;color:var(--body)">Fill the final case completion details before returning to the workspace.</div>
+    <div style="display:flex;flex-direction:column;gap:6px">
+      <b style="font-size:14.5px">Final Opinion <span style="color:#E74C3C">*</span></b>
+      <div style="position:relative"><textarea value="{{ opinion }}" onChange="{{ setOpinion }}" placeholder="Enter final opinion" rows="4" style="width:100%;min-height:104px;border:1.5px solid {{ opBd }};border-radius:10px;background:var(--card);color:var(--ink);font-size:14.5px;padding:10px 52px 10px 12px;resize:none;outline:none"></textarea><button onClick="{{ micOpinion }}" style="position:absolute;right:6px;top:6px;width:44px;height:44px;border-radius:22px;border:0;background:var(--sky);color:var(--blue);display:grid;place-items:center"><i>mic</i></button></div>
+      <sc-if value="{{ eOp }}" hint-placeholder-val="{{ false }}"><span style="font-size:12.5px;color:var(--red);font-weight:600">Final Opinion is required.</span></sc-if>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:6px">
+      <b style="font-size:14.5px">Final Conclusion <span style="color:#E74C3C">*</span></b>
+      <button onClick="{{ openConc }}" style="height:54px;border:1.5px solid {{ concBd }};border-radius:10px;background:var(--card);padding:0 12px;display:flex;align-items:center;gap:10px;text-align:left;color:var(--ink)"><sc-if value="{{ hasConc }}" hint-placeholder-val="{{ false }}"><span style="width:12px;height:12px;border-radius:6px;background:{{ concDot }}"></span></sc-if><span style="flex:1;font-size:15px;color:{{ concVc }}">{{ concLabel }}</span><i style="color:var(--mut)">expand_more</i></button>
+      <sc-if value="{{ eConc }}" hint-placeholder-val="{{ false }}"><span style="font-size:12.5px;color:var(--red);font-weight:600">Please select Final Conclusion.</span></sc-if>
+    </div>
+    <sc-if value="{{ showReason }}" hint-placeholder-val="{{ false }}">
+    <div style="display:flex;flex-direction:column;gap:6px">
+      <b style="font-size:14.5px">Reason <span style="color:#E74C3C">*</span></b>
+      <button onClick="{{ openReason }}" style="height:54px;border:1.5px solid {{ rsBd }};border-radius:10px;background:var(--card);padding:0 12px;display:flex;align-items:center;gap:10px;text-align:left;color:var(--ink)"><span style="flex:1;font-size:15px;color:{{ rsVc }}">{{ rsLabel }}</span><i style="color:var(--mut)">expand_more</i></button>
+      <sc-if value="{{ eRs }}" hint-placeholder-val="{{ false }}"><span style="font-size:12.5px;color:var(--red);font-weight:600">Please select a Reason.</span></sc-if>
+      <span style="font-size:12px;color:var(--mut)">{{ listNote }}</span>
+    </div>
+    </sc-if>
+    <sc-if value="{{ needDetails }}" hint-placeholder-val="{{ false }}">
+    <div style="display:flex;flex-direction:column;gap:6px">
+      <b style="font-size:14.5px">Reason details <span style="color:#E74C3C">*</span></b>
+      <textarea value="{{ details }}" onChange="{{ setDetails }}" placeholder="What documents were asked for, and who said they are not available" rows="3" style="width:100%;min-height:84px;border:1.5px solid {{ dtBd }};border-radius:10px;background:var(--card);color:var(--ink);font-size:14.5px;padding:10px 12px;resize:none;outline:none"></textarea>
+      <sc-if value="{{ eDt }}" hint-placeholder-val="{{ false }}"><span style="font-size:12.5px;color:var(--red);font-weight:600">Reason details are required for “{{ rsLabel }}”.</span></sc-if>
+    </div>
+    </sc-if>
+  </div>
+  </sc-if>
+
+  <!-- SUMMARY -->
+  <sc-if value="{{ s.summary }}" hint-placeholder-val="{{ false }}">
+  <div style="padding:12px;display:flex;flex-direction:column;gap:12px">
+    <div style="background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:12px">
+      <div style="font-size:11px;color:var(--mut);font-weight:600;text-transform:uppercase;letter-spacing:.06em">Final conclusion</div>
+      <span style="align-self:flex-start;height:36px;padding:0 16px;border-radius:18px;background:{{ concChipBg }};color:{{ concChipFg }};font-size:15px;font-weight:700;display:flex;align-items:center;gap:8px"><span style="width:10px;height:10px;border-radius:5px;background:{{ concDot }}"></span>{{ concLabel }}</span>
+      <sc-if value="{{ showReason }}" hint-placeholder-val="{{ false }}"><div><div style="font-size:12px;color:var(--mut)">Reason</div><div style="font-size:15px;font-weight:600">{{ rsLabel }}</div><sc-if value="{{ needDetails }}" hint-placeholder-val="{{ false }}"><div style="font-size:13.5px;color:var(--body);margin-top:2px">{{ details }}</div></sc-if></div></sc-if>
+      <div><div style="font-size:12px;color:var(--mut)">Final opinion</div><div style="font-size:14.5px;color:var(--body)">{{ opinion }}</div></div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px">
+      <div style="background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px"><div style="font-size:20px;font-weight:700">4</div><div style="font-size:11.5px;color:var(--mut)">Touch points done</div></div>
+      <div style="background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px"><div style="font-size:20px;font-weight:700">1</div><div style="font-size:11.5px;color:var(--mut)">Rejected with reason</div></div>
+      <div style="background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px"><div style="font-size:20px;font-weight:700">2</div><div style="font-size:11.5px;color:var(--mut)">Expenses</div></div>
+    </div>
+    <div style="font-size:13px;color:var(--mut)">After Complete Case the case becomes 4 · FO Completed.</div>
+  </div>
+  </sc-if>
+
+  <!-- SUCCESS -->
+  <sc-if value="{{ s.success }}" hint-placeholder-val="{{ false }}">
+  <div style="padding:40px 20px;display:flex;flex-direction:column;align-items:center;gap:14px;text-align:center">
+    <span style="width:88px;height:88px;border-radius:44px;background:var(--okt);color:var(--ok);display:grid;place-items:center"><i style="font-size:48px;font-variation-settings:'FILL' 1">check_circle</i></span>
+    <b style="font-size:21px">Case Completed Successfully</b>
+    <span style="height:30px;padding:0 12px;border-radius:15px;background:rgba(139,92,246,.14);color:var(--ink);font-size:13px;font-weight:600;display:flex;align-items:center;gap:6px"><span style="width:8px;height:8px;border-radius:4px;background:#8B5CF6"></span>4 · FO Completed · 10:58 am</span>
+    <div style="font-size:13.5px;color:var(--mut);max-width:270px">You can read the report, opinion, conclusion and reason from the workspace any time.</div>
+  </div>
+  </sc-if>
+
+  <!-- READ-ONLY AFTER COMPLETION -->
+  <sc-if value="{{ s.readonly }}" hint-placeholder-val="{{ false }}">
+  <div style="padding:12px;display:flex;flex-direction:column;gap:12px">
+    <div style="border-radius:12px;padding:10px 12px;background:var(--sky);font-size:13px;display:flex;gap:8px;align-items:center"><i style="color:var(--blue)">lock</i><span>{{ roNote }}</span></div>
+    <div style="background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px;display:flex;flex-direction:column;gap:8px">
+      <div style="display:flex;gap:8px;align-items:center"><span style="height:30px;padding:0 12px;border-radius:15px;background:{{ concChipBg }};color:{{ concChipFg }};font-size:13.5px;font-weight:700;display:flex;align-items:center;gap:6px"><span style="width:8px;height:8px;border-radius:4px;background:{{ concDot }}"></span>{{ concLabel }}</span><span style="font-size:12.5px;color:var(--mut)">{{ rsLabelRO }}</span></div>
+      <div style="font-size:14px;color:var(--body)">{{ opinion }}</div>
+      <div style="font:500 12px var(--m);color:var(--mut)">Completed 26-09-2026 10:58 am · Ravi Kumar (FO)</div>
+    </div>
+    <div style="background:var(--card);border:1px solid var(--line);border-radius:14px;padding:4px 12px">
+      <sc-for list="{{ rqs }}" as="q" hint-placeholder-count="6"><div style="padding:10px 0;border-bottom:1px solid var(--line2)"><div style="font-size:14px;font-weight:600">{{ q.n }}. {{ q.h }}</div><div style="display:flex;gap:8px;align-items:flex-start;margin-top:4px"><span style="height:22px;padding:0 9px;border-radius:11px;background:{{ q.bg }};color:{{ q.fg }};font-size:12px;font-weight:700;display:flex;align-items:center;flex:none">{{ q.yn }}</span><span style="font-size:13.5px;color:var(--body)">{{ q.v }}</span></div></div></sc-for>
+    </div>
+  </div>
+  </sc-if>
+  </div>
+
+  <sc-if value="{{ showFoot }}" hint-placeholder-val="{{ true }}">
+  <div style="flex:none;padding:10px 12px 12px;background:var(--card);border-top:1px solid var(--line);display:flex;flex-direction:column;gap:8px">
+    <sc-if value="{{ footNote }}" hint-placeholder-val="{{ false }}"><div style="font-size:12.5px;color:{{ footNoteCol }};display:flex;gap:6px;align-items:center;justify-content:center;text-align:center"><i style="font-size:17px">{{ footNoteIc }}</i>{{ footNote }}</div></sc-if>
+    <div style="display:flex;gap:10px">
+      <sc-if value="{{ foot2 }}" hint-placeholder-val="{{ false }}"><button onClick="{{ foot2Act }}" style="flex:1;height:52px;border-radius:12px;border:1.5px solid var(--line);background:transparent;color:var(--ink);font-size:15.5px;font-weight:600">{{ foot2 }}</button></sc-if>
+      <button onClick="{{ footAct }}" disabled="{{ footDis }}" style="flex:1.4;height:52px;border-radius:12px;border:0;background:{{ footBg }};color:{{ footFg }};display:flex;align-items:center;justify-content:center;gap:8px;font-size:15.5px;font-weight:600"><i>{{ footIc }}</i>{{ footLabel }}</button>
+    </div>
+  </div>
+  </sc-if>
+
+  <sc-if value="{{ scrimOn }}" hint-placeholder-val="{{ false }}"><div onClick="{{ closeSheet }}" style="position:absolute;inset:0;background:var(--scrim);z-index:80"></div></sc-if>
+
+  <sc-if value="{{ ov.confirm }}" hint-placeholder-val="{{ false }}">
+    <div style="position:absolute;left:24px;right:24px;top:50%;transform:translateY(-50%);z-index:82;background:var(--card);border-radius:{{ dlgRad }};padding:22px 20px 14px;display:flex;flex-direction:column;gap:12px;box-shadow:var(--sh)">
+      <i style="color:var(--blue);font-size:28px">fact_check</i>
+      <b style="font-size:19px;line-height:1.3">Confirm Final Report Submission</b>
+      <div style="font-size:14px;color:var(--body);line-height:1.5">Please verify all details carefully. Once saved, there is no option to edit this Final Report.</div>
+      <div style="display:flex;justify-content:flex-end;gap:6px;margin-top:6px"><button onClick="{{ closeSheet }}" style="height:44px;padding:0 16px;border-radius:22px;border:0;background:transparent;color:var(--link);font-size:15px;font-weight:600">Review</button><button onClick="{{ doSave }}" style="height:44px;padding:0 18px;border-radius:22px;border:0;background:var(--grad);color:#fff;font-size:15px;font-weight:600">Confirm &amp; Save</button></div>
+    </div>
+  </sc-if>
+  <sc-if value="{{ ov.busy }}" hint-placeholder-val="{{ false }}">
+    <div style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:82;background:var(--card);border-radius:16px;padding:22px 26px;display:flex;align-items:center;gap:14px;box-shadow:var(--sh)"><span style="width:30px;height:30px;border:3.5px solid var(--sky);border-top-color:var(--blue);border-radius:50%;animation:frspin .8s linear infinite"></span><b style="font-size:15.5px;white-space:nowrap">{{ busyText }}</b></div>
+  </sc-if>
+  <sc-if value="{{ ov.fail }}" hint-placeholder-val="{{ false }}">
+    <div style="position:absolute;left:24px;right:24px;top:50%;transform:translateY(-50%);z-index:82;background:var(--card);border-radius:{{ dlgRad }};padding:22px 20px 14px;display:flex;flex-direction:column;gap:10px;box-shadow:var(--sh)">
+      <i style="color:var(--red);font-size:28px">{{ failIc }}</i><b style="font-size:18px">{{ failT }}</b><div style="font-size:14px;color:var(--body)">{{ failD }}</div>
+      <div style="display:flex;justify-content:flex-end;gap:6px;margin-top:4px"><button onClick="{{ closeSheet }}" style="height:44px;padding:0 16px;border-radius:22px;border:0;background:transparent;color:var(--link);font-size:15px;font-weight:600">{{ failB1 }}</button><button onClick="{{ failAct }}" style="height:44px;padding:0 18px;border-radius:22px;border:0;background:var(--grad);color:#fff;font-size:15px;font-weight:600">{{ failB2 }}</button></div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ sh.list }}" hint-placeholder-val="{{ false }}">
+    <div style="position:absolute;left:0;right:0;bottom:0;z-index:81;background:var(--card);border-radius:{{ sheetRad }};padding:8px 0 12px;max-height:78%;display:flex;flex-direction:column">
+      <div style="width:36px;height:4px;border-radius:2px;background:var(--line);margin:4px auto 8px;flex:none"></div>
+      <div style="padding:0 16px 8px;flex:none"><b style="font-size:17px">{{ listTitle }}</b><div style="font-size:12.5px;color:var(--mut)">{{ listSub }}</div></div>
+      <div style="overflow-y:auto;flex:1">
+        <sc-for list="{{ listRows }}" as="r" hint-placeholder-count="6"><button onClick="{{ r.pick }}" style="width:100%;min-height:50px;border:0;border-top:1px solid var(--line2);background:{{ r.bg }};color:var(--ink);display:flex;align-items:center;gap:12px;padding:8px 16px;text-align:left;font-size:15px"><i style="color:{{ r.ic_c }};font-size:21px">{{ r.ic }}</i><sc-if value="{{ r.dot }}" hint-placeholder-val="{{ false }}"><span style="width:10px;height:10px;border-radius:5px;background:{{ r.dot }}"></span></sc-if><span style="flex:1;color:{{ r.fc }};font-style:{{ r.fs }}">{{ r.n }}</span></button></sc-for>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ sh.voice }}" hint-placeholder-val="{{ false }}">
+    <div style="position:absolute;left:0;right:0;bottom:0;z-index:81;background:var(--card);border-radius:{{ sheetRad }};padding:8px 16px 18px;display:flex;flex-direction:column;gap:12px;align-items:center">
+      <div style="width:36px;height:4px;border-radius:2px;background:var(--line);margin:4px auto 0"></div>
+      <div style="font-size:13px;color:var(--mut);text-align:center">{{ voiceFor }}</div>
+      <span style="width:76px;height:76px;border-radius:38px;background:{{ voiceBg }};color:#fff;display:grid;place-items:center"><i style="font-size:34px">{{ voiceIc }}</i></span>
+      <b style="font-size:16px;text-align:center">{{ voiceTitle }}</b>
+      <sc-if value="{{ voiceErr }}" hint-placeholder-val="{{ false }}"><button onClick="{{ closeSheet }}" style="height:48px;padding:0 24px;border-radius:12px;border:1.5px solid var(--line);background:transparent;color:var(--ink);font-size:15px;font-weight:600">Close</button></sc-if>
+    </div>
+  </sc-if>
+  <sc-if value="{{ hasToast }}" hint-placeholder-val="{{ false }}"><div style="position:absolute;left:12px;right:12px;bottom:96px;z-index:90;background:#0B2540;color:#fff;border-radius:12px;padding:12px 14px;font-size:14px;box-shadow:0 10px 30px rgba(0,0,0,.3)">{{ toast }}</div></sc-if>
+</div>
+<sc-if value="{{ isAnd }}" hint-placeholder-val="{{ true }}"><div style="position:absolute;bottom:0;left:0;right:0;height:16px;background:var(--card);display:grid;place-items:center"><span style="width:108px;height:4px;border-radius:2px;background:var(--ink)"></span></div></sc-if>
+<sc-if value="{{ isIOS }}" hint-placeholder-val="{{ false }}"><div style="position:absolute;bottom:0;left:0;right:0;height:34px;background:var(--card);display:grid;place-items:center"><span style="width:134px;height:5px;border-radius:3px;background:var(--ink)"></span></div></sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:360,&quot;height&quot;:800},&quot;platform&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;android&quot;,&quot;ios&quot;],&quot;default&quot;:&quot;android&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;theme&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;light&quot;,&quot;dark&quot;],&quot;default&quot;:&quot;light&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;product&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;health&quot;,&quot;motor&quot;],&quot;default&quot;:&quot;health&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;scene&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;wsLocked&quot;,&quot;wsReady&quot;,&quot;wsRO&quot;,&quot;wsSendBack&quot;,&quot;wsQueued&quot;,&quot;loading&quot;,&quot;noFields&quot;,&quot;noData&quot;,&quot;masterErr&quot;,&quot;plain&quot;,&quot;draft&quot;,&quot;report&quot;,&quot;vPick&quot;,&quot;vFields&quot;,&quot;voice&quot;,&quot;voiceConv&quot;,&quot;voiceErr&quot;,&quot;voicePerm&quot;,&quot;review&quot;,&quot;confirm&quot;,&quot;saving&quot;,&quot;expired&quot;,&quot;cEmpty&quot;,&quot;cErr&quot;,&quot;cND&quot;,&quot;cD&quot;,&quot;cDsel&quot;,&quot;cI&quot;,&quot;cIerr&quot;,&quot;summary&quot;,&quot;completing&quot;,&quot;failed&quot;,&quot;success&quot;,&quot;readonly&quot;,&quot;locked5&quot;],&quot;default&quot;:&quot;report&quot;,&quot;tsType&quot;:&quot;string&quot;}}">
+const DISC=['Non-Disclosure','PED','Bill Inflation','Fake Documents','Impersonation','Alcoholic Influence','Infertility','OP to IP conversion','No Documents Available','Manipulation of Documents','Misrepresentation of Facts','Less Than 24 Hrs admission','Congenital ailment','Cosmetic Purposes','Permanent Exclusion','Other Insurance claims availed','Hospital Criteria Insufficient','Investigation and Evaluation purposes','Standard Exclusion','Claim withdrawn'];
+const INC=['Insured/Claimant Non Cooperative','Insured/Claimant Not Traceable','Hospital management Non Cooperative','No Documents Available','Doctor Non Cooperative','PED/Fraud could not be established though it looks so'];
+const DETAIL=['No Documents Available','Other Insurance claims availed'];
+const CONC={'Non Discrepant':['#2ECC71','var(--okt)','var(--ok)'],'Discrepant':['#E74C3C','var(--redt)','var(--red)'],'Inconclusive':['#F0A500','var(--ambt)','var(--amb)']};
+const Q={
+ health:{claim:'RR-HS26-15985394',person:'Suddala Revanth',pick:['Health Cashless','Pre-authorisation','Hospital Verification'],qs:[
+  ['Patient found admitted in the ward','Yes','Patient in Ward 3B, bed 12, with attendant. Case sheet seen.'],
+  ['Admission date matches the IP register','Yes','IP register entry 24-09-2026 10:40 am matches the claim.'],
+  ['Past history of the same ailment','No','Treating doctor says there was no earlier treatment for this ailment.'],
+  ['Bills match the treatment given','Yes',''],
+  ['Hospital has the required registration','Yes','Clinical Establishment registration seen, valid till 2028.'],
+  ['Any other insurance claim for this admission','No','']]},
+ motor:{claim:'MOT17819657',person:'Lakshmi Narayanan',pick:['Motor TP','Final','Accident & liability'],qs:[
+  ['Accident spot verified','Yes','Spot on GST Rd near Tambaram bus stand matches the FIR sketch.'],
+  ['FIR matches the claim','Yes','FIR 412/2026, Tambaram PS, dated 14-06-2026.'],
+  ['Driver held a valid licence','No','Licence expired on 02-03-2026; renewal not found in Parivahan.'],
+  ['Injury matches hospital records','Yes',''],
+  ['Vehicle insured on the accident date','Yes','Policy active 01-01-2026 to 31-12-2026.'],
+  ['Petitioner statement recorded','Yes','']]}
+};
+class Component extends DCLogic {
+  state=this.init(this.props);
+  bodyRef=React.createRef();
+  init(p){
+    const prod=p.product||'health', sc=p.scene||'report', D=Q[prod];
+    const full=D.qs.map(q=>({yn:q[1],v:q[2]||'Checked and recorded during the visit.'}));
+    const part=D.qs.map(q=>({yn:q[1],v:q[2]}));
+    const b={screen:'report',ov:null,sheet:null,ans:part,pick:[...D.pick],err:null,showErr:false,conc:null,reason:null,details:'',opinion:'',cErr:false,toast:null,voice:'listen',vFor:'',offline:false,ws:'ready',draft:false,plain:false};
+    const done={...b,ans:full};
+    const op=prod==='health'?'Admission is genuine. Records at the hospital support the diagnosis and the claimed stay.':'Accident and injury are genuine, but the driver’s licence had expired on the accident date.';
+    switch(sc){
+      case 'wsLocked': return {...b,screen:'ws',ws:'locked'};
+      case 'wsReady': return {...b,screen:'ws',ws:'ready'};
+      case 'wsRO': return {...b,screen:'ws',ws:'ro'};
+      case 'wsSendBack': return {...b,screen:'ws',ws:'sendback'};
+      case 'wsQueued': return {...b,screen:'ws',ws:'queued',offline:true};
+      case 'loading': return {...b,screen:'loading'};
+      case 'noFields': return {...b,screen:'msg',msg:'nofields'};
+      case 'noData': return {...b,screen:'msg',msg:'nodata'};
+      case 'masterErr': return {...b,screen:'msg',msg:'master'};
+      case 'plain': return {...b,plain:true};
+      case 'draft': return {...b,draft:true,offline:true};
+      case 'vPick': return {...b,pick:[D.pick[0],D.pick[1],''],showErr:true,err:'Please select all case details.'};
+      case 'vFields': return {...b,ans:part.map((a,i)=>i===2?{...a,v:'No'}:a),showErr:true,err:'All fields are mandatory. Please fill in all text fields.'};
+      case 'voice': return {...b,sheet:'voice',voice:'listen',vFor:D.qs[3][0]};
+      case 'voiceConv': return {...b,sheet:'voice',voice:'convert',vFor:D.qs[3][0]};
+      case 'voiceErr': return {...b,sheet:'voice',voice:'err',vFor:D.qs[3][0]};
+      case 'voicePerm': return {...b,sheet:'voice',voice:'perm',vFor:D.qs[3][0]};
+      case 'review': return {...done,screen:'review'};
+      case 'confirm': return {...done,screen:'review',ov:'confirm'};
+      case 'saving': return {...done,screen:'review',ov:'saving'};
+      case 'expired': return {...done,screen:'review',ov:'expired'};
+      case 'cEmpty': return {...done,screen:'complete'};
+      case 'cErr': return {...done,screen:'complete',cErr:true,conc:'Discrepant'};
+      case 'cND': return {...done,screen:'complete',conc:'Non Discrepant',opinion:op};
+      case 'cD': return {...done,screen:'complete',conc:'Discrepant',opinion:op,sheet:'reason'};
+      case 'cDsel': return {...done,screen:'complete',conc:'Discrepant',reason:prod==='health'?'Bill Inflation':null,opinion:op};
+      case 'cI': return {...done,screen:'complete',conc:'Inconclusive',reason:'No Documents Available',opinion:'Hospital did not share the indoor case papers; the claim could not be checked fully.',details:'MRD in-charge refused the indoor case papers on 25-09-2026; written request left with the hospital.'};
+      case 'cIerr': return {...done,screen:'complete',conc:'Inconclusive',reason:'No Documents Available',opinion:'Hospital did not share the indoor case papers.',cErr:true};
+      case 'summary': return {...done,screen:'summary',conc:'Inconclusive',reason:'No Documents Available',opinion:'Hospital did not share the indoor case papers; the claim could not be checked fully.',details:'MRD in-charge refused the indoor case papers on 25-09-2026; written request left with the hospital.'};
+      case 'completing': return {...done,screen:'summary',ov:'completing',conc:'Non Discrepant',opinion:op};
+      case 'failed': return {...done,screen:'summary',ov:'failed',conc:'Non Discrepant',opinion:op};
+      case 'success': return {...done,screen:'success',conc:'Non Discrepant',opinion:op};
+      case 'readonly': return {...done,screen:'readonly',conc:prod==='health'?'Non Discrepant':'Discrepant',reason:prod==='health'?null:'Motor-TP reason (list to come)',opinion:op};
+      case 'locked5': return {...done,screen:'readonly',conc:'Non Discrepant',opinion:op,ro5:true};
+      default: return b;
+    }
+  }
+  componentDidUpdate(pp){ if(pp.scene!==this.props.scene||pp.product!==this.props.product) this.setState(this.init(this.props)); }
+  componentWillUnmount(){ clearTimeout(this.tt); clearTimeout(this.vt); clearTimeout(this.bt); }
+  toast(m){ clearTimeout(this.tt); this.setState({toast:m}); this.tt=setTimeout(()=>this.setState({toast:null}),2600); }
+  go(screen,extra){ this.setState({screen,ov:null,sheet:null,...(extra||{})}); if(this.bodyRef.current) this.bodyRef.current.scrollTop=0; }
+  submitReport(){
+    const S=this.state;
+    if(S.pick.some(p=>!p)&&!S.plain) return this.setState({showErr:true,err:'Please select all case details.'});
+    if(S.ans.some(a=>a.v.trim().length<5)) return this.setState({showErr:true,err:'All fields are mandatory. Please fill in all text fields.'});
+    this.go('review',{showErr:false});
+  }
+  completeCase(){
+    const S=this.state; const needR=S.conc==='Discrepant'||S.conc==='Inconclusive'; const needD=DETAIL.includes(S.reason);
+    if(!S.opinion.trim()||!S.conc||(needR&&!S.reason)||(needD&&S.details.trim().length<5)) return this.setState({cErr:true});
+    this.go('summary',{cErr:false});
+  }
+  openVoice(forWhat,apply){
+    clearTimeout(this.vt); this.setState({sheet:'voice',voice:'listen',vFor:forWhat});
+    this.vt=setTimeout(()=>{ this.setState({voice:'convert'}); this.vt=setTimeout(()=>{ apply(); this.setState({sheet:null}); this.toast('Voice converted to text for "'+forWhat+'"'); },900); },1300);
+  }
+  renderVals(){
+    const S=this.state,P=this.props, ios=P.platform==='ios', prod=P.product||'health', D=Q[prod];
+    const sc=['ws','loading','msg','report','review','complete','summary','success','readonly']; const s={}; sc.forEach(k=>s[k]=S.screen===k);
+    const titles={ws:'Case Workspace',loading:'Final Report',msg:'Final Report',report:'Final Report',review:'Review',complete:'Case Complete Report',summary:'Summary',success:'Case Complete Report',readonly:'Final Report'};
+    const qs=D.qs.map((q,i)=>{ const a=S.ans[i]; const len=a.v.trim().length; const bad=S.showErr&&len<5; const y=a.yn==='Yes';
+      return {i,n:i+1,h:q[0],v:a.v,ph:'Enter details for '+q[0]+'...',
+        yBg:y?'var(--okb)':'transparent',yFg:y?'#fff':'var(--mut)',yBd:y?'var(--okb)':'var(--line)',yIc:y?'check_circle':'radio_button_unchecked',
+        nBg:!y?'var(--redb)':'transparent',nFg:!y?'#fff':'var(--mut)',nBd:!y?'var(--redb)':'var(--line)',nIc:!y?'cancel':'radio_button_unchecked',
+        yes:()=>this.setState(st=>({ans:st.ans.map((x,j)=>j===i?{...x,yn:'Yes'}:x)})), no:()=>this.setState(st=>({ans:st.ans.map((x,j)=>j===i?{...x,yn:'No'}:x)})),
+        set:(e)=>{ const v=e.target.value; this.setState(st=>({ans:st.ans.map((x,j)=>j===i?{...x,v}:x)})); },
+        mic:()=>this.openVoice(q[0],()=>this.setState(st=>({ans:st.ans.map((x,j)=>j===i?{...x,v:(x.v?x.v.trim()+' ':'')+'Bills checked against the treatment chart; they match.'}:x)}))),
+        bd:bad?'var(--red)':'var(--line)',tBd:bad?'var(--red)':'var(--line)',err:bad?(len===0?'Required':'At least 5 characters'):'',cnt:len+' chars'+(len<5?' · min 5':'')}; });
+    const answered=qs.filter(q=>q.v.trim().length>=5).length;
+    const conc=S.conc, cc=conc?CONC[conc]:null, needR=conc==='Discrepant'||conc==='Inconclusive', needD=DETAIL.includes(S.reason);
+    const motorList=prod==='motor';
+    const reasonList=conc==='Discrepant'?DISC:INC;
+    let foot=null;
+    if(S.screen==='ws'){
+      if(S.ws==='locked') foot={l:'Final Report for Case',ic:'lock',bg:'var(--dis)',fg:'var(--mut)',dis:true,note:'2 touch points pending: Hospital, Insured',noteIc:'pending',noteCol:'var(--amb)'};
+      else if(S.ws==='ro'||S.ws==='queued') foot={l:'View Final Report',ic:'visibility',bg:'var(--sky)',fg:'var(--link)',act:()=>this.go('readonly')};
+      else foot={l:'Final Report for Case',ic:'task_alt',bg:'var(--okb)',fg:'#fff',act:()=>this.go('report')};
+    }
+    if(S.screen==='report') foot={l:'Submit Final Report',ic:'send',bg:'var(--grad)',fg:'#fff',act:()=>this.submitReport()};
+    if(S.screen==='review') foot={l:'Confirm',ic:'fact_check',bg:'var(--grad)',fg:'#fff',act:()=>this.setState({ov:'confirm'}),b2:'Edit answers',b2a:()=>this.go('report')};
+    if(S.screen==='complete') foot={l:'Complete Case',ic:'task_alt',bg:'var(--okb)',fg:'#fff',act:()=>this.completeCase(),note:'This screen cannot be closed until the case is completed.',noteIc:'info',noteCol:'var(--mut)'};
+    if(S.screen==='summary') foot={l:'Complete Case',ic:'task_alt',bg:'var(--okb)',fg:'#fff',b2:'Edit',b2a:()=>this.go('complete'),act:()=>{ if(S.offline){ this.go('ws',{ws:'queued'}); this.toast('Completing — will send when online'); return; } this.setState({ov:'completing'}); this.bt=setTimeout(()=>this.go('success'),1300); }};
+    if(S.screen==='success') foot={l:'Go to Expenses',ic:'account_balance_wallet',bg:'var(--grad)',fg:'#fff',b2:'Back to Workspace',b2a:()=>this.go('ws',{ws:'ro4'}),act:()=>this.toast('Opens Create Expense → then Create Courier for this claim'),note:'Next: Create Expense → Create Courier for this claim',noteIc:'arrow_forward',noteCol:'var(--mut)'};
+    if(S.screen==='msg'&&S.msg!=='master') foot=null;
+    const msgs={nofields:['playlist_remove','var(--line2)','var(--mut)','No fields configured for this selection.','Pick another Case Field, or ask the office to add questions in Field Masters.',false],nodata:['description','var(--line2)','var(--mut)','No final report data available for this case.','The report master has nothing for this sub-product yet.',false],master:['error','var(--redt)','var(--red)','SubProduct not found in master','The portal has no report master for “Cashless”. Try again, or tell your coordinator.',true]};
+    const mm=msgs[S.msg]||msgs.nofields;
+    const ws=S.ws;
+    const stMap={locked:['FO Accepted','check_circle','var(--okt)','var(--ok)'],ready:['FO Accepted','check_circle','var(--okt)','var(--ok)'],sendback:['Sent back · status 2','undo','var(--ambt)','var(--amb)'],ro:['CM Reviewed','verified','rgba(6,182,212,.16)','var(--ink)'],queued:['Completing — will send when online','schedule_send','var(--ambt)','var(--amb)'],ro4:['4 · FO Completed','task_alt','rgba(139,92,246,.16)','var(--ink)']};
+    const st=stMap[ws]||stMap.ready;
+    const fail={failed:['cloud_off','Could not complete the case','Server error: 502. Your answers and completion details are saved on this phone.','Later','Retry',()=>{ this.setState({ov:'completing'}); this.bt=setTimeout(()=>this.go('success'),1200); }],expired:['lock_clock','Session expired. Please login again.','Your Final Report draft stays on this phone and fills in again after login.','Cancel','Login',()=>this.toast('Opens login · draft kept')]};
+    const fk=fail[S.ov]||fail.failed;
+    const vt={listen:['Listening...','mic','var(--blue)'],convert:['Converting speech to text...','graphic_eq','var(--blue)'],err:['Sorry, Didn\'t hear that. Speak Loudly','mic_off','var(--redb)'],perm:['Microphone permission denied or unavailable.','mic_off','var(--redb)']}[S.voice]||['Listening...','mic','var(--blue)'];
+    return {
+      theme:P.theme||'light', isIOS:ios, isAnd:!ios, W:ios?390:360, H:ios?844:800, sbH:ios?47:24, bH:ios?34:16, sbBg:P.theme==='dark'?'#000E1C':'#001F3F', netIc:S.offline?'signal_wifi_off':'wifi',
+      backIc:ios?'chevron_left':'arrow_back', backLabel:ios?'Back':'', backVis:(S.screen==='complete'||S.screen==='summary'||S.screen==='success')?'hidden':'visible',
+      back:()=>{ const b={report:'ws',review:'report',readonly:'ws',msg:'ws',loading:'ws'}[S.screen]; if(b) this.go(b); },
+      sheetRad:ios?'14px 14px 0 0':'28px 28px 0 0', dlgRad:ios?'14px':'28px',
+      title:titles[S.screen], claim:D.claim+' · sample', person:D.person, offline:S.offline, s, bodyRef:this.bodyRef,
+      wsSendBack:ws==='sendback', wsRO:ws==='ro', wsQueued:ws==='queued', stLabel:st[0], stIc:st[1], stBg:st[2], stFg:st[3],
+      tools:[{ic:'description',n:'Case Details',d:'View complete case information'},{ic:'folder_open',n:'Claim Documents',d:'Manage all claim documents'},{ic:'location_on',n:'Touch Point',d:'Communication history'},{ic:'schedule',n:'Timeline',d:'Case activity timeline'},{ic:'account_balance_wallet',n:'Expenses',d:'Track case expenses'}],
+      skel:[{h:180},{h:150},{h:150}],
+      msgIc:mm[0],msgBg:mm[1],msgFg:mm[2],msgT:mm[3],msgD:mm[4],msgRetry:mm[5],retry:()=>{ this.go('loading'); this.bt=setTimeout(()=>this.go('report'),1200); },
+      draftBanner:S.draft, hasErr:S.showErr&&!!S.err, errMsg:S.err,
+      hasPickers:!S.plain, plainHead:S.plain,
+      pickers:['Category','Stage','Case Field'].map((l,i)=>{ const v=S.pick[i]; const bad=S.showErr&&!v; return {l,v:v||(i===2?'Select the case field':'Select the case details'),vc:v?'var(--ink)':(bad?'var(--red)':'var(--mut)'),bd:bad?'var(--red)':'var(--line)'}; }),
+      answered, qTotal:qs.length, pct:Math.round(answered/qs.length*100),
+      draftIc:S.offline?'cloud_off':'cloud_done', draftText:'Saved as draft 10:42 am',
+      empties:qs.filter(q=>q.v.trim().length<5).map(q=>({n:'Q'+q.n,jump:()=>{ const el=this.bodyRef.current; const t=el&&el.querySelector('[data-q="'+q.i+'"]'); if(t) el.scrollTop=t.offsetTop-110; }})),
+      hasEmpty:answered<qs.length, qs,
+      evid:[['Hospital','photo_camera','Form done','3 files',true],['Doctor','photo_camera','Form done','1 file',true],['Insured','photo_camera','Form done','2 files',true],['Pharmacy','block','Rejected · Other','reason given',false]].map(([n,ic,form,files,ok])=>({n,ic,form,files,th:ok?'linear-gradient(160deg,#4A5666,#222B35)':'var(--line)',fc:ok?'var(--ok)':'var(--amb)'})),
+      pk1:S.plain?'—':S.pick[0], pk2:S.plain?'—':S.pick[1], pk3:S.plain?'—':S.pick[2],
+      rqs:qs.map(q=>({n:q.n,h:q.h,v:q.v,yn:S.ans[q.i].yn,bg:S.ans[q.i].yn==='Yes'?'var(--okt)':'var(--redt)',fg:S.ans[q.i].yn==='Yes'?'var(--ok)':'var(--red)'})),
+      opinion:S.opinion, setOpinion:(e)=>this.setState({opinion:e.target.value}), opBd:S.cErr&&!S.opinion.trim()?'var(--red)':'var(--line)', eOp:S.cErr&&!S.opinion.trim(),
+      micOpinion:()=>this.openVoice('Final Opinion',()=>this.setState(st=>({opinion:(st.opinion?st.opinion.trim()+' ':'')+'Admission and treatment are genuine as per hospital records.'}))),
+      openConc:()=>this.setState({sheet:'conc'}), hasConc:!!conc, concDot:cc?cc[0]:'transparent', concChipBg:cc?cc[1]:'', concChipFg:cc?cc[2]:'', concLabel:conc||'Select final conclusion', concVc:conc?'var(--ink)':'var(--mut)',
+      concBd:S.cErr&&!conc?'var(--red)':'var(--line)', eConc:S.cErr&&!conc,
+      showReason:needR, openReason:()=>this.setState({sheet:'reason'}), rsLabel:S.reason||'Select reason', rsVc:S.reason?'var(--ink)':'var(--mut)', rsBd:S.cErr&&needR&&!S.reason?'var(--red)':'var(--line)', eRs:S.cErr&&needR&&!S.reason,
+      rsLabelRO:S.reason?('Reason: '+S.reason):'No reason needed',
+      listNote:motorList?'Motor-TP reasons come from Field Masters · list to be given by Sujit':'Health reasons · edited in the portal’s Field Masters',
+      needDetails:needD, details:S.details, setDetails:(e)=>this.setState({details:e.target.value}), dtBd:S.cErr&&needD&&S.details.trim().length<5?'var(--red)':'var(--line)', eDt:S.cErr&&needD&&S.details.trim().length<5,
+      roNote:S.ro5?'Final Report becomes read-only from CM Reviewed onward. FO can edit it only up to status 4 (FO Completed).':'Submitted 26-09-2026 10:58 am · this is what the portal received',
+      showFoot:!!foot, footLabel:foot?foot.l:'', footIc:foot?foot.ic:'', footBg:foot?foot.bg:'', footFg:foot?foot.fg:'', footDis:foot?!!foot.dis:true, footAct:()=>{ if(foot&&foot.act&&!foot.dis) foot.act(); },
+      foot2:foot&&foot.b2||'', foot2Act:()=>{ if(foot&&foot.b2a) foot.b2a(); }, footNote:foot&&foot.note||'', footNoteIc:foot&&foot.noteIc||'info', footNoteCol:foot&&foot.noteCol||'var(--mut)',
+      scrimOn:!!S.ov||!!S.sheet, closeSheet:()=>{ if(S.ov==='saving'||S.ov==='completing') return; this.setState({ov:null,sheet:null}); },
+      ov:{confirm:S.ov==='confirm',busy:S.ov==='saving'||S.ov==='completing',fail:S.ov==='failed'||S.ov==='expired'}, busyText:S.ov==='saving'?'Saving final report...':'Completing case...',
+      doSave:()=>{ this.setState({ov:'saving'}); this.bt=setTimeout(()=>this.go('complete'),1300); },
+      failIc:fk[0],failT:fk[1],failD:fk[2],failB1:fk[3],failB2:fk[4],failAct:fk[5],
+      sh:{list:S.sheet==='conc'||S.sheet==='reason',voice:S.sheet==='voice'},
+      listTitle:S.sheet==='conc'?'Select final conclusion':'Select reason',
+      listSub:S.sheet==='conc'?'':(motorList?'Motor-TP · '+conc:'Health · '+conc+' · '+reasonList.length+' reasons'),
+      listRows:S.sheet==='conc'?Object.keys(CONC).map(n=>({n,dot:CONC[n][0],ic:S.conc===n?'radio_button_checked':'radio_button_unchecked',ic_c:S.conc===n?'var(--blue)':'var(--mut)',bg:S.conc===n?'var(--sky)':'transparent',fc:'var(--ink)',fs:'normal',pick:()=>this.setState({conc:n,reason:null,details:'',sheet:null})}))
+        :(motorList?['Motor-TP reason 1 · to be given by Sujit','Motor-TP reason 2 · to be given by Sujit','Motor-TP reason 3 · to be given by Sujit'].map(n=>({n,dot:'',ic:'radio_button_unchecked',ic_c:'var(--mut)',bg:'transparent',fc:'var(--mut)',fs:'italic',pick:()=>this.toast('Motor-TP list comes from Field Masters')}))
+        :reasonList.map(n=>({n,dot:'',ic:S.reason===n?'radio_button_checked':'radio_button_unchecked',ic_c:S.reason===n?'var(--blue)':'var(--mut)',bg:S.reason===n?'var(--sky)':'transparent',fc:'var(--ink)',fs:'normal',pick:()=>this.setState({reason:n,sheet:null})}))),
+      voiceFor:'Speak in Tamil · English text goes into “'+(S.vFor||'the answer')+'”', voiceTitle:vt[0], voiceIc:vt[1], voiceBg:vt[2], voiceErr:S.voice==='err'||S.voice==='perm',
+      hasToast:!!S.toast, toast:S.toast
+    };
+  }
+}
+</script>
+</body>
+</html>

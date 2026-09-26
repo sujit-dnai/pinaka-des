@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<meta name="design_doc_mode" content="canvas">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#E4EAF1;font-family:'IBM Plex Sans',system-ui,sans-serif;color:#0B2540}
+a{color:#0074D9}a:hover{color:#0060B5}
+.dv-turn{padding:40px 44px 32px;border-bottom:1px solid rgba(0,0,0,.08);scroll-margin-top:16px}
+.dv-thd{display:flex;align-items:baseline;gap:10px;margin:0 0 8px}
+.dv-tid{font:600 10px 'IBM Plex Mono',monospace;padding:3px 7px;background:#001F3F;color:#fff;border-radius:4px;text-decoration:none}
+.dv-tname{font:700 18px/1.2 'IBM Plex Sans',sans-serif;color:#001F3F}
+.dv-opts{display:flex;flex-wrap:wrap;gap:28px;align-items:flex-start}
+.dv-opt{flex:none;display:flex;flex-direction:column;gap:9px;scroll-margin-top:16px}
+.dv-oid{font:600 10.5px 'IBM Plex Mono',monospace;padding:3px 7px;background:rgba(0,31,63,.1);color:#001F3F;border-radius:5px;text-decoration:none}
+.dv-olabel{display:flex;align-items:baseline;gap:8px;font:500 12.5px/1.3 'IBM Plex Sans',sans-serif;color:#33475B;max-width:390px}
+.dv-card{background:#fff;border:1px solid rgba(0,0,0,.1);border-radius:30px;box-shadow:0 10px 30px rgba(2,32,64,.14);overflow:hidden}
+.dv-web{background:#fff;border:1px solid rgba(0,0,0,.1);border-radius:10px;box-shadow:0 10px 30px rgba(2,32,64,.14);overflow:hidden}
+.dv-opt:target .dv-oid{background:#0074D9;color:#fff}
+.dv-next{margin:22px 0 0;font:12.5px/1.5 'IBM Plex Sans',sans-serif;color:#5A708C}
+</style>
+</helmet>
+
+<section class="dv-turn" id="t0">
+  <div class="dv-thd"><a class="dv-tid" href="#t0">T</a><span class="dv-tname">Shared case (multi-allocation) — Pinaka app + TaaSen portal</span></div>
+  <div style="display:grid;grid-template-columns:repeat(3,minmax(0,360px));gap:24px;margin-top:14px;font-size:14px;line-height:1.55;color:#33475B">
+    <div><b style="display:block;color:#001F3F;margin-bottom:6px">Kept as today</b>Each officer has his own touch points (his part). The other officer’s folders stay shared and read-only: “This folder is shared. Upload is disabled for your login.” The portal counts every officer on a shared case with his own status.</div>
+    <div><b style="display:block;color:#001F3F;margin-bottom:6px">Added</b>“Shared · 2 officers” and “with Franklin” on the case card, with a status for each part. Touch points split into Mine (full actions) and the other officer’s (read-only, with the address hidden). A case map with photo pins in each officer’s colour. “Complete my part”, a Lead who writes the Final Report, named timeline events, and expenses per officer.</div>
+    <div><b style="display:block;color:#001F3F;margin-bottom:6px">Sample</b>MOT17819657 · Chola MS. <span style="color:#0074D9;font-weight:600">Sujit D N</span> (Lead) – Chennai: Hospital, Doctor. <span style="color:#C2410C;font-weight:600">Franklin</span> – Madurai: Insured, Petitioner, Police Station. Every phone is clickable: open a read-only touch point, filter the map, tap a pin, complete a part.</div>
+  </div>
+</section>
+
+<section class="dv-turn" id="t1">
+  <div class="dv-thd"><a class="dv-tid" href="#t1">1</a><span class="dv-tname">Live · one case, two logins</span></div>
+  <div class="dv-opts" style="margin-top:16px">
+    <div class="dv-opt" id="1a"><div class="dv-olabel"><a class="dv-oid" href="#1a">1a</a>Sujit’s login · Android · start at My Cases</div><div class="dv-card" style="width:360px"><dc-import name="SharedCase" platform="android" theme="light" viewer="sujit" scene="cases" hint-size="360px,800px"></dc-import></div></div>
+    <div class="dv-opt" id="1b"><div class="dv-olabel"><a class="dv-oid" href="#1b">1b</a>Franklin’s login · Android · Police Station done, part not yet completed</div><div class="dv-card" style="width:360px"><dc-import name="SharedCase" platform="android" theme="light" viewer="franklin" variant="fReady" scene="touch" hint-size="360px,800px"></dc-import></div></div>
+    <div class="dv-opt" id="1c"><div class="dv-olabel"><a class="dv-oid" href="#1c">1c</a>Sujit’s login · iPhone · dark · the case map</div><div class="dv-card" style="width:390px;border-radius:46px"><dc-import name="SharedCase" platform="ios" theme="dark" viewer="sujit" scene="map" hint-size="390px,844px"></dc-import></div></div>
+  </div>
+</section>
+
+<sc-for list="{{ groups }}" as="g" hint-placeholder-count="5">
+<section class="dv-turn" id="{{ g.id }}" style="background:{{ g.bg }}">
+  <div class="dv-thd"><a class="dv-tid" href="#{{ g.id }}">{{ g.n }}</a><span class="dv-tname" style="color:{{ g.fg }}">{{ g.title }}</span></div>
+  <div class="dv-opts" style="margin-top:16px">
+    <sc-for list="{{ g.items }}" as="it" hint-placeholder-count="6">
+      <div class="dv-opt" id="{{ it.id }}"><div class="dv-olabel" style="color:{{ g.lc }}"><a class="dv-oid" href="#{{ it.id }}" style="color:{{ g.fg }}">{{ it.id }}</a>{{ it.label }}</div><div class="dv-card" style="width:{{ it.w }}px;border-radius:{{ it.r }}px"><dc-import name="SharedCase" platform="{{ it.p }}" theme="{{ it.t }}" viewer="{{ it.v }}" variant="{{ it.va }}" scene="{{ it.s }}" hint-size="360px,800px"></dc-import></div></div>
+    </sc-for>
+  </div>
+</section>
+</sc-for>
+
+<section class="dv-turn" id="t7">
+  <div class="dv-thd"><a class="dv-tid" href="#t7">7</a><span class="dv-tname">Portal · 1440</span></div>
+  <div class="dv-opts" style="margin-top:16px;flex-direction:column">
+    <div class="dv-opt" id="7a"><div class="dv-olabel"><a class="dv-oid" href="#7a">7a</a>Allocate · split the touch points by ticking an officer for each, pick the Lead · district, distance and load · click the ticks</div><div class="dv-web" style="width:1440px"><dc-import name="PortalShared" theme="light" scene="allocate" hint-size="1440px,900px"></dc-import></div></div>
+    <div class="dv-opt" id="7b"><div class="dv-olabel"><a class="dv-oid" href="#7b">7b</a>Case · Field Work · parts side by side with a combined map</div><div class="dv-web" style="width:1440px"><dc-import name="PortalShared" theme="light" scene="fieldwork" hint-size="1440px,900px"></dc-import></div></div>
+    <div class="dv-opt" id="7c"><div class="dv-olabel"><a class="dv-oid" href="#7c">7c</a>Other officer rejected his part · change the officer on that part only, reason goes to the timeline</div><div class="dv-web" style="width:1440px"><dc-import name="PortalShared" theme="light" scene="rejected" hint-size="1440px,900px"></dc-import></div></div>
+    <div class="dv-opt" id="7d"><div class="dv-olabel"><a class="dv-oid" href="#7d">7d</a>Lead removed · the portal must pick a new lead</div><div class="dv-web" style="width:1440px"><dc-import name="PortalShared" theme="light" scene="leadremoved" hint-size="1440px,900px"></dc-import></div></div>
+    <div class="dv-opt" id="7e"><div class="dv-olabel"><a class="dv-oid" href="#7e">7e</a>Allocate · dark</div><div class="dv-web" style="width:1440px"><dc-import name="PortalShared" theme="dark" scene="allocate" hint-size="1440px,900px"></dc-import></div></div>
+    <div class="dv-opt" id="7f"><div class="dv-olabel"><a class="dv-oid" href="#7f">7f</a>Field Work · dark</div><div class="dv-web" style="width:1440px"><dc-import name="PortalShared" theme="dark" scene="fieldwork" hint-size="1440px,900px"></dc-import></div></div>
+  </div>
+</section>
+
+<section class="dv-turn" id="t8">
+  <div class="dv-thd"><a class="dv-tid" href="#t8">8</a><span class="dv-tname">Component list and hand-off notes for Claude Code</span></div>
+  <div style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,440px);gap:28px;margin-top:16px;max-width:1300px">
+    <div style="background:#fff;border:1px solid #D7E2EF;border-radius:14px;overflow:hidden">
+      <sc-for list="{{ comps }}" as="c" hint-placeholder-count="8"><div style="display:grid;grid-template-columns:200px minmax(0,1fr) 110px;gap:14px;padding:12px 16px;border-bottom:1px solid #E7EEF6;font-size:13.5px;line-height:1.5"><span style="font:600 13px 'IBM Plex Mono',monospace;color:#001F3F">{{ c.n }}</span><span style="color:#33475B">{{ c.d }}</span><span style="font:600 11px 'IBM Plex Mono',monospace;color:{{ c.col }}">{{ c.tag }}</span></div></sc-for>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:12px">
+      <div style="background:#001F3F;color:#fff;border-radius:14px;padding:18px 20px;font-size:13.5px;line-height:1.6"><b style="display:block;font-size:14px;margin-bottom:8px">Hand-off notes</b>
+        <sc-for list="{{ notes }}" as="n" hint-placeholder-count="6"><div style="display:flex;gap:10px;padding:5px 0;border-top:1px solid rgba(255,255,255,.1)"><span style="font:600 11px 'IBM Plex Mono',monospace;color:#7CC0FF;flex:none;padding-top:3px;width:58px">{{ n.k }}</span><span>{{ n.v }}</span></div></sc-for></div>
+      <div style="background:#fff;border:1px solid #D7E2EF;border-radius:14px;padding:16px 18px"><b style="color:#001F3F;font-size:13px">Data shape</b><pre style="margin:8px 0 0;font:500 12px/1.55 'IBM Plex Mono',monospace;color:#0B2540;white-space:pre-wrap">case_officer { caseId, officerId, part: [tpId…], lead: bool,
+               partStatus: assigned|accepted|rejected|part_completed,
+               partCompletedAt, rejectReason }
+touch_point  { id, caseId, ownerOfficerId, … }        // + owner
+GET /case/:id/touchpoints  → other officer's rows: address fields omitted,
+                              readOnly: true
+case.status = 4 (FO Completed) only when every case_officer.partStatus
+              = part_completed</pre></div>
+      <div style="font-size:12.5px;color:#5A708C">Also in <a href="Components-SharedCase.md">Components-SharedCase.md</a>.</div>
+    </div>
+  </div>
+  <p class="dv-next">Next in the queue: Final Report + Case Complete Report (Motor-TP reason lists still to come from you), then Expenses.</p>
+</section>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  renderVals(){
+    const A=(id,label,v,s,va,p,t)=>({id,label,v,s,va:va||'normal',p:p||'android',t:t||'light',w:(p==='ios')?390:360,r:(p==='ios')?46:30});
+    const groups=[
+      {id:'t2',n:'2',title:'Sujit’s login (Lead) · Android · light',items:[
+        A('2a','My Cases · “Shared · 2 officers” · “with Franklin” · a status for each part','sujit','cases'),
+        A('2b','Workspace · officers on the case · Final Report locked until every part is done','sujit','workspace'),
+        A('2c','Touch points in two groups · Mine 2/2 · Case 4/5 · Franklin’s addresses hidden','sujit','touch'),
+        A('2d','Franklin’s Petitioner · verification form pages, read-only','sujit','tp'),
+        A('2e','Franklin’s visit photo with the stamp “by Franklin”','sujit','photo'),
+        A('2f','Franklin’s files · view / download · upload disabled (today’s text)','sujit','files'),
+        A('2g','Case map · photo pins of both officers · legend · All / Mine / Franklin','sujit','map'),
+        A('2h','Tapped pin · photo, stamp and who took it','sujit','pin'),
+        A('2i','“Complete my part”','sujit','complete'),
+        A('2j','Final Report by the Lead · sees every part’s evidence','sujit','report','allDone'),
+        A('2k','Timeline · every event with the officer’s name and colour','sujit','timeline','oneDone'),
+        A('2l','Expenses · only my bills · case total for all officers','sujit','expenses')]},
+      {id:'t3',n:'3',title:'Franklin’s login · Android · light',items:[
+        A('3a','My Cases · the same case, “with Sujit”','franklin','cases'),
+        A('3b','Touch points · Mine 2/3 · Sujit’s shown read-only','franklin','touch'),
+        A('3c','Sujit’s Hospital form, read-only','franklin','tp'),
+        A('3d','Sujit’s photo pin, with the stamp and who took it','franklin','pin'),
+        A('3e','“Complete my part” · Police Station done','franklin','complete','fReady'),
+        A('3f','Workspace · “Final report by Sujit D N” (not the Lead)','franklin','workspace'),
+        A('3g','Final Report read-only after the Lead submits','franklin','reportro','allDone'),
+        A('3h','Expenses · only Franklin’s bills','franklin','expenses')]},
+      {id:'t4',n:'4',title:'States · Android · light',items:[
+        A('4a','The other officer has not accepted yet','sujit','touch','notAccepted'),
+        A('4b','The other officer rejected his part · the manager must reassign','sujit','workspace','rejected'),
+        A('4c','One part done, one pending · “Franklin completed his part”','sujit','touch','oneDone'),
+        A('4d','All parts done · waiting for the Lead’s Final Report','franklin','workspace','allDone'),
+        A('4e','Lead removed · the portal picks a new lead','franklin','workspace','leadRemoved'),
+        A('4f','Offline · my work queues · Franklin’s work as last synced','sujit','touch','offline')]},
+      {id:'t5',n:'5',title:'iPhone · light',items:[
+        A('5a','Sujit · My Cases','sujit','cases','normal','ios'),A('5b','Sujit · touch points','sujit','touch','normal','ios'),A('5c','Sujit · Franklin’s photo','sujit','photo','normal','ios'),A('5d','Sujit · map pin','sujit','pin','normal','ios'),A('5e','Sujit · Complete my part','sujit','complete','normal','ios'),A('5f','Sujit · Lead Final Report','sujit','report','allDone','ios'),A('5g','Franklin · touch points','franklin','touch','normal','ios'),A('5h','Franklin · timeline','franklin','timeline','oneDone','ios')]},
+      {id:'t6',n:'6',title:'Dark · Android and iPhone',bg:'#0B1726',fg:'#E7EEF7',lc:'#93A6BC',items:[
+        A('6a','Sujit · My Cases','sujit','cases','normal','android','dark'),A('6b','Sujit · touch points','sujit','touch','normal','android','dark'),A('6c','Sujit · Franklin’s form','sujit','tp','normal','android','dark'),A('6d','Sujit · map','sujit','map','normal','android','dark'),A('6e','Franklin · Complete my part','franklin','complete','fReady','android','dark'),A('6f','Franklin · touch points','franklin','touch','normal','ios','dark'),A('6g','Sujit · Lead Final Report','sujit','report','allDone','ios','dark'),A('6h','Sujit · timeline','sujit','timeline','oneDone','ios','dark')]}
+    ].map(g=>({bg:'transparent',fg:'#001F3F',lc:'#33475B',...g}));
+    return {groups,
+      comps:[
+        {n:'SharedChip',d:'“Shared · 2 officers” + “with {name}” avatar chip on the case card; a status box for each part (Assigned / Accepted / Rejected / Part completed, with n/m).',tag:'NEW',col:'#0074D9'},
+        {n:'OfficerColour',d:'One colour for each officer on a case, used on chips, the progress bar, pins, stamps and the timeline. Sample: Sujit #0074D9, Franklin #F97316. Assigned by allocation order.',tag:'NEW',col:'#0074D9'},
+        {n:'TouchPointGroups',d:'“My touch points” (Verify, Form, Files, Reject, address, Navigate) and “{name}’s touch points” (dashed, read-only, “Address with {name}”, View when done, “Not done yet by {name}” when pending).',tag:'NEW',col:'#0074D9'},
+        {n:'SplitProgress',d:'Two-colour bar with the text “Mine 2/2 · Case 4/5”.',tag:'NEW',col:'#0074D9'},
+        {n:'ReadOnlyTouchPoint',d:'Form / Photo / Files tabs for another officer’s completed touch point. The stamp shows claim, touch point, date-time, GPS and “by {name}”, with no street address.',tag:'NEW',col:'#0074D9'},
+        {n:'CaseMap',d:'Photo pins for every officer’s done visits, and address pins only for my pending ones. Filter chips All / Mine / {name}, a legend, and a pin sheet with the photo, stamp and who took it.',tag:'NEW',col:'#0074D9'},
+        {n:'CompleteMyPartSheet',d:'Enabled when all my touch points are done or rejected; otherwise the button says what is missing. Sets partStatus to part_completed and queues when offline.',tag:'NEW',col:'#0074D9'},
+        {n:'LeadBadge + FinalReportGate',d:'Only the Lead sees “Final Report for Case”, unlocked when every part is completed. Others see “Final report by {Lead}” and read-only after submit. Lead removed → paused.',tag:'NEW',col:'#0074D9'},
+        {n:'PartBanners',d:'Not accepted yet · rejected (manager must reassign) · “{name} completed his part · date time” · all parts done · lead removed · offline (last synced).',tag:'NEW',col:'#0074D9'},
+        {n:'TimelineEvent',d:'Each event carries the officer’s name and colour, and daily updates show under the writer’s name.',tag:'NEW',col:'#0074D9'},
+        {n:'Portal: AllocateSplit',d:'Touch point × officer tick grid, officer cards (district, distance, load), Make lead, Add officer, Save allocation.',tag:'NEW · portal',col:'#0074D9'},
+        {n:'Portal: FieldWorkParts',d:'Parts side by side (status, photos, forms, files, times) + combined map + Change officer on one part with a required reason, written to the timeline.',tag:'NEW · portal',col:'#0074D9'},
+        {n:'Shared folder notice',d:'“This folder is shared. Upload is disabled for your login.” Unchanged.',tag:'KEEP',col:'#1E7A3D'},
+        {n:'Workspace Tools, attendance, tracking',d:'Unchanged. Attendance and tracking stay personal.',tag:'KEEP',col:'#1E7A3D'}],
+      notes:[
+        {k:'ROWS',v:'case_officer rows carry part (list of touch-point ids), lead (yes/no) and the part status.'},
+        {k:'OWNER',v:'Each touch point has an owner officer.'},
+        {k:'API',v:'The API sends another officer’s touch points without address fields and marks them read-only. Route planner and Navigate use only the caller’s own touch points.'},
+        {k:'FILES',v:'Photos and files of all parts are readable by every officer on the case. Upload only to your own part.'},
+        {k:'STATUS',v:'Case status 4 (FO Completed) is set only when all parts are completed.'},
+        {k:'COUNTS',v:'Analytics and lists count each officer’s part separately and the case once, as today.'},
+        {k:'EXPENSE',v:'Officers see only their own bills and the case total.'},
+        {k:'CHAT',v:'Every officer on the case is a chat member, so @mention works across parts.'}]
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="design_doc_mode" content="canvas">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>body{margin:0;background:#E4EAF1;font-family:'IBM Plex Sans',system-ui,sans-serif;color:#0B2540}a{color:#0074D9}a:hover{color:#0060B5}</style>
+</helmet>
+<section id="t0" style="padding:40px 44px 32px;border-bottom:1px solid rgba(0,0,0,.08)">
+  <div style="display:flex;align-items:baseline;gap:10px"><span style="font:600 10px 'IBM Plex Mono',monospace;padding:3px 7px;background:#001F3F;color:#fff;border-radius:4px">T</span><b style="font-size:18px;color:#001F3F">Full Pinaka app · 15 screen groups · parts 1–3</b></div>
+  <div style="margin-top:14px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px 24px;max-width:1150px">
+    <sc-for list="{{ index }}" as="x" hint-placeholder-count="15"><div style="display:grid;grid-template-columns:28px 1fr auto;gap:10px;align-items:center;background:#fff;border:1px solid #D7E2EF;border-radius:8px;padding:8px 12px;font-size:13.5px"><b style="font:600 12px 'IBM Plex Mono',monospace;color:#5A708C">{{ x.n }}</b><span>{{ x.t }}</span><a href="{{ x.href }}" style="font-size:12px;font-weight:600;color:{{ x.c }};text-decoration:none">{{ x.where }}</a></div></sc-for>
+  </div>
+  <div style="margin-top:12px;font-size:13.5px;color:#33475B;max-width:900px">Newest first: section 9 is the Insurer client role, and sections 7–8 (part 2) cover groups 9–10. There is no logout anywhere: Profile says only the admin can sign the phone out.</div>
+</section>
+<sc-for list="{{ groups }}" as="g" hint-placeholder-count="3">
+<section id="{{ g.id }}" style="padding:40px 44px 32px;border-bottom:1px solid rgba(0,0,0,.08);background:{{ g.bg }}">
+  <div style="display:flex;align-items:baseline;gap:10px"><a href="#{{ g.id }}" style="font:600 10px 'IBM Plex Mono',monospace;padding:3px 7px;background:#001F3F;color:#fff;border-radius:4px;text-decoration:none">{{ g.n }}</a><b style="font-size:18px;color:{{ g.fg }}">{{ g.title }}</b></div>
+  <div style="display:flex;flex-wrap:wrap;gap:28px;align-items:flex-start;margin-top:16px">
+    <sc-for list="{{ g.items }}" as="it" hint-placeholder-count="4">
+      <div id="{{ it.id }}" style="flex:none;display:flex;flex-direction:column;gap:9px">
+        <div style="display:flex;align-items:baseline;gap:8px;font-size:12.5px;font-weight:500;max-width:390px;color:{{ g.lc }}"><a href="#{{ it.id }}" style="font:600 10.5px 'IBM Plex Mono',monospace;padding:3px 7px;background:rgba(0,116,217,.14);border-radius:5px;text-decoration:none;color:{{ g.fg }}">{{ it.id }}</a>{{ it.label }}</div>
+        <div style="background:#fff;border:1px solid rgba(0,0,0,.1);box-shadow:0 10px 30px rgba(2,32,64,.14);overflow:hidden;border-radius:{{ it.r }}px"><sc-if value="{{ it.full }}" hint-placeholder-val="{{ true }}"><dc-import name="FullApp" platform="{{ it.p }}" theme="{{ it.t }}" scene="{{ it.s }}" hint-size="360px,800px"></dc-import></sc-if><sc-if value="{{ it.cli }}" hint-placeholder-val="{{ false }}"><dc-import name="ClientApp" platform="{{ it.p }}" theme="{{ it.t }}" scene="{{ it.s }}" hint-size="360px,800px"></dc-import></sc-if><sc-if value="{{ it.ver }}" hint-placeholder-val="{{ false }}"><dc-import name="VerifyApp" platform="{{ it.p }}" theme="{{ it.t }}" scene="{{ it.s }}" hint-size="360px,800px"></dc-import></sc-if></div>
+      </div>
+    </sc-for>
+  </div>
+</section>
+</sc-for>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  renderVals(){
+    const A=(id,label,s,p,t)=>({id,label,s,p:p||'android',t:t||'light',r:p==='ios'?46:30,full:true,ver:false,cli:false});
+    const Cl=(id,label,s,p,t)=>({...A(id,label,s,p,t),full:false,cli:true});
+    const V=(id,label,s,p,t)=>({...A(id,label,s,p,t),full:false,ver:true});
+    const done=(f)=>({where:'Done · open',href:f,c:'#1E7A3D'});
+    const here=(h)=>({where:'Below',href:h,c:'#0060B5'});
+    const next={where:'Part 2',href:'#t0',c:'#9A6A00'};
+    const index=[['Login + role pick',here('#t1')],['PIN daily unlock',here('#t1')],['Punch attendance · selfie + GPS · Late',here('#t1')],['Morning commitment',done('Case%20Sync.dc.html#2e')],['Home · 3 layouts',here('#t2')],['New case · 20:00 accept alarm',done('Case%20Sync.dc.html#1b')],['My Cases · 3 card designs',here('#t3')],['Case Workspace + shared case',done('Shared%20Case.dc.html')],['Touch points · 3 Verify camera layouts · GPS stamp',here('#t7')],['Health 24 h / Motor TP 3-day timers',here('#t8')],['Final Report + Complete Report',done('Final%20Report.dc.html')],['Expenses · travel · 3-level approval',done('Expenses.dc.html')],['Today\'s work · 6:00–7:30 PM',here('#t4')],['Team Chat · @mentions · meetings ring',done('Team%20Chat%20Mentions.dc.html')],['Profile · Fine Amount · leave · no logout',here('#t4')]].map(([t,w],i)=>({n:String(i+1).padStart(2,'0'),t,...w}));
+    const groups=[
+      {id:'t9',n:'9',title:'Insurer client role · picked at login',items:[Cl('9a','Home · counts, approval waiting, recent updates','home'),Cl('9b','Our cases · TAT from the insurer\'s allocation date','list'),Cl('9c','Case progress · officer, SPOC, touch points','detail'),Cl('9d','Approve police document charge before TaaSen pays','approve'),Cl('9e','Urgent release · Lok Adalat date','urgent'),Cl('9f','Released · final report and files','report'),Cl('9g','Profile · no logout','profile'),Cl('9h','Home · iPhone dark','home','ios','dark')]},
+      {id:'t7',n:'7',title:'Part 2 · Touch points and Verify camera · group 9',items:[V('7a','Touch points · Verify / Reject','tp'),V('7b','Camera A · full frame, live GPS stamp','camA'),V('7c','Camera B · checklist of required shots + frame guide','camB'),V('7d','Camera C · question on top, photo below','camC'),V('7e','Photo check · GPS Map Camera style stamp','stamp'),V('7f','Camera B · iPhone','camB','ios')]},
+      {id:'t8',n:'8',title:'Part 2 · Health 24 h and Motor TP 3-day timers · group 10',items:[V('8a','Health · started, reach within 24 h','hStart'),V('8b','Health · at 8 h, 16 hours left','h8'),V('8c','Health · reached, GPS photo saved','hReached'),V('8d','Health · 24 h passed, moved by itself','hMoved'),V('8e','Motor TP · day 2 warning','mDay2'),V('8f','Motor TP · day 3 morning','mDay3'),V('8g','Motor TP · ₹50, case stays','mFine'),V('8h','Health 8 h · dark','h8','android','dark'),V('8i','Motor day 3 · iPhone dark','mDay3','ios','dark')]},
+      {id:'t1',n:'1',title:'Sign-in and punch · groups 1–3',items:[A('1a','Login · Field Officer / Insurer client','login'),A('1b','PIN unlock · tap the keys','pin'),A('1c','Punch attendance · selfie + GPS stamp','punch'),A('1d','After 8:30 AM · Late + reason','late')]},
+      {id:'t2',n:'2',title:'Home · 3 layouts · group 5',items:[A('2a','A · Next action first','homeA'),A('2b','B · Day timeline from the morning plan','homeB'),A('2c','C · Map with nearest cases','homeC')]},
+      {id:'t3',n:'3',title:'Case cards · 3 designs · group 7',items:[A('3a','A · Dense rows, TAT colour bar','cardsA'),A('3b','B · Rich card · TAT bar, touch-point dots, quick actions','cardsB'),A('3c','C · Grouped by urgency · swipe to start','cardsC')]},
+      {id:'t4',n:'4',title:'Today\'s work and Profile · groups 13, 15',items:[A('4a','Today\'s work · 6:00 PM','today'),A('4b','Missed yesterday · blocks the punch','todayMissed'),A('4c','Profile · Fine Amount · no logout','profile')]},
+      {id:'t5',n:'5',title:'iPhone · light',items:[A('5a','Login','login','ios'),A('5b','Home A','homeA','ios'),A('5c','Cards B','cardsB','ios')]},
+      {id:'t6',n:'6',title:'Dark',bg:'#0B1726',fg:'#E7EEF7',lc:'#93A6BC',items:[A('6a','PIN','pin','android','dark'),A('6b','Home B','homeB','android','dark'),A('6c','Home C','homeC','ios','dark'),A('6d','Profile','profile','ios','dark')]}
+    ].map(g=>({bg:'transparent',fg:'#001F3F',lc:'#33475B',...g}));
+    return {index,groups};
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<style>
+body{margin:0}
+a{color:#0074D9}a:hover{color:#0060B5}
+[data-pr]{--font:'IBM Plex Sans',system-ui,'Segoe UI',Arial,sans-serif;--mono:'IBM Plex Mono',ui-monospace,Menlo,monospace}
+[data-pr=light]{--blue:#0074D9;--bluet:#E3F0FC;--ink:#0B2540;--body:#33475B;--muted:#5A708C;--faint:#6E8095;--bg:#EEF3F9;--card:#FFFFFF;--line:#D7E2EF;--line2:#E7EEF6;--head:#F8FBFE;--ok:#1E7A3D;--okt:#E4F6EA;--red:#A3271B;--redt:#FCE9E7;--amb:#9A6A00;--ambt:#FFF3D6;--link:#0060B5;--fld:#F6F9FD;--hdr:#001F3F}
+[data-pr=dark]{--blue:#5AAEF5;--bluet:#14304F;--ink:#E7EEF7;--body:#C3D0DE;--muted:#93A6BC;--faint:#8095AC;--bg:#07111D;--card:#0E1C2E;--line:#22374F;--line2:#1A2C42;--head:#112236;--ok:#6FD39A;--okt:#0F2E1E;--red:#FF9A8C;--redt:#3A1612;--amb:#F5BE6A;--ambt:#35260E;--link:#7CC0FF;--fld:#0A1726;--hdr:#E7EEF7}
+[data-pr] *{box-sizing:border-box}
+[data-pr] button{font-family:var(--font);cursor:pointer}
+</style>
+</helmet>
+<div data-pr="{{ theme }}" style="width:1440px;height:900px;display:flex;background:var(--bg);color:var(--ink);font-family:var(--font);-webkit-font-smoothing:antialiased;overflow:hidden;position:relative">
+  <aside style="width:232px;flex:none;background:linear-gradient(180deg,#001F3F 0%,#012A54 100%);color:#fff;padding:18px 12px 14px;display:flex;flex-direction:column">
+    <div style="display:flex;align-items:center;gap:11px;padding:4px 10px 20px"><span style="width:36px;height:36px;background:#fff;border-radius:9px;overflow:hidden;display:flex"><img src="assets/pinaka-eagle.png" style="width:36px;height:36px;object-fit:cover" alt="Pinaka"></span><span><b style="display:block;font-size:17px;font-weight:800;line-height:1.1">TaaSen</b><small style="font:600 8.5px var(--mono);letter-spacing:2.6px;color:#7CC0FF">CLAIMS PORTAL</small></span></div>
+    <sc-for list="{{ nav }}" as="n" hint-placeholder-count="7"><a style="display:flex;align-items:center;gap:12px;padding:11px 12px;border-radius:10px;color:{{ n.fg }};background:{{ n.bg }};text-decoration:none;font-size:13.5px;font-weight:{{ n.fw }}"><i class="{{ n.ic }}" style="width:20px;text-align:center;font-size:14px"></i>{{ n.l }}</a></sc-for>
+  </aside>
+  <main style="flex:1;display:flex;flex-direction:column;min-width:0">
+    <div style="display:flex;align-items:center;gap:12px;background:var(--card);border-bottom:1px solid var(--line);padding:12px 24px">
+      <h1 style="margin:0;font-size:16.5px;font-weight:700;color:var(--hdr);flex:1">{{ h1 }} <span style="font-weight:500;color:var(--muted);font-size:13px">sample</span></h1>
+      <span style="display:inline-flex;align-items:center;gap:9px;background:var(--fld);border:1px solid var(--line);border-radius:999px;padding:5px 12px 5px 6px;font-size:12.5px;font-weight:600"><span style="width:26px;height:26px;border-radius:50%;background:var(--bluet);color:var(--blue);display:inline-flex;align-items:center;justify-content:center;font-size:11px;font-weight:700">P</span>Priya<span style="font:700 9px var(--mono);letter-spacing:1px;background:#001F3F;color:#fff;border-radius:5px;padding:2.5px 7px">CM</span></span>
+    </div>
+
+    <sc-if value="{{ isCase }}" hint-placeholder-val="{{ true }}">
+    <div style="padding:20px 24px;display:flex;flex-direction:column;gap:14px;flex:1;min-height:0;overflow:hidden">
+      <div style="display:flex;align-items:center;gap:12px;white-space:nowrap"><span style="font:700 18px var(--mono);color:var(--hdr);flex:none">RR-HS26-15985394</span><span style="flex:none;display:inline-flex;align-items:center;gap:6px;padding:3.5px 10px;border-radius:999px;font-size:11px;font-weight:600;background:rgba(139,92,246,.14);color:var(--ink)"><span style="width:6px;height:6px;border-radius:50%;background:#8B5CF6"></span>4 · FO Completed</span><span style="font-size:13px;color:var(--muted);flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis">Chola MS · Health Cashless · Suddala Revanth · FO Ravi Kumar</span>
+        <span style="margin-left:auto;display:flex;gap:8px;flex:none"><button style="background:var(--card);color:var(--ink);border:1px solid var(--line);border-radius:9px;padding:9px 14px;font:600 13px var(--font)"><i class="fa-solid fa-file-import"></i> Pull into client report</button><button style="background:var(--card);color:var(--amb);border:1px solid var(--line);border-radius:9px;padding:9px 14px;font:600 13px var(--font)"><i class="fa-solid fa-rotate-left"></i> Send back to officer</button><button style="background:#0074D9;color:#fff;border:0;border-radius:9px;padding:9px 15px;font:600 13px var(--font)"><i class="fa-solid fa-lock"></i> Mark CM Reviewed</button></span></div>
+      <div style="display:flex;gap:6px;border-bottom:1px solid var(--line)"><sc-for list="{{ tabs }}" as="t" hint-placeholder-count="4"><span style="padding:8px 14px;font-weight:700;font-size:13px;color:{{ t.fg }};border-bottom:2px solid {{ t.bd }}">{{ t.n }}</span></sc-for></div>
+      <div style="display:grid;grid-template-columns:minmax(0,1fr) 420px;gap:16px;min-height:0">
+        <div style="background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;display:flex;flex-direction:column;min-height:0">
+          <div style="padding:12px 16px;border-bottom:1px solid var(--line2);background:var(--head);display:flex;align-items:center;gap:10px"><b style="font-size:14px;color:var(--hdr);flex:1"><i class="fa-solid fa-clipboard-check" style="color:var(--blue);margin-right:7px"></i>Final Report</b><span style="font:600 10.5px var(--mono);color:var(--faint)">saved 26-09-2026 10:52 am · time taken 18 min</span></div>
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:12px 16px;border-bottom:1px solid var(--line2)"><sc-for list="{{ picks }}" as="k" hint-placeholder-count="3"><div style="background:var(--fld);border:1px solid var(--line2);border-radius:9px;padding:8px 10px"><div style="font:700 10px var(--font);letter-spacing:.8px;text-transform:uppercase;color:var(--faint)">{{ k.l }}</div><div style="font-size:13.5px;font-weight:600">{{ k.v }}</div></div></sc-for></div>
+          <div style="overflow:auto">
+            <sc-for list="{{ qs }}" as="q" hint-placeholder-count="6"><div style="display:grid;grid-template-columns:30px minmax(0,1fr) 70px;gap:12px;padding:12px 16px;border-bottom:1px solid var(--line2);font-size:13px"><span style="font:600 12px var(--mono);color:var(--faint)">{{ q.n }}</span><span><b style="display:block;color:var(--ink)">{{ q.h }}</b><span style="color:var(--body)">{{ q.v }}</span></span><span style="justify-self:end;align-self:start;display:inline-flex;align-items:center;gap:6px;padding:3.5px 10px;border-radius:999px;font-size:11px;font-weight:700;background:{{ q.bg }};color:{{ q.fg }}">{{ q.yn }}</span></div></sc-for>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:14px">
+          <div style="background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden">
+            <div style="padding:12px 16px;border-bottom:1px solid var(--line2);background:var(--head)"><b style="font-size:14px;color:var(--hdr)"><i class="fa-solid fa-flag-checkered" style="color:var(--blue);margin-right:7px"></i>Case completion</b></div>
+            <div style="padding:14px 16px;display:flex;flex-direction:column;gap:10px;font-size:13px">
+              <span style="align-self:flex-start;display:inline-flex;align-items:center;gap:7px;padding:6px 14px;border-radius:999px;font-size:13px;font-weight:700;background:var(--ambt);color:var(--amb)"><span style="width:8px;height:8px;border-radius:50%;background:#F0A500"></span>Inconclusive</span>
+              <div style="display:flex;gap:10px;padding:6px 0;border-bottom:1px dashed var(--line2)"><span style="min-width:110px;color:var(--muted);font-weight:600">Reason</span><span>No Documents Available</span></div>
+              <div style="display:flex;gap:10px;padding:6px 0;border-bottom:1px dashed var(--line2)"><span style="min-width:110px;color:var(--muted);font-weight:600">Reason details</span><span style="color:var(--body)">MRD in-charge refused the indoor case papers on 25-09-2026; written request left with the hospital.</span></div>
+              <div style="display:flex;gap:10px;padding:6px 0;border-bottom:1px dashed var(--line2)"><span style="min-width:110px;color:var(--muted);font-weight:600">Final opinion</span><span style="color:var(--body)">Hospital did not share the indoor case papers; the claim could not be checked fully.</span></div>
+              <div style="display:flex;gap:10px;padding:6px 0;border-bottom:1px dashed var(--line2)"><span style="min-width:110px;color:var(--muted);font-weight:600">Completed at</span><span style="font-family:var(--mono)">26-09-2026 10:58 am</span></div>
+              <div style="display:flex;gap:10px;padding:6px 0"><span style="min-width:110px;color:var(--muted);font-weight:600">By</span><span>Ravi Kumar (FO) · Pinaka app · sent 11:04 am after being offline</span></div>
+            </div>
+          </div>
+          <div style="background:var(--card);border:1px solid var(--line);border-radius:13px;padding:13px 16px;display:flex;gap:12px;align-items:center;font-size:13px"><i class="fa-solid fa-chart-simple" style="width:34px;height:34px;border-radius:9px;background:var(--bluet);color:var(--blue);display:inline-flex;align-items:center;justify-content:center"></i><span>Quality Audit, the FO Completed list and productivity use <b>10:58 am</b>, the time of completion.</span></div>
+          <div style="background:var(--card);border:1px solid var(--line);border-radius:13px;padding:13px 16px;display:flex;gap:12px;align-items:center;font-size:13px"><i class="fa-solid fa-lock-open" style="width:34px;height:34px;border-radius:9px;background:var(--ambt);color:var(--amb);display:inline-flex;align-items:center;justify-content:center"></i><span>Editable by the officer until CM Reviewed. “Send back to officer” reopens it (status 2) with your note.</span></div>
+        </div>
+      </div>
+    </div>
+    </sc-if>
+
+    <sc-if value="{{ isMasters }}" hint-placeholder-val="{{ false }}">
+    <div style="padding:20px 24px;display:grid;grid-template-columns:260px minmax(0,1fr) minmax(0,1fr);gap:16px;flex:1;min-height:0">
+      <div style="background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;align-self:start">
+        <div style="padding:12px 16px;border-bottom:1px solid var(--line2);background:var(--head)"><b style="font-size:14px;color:var(--hdr)">Field Masters</b></div>
+        <sc-for list="{{ mnav }}" as="m" hint-placeholder-count="5"><div style="padding:11px 16px;border-bottom:1px solid var(--line2);font-size:13px;font-weight:{{ m.fw }};color:{{ m.fg }};background:{{ m.bg }}">{{ m.n }}</div></sc-for>
+      </div>
+      <sc-for list="{{ lists }}" as="L" hint-placeholder-count="2">
+        <div style="background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;display:flex;flex-direction:column;min-height:0">
+          <div style="padding:12px 16px;border-bottom:1px solid var(--line2);background:var(--head);display:flex;align-items:center;gap:10px"><b style="font-size:14px;color:var(--hdr);flex:1">{{ L.t }}</b>
+            <span style="display:inline-flex;border:1px solid var(--line);border-radius:9px;overflow:hidden"><span style="padding:6px 12px;font:700 12px var(--font);background:var(--blue);color:#fff">Health</span><span style="padding:6px 12px;font:700 12px var(--font);color:var(--muted)">Motor TP</span></span></div>
+          <div style="overflow:auto;flex:1">
+            <sc-for list="{{ L.rows }}" as="r" hint-placeholder-count="6"><div style="display:flex;align-items:center;gap:10px;padding:9px 16px;border-bottom:1px solid var(--line2);font-size:13px"><i class="fa-solid fa-grip-vertical" style="color:var(--faint)"></i><span style="flex:1">{{ r.n }}</span><sc-if value="{{ r.det }}" hint-placeholder-val="{{ false }}"><span style="font:700 10px var(--mono);letter-spacing:.5px;padding:2px 7px;border-radius:5px;background:var(--ambt);color:var(--amb)">NEEDS DETAILS</span></sc-if><i class="fa-regular fa-pen-to-square" style="color:var(--faint)"></i></div></sc-for>
+          </div>
+          <div style="padding:10px 16px;border-top:1px solid var(--line2);display:flex;justify-content:space-between;align-items:center;background:var(--head)"><span style="font-size:12px;color:var(--muted)">{{ L.note }}</span><button style="background:#0074D9;color:#fff;border:0;border-radius:9px;padding:7px 13px;font:600 12.5px var(--font)"><i class="fa-solid fa-plus"></i> Add reason</button></div>
+        </div>
+      </sc-for>
+    </div>
+    </sc-if>
+  </main>
+
+  <sc-if value="{{ isSend }}" hint-placeholder-val="{{ false }}">
+    <div style="position:absolute;inset:0;background:rgba(3,17,34,.5);display:grid;place-items:center">
+      <div style="width:520px;background:var(--card);border-radius:16px;box-shadow:0 30px 80px rgba(2,32,64,.4);overflow:hidden">
+        <div style="padding:16px 20px;border-bottom:1px solid var(--line2)"><b style="font-size:17px;color:var(--hdr)">Send back to officer</b><div style="font-size:12.5px;color:var(--muted);margin-top:2px">RR-HS26-15985394 · Ravi Kumar · the case returns to status 2</div></div>
+        <div style="padding:16px 20px;display:flex;flex-direction:column;gap:10px">
+          <label style="font-size:12px;font-weight:700;color:var(--muted);letter-spacing:.6px;text-transform:uppercase">Note for the officer (required)</label>
+          <div style="border:1.5px solid var(--blue);border-radius:10px;padding:10px 12px;font-size:13.5px;min-height:74px;color:var(--body)">Q3: add the treating doctor’s name and registration number. Reason details are too short.</div>
+          <div style="font-size:12.5px;color:var(--muted);display:flex;gap:6px"><i class="fa-solid fa-circle-info" style="margin-top:3px"></i>The note shows at the top of his workspace. His answers stay filled in.</div>
+        </div>
+        <div style="padding:12px 20px;display:flex;justify-content:flex-end;gap:10px;background:var(--head);border-top:1px solid var(--line2)"><button style="background:var(--card);color:var(--ink);border:1px solid var(--line);border-radius:9px;padding:9px 15px;font:600 13px var(--font)">Cancel</button><button style="background:#0074D9;color:#fff;border:0;border-radius:9px;padding:9px 18px;font:600 13px var(--font)">Send back</button></div>
+      </div>
+    </div>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1440,&quot;height&quot;:900},&quot;theme&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;light&quot;,&quot;dark&quot;],&quot;default&quot;:&quot;light&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;scene&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;fieldwork&quot;,&quot;sendback&quot;,&quot;masters&quot;],&quot;default&quot;:&quot;fieldwork&quot;,&quot;tsType&quot;:&quot;string&quot;}}">
+const DISC=['Non-Disclosure','PED','Bill Inflation','Fake Documents','Impersonation','Alcoholic Influence','Infertility','OP to IP conversion','No Documents Available','Manipulation of Documents','Misrepresentation of Facts','Less Than 24 Hrs admission','Congenital ailment','Cosmetic Purposes','Permanent Exclusion','Other Insurance claims availed','Hospital Criteria Insufficient','Investigation and Evaluation purposes','Standard Exclusion','Claim withdrawn'];
+const INC=['Insured/Claimant Non Cooperative','Insured/Claimant Not Traceable','Hospital management Non Cooperative','No Documents Available','Doctor Non Cooperative','PED/Fraud could not be established though it looks so'];
+const DET=['No Documents Available','Other Insurance claims availed'];
+class Component extends DCLogic {
+  renderVals(){
+    const sc=this.props.scene||'fieldwork';
+    const Q=[['Patient found admitted in the ward','Yes','Patient in Ward 3B, bed 12, with attendant. Case sheet seen.'],['Admission date matches the IP register','Yes','IP register entry 24-09-2026 10:40 am matches the claim.'],['Past history of the same ailment','No','Treating doctor says there was no earlier treatment for this ailment.'],['Bills match the treatment given','Yes','Bills checked against the treatment chart; they match.'],['Hospital has the required registration','Yes','Clinical Establishment registration seen, valid till 2028.'],['Any other insurance claim for this admission','No','Insured confirms no other policy; none found on the portal.']];
+    return {
+      theme:this.props.theme||'light', isCase:sc!=='masters', isMasters:sc==='masters', isSend:sc==='sendback',
+      h1:sc==='masters'?'Field Masters · Conclusion reasons':'Case · RR-HS26-15985394',
+      nav:[['fa-solid fa-gauge','Dashboard'],['fa-solid fa-folder-open','Cases',sc!=='masters'],['fa-solid fa-users','Field Force'],['fa-solid fa-circle-check','Approvals'],['fa-solid fa-file-lines','Reporting'],['fa-solid fa-sliders','Field Masters',sc==='masters'],['fa-solid fa-chart-line','Analytics']].map(([ic,l,a])=>({ic,l,fg:a?'#fff':'#B9D2EC',bg:a?'rgba(0,116,217,.28)':'transparent',fw:a?600:500})),
+      tabs:['Details','Field Work','Documents','Timeline'].map((n,i)=>({n,fg:i===1?'var(--blue)':'var(--muted)',bd:i===1?'var(--blue)':'transparent'})),
+      picks:[{l:'Category',v:'Health Cashless'},{l:'Stage',v:'Pre-authorisation'},{l:'Case Field',v:'Hospital Verification'}],
+      qs:Q.map((q,i)=>({n:String(i+1).padStart(2,'0'),h:q[0],yn:q[1],v:q[2],bg:q[1]==='Yes'?'var(--okt)':'var(--redt)',fg:q[1]==='Yes'?'var(--ok)':'var(--red)'})),
+      mnav:['Report questions','Conclusion reasons','Expense purposes & caps','Touch point types','Courier services'].map((n,i)=>({n,fw:i===1?700:500,fg:i===1?'var(--blue)':'var(--body)',bg:i===1?'var(--bluet)':'transparent'})),
+      lists:[{t:'Discrepant · '+DISC.length+' reasons',rows:DISC.map(n=>({n,det:DET.includes(n)})),note:'Motor TP: list to be given by Sujit'},{t:'Inconclusive · '+INC.length+' reasons',rows:INC.map(n=>({n,det:DET.includes(n)})),note:'Order here is the order in the app'}]
+    };
+  }
+}
+</script>
+</body>
+</html>

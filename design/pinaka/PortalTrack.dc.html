@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>body{margin:0}a{color:#0074D9}a:hover{color:#0060B5}[data-pk] *{box-sizing:border-box}</style>
+</helmet>
+<div data-pk="1" style="width:1440px;height:900px;display:grid;grid-template-columns:230px 1fr;background:#EEF3F9;font-family:'IBM Plex Sans',system-ui,sans-serif;color:#0B2540;font-size:14px;overflow:hidden">
+  <aside style="background:#001F3F;color:#fff;display:flex;flex-direction:column;padding:14px 10px;gap:2px">
+    <div style="display:flex;align-items:center;gap:10px;padding:4px 8px 16px"><img src="assets/pinaka-eagle.png" alt="" style="width:36px;height:36px;border-radius:8px;background:#fff;object-fit:contain"><div><b style="font-size:16px">TaaSen</b><div style="font:600 8.5px 'IBM Plex Mono',monospace;letter-spacing:.3em;opacity:.8">CLAIMS PORTAL</div></div></div>
+    <sc-for list="{{ nav }}" as="n" hint-placeholder-count="10"><div style="height:38px;border-radius:8px;display:flex;align-items:center;gap:12px;padding:0 12px;font-size:13.5px;font-weight:500;background:{{ n.bg }}"><i class="{{ n.ic }}" style="width:16px;text-align:center;opacity:.9"></i>{{ n.n }}</div></sc-for>
+  </aside>
+  <main style="display:flex;flex-direction:column;min-width:0">
+    <header style="height:64px;background:#fff;border-bottom:1px solid #D7E2EF;display:flex;align-items:center;padding:0 24px;gap:14px;flex:none"><b style="font-size:17px">Investigation Tracking Portal</b><span style="font-size:13px;color:#5A708C">Field Tracker · {{ page }}</span><span style="margin-left:auto;height:36px;padding:0 12px;border:1px solid #D7E2EF;border-radius:18px;display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600">Sujit D N (SKD)<span style="height:18px;padding:0 6px;border-radius:4px;background:#001F3F;color:#fff;font:600 9.5px 'IBM Plex Mono',monospace;display:flex;align-items:center">ADMIN</span></span></header>
+    <div style="flex:1;overflow:hidden;padding:20px 24px;display:flex;flex-direction:column;gap:14px;min-height:0">
+
+    <sc-if value="{{ s.live }}" hint-placeholder-val="{{ true }}">
+      <div style="display:flex;gap:8px;flex-wrap:wrap"><sc-for list="{{ legend }}" as="l" hint-placeholder-count="6"><span style="height:34px;padding:0 12px;border-radius:17px;background:#fff;border:1px solid #D7E2EF;display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600"><span style="width:10px;height:10px;border-radius:5px;background:{{ l.c }}"></span>{{ l.n }}<b>{{ l.v }}</b></span></sc-for><span style="margin-left:auto;font-size:12.5px;color:#5A708C;align-self:center">Updated 2:14 pm · sample</span></div>
+      <div style="flex:1;min-height:0;display:grid;grid-template-columns:minmax(0,1fr) 480px;gap:14px">
+        <section style="background:#fff;border:1px solid #D7E2EF;border-radius:10px;overflow:hidden;display:flex;flex-direction:column">
+          <div style="display:grid;grid-template-columns:1.1fr 1.6fr 90px 90px;gap:10px;padding:10px 16px;background:#F6F9FD;font-size:11.5px;font-weight:600;color:#5A708C;text-transform:uppercase"><span>Officer</span><span>Status</span><span>Battery</span><span>Today</span></div>
+          <sc-for list="{{ officers }}" as="o" hint-placeholder-count="9"><div style="display:grid;grid-template-columns:1.1fr 1.6fr 90px 90px;gap:10px;padding:10px 16px;border-top:1px solid #E7EEF6;align-items:center;font-size:13px;background:{{ o.row }}"><span><b style="font-weight:600">{{ o.n }}</b><span style="display:block;font-size:12px;color:#5A708C">{{ o.team }}</span></span><span style="display:flex;gap:8px;align-items:center"><span style="width:10px;height:10px;border-radius:5px;background:{{ o.c }};flex:none"></span><span><b style="font-weight:600;color:{{ o.tc }}">{{ o.st }}</b><span style="display:block;font-size:12px;color:#5A708C">{{ o.d }}</span></span></span><span style="color:{{ o.bc }};font-weight:600">{{ o.bat }}</span><span style="font:500 12.5px 'IBM Plex Mono',monospace">{{ o.km }}</span></div></sc-for>
+        </section>
+        <section style="background:#E9F0F7;border:1px solid #D7E2EF;border-radius:10px;position:relative;overflow:hidden">
+          <svg viewBox="0 0 480 640" width="100%" height="100%" preserveAspectRatio="xMidYMid slice" style="position:absolute;inset:0"><g stroke="#D3DEEA" stroke-width="1"><path d="M0 80H480M0 180H480M0 290H480M0 400H480M0 520H480M60 0V640M170 0V640M290 0V640M400 0V640"></path></g><path d="M40 600 C140 520 180 440 260 380 S380 240 440 90" stroke="#C4D2E3" stroke-width="10" fill="none"></path></svg>
+          <sc-for list="{{ pins }}" as="p" hint-placeholder-count="8"><span style="position:absolute;left:{{ p.x }}%;top:{{ p.y }}%;transform:translate(-50%,-50%);display:flex;align-items:center;gap:6px"><span style="width:16px;height:16px;border-radius:8px;background:{{ p.c }};border:3px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.3)"></span><span style="background:#fff;border-radius:6px;padding:2px 6px;font-size:11.5px;font-weight:600;box-shadow:0 1px 3px rgba(0,0,0,.15)">{{ p.n }}</span></span></sc-for>
+          <span style="position:absolute;left:12px;bottom:12px;background:#fff;border-radius:6px;padding:4px 8px;font-size:11.5px;color:#5A708C">Map · Chennai region (diagram)</span>
+        </section>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ s.fo }}" hint-placeholder-val="{{ false }}">
+      <div style="display:grid;grid-template-columns:360px minmax(0,1fr);gap:14px;flex:1;min-height:0">
+        <section style="background:#fff;border:1px solid #D7E2EF;border-radius:10px;padding:16px;display:flex;flex-direction:column;gap:12px">
+          <div style="display:flex;gap:12px;align-items:center"><span style="width:52px;height:52px;border-radius:26px;background:#E3F0FC;color:#0060B5;display:grid;place-items:center;font-weight:700;font-size:18px">RK</span><div><b style="font-size:17px">Ravi Kumar</b><div style="font-size:12.5px;color:#5A708C">Field Officer · OHS Team Chennai · Redmi Note 12</div></div></div>
+          <div style="border-radius:8px;padding:10px 12px;background:#E4F6EA;color:#1E7A3D;font-weight:600;display:flex;gap:8px;align-items:center"><span style="width:10px;height:10px;border-radius:5px;background:#2E9E4B"></span>Stopped at Kanchipuram Taluk PS since 2:10 pm</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px"><sc-for list="{{ foStats }}" as="f" hint-placeholder-count="6"><div style="border:1px solid #E7EEF6;border-radius:8px;padding:8px 10px"><div style="font-size:12px;color:#5A708C">{{ f.n }}</div><b style="font-size:16px">{{ f.v }}</b></div></sc-for></div>
+          <b style="font-size:14px">Phone health</b>
+          <sc-for list="{{ health }}" as="h" hint-placeholder-count="4"><div style="display:flex;align-items:center;gap:10px;font-size:13px"><i class="{{ h.ic }}" style="width:16px;color:{{ h.c }}"></i><span style="flex:1">{{ h.n }}</span><b style="font-weight:600;color:{{ h.c }}">{{ h.v }}</b></div></sc-for>
+        </section>
+        <section style="background:#fff;border:1px solid #D7E2EF;border-radius:10px;padding:16px;display:flex;flex-direction:column;gap:10px;overflow:hidden">
+          <b style="font-size:15px">Today · 26-09-2026</b>
+          <sc-for list="{{ timeline }}" as="t" hint-placeholder-count="9"><div style="display:grid;grid-template-columns:70px 20px 1fr;gap:10px;align-items:start;font-size:13.5px"><span style="font:500 12.5px 'IBM Plex Mono',monospace;color:#5A708C">{{ t.t }}</span><span style="width:12px;height:12px;border-radius:6px;background:{{ t.c }};margin-top:4px"></span><span><b style="font-weight:600">{{ t.n }}</b><span style="display:block;font-size:12.5px;color:#5A708C">{{ t.d }}</span></span></div></sc-for>
+        </section>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ s.route }}" hint-placeholder-val="{{ false }}">
+      <div style="display:flex;align-items:center;gap:10px"><b style="font-size:18px">Route Tracking · Ravi Kumar · 26-09-2026</b><span style="margin-left:auto;font-size:13px;color:#5A708C">72.4 km from moving points · 4 stops · 1 flagged point</span></div>
+      <section style="flex:1;min-height:0;background:#E9F0F7;border:1px solid #D7E2EF;border-radius:10px;position:relative;overflow:hidden">
+        <svg viewBox="0 0 1160 700" width="100%" height="100%" preserveAspectRatio="xMidYMid meet" style="position:absolute;inset:0"><g stroke="#D3DEEA" stroke-width="1"><path d="M0 100H1160M0 250H1160M0 400H1160M0 550H1160M150 0V700M390 0V700M640 0V700M900 0V700"></path></g>
+          <path d="M120 600 L260 520 L330 470" stroke="#0074D9" stroke-width="5" fill="none" stroke-linecap="round"></path>
+          <path d="M330 470 L470 400 L560 330" stroke="#0074D9" stroke-width="5" fill="none" stroke-linecap="round"></path>
+          <path d="M560 330 L700 280 L820 210 L960 150" stroke="#0074D9" stroke-width="5" fill="none" stroke-linecap="round"></path>
+          <path d="M470 400 L520 470" stroke="#D93A2B" stroke-width="3" stroke-dasharray="6 6" fill="none"></path>
+          <circle cx="120" cy="600" r="10" fill="#5A708C" stroke="#fff" stroke-width="3"></circle><circle cx="330" cy="470" r="14" fill="#2E9E4B" stroke="#fff" stroke-width="3"></circle><circle cx="560" cy="330" r="12" fill="#2E9E4B" stroke="#fff" stroke-width="3"></circle><circle cx="960" cy="150" r="16" fill="#2E9E4B" stroke="#fff" stroke-width="3"></circle><circle cx="520" cy="470" r="8" fill="#D93A2B" stroke="#fff" stroke-width="3"></circle></svg>
+        <sc-for list="{{ rstops }}" as="r" hint-placeholder-count="5"><span style="position:absolute;left:{{ r.x }}%;top:{{ r.y }}%;background:#fff;border-radius:8px;padding:6px 10px;font-size:12.5px;box-shadow:0 2px 8px rgba(0,0,0,.15);border-left:0"><b style="display:block;font-weight:600;color:{{ r.c }}">{{ r.n }}</b><span style="color:#5A708C">{{ r.d }}</span></span></sc-for>
+        <div style="position:absolute;right:14px;bottom:14px;background:#fff;border-radius:8px;padding:10px 12px;display:flex;flex-direction:column;gap:6px;font-size:12.5px"><span style="display:flex;gap:8px;align-items:center"><span style="width:24px;height:4px;background:#0074D9;border-radius:2px"></span>Moving</span><span style="display:flex;gap:8px;align-items:center"><span style="width:12px;height:12px;border-radius:6px;background:#2E9E4B"></span>Stop · size = time</span><span style="display:flex;gap:8px;align-items:center"><span style="width:24px;border-top:3px dashed #D93A2B"></span>Mock / jump flagged</span></div>
+      </section>
+    </sc-if>
+
+    <sc-if value="{{ s.config }}" hint-placeholder-val="{{ false }}">
+      <div style="display:flex;align-items:center;gap:10px"><b style="font-size:18px">Settings → Tracking · Remote Config keys</b><span style="font-size:12.5px;color:#5A708C">Changed here, the phones pick them up on the next sync. No app update needed.</span></div>
+      <section style="background:#fff;border:1px solid #D7E2EF;border-radius:10px;overflow:hidden">
+        <div style="display:grid;grid-template-columns:260px 140px minmax(0,1fr);gap:12px;padding:10px 16px;background:#F6F9FD;font-size:11.5px;font-weight:600;color:#5A708C;text-transform:uppercase"><span>Key</span><span>Value</span><span>What it does</span></div>
+        <sc-for list="{{ keys }}" as="k" hint-placeholder-count="12"><div style="display:grid;grid-template-columns:260px 140px minmax(0,1fr);gap:12px;padding:9px 16px;border-top:1px solid #E7EEF6;align-items:center;font-size:13px"><span style="font:500 12.5px 'IBM Plex Mono',monospace">{{ k.k }}</span><span style="height:32px;border:1px solid #D7E2EF;border-radius:6px;padding:0 10px;display:flex;align-items:center;font-weight:600">{{ k.v }}</span><span style="color:#33475B">{{ k.d }}</span></div></sc-for>
+      </section>
+    </sc-if>
+    </div>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1440,&quot;height&quot;:900},&quot;scene&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;live&quot;,&quot;fo&quot;,&quot;route&quot;,&quot;config&quot;],&quot;default&quot;:&quot;live&quot;,&quot;tsType&quot;:&quot;string&quot;}}">
+class Component extends DCLogic {
+  renderVals(){
+    const sc=this.props.scene||'live';
+    const s={live:sc==='live',fo:sc==='fo',route:sc==='route',config:sc==='config'};
+    const page={live:'Live Board',fo:'FO 360',route:'Route Tracking',config:'Settings'}[sc];
+    const nav=[['fa-solid fa-gauge','Dashboard'],['fa-solid fa-folder-open','Cases'],['fa-solid fa-user-shield','Field Officers'],['fa-solid fa-location-dot','Field Tracker'],['fa-regular fa-calendar-days','Daily Meetings'],['fa-solid fa-list-check','Approvals'],['fa-solid fa-file-pen','Reporting'],['fa-solid fa-users','OHS Team'],['fa-solid fa-indian-rupee-sign','Accounts'],['fa-solid fa-gear','Settings']].map(([ic,n])=>({ic,n,bg:(n==='Field Tracker'&&sc!=='config')||(n==='Settings'&&sc==='config')?'rgba(255,255,255,.14)':'transparent'}));
+    const C={move:'#0074D9',stop:'#2E9E4B',grey:'#93A6BC',red:'#D93A2B',off:'#C4D2E3',silent:'#F0A500'};
+    const O=[['Ravi Kumar','OHS Chennai','stop','Stopped at Kanchipuram Taluk PS since 2:10 pm','on a case stop','76%','72.4 km'],['Franklin J','OHS Chennai','move','Moving','Guindy → MIOT, 32 km/h','54%','41.0 km'],['Murali M','OHS Chennai','red','Location off','since 10:52 am · ₹50 added','61%','18.2 km'],['Veeraraju','OHS Ongole','stop','Stopped at Apollo Hospital since 10:40 am','Ongole','82%','12.6 km'],['Sathish K','OHS Madurai','grey','No status for 52 min','on duty · last seen 1:22 pm','—','30.1 km'],['Manjunath B','OHS Bengaluru','silent','Phone silent','battery 8% · stops only','8%','22.4 km'],['Joseph T','OHS Kochi','red','Permission removed','Location "while using" only','44%','0 km'],['Anand R','OHS TL Chennai','move','Moving','Porur, 24 km/h','90%','15.8 km'],['Karthik V','State Coordinator','off','Off duty','day closed 1:00 pm (half day)','—','9.0 km']];
+    const officers=O.map(([n,team,k,st,d,bat,km])=>({n,team,st,d,bat,km,c:C[k],tc:k==='red'?'#A3271B':(k==='grey'?'#5A708C':(k==='stop'?'#1E7A3D':'#0B2540')),bc:parseInt(bat)<20?'#A3271B':'#33475B',row:k==='red'?'#FFF7F6':'#fff'}));
+    return {s,page,nav,
+      legend:[['Moving',2,C.move],['Stopped',2,C.stop],['No status 45 min',1,C.grey],['Location off',2,C.red],['Phone silent',1,C.silent],['Off duty',1,C.off]].map(([n,v,c])=>({n,v,c})),
+      officers,
+      pins:[['Ravi',30,78,C.stop],['Franklin',52,52,C.move],['Murali',40,40,C.red],['Anand',60,62,C.move],['Sathish',78,28,C.grey],['Veeraraju',82,14,C.stop],['Manjunath',20,24,C.silent],['Joseph',16,88,C.red]].map(([n,x,y,c])=>({n,x,y,c})),
+      foStats:[['On duty','6h 02m'],['Distance','72.4 km'],['Stops','4'],['Cases held','4'],['Out of TAT','1'],['Fine this month','₹600']].map(([n,v])=>({n,v})),
+      health:[['fa-solid fa-battery-three-quarters','Battery','76%','#1E7A3D'],['fa-solid fa-location-dot','Location permission','All the time','#1E7A3D'],['fa-solid fa-bolt','Battery setting (Xiaomi)','No restrictions','#1E7A3D'],['fa-solid fa-mobile-screen','App version','Pinaka 3.4.0','#33475B']].map(([ic,n,v,c])=>({ic,n,v,c})),
+      timeline:[['8:12','Punched in · selfie + GPS','Tambaram · on time','#5A708C'],['8:20','Morning commitment saved','3 cases planned','#0074D9'],['9:30','Joined Daily FO meeting','Anand R · 24 min','#0074D9'],['10:23','Accepted MOT17819657','2 min after assign','#2E9E4B'],['10:40','Stop · Apollo Hospital, Vanagaram','18 min · RR-HS26-15985394','#2E9E4B'],['10:52','GPS off 17 min','₹50 · under appeal','#D93A2B'],['12:05','Stop · Sriperumbudur','9 min · not a case place','#93A6BC'],['2:10','Stop · Kanchipuram Taluk PS','32 min so far · MOT17819657','#2E9E4B'],['6:00','Today\'s work opens','updates due by 7:30 PM','#C4D2E3']].map(([t,n,d,c])=>({t,n,d,c})),
+      rstops:[['Start · Tambaram','8:12 am',9,82,'#5A708C'],['Apollo Hospital','10:40 · 18 min',30,60,'#1E7A3D'],['Sriperumbudur','12:05 · 9 min',50,40,'#1E7A3D'],['Kanchipuram Taluk PS','2:10 · 32 min',80,14,'#1E7A3D'],['Jump 4.1 km in 20 s','12:31 · flagged',46,70,'#A3271B']].map(([n,d,x,y,c])=>({n,d,x,y,c})),
+      keys:[['still_minutes','5','Minutes without movement before the phone counts a stop and sleeps'],['geofence_radius_m','150','Radius around a case address that counts as "at the case"'],['distance_filter_walk_m','50','Point spacing while walking'],['distance_filter_vehicle_m','200','Point spacing in a vehicle'],['batch_size','20','Points sent together'],['batch_interval_min','10','Most minutes between sends while moving'],['status_sync_min','30','Heartbeat when nothing changes'],['battery_save_pct','20','Below this, send every 20 minutes'],['battery_critical_pct','10','Below this, stops and case events only'],['auto_stop_time','21:00 IST','Tracking ends by itself'],['grey_after_min','45','Live Board shows grey with no status on duty'],['speed_flag_kmh','150','Faster jumps are flagged as mock / bad points']].map(([k,v,d])=>({k,v,d}))};
+  }
+}
+</script>
+</body>
+</html>

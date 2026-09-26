@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="design_doc_mode" content="canvas">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>body{margin:0;background:#E4EAF1;font-family:'IBM Plex Sans',system-ui,sans-serif;color:#0B2540}a{color:#0074D9}a:hover{color:#0060B5}</style>
+</helmet>
+<section id="t0" style="padding:40px 44px 32px;border-bottom:1px solid rgba(0,0,0,.08)">
+  <div style="display:flex;align-items:baseline;gap:10px"><span style="font:600 10px 'IBM Plex Mono',monospace;padding:3px 7px;background:#001F3F;color:#fff;border-radius:4px">T</span><b style="font-size:18px;color:#001F3F">Tracking rebuild · design only</b></div>
+  <div style="display:grid;grid-template-columns:repeat(3,minmax(0,360px));gap:24px;margin-top:14px;font-size:14px;line-height:1.55;color:#33475B">
+    <div><b style="display:block;color:#001F3F;margin-bottom:6px">Phone</b>The phone tracks while moving and sleeps when still. There is one quiet ongoing notification ("On duty · Moving" / "On duty · Stopped since 10:40 am") that changes only when the state changes. A one-time battery guide covers Xiaomi, Oppo, Vivo, Realme and Samsung. Below 20% the phone sends less often, and below 10% only stops and case events are sent. Removed permission and mock location show as clear banners.</div>
+    <div><b style="display:block;color:#001F3F;margin-bottom:6px">Portal</b>The Live Board has 6 states. Green shows the stop place and time, grey means no status for 45 min on duty, and red means location off or permission removed. FO 360 shows one officer's day and phone health. Route Tracking draws moving lines and stop dots sized by time, gives the day's km from moving points only, and flags jumps.</div>
+    <div><b style="display:block;color:#001F3F;margin-bottom:6px">Remote Config</b>12 keys with defaults from the brief (<a href="#t4">4d</a>), changed from the portal without an app update. The Nearest Officer ranking in Allocate takes the current stop point as the officer's position.</div>
+  </div>
+</section>
+<sc-for list="{{ groups }}" as="g" hint-placeholder-count="3">
+<section id="{{ g.id }}" style="padding:40px 44px 32px;border-bottom:1px solid rgba(0,0,0,.08);background:{{ g.bg }}">
+  <div style="display:flex;align-items:baseline;gap:10px"><a href="#{{ g.id }}" style="font:600 10px 'IBM Plex Mono',monospace;padding:3px 7px;background:#001F3F;color:#fff;border-radius:4px;text-decoration:none">{{ g.n }}</a><b style="font-size:18px;color:{{ g.fg }}">{{ g.title }}</b></div>
+  <div style="display:flex;flex-wrap:wrap;gap:28px;align-items:flex-start;margin-top:16px">
+    <sc-for list="{{ g.items }}" as="it" hint-placeholder-count="4">
+      <div id="{{ it.id }}" style="flex:none;display:flex;flex-direction:column;gap:9px">
+        <div style="display:flex;align-items:baseline;gap:8px;font-size:12.5px;font-weight:500;max-width:390px;color:{{ g.lc }}"><a href="#{{ it.id }}" style="font:600 10.5px 'IBM Plex Mono',monospace;padding:3px 7px;background:rgba(0,116,217,.14);border-radius:5px;text-decoration:none;color:{{ g.fg }}">{{ it.id }}</a>{{ it.label }}</div>
+        <div style="background:#fff;border:1px solid rgba(0,0,0,.1);box-shadow:0 10px 30px rgba(2,32,64,.14);overflow:hidden;border-radius:{{ it.r }}px">
+          <sc-if value="{{ it.phone }}" hint-placeholder-val="{{ true }}"><dc-import name="TrackApp" platform="{{ it.p }}" theme="{{ it.t }}" scene="{{ it.s }}" hint-size="360px,800px"></dc-import></sc-if>
+          <sc-if value="{{ it.web }}" hint-placeholder-val="{{ false }}"><dc-import name="PortalTrack" scene="{{ it.s }}" hint-size="1440px,900px"></dc-import></sc-if>
+        </div>
+      </div>
+    </sc-for>
+  </div>
+</section>
+</sc-for>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  renderVals(){
+    const A=(id,label,s,p,t)=>({id,label,s,p:p||'android',t:t||'light',r:p==='ios'?46:30,phone:true,web:false});
+    const W=(id,label,s)=>({id,label,s,r:10,phone:false,web:true});
+    const groups=[
+      {id:'t1',n:'1',title:'Notification · Android',items:[A('1a','On duty · Moving','moving'),A('1b','On duty · Stopped since 10:40 am','stopped')]},
+      {id:'t2',n:'2',title:'Phone states',items:[A('2a','One-time battery guide · pick the brand','oem'),A('2b','Battery under 20%','low20'),A('2c','Battery under 10%','low10'),A('2d','Location permission removed','locOff'),A('2e','Mock location found','mock'),A('2f','Off duty · auto-stop','offDuty')]},
+      {id:'t3',n:'3',title:'iPhone + dark',bg:'#0B1726',fg:'#E7EEF7',lc:'#93A6BC',items:[A('3a','Stopped · iPhone','stopped','ios'),A('3b','Battery guide · dark','oem','android','dark'),A('3c','Location off · iPhone dark','locOff','ios','dark')]},
+      {id:'t4',n:'4',title:'Portal · 1440',items:[W('4a','Live Board · 6 states','live'),W('4b','FO 360 · one officer\'s day','fo'),W('4c','Route Tracking · lines, stops, flagged jump','route'),W('4d','Remote Config keys','config')]}
+    ].map(g=>({bg:'transparent',fg:'#001F3F',lc:'#33475B',...g}));
+    return {groups};
+  }
+}
+</script>
+</body>
+</html>

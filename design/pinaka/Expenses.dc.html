@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="design_doc_mode" content="canvas">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>body{margin:0;background:#E4EAF1;font-family:'IBM Plex Sans',system-ui,sans-serif;color:#0B2540}a{color:#0074D9}a:hover{color:#0060B5}</style>
+</helmet>
+<section id="t0" style="padding:40px 44px 32px;border-bottom:1px solid rgba(0,0,0,.08)">
+  <div style="display:flex;align-items:baseline;gap:10px"><span style="font:600 10px 'IBM Plex Mono',monospace;padding:3px 7px;background:#001F3F;color:#fff;border-radius:4px">T</span><b style="font-size:18px;color:#001F3F">Expenses · Pinaka app + portal Approvals</b></div>
+  <div style="display:grid;grid-template-columns:repeat(3,minmax(0,360px));gap:24px;margin-top:14px;font-size:14px;line-height:1.55;color:#33475B">
+    <div><b style="display:block;color:#001F3F;margin-bottom:6px">Kept exactly as today</b>Add Expense Details with Create (+) and the Claim # / Total Amount summary. The 9 purposes and their caps are unchanged, along with every hint, banner and error message and the four attach sources. The flow still runs Submitting... → "Expense added successfully ✅" with the Expense ID, then Create Courier.</div>
+    <div><b style="display:block;color:#001F3F;margin-bottom:6px">Added</b>Status chips (Submitted, Approved, Rejected, Paid) with a totals strip, plus edit and delete while Submitted. New fields: expense date; From / To / touch point for travel; fuel km from GPS; several bills; and Remarks with the Translator. Also a duplicate guard, offline "Waiting to send", and a month view.</div>
+    <div><b style="display:block;color:#001F3F;margin-bottom:6px">Portal · open item</b>Approvals → Expenses has a queue with bill preview, Approve / changed amount / Reject, bulk approve within cap, and flags. The fuel rate is still to come from Sujit, so "Fuel by km" stays off.</div>
+  </div>
+</section>
+<sc-for list="{{ groups }}" as="g" hint-placeholder-count="3">
+<section id="{{ g.id }}" style="padding:40px 44px 32px;border-bottom:1px solid rgba(0,0,0,.08);background:{{ g.bg }}">
+  <div style="display:flex;align-items:baseline;gap:10px"><a href="#{{ g.id }}" style="font:600 10px 'IBM Plex Mono',monospace;padding:3px 7px;background:#001F3F;color:#fff;border-radius:4px;text-decoration:none">{{ g.n }}</a><b style="font-size:18px;color:{{ g.fg }}">{{ g.title }}</b></div>
+  <div style="display:flex;flex-wrap:wrap;gap:28px;align-items:flex-start;margin-top:16px">
+    <sc-for list="{{ g.items }}" as="it" hint-placeholder-count="4">
+      <div id="{{ it.id }}" style="flex:none;display:flex;flex-direction:column;gap:9px">
+        <div style="display:flex;align-items:baseline;gap:8px;font-size:12.5px;font-weight:500;max-width:390px;color:{{ g.lc }}"><a href="#{{ it.id }}" style="font:600 10.5px 'IBM Plex Mono',monospace;padding:3px 7px;background:rgba(0,116,217,.14);border-radius:5px;text-decoration:none;color:{{ g.fg }}">{{ it.id }}</a>{{ it.label }}</div>
+        <div style="background:#fff;border:1px solid rgba(0,0,0,.1);box-shadow:0 10px 30px rgba(2,32,64,.14);overflow:hidden;border-radius:{{ it.r }}px">
+          <sc-if value="{{ it.phone }}" hint-placeholder-val="{{ true }}"><dc-import name="ExpenseApp" platform="{{ it.p }}" theme="{{ it.t }}" scene="{{ it.s }}" hint-size="360px,800px"></dc-import></sc-if>
+          <sc-if value="{{ it.web }}" hint-placeholder-val="{{ false }}"><dc-import name="PortalExpense" scene="{{ it.s }}" hint-size="1440px,900px"></dc-import></sc-if>
+        </div>
+      </div>
+    </sc-for>
+  </div>
+</section>
+</sc-for>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  renderVals(){
+    const A=(id,label,s,p,t)=>({id,label,s,p:p||'android',t:t||'light',r:p==='ios'?46:30,phone:true,web:false});
+    const W=(id,label,s)=>({id,label,s,r:10,phone:false,web:true});
+    const groups=[
+      {id:'t6',n:'6',title:'New · travel at Final Report, missed expense, Bike km from GPS, 3-level approval',items:[A('6a','Before Complete Case · travel expense · Bike = GPS km × rate','trip'),A('6b','Same step · Train needs amount + ticket','tripTrain'),A('6c','Create · Bike picked · km Start→Complete, no bill','fuel'),A('6d','Missed expense · claims without travel','missed'),A('6e','List · OHS → State Coord. → Admin trail on every card','list'),A('6f','iPhone · travel step','trip','ios')]},
+      {id:'t6b',n:'6',title:'Portal · 3-level approval',items:[W('6g','State Coordinator view · OHS done, send to Admin','queue'),W('6h','Admin view · final approve','admin')]},
+      {id:'t1',n:'1',title:'List · Android',items:[A('1a','4 statuses + totals strip · edit/delete only while Submitted','list'),A('1b','Loading expenses...','loading'),A('1c','No Expenses Yet','empty'),A('1d','Failed to load · Try Again','error'),A('1e','Offline · Waiting to send','offline'),A('1f','Month view (side menu)','month')]},
+      {id:'t2',n:'2',title:'Create · Android',items:[A('2a','Empty form','create'),A('2b','Select purpose · caps','purpose'),A('2c','Auto Fare ₹90 · over cap','autoErr'),A('2d','Fuel · From/To · 72 km GPS','fuel'),A('2e','Train · 2 bills','train'),A('2f','No Expenses · ₹0, no bill','noexp'),A('2g','Missing bill','noDoc'),A('2h','Attach sheet','attach'),A('2i','Duplicate guard','dup'),A('2j','Session expired','expired'),A('2k','Success → Create Courier','success')]},
+      {id:'t3',n:'3',title:'iPhone · light',items:[A('3a','List','list','ios'),A('3b','Fuel','fuel','ios'),A('3c','Success','success','ios')]},
+      {id:'t4',n:'4',title:'Dark',bg:'#0B1726',fg:'#E7EEF7',lc:'#93A6BC',items:[A('4a','List','list','android','dark'),A('4b','Over cap','autoErr','android','dark'),A('4c','Month view','month','ios','dark')]},
+      {id:'t5',n:'5',title:'Portal · 1440',items:[W('5a','Approvals → Expenses · queue, flags, bill preview','queue'),W('5b','Approve with changed amount','change'),W('5c','Reject · note required','reject')]}
+    ].map(g=>({bg:'transparent',fg:'#001F3F',lc:'#33475B',...g}));
+    return {groups};
+  }
+}
+</script>
+</body>
+</html>

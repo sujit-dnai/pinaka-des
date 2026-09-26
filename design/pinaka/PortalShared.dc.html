@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<style>
+body{margin:0}
+a{color:#0074D9}a:hover{color:#0060B5}
+[data-ps]{--font:'IBM Plex Sans',system-ui,'Segoe UI',Arial,sans-serif;--mono:'IBM Plex Mono',ui-monospace,Menlo,monospace}
+[data-ps=light]{--blue:#0074D9;--bluet:#E3F0FC;--ink:#0B2540;--body:#33475B;--muted:#5A708C;--faint:#6E8095;--bg:#EEF3F9;--card:#FFFFFF;--line:#D7E2EF;--line2:#E7EEF6;--head:#F8FBFE;--ok:#1E7A3D;--okt:#E4F6EA;--red:#A3271B;--redt:#FCE9E7;--amb:#9A6A00;--ambt:#FFF3D6;--link:#0060B5;--fld:#F6F9FD;--hdr:#001F3F;--sh:0 10px 30px rgba(2,32,64,.12);--frt:#FFEDD5;--frInk:#9A3412;--sut:#DCEBFB;--suInk:#0B4A8F;--map:#E6EEE2;--road:#FFFFFF}
+[data-ps=dark]{--blue:#5AAEF5;--bluet:#14304F;--ink:#E7EEF7;--body:#C3D0DE;--muted:#93A6BC;--faint:#8095AC;--bg:#07111D;--card:#0E1C2E;--line:#22374F;--line2:#1A2C42;--head:#112236;--ok:#6FD39A;--okt:#0F2E1E;--red:#FF9A8C;--redt:#3A1612;--amb:#F5BE6A;--ambt:#35260E;--link:#7CC0FF;--fld:#0A1726;--hdr:#E7EEF7;--sh:0 10px 30px rgba(0,0,0,.5);--frt:#3A2112;--frInk:#FDBA74;--sut:#12304F;--suInk:#CFE6FF;--map:#16241C;--road:#2A3A4C}
+[data-ps] *{box-sizing:border-box}
+[data-ps] button{font-family:var(--font);cursor:pointer}
+</style>
+</helmet>
+<div data-ps="{{ theme }}" style="width:1440px;height:900px;display:flex;background:var(--bg);color:var(--ink);font-family:var(--font);-webkit-font-smoothing:antialiased;overflow:hidden;position:relative">
+  <aside style="width:232px;flex:none;background:linear-gradient(180deg,#001F3F 0%,#012A54 100%);color:#fff;padding:18px 12px 14px;display:flex;flex-direction:column">
+    <div style="display:flex;align-items:center;gap:11px;padding:4px 10px 20px"><span style="width:36px;height:36px;background:#fff;border-radius:9px;overflow:hidden;display:flex"><img src="assets/pinaka-eagle.png" style="width:36px;height:36px;object-fit:cover" alt="Pinaka"></span><span><b style="display:block;font-size:17px;font-weight:800;line-height:1.1">TaaSen</b><small style="font:600 8.5px var(--mono);letter-spacing:2.6px;color:#7CC0FF">CLAIMS PORTAL</small></span></div>
+    <sc-for list="{{ nav }}" as="n" hint-placeholder-count="7"><a style="display:flex;align-items:center;gap:12px;padding:11px 12px;border-radius:10px;color:{{ n.fg }};background:{{ n.bg }};text-decoration:none;font-size:13.5px;font-weight:{{ n.fw }}"><i class="{{ n.ic }}" style="width:20px;text-align:center;font-size:14px"></i>{{ n.l }}</a></sc-for>
+  </aside>
+  <main style="flex:1;display:flex;flex-direction:column;min-width:0">
+    <div style="display:flex;align-items:center;gap:12px;background:var(--card);border-bottom:1px solid var(--line);padding:12px 24px">
+      <h1 style="margin:0;font-size:16.5px;font-weight:700;color:var(--hdr);flex:1">{{ h1 }} · <span style="font-family:var(--mono)">MOT17819657</span> <span style="font-weight:500;color:var(--muted);font-size:13px">sample</span></h1>
+      <span style="display:inline-flex;align-items:center;gap:9px;background:var(--fld);border:1px solid var(--line);border-radius:999px;padding:5px 12px 5px 6px;font-size:12.5px;font-weight:600"><span style="width:26px;height:26px;border-radius:50%;background:var(--bluet);color:var(--blue);display:inline-flex;align-items:center;justify-content:center;font-size:11px;font-weight:700">P</span>Priya<span style="font:700 9px var(--mono);letter-spacing:1px;background:#001F3F;color:#fff;border-radius:5px;padding:2.5px 7px">CM</span></span>
+    </div>
+    <div style="padding:20px 24px;display:flex;flex-direction:column;gap:14px;flex:1;min-height:0;overflow:hidden">
+      <div style="display:flex;align-items:center;gap:12px"><span style="font:700 18px var(--mono);color:var(--hdr)">MOT17819657</span><span style="font-size:13px;color:var(--muted)">Chola MS · Motor TP Investigation · Lakshmi Narayanan · allocated 25-09-2026 6:10 pm</span><span style="margin-left:auto;display:inline-flex;align-items:center;gap:6px;padding:3.5px 10px;border-radius:999px;font-size:11px;font-weight:600;background:var(--bluet);color:var(--link)"><i class="fa-solid fa-users"></i>Shared · 2 officers</span></div>
+
+      <sc-if value="{{ isAlloc }}" hint-placeholder-val="{{ true }}">
+      <div style="display:grid;grid-template-columns:minmax(0,1fr) 400px;gap:16px;min-height:0">
+        <div style="background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden">
+          <div style="padding:12px 16px;border-bottom:1px solid var(--line2);background:var(--head);display:flex;align-items:center;gap:10px"><b style="font-size:14px;color:var(--hdr);flex:1"><i class="fa-solid fa-code-branch" style="color:var(--blue);margin-right:7px"></i>Split touch points between officers</b><span style="font:600 10.5px var(--mono);color:var(--faint)">tick one officer per touch point</span></div>
+          <div style="display:grid;grid-template-columns:minmax(0,1.4fr) repeat(2,150px) 170px;font-size:13px">
+            <div style="padding:10px 16px;font:700 10.5px var(--font);letter-spacing:.8px;text-transform:uppercase;color:var(--muted);border-bottom:1px solid var(--line)">Touch point</div>
+            <div style="padding:10px 12px;font:700 10.5px var(--font);letter-spacing:.8px;text-transform:uppercase;color:#0074D9;border-bottom:1px solid var(--line);text-align:center">Sujit D N</div>
+            <div style="padding:10px 12px;font:700 10.5px var(--font);letter-spacing:.8px;text-transform:uppercase;color:#F97316;border-bottom:1px solid var(--line);text-align:center">Franklin</div>
+            <div style="padding:10px 12px;font:700 10.5px var(--font);letter-spacing:.8px;text-transform:uppercase;color:var(--muted);border-bottom:1px solid var(--line)">Owner</div>
+            <sc-for list="{{ grid }}" as="r" hint-placeholder-count="5">
+              <div style="padding:12px 16px;border-bottom:1px solid var(--line2)"><b style="display:block">{{ r.n }}</b><span style="color:var(--muted);font-size:12px">{{ r.where }}</span></div>
+              <div style="display:grid;place-items:center;border-bottom:1px solid var(--line2)"><button onClick="{{ r.pickS }}" style="width:28px;height:28px;border-radius:8px;border:2px solid {{ r.sBd }};background:{{ r.sBg }};color:#fff;display:grid;place-items:center"><i class="fa-solid fa-check" style="font-size:12px;opacity:{{ r.sOp }}"></i></button></div>
+              <div style="display:grid;place-items:center;border-bottom:1px solid var(--line2)"><button onClick="{{ r.pickF }}" style="width:28px;height:28px;border-radius:8px;border:2px solid {{ r.fBd }};background:{{ r.fBg }};color:#fff;display:grid;place-items:center"><i class="fa-solid fa-check" style="font-size:12px;opacity:{{ r.fOp }}"></i></button></div>
+              <div style="padding:12px;border-bottom:1px solid var(--line2);display:flex;align-items:center"><span style="display:inline-flex;align-items:center;gap:6px;padding:3px 10px 3px 3px;border-radius:999px;background:{{ r.oT }};color:{{ r.oInk }};font-size:12px;font-weight:600"><span style="width:18px;height:18px;border-radius:50%;background:{{ r.oCol }};color:#fff;font-size:10px;display:grid;place-items:center">{{ r.oIni }}</span>{{ r.oName }}</span></div>
+            </sc-for>
+          </div>
+          <div style="padding:14px 16px;display:flex;align-items:center;gap:12px;border-top:1px solid var(--line2);background:var(--head)">
+            <span style="font-size:12.5px;color:var(--body);flex:1">{{ summary }}</span>
+            <button style="background:transparent;color:var(--link);border:1px solid var(--line);border-radius:9px;padding:9px 15px;font:600 13px var(--font)"><i class="fa-solid fa-user-plus"></i> Add officer</button>
+            <button style="background:#0074D9;color:#fff;border:0;border-radius:9px;padding:9px 18px;font:600 13px var(--font)">Save allocation</button>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <sc-for list="{{ offCards }}" as="o" hint-placeholder-count="3">
+            <div style="background:var(--card);border:1px solid {{ o.bd }};border-radius:14px;padding:14px 16px;display:flex;flex-direction:column;gap:8px">
+              <div style="display:flex;align-items:center;gap:10px"><span style="width:36px;height:36px;border-radius:50%;background:{{ o.col }};color:#fff;display:grid;place-items:center;font-weight:700">{{ o.ini }}</span><span style="flex:1"><b style="display:block;font-size:14px">{{ o.n }}</b><span style="font-size:12px;color:var(--muted)">{{ o.d }}</span></span>
+                <button onClick="{{ o.lead }}" style="display:inline-flex;align-items:center;gap:6px;border:1px solid {{ o.lBd }};background:{{ o.lBg }};color:{{ o.lFg }};border-radius:999px;padding:5px 11px;font:700 11.5px var(--font)"><i class="fa-solid fa-star"></i>{{ o.lLabel }}</button></div>
+              <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;font-size:12px"><span style="background:var(--fld);border-radius:8px;padding:6px 8px"><span style="display:block;color:var(--faint);font-size:10px;font-weight:700;letter-spacing:.6px">DISTRICT</span>{{ o.dist }}</span><span style="background:var(--fld);border-radius:8px;padding:6px 8px"><span style="display:block;color:var(--faint);font-size:10px;font-weight:700;letter-spacing:.6px">DISTANCE</span>{{ o.km }}</span><span style="background:var(--fld);border-radius:8px;padding:6px 8px"><span style="display:block;color:var(--faint);font-size:10px;font-weight:700;letter-spacing:.6px">LOAD</span>{{ o.load }}</span></div>
+            </div>
+          </sc-for>
+          <div style="font-size:12.5px;color:var(--muted);line-height:1.5;padding:0 4px">The Lead writes the Final Report and completes the case. Reassigning one part later does not disturb the other parts.</div>
+        </div>
+      </div>
+      </sc-if>
+
+      <sc-if value="{{ isField }}" hint-placeholder-val="{{ false }}">
+      <div style="display:flex;gap:6px;border-bottom:1px solid var(--line)"><sc-for list="{{ tabs }}" as="t" hint-placeholder-count="4"><span style="padding:8px 14px;font-weight:700;font-size:13px;color:{{ t.fg }};border-bottom:2px solid {{ t.bd }}">{{ t.n }}</span></sc-for></div>
+      <sc-for list="{{ fbanners }}" as="b" hint-placeholder-count="0"><div style="border-radius:13px;padding:12px 16px;display:flex;align-items:center;gap:14px;font-size:13.5px;border:1px solid var(--line);background:var(--card)"><i class="{{ b.ic }}" style="font-size:16px;width:36px;height:36px;border-radius:10px;display:inline-flex;align-items:center;justify-content:center;background:{{ b.bg }};color:{{ b.fg }}"></i><span style="flex:1"><b>{{ b.t }}</b><small style="display:block;color:var(--muted);font-size:12.5px">{{ b.d }}</small></span><sc-if value="{{ b.hasBtn }}" hint-placeholder-val="{{ false }}"><button style="background:#0074D9;color:#fff;border:0;border-radius:9px;padding:9px 15px;font:600 13px var(--font)">{{ b.btn }}</button></sc-if></div></sc-for>
+      <div style="display:grid;grid-template-columns:1fr 1fr 380px;gap:16px;min-height:0">
+        <sc-for list="{{ parts }}" as="p" hint-placeholder-count="2">
+          <div style="background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;display:flex;flex-direction:column">
+            <div style="padding:12px 16px;border-bottom:1px solid var(--line2);background:var(--head);display:flex;align-items:center;gap:10px"><span style="width:30px;height:30px;border-radius:50%;background:{{ p.col }};color:#fff;display:grid;place-items:center;font-weight:700;font-size:12px">{{ p.ini }}</span><b style="font-size:14px;color:var(--hdr)">{{ p.n }}’s part</b><sc-if value="{{ p.lead }}" hint-placeholder-val="{{ false }}"><span style="font:700 9px var(--mono);letter-spacing:1px;background:#001F3F;color:#fff;border-radius:5px;padding:2.5px 7px">LEAD</span></sc-if><span style="margin-left:auto;display:inline-flex;align-items:center;gap:6px;padding:3.5px 10px;border-radius:999px;font-size:11px;font-weight:600;background:{{ p.sBg }};color:{{ p.sFg }}">{{ p.st }}</span></div>
+            <div style="padding:10px 16px;font-size:12px;color:var(--muted);border-bottom:1px solid var(--line2)">{{ p.meta }}</div>
+            <sc-for list="{{ p.tps }}" as="t" hint-placeholder-count="2">
+              <div style="display:grid;grid-template-columns:64px 1fr auto;gap:12px;padding:12px 16px;border-bottom:1px solid var(--line2);align-items:center">
+                <span style="width:64px;height:48px;border-radius:8px;background:{{ t.thumb }};border-bottom:3px solid {{ p.col }}"></span>
+                <span><b style="display:block;font-size:13.5px">{{ t.n }}</b><span style="font-size:12px;color:var(--muted)">{{ t.meta }}</span></span>
+                <span style="font:600 11.5px var(--mono);color:{{ t.col }};text-align:right">{{ t.st }}</span>
+              </div>
+            </sc-for>
+            <div style="margin-top:auto;padding:12px 16px;display:flex;gap:8px;justify-content:flex-end;background:var(--head)"><button style="background:var(--card);color:var(--ink);border:1px solid var(--line);border-radius:9px;padding:8px 13px;font:600 12.5px var(--font)"><i class="fa-solid fa-user-pen"></i> Change officer</button></div>
+          </div>
+        </sc-for>
+        <div style="background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;display:flex;flex-direction:column">
+          <div style="padding:12px 16px;border-bottom:1px solid var(--line2);background:var(--head)"><b style="font-size:14px;color:var(--hdr)"><i class="fa-solid fa-map-location-dot" style="color:var(--blue);margin-right:7px"></i>Combined map</b></div>
+          <div style="position:relative;flex:1;min-height:420px;background:var(--map);background-image:linear-gradient(28deg,transparent 49%,var(--road) 49%,var(--road) 51%,transparent 51%),linear-gradient(118deg,transparent 58%,var(--road) 58%,var(--road) 59.5%,transparent 59.5%)">
+            <span style="position:absolute;right:40px;top:40px;font:700 11px var(--font);letter-spacing:1px;color:var(--muted)">CHENNAI</span>
+            <span style="position:absolute;left:30px;bottom:60px;font:700 11px var(--font);letter-spacing:1px;color:var(--muted)">MADURAI</span>
+            <sc-for list="{{ mpins }}" as="m" hint-placeholder-count="5"><span style="position:absolute;left:{{ m.x }}px;top:{{ m.y }}px;width:30px;height:30px;border-radius:8px;border:3px solid {{ m.col }};background:{{ m.bg }};box-shadow:0 3px 8px rgba(0,0,0,.25);display:grid;place-items:center;color:{{ m.ic }};font-size:11px"><i class="fa-solid {{ m.fa }}"></i></span></sc-for>
+            <div style="position:absolute;left:12px;top:12px;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:8px 10px;font-size:11.5px;display:flex;flex-direction:column;gap:4px"><span><i class="fa-solid fa-square" style="color:#0074D9"></i> Sujit D N</span><span><i class="fa-solid fa-square" style="color:#F97316"></i> Franklin</span><span style="color:var(--muted)"><i class="fa-regular fa-clock"></i> pending visit</span></div>
+          </div>
+          <div style="padding:10px 16px;font-size:12px;color:var(--muted);border-top:1px solid var(--line2)">Lists count the case once and each officer’s part separately.</div>
+        </div>
+      </div>
+      </sc-if>
+    </div>
+  </main>
+
+  <sc-if value="{{ showDialog }}" hint-placeholder-val="{{ false }}">
+    <div style="position:absolute;inset:0;background:rgba(3,17,34,.5);display:grid;place-items:center">
+      <div style="width:520px;background:var(--card);border-radius:16px;box-shadow:0 30px 80px rgba(2,32,64,.4);overflow:hidden">
+        <div style="padding:16px 20px;border-bottom:1px solid var(--line2)"><b style="font-size:17px;color:var(--hdr)">Change officer on Franklin’s part</b><div style="font-size:12.5px;color:var(--muted);margin-top:2px">Insured · Petitioner · Police Station · Madurai</div></div>
+        <div style="padding:16px 20px;display:flex;flex-direction:column;gap:10px">
+          <sc-for list="{{ reOpts }}" as="o" hint-placeholder-count="2"><div style="display:flex;align-items:center;gap:12px;border:1.5px solid {{ o.bd }};background:{{ o.bg }};border-radius:12px;padding:10px 12px"><i class="{{ o.rad }}" style="color:var(--blue)"></i><span style="width:32px;height:32px;border-radius:50%;background:#7D93A8;color:#fff;display:grid;place-items:center;font-weight:700;font-size:12px">{{ o.ini }}</span><span style="flex:1"><b style="font-size:13.5px">{{ o.n }}</b><span style="display:block;font-size:12px;color:var(--muted)">{{ o.d }}</span></span></div></sc-for>
+          <label style="font-size:12px;font-weight:700;color:var(--muted);letter-spacing:.6px;text-transform:uppercase;margin-top:4px">Reason (required)</label>
+          <div style="border:1.5px solid var(--blue);border-radius:10px;padding:10px 12px;font-size:13.5px;min-height:64px;color:var(--body)">Franklin rejected: Out of Station (on leave 26–29 Sep). Reassigned to Karthik R, Madurai.</div>
+          <div style="font-size:12.5px;color:var(--muted);display:flex;gap:6px"><i class="fa-solid fa-circle-info" style="margin-top:3px"></i>Goes into the timeline. Sujit D N’s part and the Lead stay as they are.</div>
+        </div>
+        <div style="padding:12px 20px;display:flex;justify-content:flex-end;gap:10px;background:var(--head);border-top:1px solid var(--line2)"><button style="background:var(--card);color:var(--ink);border:1px solid var(--line);border-radius:9px;padding:9px 15px;font:600 13px var(--font)">Cancel</button><button style="background:#0074D9;color:#fff;border:0;border-radius:9px;padding:9px 18px;font:600 13px var(--font)">Reassign part</button></div>
+      </div>
+    </div>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1440,&quot;height&quot;:900},&quot;theme&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;light&quot;,&quot;dark&quot;],&quot;default&quot;:&quot;light&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;scene&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;allocate&quot;,&quot;fieldwork&quot;,&quot;rejected&quot;,&quot;leadremoved&quot;],&quot;default&quot;:&quot;allocate&quot;,&quot;tsType&quot;:&quot;string&quot;}}">
+const O={sujit:{n:'Sujit D N',ini:'S',col:'#0074D9',t:'var(--sut)',ink:'var(--suInk)'},franklin:{n:'Franklin',ini:'F',col:'#F97316',t:'var(--frt)',ink:'var(--frInk)'}};
+const TP=[['Hospital','Apollo Hospitals, Chennai','sujit'],['Doctor','Apollo OPD, Chennai','sujit'],['Insured','Bypass Rd, Madurai','franklin'],['Petitioner','Anna Nagar, Madurai','franklin'],['Police Station','Tallakulam PS, Madurai','franklin']];
+class Component extends DCLogic {
+  state={own:TP.map(t=>t[2]),lead:'sujit'};
+  renderVals(){
+    const S=this.state, sc=this.props.scene||'allocate', rej=sc==='rejected', lr=sc==='leadremoved';
+    const lead=lr?null:S.lead;
+    const grid=TP.map((t,i)=>{ const o=S.own[i]; const pk=(w)=>()=>this.setState(s=>{ const own=[...s.own]; own[i]=w; return {own}; });
+      return {n:t[0],where:t[1],pickS:pk('sujit'),pickF:pk('franklin'),sBd:o==='sujit'?'#0074D9':'var(--line)',sBg:o==='sujit'?'#0074D9':'transparent',sOp:o==='sujit'?1:0,fBd:o==='franklin'?'#F97316':'var(--line)',fBg:o==='franklin'?'#F97316':'transparent',fOp:o==='franklin'?1:0,oT:O[o].t,oInk:O[o].ink,oCol:O[o].col,oIni:O[o].ini,oName:O[o].n}; });
+    const byO=(w)=>TP.filter((t,i)=>S.own[i]===w).map(t=>t[0]).join(', ')||'—';
+    const thumb='linear-gradient(160deg,#4A5666,#222B35)';
+    const tpRow=(n,meta,st,col,done)=>({n,meta,st,col,thumb:done?thumb:'var(--line2)'});
+    const fParts=[
+      {k:'sujit',meta:'Chennai · Hospital, Doctor · accepted 26-09-2026 9:05 am',st:'Part completed',sBg:'var(--okt)',sFg:'var(--ok)',tps:[tpRow('Hospital','Photo · form · 3 files','11:20 am','var(--ok)',true),tpRow('Doctor','Photo · form · 1 file','12:05 pm','var(--ok)',true)]},
+      {k:'franklin',meta:rej?'Madurai · Insured, Petitioner, Police Station · rejected 26-09-2026 9:30 am':'Madurai · Insured, Petitioner, Police Station · accepted 26-09-2026 9:40 am',st:rej?'Rejected · Out of Station':'Accepted · 2/3',sBg:rej?'var(--redt)':'var(--bluet)',sFg:rej?'var(--red)':'var(--link)',
+        tps:rej?[tpRow('Insured','Not started','—','var(--faint)',false),tpRow('Petitioner','Not started','—','var(--faint)',false),tpRow('Police Station','Not started','—','var(--faint)',false)]:[tpRow('Insured','Photo · form · 2 files','10:15 am','var(--ok)',true),tpRow('Petitioner','Photo · form · 2 files','1:30 pm','var(--ok)',true),tpRow('Police Station','Not done yet','pending','var(--amb)',false)]}];
+    const fb=[];
+    if(rej) fb.push({ic:'fa-solid fa-ban',bg:'var(--redt)',fg:'var(--red)',t:'Franklin rejected his part · Out of Station',d:'Insured, Petitioner and Police Station need a new officer. Sujit D N’s part is not affected.',hasBtn:true,btn:'Change officer'});
+    if(lr) fb.push({ic:'fa-solid fa-user-xmark',bg:'var(--redt)',fg:'var(--red)',t:'Lead officer removed · pick a new lead',d:'Sujit D N was removed from this case on 26-09-2026 2:10 pm. Final Report is paused until a lead is picked.',hasBtn:true,btn:'Make Franklin the lead'});
+    if(!rej&&!lr) fb.push({ic:'fa-solid fa-circle-check',bg:'var(--okt)',fg:'var(--ok)',t:'Sujit D N completed his part · 26-09-2026 12:40 pm',d:'Waiting for Franklin: Police Station. The case becomes FO Completed when both parts are completed.',hasBtn:false,btn:''});
+    return {
+      theme:this.props.theme||'light', isAlloc:sc==='allocate', isField:sc!=='allocate', showDialog:rej,
+      h1:sc==='allocate'?'Allocate':'Case',
+      nav:[['fa-solid fa-gauge','Dashboard'],['fa-solid fa-folder-open','Cases',1],['fa-solid fa-share-nodes','Allocate'],['fa-solid fa-users','Field Force'],['fa-solid fa-circle-check','Approvals'],['fa-solid fa-file-lines','Reporting'],['fa-solid fa-chart-line','Analytics']].map(([ic,l,a])=>({ic,l,fg:a?'#fff':'#B9D2EC',bg:a?'rgba(0,116,217,.28)':'transparent',fw:a?600:500})),
+      grid, summary:'Sujit D N'+(S.lead==='sujit'?' (Lead)':'')+': '+byO('sujit')+' · Franklin'+(S.lead==='franklin'?' (Lead)':'')+': '+byO('franklin'),
+      offCards:[['sujit','Field Officer · FO-TN-0112','Chennai','4 km','6 open'],['franklin','Field Officer · FO-TN-0387','Madurai','3 km','4 open']].map(([k,d,dist,km,load])=>({n:O[k].n,ini:O[k].ini,col:O[k].col,d,dist,km,load,bd:S.lead===k?'#0074D9':'var(--line)',lBd:S.lead===k?'#001F3F':'var(--line)',lBg:S.lead===k?'#001F3F':'transparent',lFg:S.lead===k?'#fff':'var(--muted)',lLabel:S.lead===k?'Lead':'Make lead',lead:()=>this.setState({lead:k})})).concat([{n:'Karthik R',ini:'K',col:'#7D93A8',d:'Suggested · FO-TN-0415',dist:'Madurai',km:'6 km',load:'5 open',bd:'var(--line)',lBd:'var(--line)',lBg:'transparent',lFg:'var(--muted)',lLabel:'Add',lead:()=>{}}]),
+      tabs:['Details','Field Work','Documents','Timeline'].map((n,i)=>({n,fg:i===1?'var(--blue)':'var(--muted)',bd:i===1?'var(--blue)':'transparent'})),
+      fbanners:fb,
+      parts:fParts.map(p=>({...p,n:O[p.k].n,ini:O[p.k].ini,col:O[p.k].col,lead:p.k===lead,meta:lr&&p.k==='sujit'?'Removed from case · part kept as completed':p.meta})),
+      mpins:[{x:280,y:70,col:'#0074D9'},{x:310,y:110,col:'#0074D9'},{x:40,y:280,col:'#F97316'},{x:90,y:320,col:'#F97316'},{x:140,y:260,col:'#F97316',pend:!rej}].filter((m,i)=>!(rej&&i>1)).map(m=>({...m,bg:m.pend?'var(--card)':'linear-gradient(160deg,#5B6878,#26303B)',ic:m.pend?m.col:'rgba(255,255,255,.75)',fa:m.pend?'fa-clock':'fa-camera'})),
+      reOpts:[{n:'Karthik R · FO-TN-0415',d:'Madurai · 6 km · 5 open cases',ini:'K',on:true},{n:'Murugan S · FO-TN-0422',d:'Dindigul · 64 km · 3 open cases',ini:'M',on:false}].map(o=>({...o,bd:o.on?'#0074D9':'var(--line)',bg:o.on?'var(--bluet)':'transparent',rad:o.on?'fa-solid fa-circle-dot':'fa-regular fa-circle'}))
+    };
+  }
+}
+</script>
+</body>
+</html>

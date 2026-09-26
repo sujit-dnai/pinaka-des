@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600;700&family=Noto+Sans+Tamil:wght@400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>body{margin:0}a{color:#0074D9}a:hover{color:#0060B5}[data-pt] *{box-sizing:border-box}[data-pt] button{font-family:inherit;cursor:pointer}</style>
+</helmet>
+<div data-pt="1" style="width:1440px;height:900px;display:grid;grid-template-columns:230px 1fr;background:#EEF3F9;font-family:'IBM Plex Sans','Noto Sans Tamil',system-ui,sans-serif;color:#0B2540;font-size:14px;overflow:hidden">
+  <aside style="background:#001F3F;color:#fff;display:flex;flex-direction:column;padding:14px 10px;gap:2px">
+    <div style="display:flex;align-items:center;gap:10px;padding:4px 8px 16px"><img src="assets/pinaka-eagle.png" alt="" style="width:36px;height:36px;border-radius:8px;background:#fff;object-fit:contain"><div><b style="font-size:16px">TaaSen</b><div style="font:600 8.5px 'IBM Plex Mono',monospace;letter-spacing:.3em;opacity:.8">CLAIMS PORTAL</div></div></div>
+    <sc-for list="{{ nav }}" as="n" hint-placeholder-count="11"><div style="height:38px;border-radius:8px;display:flex;align-items:center;gap:12px;padding:0 12px;font-size:13.5px;font-weight:500;background:{{ n.bg }}"><i class="{{ n.ic }}" style="width:16px;text-align:center;opacity:.9"></i>{{ n.n }}</div></sc-for>
+  </aside>
+  <main style="display:flex;flex-direction:column;min-width:0">
+    <header style="height:64px;background:#fff;border-bottom:1px solid #D7E2EF;display:flex;align-items:center;padding:0 24px;gap:10px;flex:none"><b style="font-size:17px">Investigation Tracking Portal</b><span style="margin-left:auto;height:36px;padding:0 12px;border:1px solid #D7E2EF;border-radius:18px;display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600">Sujit D N (SKD)<span style="height:18px;padding:0 6px;border-radius:4px;background:#001F3F;color:#fff;font:600 9.5px 'IBM Plex Mono',monospace;display:flex;align-items:center">ADMIN</span></span></header>
+    <div style="flex:1;overflow:auto;padding:20px 24px;display:flex;flex-direction:column;gap:16px">
+    <sc-if value="{{ s.case }}" hint-placeholder-val="{{ true }}">
+      <div style="display:flex;align-items:center;gap:10px"><b style="font-size:18px">RR-HS26-15985394 · Suddala Revanth</b><span style="font-size:12.5px;color:#5A708C">Case page → Field Work → Final Report · sample</span></div>
+      <section style="background:#fff;border:1px solid #D7E2EF;border-radius:10px;overflow:hidden">
+        <sc-for list="{{ answers }}" as="a" hint-placeholder-count="4"><div style="padding:14px 18px;border-top:1px solid #E7EEF6;display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:18px">
+          <div style="display:flex;flex-direction:column;gap:6px"><b style="font-weight:600">{{ a.n }}. {{ a.q }}</b><div style="display:flex;gap:8px;align-items:flex-start"><span style="height:22px;padding:0 9px;border-radius:11px;background:#E4F6EA;color:#1E7A3D;font-size:12px;font-weight:700;display:flex;align-items:center;flex:none">Yes</span><span style="color:#33475B;line-height:1.5">{{ a.v }}</span></div><sc-if value="{{ a.voice }}" hint-placeholder-val="{{ false }}"><div style="font-size:12.5px;color:#5A708C;line-height:1.6">Heard in Tamil: {{ a.ta }}</div></sc-if></div>
+          <div><sc-if value="{{ a.voice }}" hint-placeholder-val="{{ false }}"><div style="border:1px solid #D7E2EF;border-radius:8px;padding:8px 10px;display:flex;align-items:center;gap:10px"><button style="width:34px;height:34px;border-radius:17px;border:0;background:#0074D9;color:#fff;display:grid;place-items:center"><i class="fa-solid fa-play" style="font-size:12px"></i></button><div style="flex:1"><div style="height:4px;border-radius:2px;background:#E7EEF6;overflow:hidden"><div style="width:35%;height:100%;background:#0074D9"></div></div><div style="display:flex;justify-content:space-between;font:500 11px 'IBM Plex Mono',monospace;color:#5A708C;margin-top:4px"><span>0:06</span><span>{{ a.len }}</span></div></div><span style="height:22px;padding:0 8px;border-radius:11px;background:#E3F0FC;color:#0060B5;font-size:11.5px;font-weight:700;display:flex;align-items:center;gap:4px"><i class="fa-solid fa-microphone" style="font-size:10px"></i>Voice</span></div><div style="font-size:11.5px;color:#5A708C;margin-top:4px">Tamil · Sarvam Saaras · confidence 0.94</div></sc-if></div>
+        </div></sc-for>
+      </section>
+    </sc-if>
+    <sc-if value="{{ s.settings }}" hint-placeholder-val="{{ false }}">
+      <b style="font-size:18px">Settings → Translator</b>
+      <div style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px;align-items:start">
+        <section style="background:#fff;border:1px solid #D7E2EF;border-radius:10px;padding:16px 18px;display:flex;flex-direction:column;gap:14px">
+          <b style="font-size:15px">Engine order</b>
+          <sc-for list="{{ engines }}" as="e" hint-placeholder-count="3"><div style="display:flex;align-items:center;gap:12px;border:1px solid #E7EEF6;border-radius:8px;padding:10px 12px"><span style="width:26px;height:26px;border-radius:13px;background:#001F3F;color:#fff;font-size:12px;font-weight:700;display:grid;place-items:center">{{ e.n }}</span><span style="flex:1"><b style="font-weight:600">{{ e.name }}</b><span style="display:block;font-size:12px;color:#5A708C">{{ e.d }}</span></span><span style="font-size:12px;font-weight:600;color:{{ e.c }}">{{ e.st }}</span><i class="fa-solid fa-grip-vertical" style="color:#93A6BC"></i></div></sc-for>
+          <div style="font-size:12.5px;color:#5A708C">If an engine does not answer in 8 s, the next one is tried. Keys are Worker secrets; only the last 4 characters show.</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px"><sc-for list="{{ limits }}" as="l" hint-placeholder-count="4"><div><div style="font-size:12px;color:#5A708C;margin-bottom:4px">{{ l.n }}</div><div style="height:40px;border:1px solid #D7E2EF;border-radius:8px;padding:0 12px;display:flex;align-items:center">{{ l.v }}</div></div></sc-for></div>
+          <div style="display:flex;align-items:center;gap:10px;border-top:1px solid #E7EEF6;padding-top:12px"><span style="flex:1"><b style="font-weight:600">Keep audio as proof</b><span style="display:block;font-size:12px;color:#5A708C">Stored in R2 · ▶ beside voice answers on the case page</span></span><span style="width:44px;height:24px;border-radius:12px;background:#2E9E4B;position:relative"><span style="position:absolute;right:3px;top:3px;width:18px;height:18px;border-radius:9px;background:#fff"></span></span></div>
+        </section>
+        <section style="background:#fff;border:1px solid #D7E2EF;border-radius:10px;padding:16px 18px;display:flex;flex-direction:column;gap:12px">
+          <div style="display:flex;align-items:center"><b style="font-size:15px">Usage · September</b><span style="margin-left:auto;font-size:12.5px;color:#5A708C">cap ₹3,000 · alert at 80%</span></div>
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px"><sc-for list="{{ usage }}" as="u" hint-placeholder-count="3"><div style="border:1px solid #E7EEF6;border-radius:8px;padding:10px 12px"><div style="font-size:12px;color:#5A708C">{{ u.n }}</div><b style="font-size:20px">{{ u.v }}</b></div></sc-for></div>
+          <div style="height:8px;border-radius:4px;background:#E7EEF6;overflow:hidden"><div style="width:46%;height:100%;background:#0074D9"></div></div>
+          <b style="font-size:15px;margin-top:6px">Language per officer</b>
+          <sc-for list="{{ officers }}" as="o" hint-placeholder-count="5"><div style="display:grid;grid-template-columns:1fr 130px 130px;gap:10px;align-items:center;padding:8px 0;border-top:1px solid #E7EEF6;font-size:13.5px"><span><b style="font-weight:600">{{ o.n }}</b><span style="display:block;font-size:12px;color:#5A708C">{{ o.state }}</span></span><span style="height:34px;border:1px solid #D7E2EF;border-radius:8px;padding:0 10px;display:flex;align-items:center;justify-content:space-between">{{ o.lang }}<i class="fa-solid fa-chevron-down" style="font-size:11px;color:#5A708C"></i></span><span style="font-size:12.5px;color:#5A708C;text-align:right">{{ o.clips }}</span></div></sc-for>
+        </section>
+      </div>
+    </sc-if>
+    </div>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1440,&quot;height&quot;:900},&quot;scene&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;case&quot;,&quot;settings&quot;],&quot;default&quot;:&quot;case&quot;,&quot;tsType&quot;:&quot;string&quot;}}">
+class Component extends DCLogic {
+  renderVals(){
+    const sc=this.props.scene||'case';
+    const s={case:sc==='case',settings:sc==='settings'};
+    const act=s.case?'Cases':'Settings';
+    const nav=[['fa-solid fa-gauge','Dashboard'],['fa-solid fa-folder-open','Cases'],['fa-solid fa-user-shield','Field Officers'],['fa-regular fa-calendar-days','Daily Meetings'],['fa-solid fa-list-check','Approvals'],['fa-solid fa-file-pen','Reporting'],['fa-solid fa-users','OHS Team'],['fa-solid fa-indian-rupee-sign','Accounts'],['fa-solid fa-gear','Settings']].map(([ic,n])=>({ic,n,bg:n===act?'rgba(255,255,255,.14)':'transparent'}));
+    return {s,nav,
+      answers:[['Patient found admitted in the ward','Patient in Ward 3B, bed 12, with attendant. Case sheet seen.',false],['Admission date matches the IP register','IP register entry seen at the front desk. The insured was admitted on 12-09-2026 at Apollo Hospital, IP number 45872, discharged on 15-09-2026. Bills of ₹2,500 were verified.',true,'காப்பீடு செய்தவர் 12-09-2026 அன்று அப்போலோ மருத்துவமனையில் அனுமதிக்கப்பட்டார், ஐபி எண் 45872, 15-09-2026 அன்று டிஸ்சார்ஜ் ஆனார். ₹2,500 பில்கள் சரிபார்க்கப்பட்டன.','0:18'],['Past history of the same ailment','Treating doctor says there was no earlier treatment for this ailment.',true,'இந்த நோய்க்கு முன்பு சிகிச்சை எதுவும் இல்லை என்று மருத்துவர் கூறினார்.','0:09'],['Hospital has the required registration','Clinical Establishment registration seen, valid till 2028.',false]].map(([q,v,voice,ta,len],i)=>({n:i+1,q,v,voice,ta:ta||'',len:len||''})),
+      engines:[['1','Sarvam Saaras','Indian languages · speech → English','Active','#1E7A3D'],['2','OpenAI Whisper','TaaSen key · …k9Qf','Fallback','#0060B5'],['3','Workers AI','Cloudflare · last fallback','Fallback','#0060B5']].map(([n,name,d,st,c])=>({n,name,d,st,c})),
+      limits:[['Max seconds per clip','120'],['Clips per officer per day','60'],['Monthly cap','₹3,000'],['Silence auto-stop','4 s']].map(([n,v])=>({n,v})),
+      usage:[['Clips','4,812'],['Minutes','1,106'],['Spend','₹1,380']].map(([n,v])=>({n,v})),
+      officers:[['Ravi Kumar','Tamil Nadu','Tamil','212 clips'],['Veeraraju','Andhra Pradesh','Telugu','148 clips'],['Sathish K','Tamil Nadu','Tamil','96 clips'],['Manjunath B','Karnataka','Kannada','71 clips'],['Joseph T','Kerala','Malayalam','40 clips']].map(([n,state,lang,clips])=>({n,state,lang,clips}))};
+  }
+}
+</script>
+</body>
+</html>

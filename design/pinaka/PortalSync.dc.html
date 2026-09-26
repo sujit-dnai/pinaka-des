@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>body{margin:0}a{color:#0074D9}a:hover{color:#0060B5}[data-ps] *{box-sizing:border-box}[data-ps] button{font-family:inherit;cursor:pointer}</style>
+</helmet>
+<div data-ps="1" style="width:1440px;height:900px;display:grid;grid-template-columns:230px 1fr;background:#EEF3F9;font-family:'IBM Plex Sans',system-ui,sans-serif;color:#0B2540;font-size:14px;overflow:hidden">
+  <aside style="background:#001F3F;color:#fff;display:flex;flex-direction:column;padding:14px 10px;gap:2px;overflow:hidden">
+    <div style="display:flex;align-items:center;gap:10px;padding:4px 8px 16px"><img src="assets/pinaka-eagle.png" alt="" style="width:36px;height:36px;border-radius:8px;background:#fff;object-fit:contain"><div><b style="font-size:16px">TaaSen</b><div style="font:600 8.5px 'IBM Plex Mono',monospace;letter-spacing:.3em;opacity:.8">CLAIMS PORTAL</div></div></div>
+    <sc-for list="{{ nav }}" as="n" hint-placeholder-count="14"><div style="height:38px;border-radius:8px;display:flex;align-items:center;gap:12px;padding:0 12px;font-size:13.5px;font-weight:500;background:{{ n.bg }}"><i class="{{ n.ic }}" style="width:16px;text-align:center;opacity:.9"></i>{{ n.n }}</div></sc-for>
+  </aside>
+  <main style="display:flex;flex-direction:column;min-width:0">
+    <header style="height:64px;background:#fff;border-bottom:1px solid #D7E2EF;display:flex;align-items:center;padding:0 24px;gap:10px;flex:none">
+      <b style="font-size:17px">Investigation Tracking Portal</b>
+      <span style="margin-left:auto;height:36px;padding:0 12px;border:1px solid #D7E2EF;border-radius:18px;display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600"><span style="width:24px;height:24px;border-radius:12px;background:#E3F0FC;color:#0060B5;display:grid;place-items:center;font-size:11px">S</span>Sujit D N (SKD)<span style="height:18px;padding:0 6px;border-radius:4px;background:#001F3F;color:#fff;font:600 9.5px 'IBM Plex Mono',monospace;display:flex;align-items:center">ADMIN</span></span>
+      <span style="width:38px;height:38px;border-radius:8px;border:1px solid #D7E2EF;display:grid;place-items:center;position:relative"><i class="fa-solid fa-bell"></i><span style="position:absolute;top:-4px;right:-4px;min-width:18px;height:18px;border-radius:9px;background:#D93A2B;color:#fff;font-size:10.5px;font-weight:700;display:grid;place-items:center;padding:0 4px">{{ bell }}</span></span>
+      <span style="width:38px;height:38px;border-radius:8px;border:1px solid #D7E2EF;display:grid;place-items:center"><i class="fa-solid fa-rotate"></i></span>
+    </header>
+    <div style="flex:1;overflow:auto;padding:20px 24px;display:flex;flex-direction:column;gap:16px">
+
+    <sc-if value="{{ s.meet }}" hint-placeholder-val="{{ true }}">
+      <section style="background:#fff;border:1px solid #D7E2EF;border-radius:10px;padding:16px 18px;display:flex;flex-direction:column;gap:10px">
+        <div style="display:flex;align-items:center;gap:8px"><i class="fa-regular fa-calendar-days" style="color:#0074D9"></i><b style="font-size:15px">Daily Meetings</b></div>
+        <div style="color:#33475B">Your own ladder: each person sets their own meeting, their own people and their own time. Press Connect and everyone ticked is rung wherever they are signed in.</div>
+        <div style="border-radius:8px;padding:10px 12px;background:#E3F0FC;color:#0B2540;font-size:13px;display:flex;gap:8px;align-items:center"><i class="fa-solid fa-mobile-screen-button" style="color:#0074D9"></i>New: people signed in to the Pinaka app get a full-screen ring on the phone, for 2 minutes or until they answer. Joining after 10 minutes counts as missed, and ₹100 goes to their Fine Amount.</div>
+        <div style="display:flex;gap:10px"><button style="height:40px;padding:0 16px;border:0;border-radius:8px;background:#0074D9;color:#fff;font-weight:600;display:flex;align-items:center;gap:8px"><i class="fa-solid fa-plus"></i>New meeting</button></div>
+      </section>
+      <div style="display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:16px;align-items:start">
+        <section style="background:#fff;border:1px solid #D7E2EF;border-radius:10px;padding:16px 18px;display:flex;flex-direction:column;gap:12px">
+          <div style="display:flex;align-items:center;gap:8px"><b style="font-size:15px">New meeting</b><span style="font-size:12px;color:#5A708C">Only Boss, OHS, State Coordinator and managers can start one</span></div>
+          <div style="display:grid;grid-template-columns:1fr 150px 130px;gap:10px">
+            <div><div style="font-size:12px;color:#5A708C;margin-bottom:4px">Name</div><div style="height:40px;border:1px solid #D7E2EF;border-radius:8px;padding:0 12px;display:flex;align-items:center">Daily FO meeting</div></div>
+            <div><div style="font-size:12px;color:#5A708C;margin-bottom:4px">Time</div><div style="height:40px;border:1px solid #D7E2EF;border-radius:8px;padding:0 12px;display:flex;align-items:center;gap:8px"><i class="fa-regular fa-clock" style="color:#5A708C"></i>9:30 am</div></div>
+            <div><div style="font-size:12px;color:#5A708C;margin-bottom:4px">Repeat</div><div style="height:40px;border:1px solid #D7E2EF;border-radius:8px;padding:0 12px;display:flex;align-items:center">Mon–Sat</div></div>
+          </div>
+          <div><div style="font-size:12px;color:#5A708C;margin-bottom:6px">Ring a whole team</div><div style="display:flex;gap:6px;flex-wrap:wrap"><sc-for list="{{ teams }}" as="t" hint-placeholder-count="5"><button onClick="{{ t.tog }}" style="height:32px;padding:0 12px;border-radius:16px;border:1px solid {{ t.bd }};background:{{ t.bg }};color:{{ t.fg }};font-size:12.5px;font-weight:600;display:flex;align-items:center;gap:6px"><i class="{{ t.ic }}"></i>{{ t.n }}</button></sc-for></div></div>
+          <div style="border:1px solid #E7EEF6;border-radius:8px;max-height:300px;overflow:auto">
+            <sc-for list="{{ people }}" as="p" hint-placeholder-count="8"><button onClick="{{ p.tog }}" style="width:100%;border:0;border-bottom:1px solid #E7EEF6;background:{{ p.bg }};display:grid;grid-template-columns:22px 1fr 140px 110px;gap:10px;align-items:center;padding:9px 12px;text-align:left;color:#0B2540;font-size:13.5px"><i class="{{ p.box }}" style="color:{{ p.bc }};font-size:16px"></i><span><b style="font-weight:600">{{ p.n }}</b> <span style="color:#5A708C;font-size:12px">· {{ p.post }}</span></span><span style="font-size:12.5px;color:#5A708C">{{ p.team }}</span><span style="font-size:12px;color:{{ p.dc }};display:flex;gap:5px;align-items:center"><i class="{{ p.dev }}"></i>{{ p.where }}</span></button></sc-for>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px"><span style="font-size:13px;color:#33475B">{{ tickCount }} ticked · rung on app and portal</span><button onClick="{{ connect }}" style="margin-left:auto;height:42px;padding:0 20px;border:0;border-radius:8px;background:#2E9E4B;color:#fff;font-weight:600;display:flex;align-items:center;gap:8px"><i class="fa-solid fa-phone-volume"></i>Connect</button></div>
+        </section>
+        <section style="background:#fff;border:1px solid #D7E2EF;border-radius:10px;padding:16px 18px;display:flex;flex-direction:column;gap:10px">
+          <div style="display:flex;align-items:center;gap:8px"><i class="fa-solid fa-tower-broadcast" style="color:#D93A2B"></i><b style="font-size:15px">{{ liveTitle }}</b><span style="margin-left:auto;font:500 12px 'IBM Plex Mono',monospace;color:#5A708C">{{ liveClock }}</span></div>
+          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px"><sc-for list="{{ ringStats }}" as="r" hint-placeholder-count="4"><div style="border:1px solid #E7EEF6;border-radius:8px;padding:8px 10px"><b style="font-size:20px;color:{{ r.c }}">{{ r.v }}</b><div style="font-size:12px;color:#5A708C">{{ r.n }}</div></div></sc-for></div>
+          <sc-for list="{{ ringRows }}" as="r" hint-placeholder-count="8"><div style="display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;padding:8px 0;border-top:1px solid #E7EEF6;font-size:13.5px"><span><b style="font-weight:600">{{ r.n }}</b><span style="display:block;font-size:12px;color:#5A708C">{{ r.d }}</span></span><span style="height:24px;padding:0 10px;border-radius:12px;background:{{ r.bg }};color:{{ r.fg }};font-size:12px;font-weight:600;display:flex;align-items:center;gap:5px"><i class="{{ r.ic }}"></i>{{ r.s }}</span></div></sc-for>
+        </section>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ s.board }}" hint-placeholder-val="{{ false }}">
+      <div style="display:flex;align-items:center;gap:10px"><b style="font-size:18px">Case sync · portal → Pinaka app</b><span style="font-size:12.5px;color:#5A708C">Every case assigned here reaches the officer's phone within seconds · sample</span><button style="margin-left:auto;height:36px;padding:0 14px;border:1px solid #D7E2EF;border-radius:8px;background:#fff;font-weight:600;display:flex;gap:8px;align-items:center"><i class="fa-solid fa-file-excel" style="color:#1E7A3D"></i>TAT alerts Excel</button></div>
+      <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:12px"><sc-for list="{{ boardStats }}" as="b" hint-placeholder-count="5"><div style="background:#fff;border:1px solid #D7E2EF;border-radius:10px;padding:12px 14px"><div style="font-size:12.5px;color:#5A708C">{{ b.n }}</div><b style="font-size:24px;color:{{ b.c }}">{{ b.v }}</b></div></sc-for></div>
+      <section style="background:#fff;border:1px solid #D7E2EF;border-radius:10px;overflow:hidden">
+        <div style="display:grid;grid-template-columns:150px 1.1fr 130px 1fr 130px 150px 1fr;gap:12px;padding:10px 16px;background:#F6F9FD;font-size:12px;font-weight:600;color:#5A708C;text-transform:uppercase;letter-spacing:.04em"><span>Claim</span><span>Insured · client</span><span>Officer</span><span>In the app</span><span>TAT</span><span>GPS</span><span>Today's commitment</span></div>
+        <sc-for list="{{ rows }}" as="r" hint-placeholder-count="7"><div style="display:grid;grid-template-columns:150px 1.1fr 130px 1fr 130px 150px 1fr;gap:12px;padding:11px 16px;border-top:1px solid #E7EEF6;align-items:center;font-size:13px;background:{{ r.rowBg }}"><span style="font:500 12px 'IBM Plex Mono',monospace">{{ r.claim }}</span><span><b style="font-weight:600">{{ r.name }}</b><span style="display:block;font-size:12px;color:#5A708C">{{ r.ins }} · {{ r.prod }}</span></span><span>{{ r.fo }}</span><span style="display:flex;gap:6px;align-items:center"><span style="width:8px;height:8px;border-radius:4px;background:{{ r.dot }};flex:none"></span><span>{{ r.st }}<span style="display:block;font-size:11.5px;color:#5A708C">{{ r.when }}</span></span></span><span style="height:24px;align-self:center;justify-self:start;padding:0 9px;border-radius:12px;background:{{ r.tBg }};color:{{ r.tFg }};font-size:12px;font-weight:700;display:flex;align-items:center">{{ r.tat }}</span><span style="color:{{ r.gc }};font-weight:600;display:flex;gap:6px;align-items:center"><i class="{{ r.gi }}"></i>{{ r.gps }}</span><span style="font-size:12.5px;color:#33475B">{{ r.commit }}</span></div></sc-for>
+      </section>
+    </sc-if>
+
+    <sc-if value="{{ s.fines }}" hint-placeholder-val="{{ false }}">
+      <div style="display:flex;align-items:center;gap:10px"><b style="font-size:18px">Fine Amount · September 2026</b><span style="height:22px;padding:0 8px;border-radius:4px;background:#001F3F;color:#fff;font:600 10px 'IBM Plex Mono',monospace;display:flex;align-items:center">ADMIN ONLY</span><button style="margin-left:auto;height:38px;padding:0 16px;border:0;border-radius:8px;background:#1E7A3D;color:#fff;font-weight:600;display:flex;gap:8px;align-items:center"><i class="fa-solid fa-file-excel"></i>Download monthly Excel</button></div>
+      <div style="display:grid;grid-template-columns:repeat(6,1fr);gap:12px"><sc-for list="{{ fineStats }}" as="b" hint-placeholder-count="6"><div style="background:#fff;border:1px solid #D7E2EF;border-radius:10px;padding:12px 14px"><div style="font-size:12px;color:#5A708C">{{ b.n }}</div><b style="font-size:20px">{{ b.v }}</b><div style="font-size:11.5px;color:#5A708C">{{ b.c }}</div></div></sc-for></div>
+      <div style="display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:16px;align-items:start">
+        <section style="background:#fff;border:1px solid #D7E2EF;border-radius:10px;overflow:hidden">
+          <div style="display:grid;grid-template-columns:1.2fr repeat(5,90px) 100px;gap:8px;padding:10px 16px;background:#F6F9FD;font-size:11.5px;font-weight:600;color:#5A708C;text-transform:uppercase"><span>Officer</span><span>20 min</span><span>7:30 PM</span><span>Meeting</span><span>GPS off</span><span>TP start</span><span>Total</span></div>
+          <sc-for list="{{ fineTable }}" as="f" hint-placeholder-count="6"><div style="display:grid;grid-template-columns:1.2fr repeat(5,90px) 100px;gap:8px;padding:10px 16px;border-top:1px solid #E7EEF6;font-size:13px;align-items:center"><span><b style="font-weight:600">{{ f.n }}</b><span style="display:block;font-size:12px;color:#5A708C">{{ f.team }}</span></span><span>{{ f.a }}</span><span>{{ f.b }}</span><span>{{ f.c }}</span><span>{{ f.d }}</span><span>{{ f.e }}</span><b style="color:#A3271B">{{ f.t }}</b></div></sc-for>
+        </section>
+        <section style="background:#fff;border:1px solid #D7E2EF;border-radius:10px;padding:14px 16px;display:flex;flex-direction:column;gap:10px">
+          <div style="display:flex;align-items:center;gap:8px"><b style="font-size:15px">Appeals</b><span style="height:20px;padding:0 7px;border-radius:10px;background:#FFF3D6;color:#9A6A00;font-size:11.5px;font-weight:700;display:flex;align-items:center">2 waiting</span></div>
+          <sc-for list="{{ appeals }}" as="a" hint-placeholder-count="2"><div style="border:1px solid #E7EEF6;border-radius:8px;padding:12px;display:flex;flex-direction:column;gap:6px"><div style="display:flex;gap:8px"><b style="font-weight:600">{{ a.n }}</b><span style="color:#5A708C;font-size:12.5px">{{ a.k }}</span><b style="margin-left:auto">{{ a.v }}</b></div><div style="font-size:13px;color:#33475B">“{{ a.why }}”</div><div style="display:flex;gap:8px"><button style="height:32px;padding:0 12px;border-radius:6px;border:0;background:#2E9E4B;color:#fff;font-weight:600;font-size:12.5px">Waive</button><button style="height:32px;padding:0 12px;border-radius:6px;border:1px solid #D7E2EF;background:#fff;color:#A3271B;font-weight:600;font-size:12.5px">Keep fine</button></div></div></sc-for>
+          <div style="font-size:12px;color:#5A708C">Fine rules: not accepted in 20 min (8 AM–8 PM) ₹50 · day update after 7:30 PM ₹250 · meeting missed, joined over 10 min late ₹100 · GPS off on duty ₹50 · Motor TP not started in 3 days ₹50</div>
+        </section>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ s.excel }}" hint-placeholder-val="{{ false }}">
+      <b style="font-size:18px">Excel downloads</b>
+      <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px"><sc-for list="{{ excels }}" as="x" hint-placeholder-count="4"><section style="background:#fff;border:1px solid #D7E2EF;border-radius:10px;padding:16px 18px;display:flex;flex-direction:column;gap:8px"><div style="display:flex;align-items:center;gap:10px"><span style="width:38px;height:38px;border-radius:8px;background:#E4F6EA;color:#1E7A3D;display:grid;place-items:center"><i class="fa-solid fa-file-excel"></i></span><b style="font-size:15px">{{ x.n }}</b><span style="margin-left:auto;font-size:12px;color:#5A708C">{{ x.who }}</span></div><div style="font-size:13px;color:#33475B">{{ x.d }}</div><div style="font:500 12px 'IBM Plex Mono',monospace;color:#5A708C">{{ x.cols }}</div><div style="display:flex;gap:8px;align-items:center;margin-top:4px"><span style="height:34px;padding:0 12px;border:1px solid #D7E2EF;border-radius:8px;display:flex;align-items:center;gap:6px;font-size:13px"><i class="fa-regular fa-calendar"></i>{{ x.range }}</span><button style="margin-left:auto;height:34px;padding:0 14px;border:0;border-radius:8px;background:#1E7A3D;color:#fff;font-weight:600;font-size:13px;display:flex;gap:6px;align-items:center"><i class="fa-solid fa-download"></i>Download</button></div></section></sc-for></div>
+    </sc-if>
+    </div>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1440,&quot;height&quot;:900},&quot;scene&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;meet&quot;,&quot;meetLive&quot;,&quot;board&quot;,&quot;fines&quot;,&quot;excel&quot;],&quot;default&quot;:&quot;meet&quot;,&quot;tsType&quot;:&quot;string&quot;}}">
+const PEOPLE=[['Anand R','OHS Team Leader','OHS Team Chennai','app'],['Ravi Kumar','Field Officer','OHS Team Chennai','app'],['Franklin J','Field Officer','OHS Team Chennai','app'],['Murali M','Field Officer','OHS Team Chennai','app'],['Veeraraju','Field Officer','OHS Team Ongole','app'],['Karthik V','State Coordinator','Tamil Nadu','portal'],['Priya S','Manager','Motor TP desk','portal'],['Selvi (Dr)','Boss','Management','portal']];
+class Component extends DCLogic {
+  state={tick:{0:1,1:1,2:1,3:1},teams:{0:1},sent:this.props.scene==='meetLive'};
+  renderVals(){
+    const S=this.state,sc=this.props.scene||'meet';
+    const page=sc==='meetLive'?'meet':sc;
+    const s={meet:page==='meet',board:page==='board',fines:page==='fines',excel:page==='excel'};
+    const active={meet:'Daily Meetings',board:'Field Officers',fines:'Accounts',excel:'Reporting'}[page];
+    const nav=[['fa-solid fa-gauge','Dashboard'],['fa-solid fa-folder-open','Cases'],['fa-solid fa-file-circle-plus','New Case'],['fa-solid fa-user-shield','Field Officers'],['fa-regular fa-calendar-days','Daily Meetings'],['fa-solid fa-clock','IN TAT'],['fa-solid fa-hourglass-end','Out of TAT'],['fa-solid fa-circle-check','FO Completed'],['fa-solid fa-file-pen','Reporting'],['fa-solid fa-chart-line','Analytics'],['fa-solid fa-users','OHS Team'],['fa-solid fa-indian-rupee-sign','Accounts'],['fa-solid fa-folder-tree','Documents']].map(([ic,n])=>({ic,n,bg:n===active?'rgba(255,255,255,.14)':'transparent'}));
+    const teams=['OHS Team Chennai','OHS Team Ongole','State Coordinators','Managers','All field officers'].map((n,i)=>{ const on=!!S.teams[i]; return {n,ic:on?'fa-solid fa-check':'fa-solid fa-plus',bg:on?'#0074D9':'#fff',fg:on?'#fff':'#33475B',bd:on?'#0074D9':'#D7E2EF',tog:()=>this.setState(st=>({teams:{...st.teams,[i]:!st.teams[i]}}))}; });
+    const people=PEOPLE.map(([n,post,team,dev],i)=>{ const on=!!S.tick[i]; return {n,post,team,box:on?'fa-solid fa-square-check':'fa-regular fa-square',bc:on?'#0074D9':'#93A6BC',bg:on?'#F3F8FE':'#fff',dev:dev==='app'?'fa-solid fa-mobile-screen':'fa-solid fa-desktop',where:dev==='app'?'Pinaka app':'Portal',dc:dev==='app'?'#1E7A3D':'#5A708C',tog:()=>this.setState(st=>({tick:{...st.tick,[i]:!st.tick[i]}}))}; });
+    const tickCount=Object.values(S.tick).filter(Boolean).length;
+    const ringRows=[['Anand R','Host · OHS Team Leader','In the room','fa-solid fa-video','#E4F6EA','#1E7A3D'],['Ravi Kumar','Joined 9:31 am from the app','In the room','fa-solid fa-video','#E4F6EA','#1E7A3D'],['Franklin J','Phone ringing · 0:48','Ringing','fa-solid fa-bell','#E3F0FC','#0060B5'],['Murali M','Can\'t join: “At the police station / court”','Declined','fa-solid fa-phone-slash','#FFF3D6','#9A6A00'],['Veeraraju','No answer after 2 min · counts as missed after 9:40 am','Missed · ₹100','fa-solid fa-triangle-exclamation','#FCE9E7','#A3271B']].map(([n,d,st,ic,bg,fg])=>({n,d,s:st,ic,bg,fg}));
+    const R=(claim,name,ins,prod,fo,st,when,dot,tat,tBg,tFg,gps,commit,red)=>({claim,name,ins,prod,fo,st,when,dot,tat,tBg,tFg,gps,gi:gps==='On'?'fa-solid fa-location-dot':'fa-solid fa-location-crosshairs',gc:gps==='On'?'#1E7A3D':'#A3271B',commit,rowBg:red?'#FFF7F6':'#fff'});
+    const rows=[
+      R('MOT17819657','Lakshmi Narayanan','ICICI Lombard','Motor TP','Ravi Kumar','FO Accepted','in 2 min · 10:23 am','#2E9E4B','2d 4h','#E4F6EA','#1E7A3D','On','Police station 12:00'),
+      R('RR-HS26-15985394','Suddala Revanth','Star Health','Health','Ravi Kumar','Reached · GPS photo','10:58 am','#2E9E4B','18h left','#FFF3D6','#9A6A00','On','Hospital visit 11:00'),
+      R('CHO-TP-50011290','K Murugan','Cholamandalam MS','Motor TP','Ravi Kumar','Touch points 3 of 4','last 25-09 6:40 pm','#F0A500','Out by 1d','#FCE9E7','#A3271B','On','Insured visit 11:00'),
+      R('NIA-HL-22031877','Meena Sundaram','New India','Health','Franklin J','Ringing · 14:12 left','assigned 10:31 am','#0074D9','3d left','#E4F6EA','#1E7A3D','On','—'),
+      R('CHO-TP-50004603','P Rajesh','Cholamandalam MS','Motor TP','Murali M','Not accepted · ₹50 added','assigned 9:02 am','#D93A2B','1d 2h','#FFF3D6','#9A6A00','Off 10:52','Not given',true),
+      R('BAJ-TP-77120045','S Kavitha','Bajaj Allianz','Motor TP','Veeraraju','Waits for 8:00 AM','assigned 10:48 pm yesterday','#93A6BC','2d 20h','#E4F6EA','#1E7A3D','On','Documents 3:00'),
+      R('MOT17820011','T Arumugam','ICICI Lombard','Motor TP','Franklin J','Final report submitted','status 4 · 9:47 am','#8B5CF6','Done','#EEF3F9','#5A708C','On','Report 10:00')];
+    return {nav,s,bell:page==='board'?3:5,teams,people,tickCount,
+      connect:()=>this.setState({sent:true}),
+      liveTitle:S.sent?'Live · Daily FO meeting':'Rings will show here',liveClock:S.sent?'9:32 am':'—',
+      ringStats:S.sent?[['In the room','2','#1E7A3D'],['Ringing','1','#0060B5'],['Declined','1','#9A6A00'],['Missed','1','#A3271B']].map(([n,v,c])=>({n,v,c})):[['In the room','0','#5A708C'],['Ringing','0','#5A708C'],['Declined','0','#5A708C'],['Missed','0','#5A708C']].map(([n,v,c])=>({n,v,c})),
+      ringRows:S.sent?ringRows:[],
+      boardStats:[['Assigned today','7','#0B2540'],['Waiting to accept','1','#0060B5'],['Not accepted in 20 min','1','#A3271B'],['Out of TAT','1','#A3271B'],['GPS off now','1','#A3271B']].map(([n,v,c])=>({n,v,c})),
+      rows,
+      fineStats:[['Total this month','₹14,350','46 officers'],['Not accepted in 20 min','₹3,200','64 cases'],['Day update after 7:30 PM','₹5,250','21 days'],['Meetings missed','₹2,800','28 meetings'],['GPS off','₹1,900','38 times'],['Motor TP not started','₹1,200','24 cases']].map(([n,v,c])=>({n,v,c})),
+      fineTable:[['Murali M','OHS Chennai','₹150','₹250','₹100','₹100','₹50','₹650'],['Ravi Kumar','OHS Chennai','₹50','₹250','₹100','₹50','₹50','₹500'],['Veeraraju','OHS Ongole','₹100','₹0','₹200','₹0','₹0','₹300'],['Franklin J','OHS Chennai','₹0','₹250','₹0','₹0','₹0','₹250'],['Sathish K','OHS Madurai','₹50','₹0','₹100','₹50','₹0','₹200']].map(([n,team,a,b,c,d,e,t])=>({n,team,a,b,c,d,e,t})),
+      appeals:[['Ravi Kumar','GPS off · 26-09','₹50','Phone restarted after the update at the Tambaram PS. GPS came on by itself at 11:09.'],['Murali M','Meeting missed · 25-09','₹100','Was giving a statement at the court when the call came.']].map(([n,k,v,why])=>({n,k,v,why})),
+      excels:[['Monthly fine Excel','Admin only','One row per fine: officer, rule, case or meeting, date-time, amount, appeal status, who waived. A total sheet per officer.','officer · rule · claim/meeting · at · ₹ · appeal · decided_by','September 2026'],['Daily updates Excel','Admin, managers','Every update each officer saved on each case, one row per case per day, with the 7:30 PM status.','date · officer · claim · update · saved_at · on_time','26-09-2026'],['Morning commitment vs actual','Admin, managers','What each officer planned at punch-in against what the app recorded by evening.','date · officer · claim · plan · plan_time · actual · done','This week'],['TAT alerts Excel','Admin, managers','Every amber (1 day left) and red (out of TAT) alert sent to officers, with the time the case moved.','claim · product · officer · alert · sent_at · released_at','September 2026']].map(([n,who,d,cols,range])=>({n,who,d,cols,range}))
+    };
+  }
+}
+</script>
+</body>
+</html>

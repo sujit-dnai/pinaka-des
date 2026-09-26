@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<meta name="design_doc_mode" content="canvas">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#E4EAF1;font-family:'IBM Plex Sans',system-ui,sans-serif;color:#0B2540}
+a{color:#0074D9}a:hover{color:#0060B5}
+.dv-turn{padding:40px 44px 32px;border-bottom:1px solid rgba(0,0,0,.08);scroll-margin-top:16px}
+.dv-thd{display:flex;align-items:baseline;gap:10px;margin:0 0 8px}
+.dv-tid{font:600 10px 'IBM Plex Mono',monospace;padding:3px 7px;background:#001F3F;color:#fff;border-radius:4px;text-decoration:none}
+.dv-tname{font:700 18px/1.2 'IBM Plex Sans',sans-serif}
+.dv-opts{display:flex;flex-wrap:wrap;gap:28px;align-items:flex-start}
+.dv-opt{flex:none;display:flex;flex-direction:column;gap:9px;scroll-margin-top:16px}
+.dv-oid{font:600 10.5px 'IBM Plex Mono',monospace;padding:3px 7px;background:rgba(0,31,63,.1);border-radius:5px;text-decoration:none}
+.dv-olabel{display:flex;align-items:baseline;gap:8px;font:500 12.5px/1.3 'IBM Plex Sans',sans-serif;max-width:390px}
+.dv-card{background:#fff;border:1px solid rgba(0,0,0,.1);box-shadow:0 10px 30px rgba(2,32,64,.14);overflow:hidden}
+.dv-web{background:#fff;border:1px solid rgba(0,0,0,.1);border-radius:10px;box-shadow:0 10px 30px rgba(2,32,64,.14);overflow:hidden}
+.dv-opt:target .dv-oid{background:#0074D9;color:#fff}
+.dv-next{margin:22px 0 0;font:12.5px/1.5 'IBM Plex Sans',sans-serif;color:#5A708C}
+</style>
+</helmet>
+
+<section class="dv-turn" id="t0">
+  <div class="dv-thd"><a class="dv-tid" href="#t0">T</a><span class="dv-tname" style="color:#001F3F">Final Report + Case Complete Report — Pinaka app + TaaSen portal</span></div>
+  <div style="display:grid;grid-template-columns:repeat(3,minmax(0,360px));gap:24px;margin-top:14px;font-size:14px;line-height:1.55;color:#33475B">
+    <div><b style="display:block;color:#001F3F;margin-bottom:6px">Kept exactly as today</b>Questions come from the report master, with the “Select Report Details” pickers shown only for the levels that exist. Each question has a red *, Yes / No (default Yes, green / red) and the answer box with the mic. Every message, the confirm dialog, the saving overlay, the Case Complete Report fields and the exact reason lists are unchanged, as are Go to Expenses and Back to Workspace.</div>
+    <div><b style="display:block;color:#001F3F;margin-bottom:6px">Added</b>The report button unlocks only when the touch points are done or rejected, and says what is missing. There is a progress count with a jump list to empty answers, a draft saved on the phone, and a 5-character minimum with a counter. A Review page with evidence for each touch point comes before Confirm. “Reason details” is required for No Documents Available and for Other Insurance claims availed. A summary comes before Complete Case. Completion is queued offline, and the officer can read the report afterwards.</div>
+    <div><b style="display:block;color:#001F3F;margin-bottom:6px">Open item</b>The Motor-TP reason lists for Discrepant and Inconclusive are still to come from you, so they show as placeholder rows (<a href="#3j">3j</a>). They are edited in Field Masters (<a href="#6c">6c</a>), so no app change is needed when they arrive. Default Yes is kept as today.</div>
+  </div>
+</section>
+
+<section class="dv-turn" id="t1">
+  <div class="dv-thd"><a class="dv-tid" href="#t1">1</a><span class="dv-tname" style="color:#001F3F">Live · the full flow</span></div>
+  <div class="dv-opts" style="margin-top:16px">
+    <div class="dv-opt" id="1a"><div class="dv-olabel" style="color:#33475B"><a class="dv-oid" href="#1a" style="color:#001F3F">1a</a>Health cashless · Android · tap Final Report for Case, then Submit (it checks), fill the answers, Review, Confirm &amp; Save, and complete the case</div><div class="dv-card" style="width:360px;border-radius:30px"><dc-import name="FinalReport" platform="android" theme="light" product="health" scene="wsReady" hint-size="360px,800px"></dc-import></div></div>
+    <div class="dv-opt" id="1b"><div class="dv-olabel" style="color:#33475B"><a class="dv-oid" href="#1b" style="color:#001F3F">1b</a>Motor TP · iPhone · starts at the Case Complete Report</div><div class="dv-card" style="width:390px;border-radius:46px"><dc-import name="FinalReport" platform="ios" theme="light" product="motor" scene="cEmpty" hint-size="390px,844px"></dc-import></div></div>
+    <div class="dv-opt" id="1c"><div class="dv-olabel" style="color:#33475B"><a class="dv-oid" href="#1c" style="color:#001F3F">1c</a>Health · Android · dark · Final Report</div><div class="dv-card" style="width:360px;border-radius:30px"><dc-import name="FinalReport" platform="android" theme="dark" product="health" scene="report" hint-size="360px,800px"></dc-import></div></div>
+  </div>
+</section>
+
+<sc-for list="{{ groups }}" as="g" hint-placeholder-count="4">
+<section class="dv-turn" id="{{ g.id }}" style="background:{{ g.bg }}">
+  <div class="dv-thd"><a class="dv-tid" href="#{{ g.id }}">{{ g.n }}</a><span class="dv-tname" style="color:{{ g.fg }}">{{ g.title }}</span></div>
+  <div class="dv-opts" style="margin-top:16px">
+    <sc-for list="{{ g.items }}" as="it" hint-placeholder-count="6">
+      <div class="dv-opt" id="{{ it.id }}"><div class="dv-olabel" style="color:{{ g.lc }}"><a class="dv-oid" href="#{{ it.id }}" style="color:{{ g.fg }}">{{ it.id }}</a>{{ it.label }}</div><div class="dv-card" style="width:{{ it.w }}px;border-radius:{{ it.r }}px"><dc-import name="FinalReport" platform="{{ it.p }}" theme="{{ it.t }}" product="{{ it.pr }}" scene="{{ it.s }}" hint-size="360px,800px"></dc-import></div></div>
+    </sc-for>
+  </div>
+</section>
+</sc-for>
+
+<section class="dv-turn" id="t6">
+  <div class="dv-thd"><a class="dv-tid" href="#t6">6</a><span class="dv-tname" style="color:#001F3F">Portal · 1440</span></div>
+  <div class="dv-opts" style="margin-top:16px;flex-direction:column">
+    <div class="dv-opt" id="6a"><div class="dv-olabel" style="color:#33475B"><a class="dv-oid" href="#6a" style="color:#001F3F">6a</a>Case page · Field Work · the Final Report (category, stage, case field, each Yes/No and answer) and the completion block</div><div class="dv-web" style="width:1440px"><dc-import name="PortalReport" theme="light" scene="fieldwork" hint-size="1440px,900px"></dc-import></div></div>
+    <div class="dv-opt" id="6b"><div class="dv-olabel" style="color:#33475B"><a class="dv-oid" href="#6b" style="color:#001F3F">6b</a>Send back to officer · with a note · the case returns to status 2</div><div class="dv-web" style="width:1440px"><dc-import name="PortalReport" theme="light" scene="sendback" hint-size="1440px,900px"></dc-import></div></div>
+    <div class="dv-opt" id="6c"><div class="dv-olabel" style="color:#33475B"><a class="dv-oid" href="#6c" style="color:#001F3F">6c</a>Field Masters · conclusion reason lists for each product · “Needs details” flag</div><div class="dv-web" style="width:1440px"><dc-import name="PortalReport" theme="light" scene="masters" hint-size="1440px,900px"></dc-import></div></div>
+    <div class="dv-opt" id="6d"><div class="dv-olabel" style="color:#33475B"><a class="dv-oid" href="#6d" style="color:#001F3F">6d</a>Field Work · dark</div><div class="dv-web" style="width:1440px"><dc-import name="PortalReport" theme="dark" scene="fieldwork" hint-size="1440px,900px"></dc-import></div></div>
+  </div>
+</section>
+
+<section class="dv-turn" id="t7">
+  <div class="dv-thd"><a class="dv-tid" href="#t7">7</a><span class="dv-tname" style="color:#001F3F">Component list and hand-off notes</span></div>
+  <div style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,440px);gap:28px;margin-top:16px;max-width:1300px">
+    <div style="background:#fff;border:1px solid #D7E2EF;border-radius:14px;overflow:hidden">
+      <sc-for list="{{ comps }}" as="c" hint-placeholder-count="8"><div style="display:grid;grid-template-columns:200px minmax(0,1fr) 110px;gap:14px;padding:12px 16px;border-bottom:1px solid #E7EEF6;font-size:13.5px;line-height:1.5"><span style="font:600 13px 'IBM Plex Mono',monospace;color:#001F3F">{{ c.n }}</span><span style="color:#33475B">{{ c.d }}</span><span style="font:600 11px 'IBM Plex Mono',monospace;color:{{ c.col }}">{{ c.tag }}</span></div></sc-for>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:12px">
+      <div style="background:#fff;border:1px solid #D7E2EF;border-radius:14px;padding:16px 18px"><b style="color:#001F3F;font-size:13px">Saved and sent</b><pre style="margin:8px 0 0;font:500 12px/1.55 'IBM Plex Mono',monospace;color:#0B2540;white-space:pre-wrap">POST /final-report            // JSON body
+{ caseId, userId, category, stage,
+  caseField,            // new
+  timeTakenSec,         // new
+  answers: [{ heading, selectedOption: "Yes"|"No", value }] }
+
+POST /case-complete           // JSON body, not query string
+{ caseId, finalOpinion, finalConclusion,
+  reason,               // only Discrepant / Inconclusive
+  reasonDetails,        // new · when the reason needs details
+  completedAt }         // new · real time, also when queued offline</pre></div>
+      <div style="background:#001F3F;color:#fff;border-radius:14px;padding:18px 20px;font-size:13.5px;line-height:1.6"><b style="display:block;margin-bottom:8px">Rules</b>
+        <sc-for list="{{ notes }}" as="n" hint-placeholder-count="6"><div style="display:flex;gap:10px;padding:5px 0;border-top:1px solid rgba(255,255,255,.1)"><span style="font:600 11px 'IBM Plex Mono',monospace;color:#7CC0FF;flex:none;padding-top:3px;width:58px">{{ n.k }}</span><span>{{ n.v }}</span></div></sc-for></div>
+      <div style="font-size:12.5px;color:#5A708C">Also in <a href="Components-FinalReport.md">Components-FinalReport.md</a>.</div>
+    </div>
+  </div>
+  <p class="dv-next">Next in the queue: Expenses (the fuel rate per km is still to come from you), then the tracking screens, then the full app.</p>
+</section>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  renderVals(){
+    const A=(id,label,s,pr,p,t)=>({id,label,s,pr:pr||'health',p:p||'android',t:t||'light',w:p==='ios'?390:360,r:p==='ios'?46:30});
+    const groups=[
+      {id:'t2',n:'2',title:'Final Report · Android · light',items:[
+        A('2a','Workspace · button locked · “2 touch points pending: Hospital, Insured”','wsLocked'),
+        A('2b','Workspace · ready · today’s green “Final Report for Case”','wsReady'),
+        A('2c','Final Report · 3 pickers · 6 questions (Yes and No) · 4 of 6 answered · jump list','report'),
+        A('2d','Validation · “Please select all case details.”','vPick'),
+        A('2e','Validation · “All fields are mandatory. Please fill in all text fields.” · 5-character minimum','vFields'),
+        A('2f','Plain list under “Corporate Visit” (master with no levels)','plain'),
+        A('2g','Draft restored after closing the app · offline','draft'),
+        A('2h','Mic · “Listening...”','voice'),
+        A('2i','Mic · “Converting speech to text...”','voiceConv'),
+        A('2j','Mic · “Sorry, Didn’t hear that. Speak Loudly”','voiceErr'),
+        A('2k','Mic · “Microphone permission denied or unavailable.”','voicePerm'),
+        A('2l','Review page · every answer + evidence strip for each touch point','review'),
+        A('2m','Confirm dialog (today’s text) · Review / Confirm & Save','confirm'),
+        A('2n','“Saving final report...”','saving'),
+        A('2o','Loading the questions','loading'),
+        A('2p','“No fields configured for this selection.”','noFields'),
+        A('2q','“No final report data available for this case.”','noData'),
+        A('2r','Master error · “SubProduct not found in master” · Retry','masterErr'),
+        A('2s','Session expired · draft kept','expired')]},
+      {id:'t3',n:'3',title:'Case Complete Report · Android · light',items:[
+        A('3a','Empty · cannot be dismissed','cEmpty'),
+        A('3b','Validation · “Final Opinion is required.” · “Please select a Reason.”','cErr'),
+        A('3c','Non Discrepant · no reason needed','cND'),
+        A('3d','Discrepant · reason list open (all 20, exact order)','cD'),
+        A('3e','Discrepant · Bill Inflation picked','cDsel'),
+        A('3f','Inconclusive · No Documents Available → “Reason details” required','cI'),
+        A('3g','Inconclusive · Reason details missing','cIerr'),
+        A('3h','Summary before Complete Case · conclusion chip in its colour','summary'),
+        A('3i','“Completing case...”','completing'),
+        A('3j','Motor TP · Discrepant list · placeholder until Sujit sends it','cD','motor'),
+        A('3k','Completion failed · Retry','failed'),
+        A('3l','“Case Completed Successfully” · Go to Expenses / Back to Workspace','success'),
+        A('3m','Offline · “Completing — will send when online”','wsQueued'),
+        A('3n','Read-only after completion · what was sent','readonly'),
+        A('3o','Locked from CM Reviewed (status 5) · today’s banner','wsRO'),
+        A('3p','Sent back by the CM · note at the top of the workspace','wsSendBack')]},
+      {id:'t4',n:'4',title:'iPhone · light · motor-TP and health samples',items:[
+        A('4a','Motor TP · Final Report','report','motor','ios'),A('4b','Motor TP · Review','review','motor','ios'),A('4c','Confirm dialog','confirm','health','ios'),A('4d','Discrepant · reason list','cD','health','ios'),A('4e','Inconclusive · Reason details','cI','health','ios'),A('4f','Summary','summary','health','ios'),A('4g','Success','success','health','ios'),A('4h','Read-only after completion','readonly','motor','ios')]},
+      {id:'t5',n:'5',title:'Dark',bg:'#0B1726',fg:'#E7EEF7',lc:'#93A6BC',items:[
+        A('5a','Workspace locked','wsLocked','health','android','dark'),A('5b','Validation','vFields','health','android','dark'),A('5c','Review','review','health','android','dark'),A('5d','Discrepant list','cD','health','android','dark'),A('5e','Summary','summary','health','ios','dark'),A('5f','Success','success','health','ios','dark'),A('5g','Motor TP report','report','motor','ios','dark'),A('5h','Read-only','readonly','health','ios','dark')]}
+    ].map(g=>({bg:'transparent',fg:'#001F3F',lc:'#33475B',...g}));
+    return {groups,
+      comps:[
+        {n:'FinalReportGate',d:'Workspace button. Enabled only when every touch point of my part is done (visit + form + required files) or rejected with a reason. Locked text: “{n} touch points pending: {names}”. Shared case: Lead only. Disabled from status 4; read-only banner from 5.',tag:'NEW',col:'#0074D9'},
+        {n:'ReportDetailsPicker',d:'Card “Select Report Details” · Category / Stage / Case Field, each shown only if the master has that level; a single category is auto-picked; changing any of them clears the answers. Hints unchanged.',tag:'KEEP',col:'#1E7A3D'},
+        {n:'QuestionCard',d:'Red *, Yes/No (default Yes; Yes green, No red), answer box “Enter details for {question}...”, mic. NEW: live counter, 5-character minimum, trimmed, red border + “Required” / “At least 5 characters”.',tag:'KEEP + NEW',col:'#0074D9'},
+        {n:'ProgressJump',d:'Sticky “12 of 18 answered” bar + chips for the empty questions that scroll to them + “Saved as draft {time}”.',tag:'NEW',col:'#0074D9'},
+        {n:'DraftStore',d:'Saves answers, pickers and the time started on the phone after every change. Survives closing the app and no signal. “Draft restored” banner.',tag:'NEW',col:'#0074D9'},
+        {n:'ReviewPage',d:'Every question with its Yes/No and answer, the pickers, the time taken, and an evidence strip for each touch point (photo, form done, files count, rejected reason).',tag:'NEW',col:'#0074D9'},
+        {n:'ConfirmDialog, SavingOverlay',d:'“Confirm Final Report Submission”, Review / Confirm & Save, “Saving final report...”. Unchanged.',tag:'KEEP',col:'#1E7A3D'},
+        {n:'CaseCompleteForm',d:'Final Opinion (mic), Final Conclusion (3), Reason (Discrepant / Inconclusive, exact lists), today’s messages. Cannot be dismissed. NEW: “Reason details” when the reason needs details (Field Masters flag); product-specific lists.',tag:'KEEP + NEW',col:'#0074D9'},
+        {n:'CompletionSummary',d:'Conclusion chip (Non Discrepant green, Discrepant red, Inconclusive amber), reason, details, opinion, touch points done / rejected, expenses count.',tag:'NEW',col:'#0074D9'},
+        {n:'CompletionQueue',d:'Offline completion stored with its real time; workspace shows “Completing — will send when online”; Retry on failure.',tag:'NEW',col:'#0074D9'},
+        {n:'SuccessScreen',d:'“Case Completed Successfully” · Go to Expenses (→ Create Expense → Create Courier) / Back to Workspace.',tag:'KEEP',col:'#1E7A3D'},
+        {n:'ReportReadOnly',d:'After completion, and from status 5: the report plus opinion, conclusion and reason as sent.',tag:'NEW',col:'#0074D9'},
+        {n:'Portal: FieldWorkReport',d:'Field Work tab: pickers, every question, completion block, completed at / by. Pull into client report. Send back to officer (note → status 2). Mark CM Reviewed locks.',tag:'NEW · portal',col:'#0074D9'},
+        {n:'Portal: FieldMasters',d:'Editors for report questions and for conclusion reason lists per product (Health / Motor TP), with order and a “Needs details” flag.',tag:'NEW · portal',col:'#0074D9'}],
+      notes:[
+        {k:'SAVE',v:'Also save caseField and time taken beside today’s fields. Reopening shows the saved answers.'},
+        {k:'BODY',v:'Send the completion data in a JSON body, not in the web address.'},
+        {k:'STATUS',v:'Completion sets status 4 (FO Completed). CM Reviewed (5) locks; Send back returns to 2 with the note.'},
+        {k:'TIME',v:'Quality Audit, the FO Completed list and productivity read completedAt from here.'},
+        {k:'LISTS',v:'Reason lists by product come from Field Masters; Health lists are today’s exactly. Motor-TP lists: to be given by Sujit.'},
+        {k:'DETAILS',v:'Reasons flagged “Needs details” (No Documents Available and Other Insurance claims availed, until you confirm the list) require reasonDetails.'},
+        {k:'DEFAULT',v:'Yes/No stays default Yes as today, and can be changed to no default by a setting.'}]
+    };
+  }
+}
+</script>
+</body>
+</html>

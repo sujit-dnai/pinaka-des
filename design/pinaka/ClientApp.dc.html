@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0..1,0" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#0074D9}a:hover{color:#0060B5}
+[data-ca]{--f:'IBM Plex Sans',system-ui,sans-serif;--m:'IBM Plex Mono',ui-monospace,monospace}
+[data-ca=light]{--bg:#EEF3F9;--card:#FFFFFF;--ink:#0B2540;--body:#33475B;--mut:#5A708C;--line:#D7E2EF;--line2:#E7EEF6;--sky:#E3F0FC;--blue:#0074D9;--link:#0060B5;--grad:linear-gradient(135deg,#001F3F 0%,#0074D9 100%);--fld:#F6F9FD;--ok:#1E7A3D;--okt:#E4F6EA;--okb:#2E9E4B;--red:#A3271B;--redt:#FCE9E7;--redb:#D93A2B;--amb:#9A6A00;--ambt:#FFF3D6;--vio:#6D28D9;--viot:#EFE7FD}
+[data-ca=dark]{--bg:#07111D;--card:#0E1C2E;--ink:#E7EEF7;--body:#C3D0DE;--mut:#93A6BC;--line:#22374F;--line2:#1A2C42;--sky:#14304F;--blue:#5AAEF5;--link:#7CC0FF;--grad:linear-gradient(135deg,#000E1C 0%,#0A4B8C 100%);--fld:#0A1726;--ok:#6FD39A;--okt:#0F2E1E;--okb:#2E9E4B;--red:#FF9A8C;--redt:#3A1612;--redb:#C8382A;--amb:#F5BE6A;--ambt:#35260E;--vio:#C4B5FD;--viot:#241A3D}
+[data-ca] *{box-sizing:border-box}
+[data-ca] button{font-family:var(--f);cursor:pointer}
+[data-ca] i{font-family:'Material Symbols Rounded';font-style:normal;font-weight:normal;font-size:22px;line-height:1;display:inline-block;white-space:nowrap;-webkit-font-smoothing:antialiased;font-feature-settings:'liga'}
+</style>
+</helmet>
+<div data-ca="{{ theme }}" style="width:{{ W }}px;height:{{ H }}px;position:relative;overflow:hidden;background:var(--bg);color:var(--ink);font-family:var(--f);font-size:15px;line-height:1.4">
+<sc-if value="{{ isAnd }}" hint-placeholder-val="{{ true }}"><div style="position:absolute;top:0;left:0;right:0;height:24px;background:{{ sbBg }};color:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 14px;font:500 12px var(--f);z-index:60"><span>11:30</span><span style="display:flex;gap:3px;align-items:center"><i style="font-size:15px">wifi</i><i style="font-size:15px">signal_cellular_alt</i><i style="font-size:15px">battery_5_bar</i></span></div></sc-if>
+<sc-if value="{{ isIOS }}" hint-placeholder-val="{{ false }}"><div style="position:absolute;top:0;left:0;right:0;height:47px;background:{{ sbBg }};color:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 30px 0 34px;font:600 16px -apple-system,system-ui,sans-serif;z-index:60"><span>11:30</span><span style="position:absolute;left:50%;top:11px;transform:translateX(-50%);width:122px;height:35px;border-radius:18px;background:#000"></span><span style="display:flex;gap:5px;align-items:center"><i style="font-size:17px">signal_cellular_alt</i><i style="font-size:17px">wifi</i><i style="font-size:20px">battery_full</i></span></div></sc-if>
+<div style="position:absolute;left:0;right:0;top:{{ sbH }}px;bottom:{{ bH }}px;overflow:hidden;display:flex;flex-direction:column">
+  <div style="background:var(--grad);color:#fff;flex:none;height:56px;display:flex;align-items:center;gap:10px;padding:0 12px">
+    <sc-if value="{{ isRoot }}" hint-placeholder-val="{{ true }}"><img src="assets/pinaka-eagle.png" alt="" style="width:32px;height:32px;border-radius:8px;background:#fff;object-fit:contain;padding:2px"></sc-if>
+    <sc-if value="{{ notRoot }}" hint-placeholder-val="{{ false }}"><i>{{ backIc }}</i></sc-if>
+    <div style="flex:1;min-width:0"><div style="font-size:17px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ title }}</div><div style="font:500 11px var(--m);opacity:.82;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ sub }}</div></div>
+    <span style="width:36px;height:36px;border-radius:18px;background:rgba(255,255,255,.18);display:grid;place-items:center"><i style="font-size:20px">search</i></span>
+  </div>
+  <div style="flex:1;overflow-y:auto;min-height:0;padding:12px;display:flex;flex-direction:column;gap:12px">
+
+  <sc-if value="{{ s.home }}" hint-placeholder-val="{{ true }}">
+    <sc-if value="{{ hasAsk }}" hint-placeholder-val="{{ true }}"><div style="border-radius:16px;padding:12px 14px;background:var(--ambt);display:flex;gap:10px;align-items:center"><i style="color:var(--amb)">approval</i><span style="flex:1;font-size:13.5px"><b style="display:block;color:var(--amb)">1 approval waiting</b>Police document charge · ₹2,500 · ICI-TP-40091188</span><i style="color:var(--amb)">chevron_right</i></div></sc-if>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px"><sc-for list="{{ kpis }}" as="k" hint-placeholder-count="6"><div style="background:var(--card);border:1px solid var(--line);border-radius:14px;padding:10px 12px;display:flex;flex-direction:column;gap:2px"><span style="display:flex;align-items:center;gap:6px;font-size:12.5px;color:var(--mut)"><span style="width:8px;height:8px;border-radius:4px;background:{{ k.c }}"></span>{{ k.n }}</span><b style="font-size:24px;color:{{ k.tc }}">{{ k.v }}</b></div></sc-for></div>
+    <div style="display:flex;align-items:center"><b style="font-size:15px">Recently updated</b><span style="margin-left:auto;font-size:13px;color:var(--link);font-weight:600">All cases</span></div>
+    <sc-for list="{{ recent }}" as="c" hint-placeholder-count="3"><div style="background:var(--card);border:1px solid var(--line);border-radius:14px;padding:10px 12px;display:flex;flex-direction:column;gap:4px"><div style="display:flex;align-items:center;gap:8px"><b style="font-size:14.5px;font-weight:600;flex:1;min-width:0">{{ c.name }}</b><span style="height:22px;padding:0 8px;border-radius:11px;background:{{ c.sBg }};color:{{ c.sFg }};font-size:11.5px;font-weight:700;display:flex;align-items:center">{{ c.st }}</span></div><span style="font:500 11.5px var(--m);color:var(--mut)">{{ c.claim }} · {{ c.prod }}</span><span style="font-size:12.5px;color:var(--body)">{{ c.last }}</span></div></sc-for>
+  </sc-if>
+
+  <sc-if value="{{ s.list }}" hint-placeholder-val="{{ false }}">
+    <div style="display:flex;gap:6px;overflow-x:auto"><sc-for list="{{ filters }}" as="f" hint-placeholder-count="5"><span style="flex:none;height:34px;padding:0 12px;border-radius:17px;border:1px solid {{ f.bd }};background:{{ f.bg }};color:{{ f.fg }};font-size:13px;font-weight:600;display:flex;align-items:center;gap:4px">{{ f.n }}<b>{{ f.c }}</b></span></sc-for></div>
+    <sc-for list="{{ cases }}" as="c" hint-placeholder-count="5"><div style="background:var(--card);border:1.5px solid {{ c.bd }};border-radius:16px;padding:12px 14px;display:flex;flex-direction:column;gap:6px"><div style="display:flex;align-items:center;gap:6px"><span style="height:22px;padding:0 8px;border-radius:11px;background:var(--sky);color:var(--link);font-size:11.5px;font-weight:600;display:flex;align-items:center">{{ c.prod }}</span><span style="margin-left:auto;font:600 12px var(--m);color:{{ c.tFg }}">{{ c.tat }}</span></div><b style="font-size:16px">{{ c.name }}</b><span style="font:500 12px var(--m);color:var(--mut)">{{ c.claim }} · allocated {{ c.alloc }}</span><div style="display:flex;align-items:center;gap:6px 8px;flex-wrap:wrap"><span style="flex:none;white-space:nowrap;height:24px;padding:0 9px;border-radius:12px;background:{{ c.sBg }};color:{{ c.sFg }};font-size:12px;font-weight:700;display:flex;align-items:center">{{ c.st }}</span><sc-if value="{{ c.flag }}" hint-placeholder-val="{{ false }}"><span style="flex:none;white-space:nowrap;height:24px;padding:0 9px;border-radius:12px;background:var(--redt);color:var(--red);font-size:12px;font-weight:700;display:flex;align-items:center;gap:4px"><i style="font-size:14px">gavel</i>{{ c.flag }}</span></sc-if><span style="margin-left:auto;min-width:0;text-align:right;font-size:12px;color:var(--mut)">{{ c.tp }}</span></div></div></sc-for>
+  </sc-if>
+
+  <sc-if value="{{ s.detail }}" hint-placeholder-val="{{ false }}">
+    <div style="background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px;display:flex;flex-direction:column;gap:8px">
+      <div style="display:flex;gap:6px;align-items:center"><span style="height:22px;padding:0 8px;border-radius:11px;background:var(--sky);color:var(--link);font-size:11.5px;font-weight:600;display:flex;align-items:center">Motor TP</span><span style="margin-left:auto;height:24px;padding:0 9px;border-radius:12px;background:var(--ambt);color:var(--amb);font-size:12px;font-weight:700;display:flex;align-items:center">TAT 1d 6h left</span></div>
+      <b style="font-size:18px">S Kavitha</b>
+      <div style="display:grid;grid-template-columns:auto 1fr;gap:4px 12px;font-size:13px"><span style="color:var(--mut)">Claim</span><span style="font-family:var(--m)">ICI-TP-40091188</span><span style="color:var(--mut)">Allocated by you</span><span>22-09-2026 · TAT from this date</span><span style="color:var(--mut)">Field officer</span><span>Sathish K · Madurai</span><span style="color:var(--mut)">TaaSen SPOC</span><span>Priya S · Motor TP desk</span></div>
+    </div>
+    <div style="background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px 14px 4px"><b style="font-size:15px;display:block;margin-bottom:10px">Progress</b><sc-for list="{{ steps }}" as="p" hint-placeholder-count="7"><div style="display:grid;grid-template-columns:18px 1fr auto;gap:10px;min-height:44px"><span style="display:flex;flex-direction:column;align-items:center"><span style="width:14px;height:14px;border-radius:7px;background:{{ p.dot }};flex:none"></span><span style="flex:1;width:2px;background:var(--line2);visibility:{{ p.lv }}"></span></span><span><b style="font-size:14px;font-weight:600;color:{{ p.nc }}">{{ p.n }}</b><span style="display:block;font-size:12px;color:var(--mut)">{{ p.d }}</span></span><span style="font:500 11.5px var(--m);color:var(--mut)">{{ p.t }}</span></div></sc-for></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px"><span style="height:48px;border-radius:12px;border:1.5px solid var(--line);background:var(--card);color:var(--red);font-size:14px;font-weight:600;display:flex;align-items:center;justify-content:center;gap:6px"><i style="font-size:19px">priority_high</i>Urgent release</span><span style="height:48px;border-radius:12px;border:1.5px solid var(--line);background:var(--card);color:var(--link);font-size:14px;font-weight:600;display:flex;align-items:center;justify-content:center;gap:6px"><i style="font-size:19px">forum</i>Message SPOC</span></div>
+  </sc-if>
+
+  <sc-if value="{{ s.report }}" hint-placeholder-val="{{ false }}">
+    <div style="background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px;display:flex;flex-direction:column;gap:10px"><div style="display:flex;align-items:center;gap:8px"><span style="height:26px;padding:0 10px;border-radius:13px;background:var(--viot);color:var(--vio);font-size:12.5px;font-weight:700;display:flex;align-items:center;gap:4px"><i style="font-size:16px">send</i>Released 25-09-2026</span><span style="margin-left:auto;font-size:12px;color:var(--ok);font-weight:600">in TAT · 2d 3h</span></div><b style="font-size:17px">T Arumugam · MOT17820011</b><div style="display:flex;align-items:center;gap:8px"><span style="width:12px;height:12px;border-radius:6px;background:#E74C3C"></span><b style="font-size:15px">Discrepant</b><span style="font-size:13px;color:var(--mut)">· driver licence expired</span></div><div style="font-size:14px;color:var(--body);line-height:1.5">Accident and injury are genuine, but the driver's licence had expired on the accident date. Renewal not found in Parivahan.</div></div>
+    <b style="font-size:15px">Files</b>
+    <sc-for list="{{ files }}" as="f" hint-placeholder-count="4"><div style="background:var(--card);border:1px solid var(--line);border-radius:14px;padding:10px 12px;display:grid;grid-template-columns:40px 1fr 40px;gap:10px;align-items:center"><span style="width:40px;height:40px;border-radius:10px;background:{{ f.bg }};color:{{ f.c }};display:grid;place-items:center"><i style="font-size:20px">{{ f.ic }}</i></span><span style="min-width:0"><b style="font-size:14px;font-weight:600;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ f.n }}</b><span style="font-size:12px;color:var(--mut)">{{ f.d }}</span></span><i style="color:var(--link)">download</i></div></sc-for>
+  </sc-if>
+
+  <sc-if value="{{ s.approve }}" hint-placeholder-val="{{ false }}">
+    <div style="background:var(--card);border:1.5px solid var(--amb);border-radius:16px;padding:14px;display:flex;flex-direction:column;gap:10px"><span style="font-size:12px;font-weight:700;color:var(--amb);text-transform:uppercase;letter-spacing:.06em">Approval needed before we pay</span><b style="font-size:18px">Police document charge</b><b style="font-size:30px">₹2,500</b><div style="display:grid;grid-template-columns:auto 1fr;gap:4px 12px;font-size:13px"><span style="color:var(--mut)">Claim</span><span style="font-family:var(--m)">ICI-TP-40091188 · S Kavitha</span><span style="color:var(--mut)">Police station</span><span>Tallakulam PS, Madurai</span><span style="color:var(--mut)">For</span><span>FIR, charge sheet and MVI report copies</span><span style="color:var(--mut)">Asked by</span><span>Priya S (TaaSen) · 26-09 10:05 am</span></div><div style="font-size:12.5px;color:var(--mut)">These are the station's official charges. TaaSen pays only after your approval, and the receipt is added to the case.</div></div>
+    <div style="height:84px;border:1.5px solid var(--line);border-radius:12px;background:var(--card);padding:10px 12px;font-size:14px;color:var(--mut)">Note to TaaSen (optional)</div>
+  </sc-if>
+
+  <sc-if value="{{ s.urgent }}" hint-placeholder-val="{{ false }}">
+    <div style="font-size:13.5px;color:var(--body)">Tell TaaSen this case must be released early. The SPOC and the officer see it at once.</div>
+    <b style="font-size:14.5px">Reason</b>
+    <div style="display:flex;flex-direction:column;gap:6px"><sc-for list="{{ reasons }}" as="r" hint-placeholder-count="4"><div style="min-height:50px;border-radius:12px;border:1.5px solid {{ r.bd }};background:{{ r.bg }};display:flex;align-items:center;gap:10px;padding:0 12px;font-size:14.5px"><i style="font-size:20px;color:{{ r.c }}">{{ r.ic }}</i>{{ r.n }}</div></sc-for></div>
+    <b style="font-size:14.5px">Release needed by</b>
+    <div style="height:50px;border:1.5px solid var(--blue);border-radius:10px;background:var(--card);padding:0 12px;display:flex;align-items:center;gap:10px;font-size:15px"><i style="color:var(--mut)">calendar_month</i>11-10-2026 · National Lok Adalat</div>
+  </sc-if>
+
+  <sc-if value="{{ s.profile }}" hint-placeholder-val="{{ false }}">
+    <div style="background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px;display:flex;gap:14px;align-items:center"><span style="width:56px;height:56px;border-radius:28px;background:var(--sky);color:var(--link);display:grid;place-items:center;font-weight:700;font-size:18px">MR</span><div><b style="font-size:17px">M Ramesh</b><div style="font-size:12.5px;color:var(--mut)">Claims Manager · ICICI Lombard · Chennai</div><div style="font:500 11.5px var(--m);color:var(--mut)">CL-ICI-0081 · Insurer client</div></div></div>
+    <div style="background:var(--card);border:1px solid var(--line);border-radius:18px;overflow:hidden"><sc-for list="{{ menu }}" as="m" hint-placeholder-count="5"><div style="display:grid;grid-template-columns:36px 1fr auto 20px;gap:10px;align-items:center;padding:12px 14px;border-bottom:1px solid var(--line2)"><i style="color:var(--blue)">{{ m.ic }}</i><span style="font-size:15px">{{ m.n }}</span><span style="font-size:13px;color:var(--mut)">{{ m.v }}</span><i style="font-size:20px;color:var(--mut)">chevron_right</i></div></sc-for></div>
+    <div style="border-radius:14px;padding:12px;background:var(--sky);font-size:13px;display:flex;gap:10px;color:var(--body)"><i style="color:var(--blue)">phonelink_lock</i><span>Signed in on this phone. Only the TaaSen admin can sign this phone out.</span></div>
+  </sc-if>
+  </div>
+  <sc-if value="{{ foot }}" hint-placeholder-val="{{ false }}"><div style="flex:none;padding:10px 12px 12px;background:var(--card);border-top:1px solid var(--line);display:flex;gap:10px"><button style="flex:1;height:52px;border-radius:12px;border:1.5px solid var(--line);background:transparent;color:{{ foot2C }};font-size:15px;font-weight:600">{{ foot2 }}</button><button style="flex:1.4;height:52px;border-radius:12px;border:0;background:{{ footBg }};color:#fff;font-size:15.5px;font-weight:600;display:flex;align-items:center;justify-content:center;gap:8px"><i>{{ footIc }}</i>{{ foot }}</button></div></sc-if>
+  <sc-if value="{{ isRoot }}" hint-placeholder-val="{{ true }}"><div style="flex:none;height:64px;background:var(--card);border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(4,1fr)"><sc-for list="{{ tabs }}" as="t" hint-placeholder-count="4"><span style="color:{{ t.c }};display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;font-size:11px;font-weight:600"><span style="width:52px;height:30px;border-radius:15px;background:{{ t.bg }};display:grid;place-items:center"><i style="font-size:21px">{{ t.ic }}</i></span>{{ t.n }}</span></sc-for></div></sc-if>
+</div>
+<sc-if value="{{ isAnd }}" hint-placeholder-val="{{ true }}"><div style="position:absolute;bottom:0;left:0;right:0;height:16px;background:var(--card);display:grid;place-items:center"><span style="width:108px;height:4px;border-radius:2px;background:var(--ink)"></span></div></sc-if>
+<sc-if value="{{ isIOS }}" hint-placeholder-val="{{ false }}"><div style="position:absolute;bottom:0;left:0;right:0;height:34px;background:var(--card);display:grid;place-items:center"><span style="width:134px;height:5px;border-radius:3px;background:var(--ink)"></span></div></sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:360,&quot;height&quot;:800},&quot;platform&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;android&quot;,&quot;ios&quot;],&quot;default&quot;:&quot;android&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;theme&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;light&quot;,&quot;dark&quot;],&quot;default&quot;:&quot;light&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;scene&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;home&quot;,&quot;list&quot;,&quot;detail&quot;,&quot;approve&quot;,&quot;urgent&quot;,&quot;report&quot;,&quot;profile&quot;],&quot;default&quot;:&quot;home&quot;,&quot;tsType&quot;:&quot;string&quot;}}">
+const ST={alloc:['Allocated','var(--sky)','var(--link)'],field:['In field','var(--ambt)','var(--amb)'],fo:['FO Completed','var(--okt)','var(--ok)'],cm:['CM Reviewed','var(--okt)','var(--ok)'],rel:['Released','var(--viot)','var(--vio)']};
+class Component extends DCLogic {
+  renderVals(){
+    const P=this.props,ios=P.platform==='ios',dark=P.theme==='dark',sc=P.scene||'home';
+    const s={}; ['home','list','detail','report','approve','urgent','profile'].forEach(k=>s[k]=k===sc);
+    const root=s.home||s.list||s.profile;
+    const C=[['S Kavitha','ICI-TP-40091188','Motor TP','22-09','1d 6h left','var(--amb)','field','3 of 4 touch points','Lok Adalat 11-10'],['T Arumugam','MOT17820011','Motor TP','23-09','Released','var(--ok)','rel','report ready',''],['Lakshmi Narayanan','MOT17819657','Motor TP','26-09','2d 4h left','var(--ok)','field','0 of 4',''],['R Prakash','ICI-HL-99012004','Health','20-09','Out by 1d','var(--red)','fo','with CM review',''],['Anitha M','ICI-TP-40092210','Motor TP','26-09','3d left','var(--ok)','alloc','officer accepting','']];
+    const cases=C.map(([name,claim,prod,alloc,tat,tFg,st,tp,flag])=>({name,claim,prod,alloc,tat,tFg,st:ST[st][0],sBg:ST[st][1],sFg:ST[st][2],tp,flag,bd:tFg==='var(--red)'?'var(--redb)':'var(--line)'}));
+    const titles={home:'ICICI Lombard',list:'Our cases',detail:'Case',report:'Final report',approve:'Approval',urgent:'Urgent release',profile:'Profile'};
+    const foot={approve:['Approve ₹2,500','check_circle','var(--okb)','Decline','var(--red)'],urgent:['Send to TaaSen','send','var(--redb)','Cancel','var(--ink)'],report:['Download all (ZIP)','download','var(--grad)','Share','var(--ink)']}[sc];
+    const tabIdx={home:0,list:1,profile:3}[sc];
+    return {theme:dark?'dark':'light',isIOS:ios,isAnd:!ios,W:ios?390:360,H:ios?844:800,sbH:ios?47:24,bH:ios?34:16,sbBg:dark?'#000E1C':'#001F3F',s,
+      isRoot:root,notRoot:!root,backIc:ios?'chevron_left':'arrow_back',title:titles[sc],sub:s.home?'M Ramesh · Insurer client · sample':(s.detail||s.approve||s.urgent?'ICI-TP-40091188 · sample':'sample'),
+      hasAsk:true,
+      kpis:[['Allocated','6','var(--blue)','var(--ink)'],['In field','14','#F0A500','var(--ink)'],['FO Completed','5','var(--okb)','var(--ink)'],['Released this month','38','#8B5CF6','var(--ink)'],['Out of TAT','2','var(--redb)','var(--red)'],['Lok Adalat flagged','3','var(--redb)','var(--ink)']].map(([n,v,c,tc])=>({n,v,c,tc})),
+      recent:[cases[1],cases[0],cases[3]].map((c,i)=>({...c,last:['Final report released · 25-09 4:10 pm','Police station visit done · 26-09 11:02 am','Officer completed · waiting for CM review'][i]})),
+      filters:[['All',27],['In field',14],['Out of TAT',2],['Released',38],['Lok Adalat',3]].map(([n,c],i)=>({n,c,bg:i===0?'var(--blue)':'var(--card)',fg:i===0?'#fff':'var(--body)',bd:i===0?'var(--blue)':'var(--line)'})),
+      cases,
+      steps:[['Allocated to TaaSen','by you','22-09',1],['Officer accepted','Sathish K · in 6 min','22-09',1],['Started','','23-09',1],['Insured and driver visited','2 of 4 touch points','24-09',1],['Police station','FIR copy · waiting for your approval of charges','26-09',2],['Final report','','',0],['Released to you','','',0]].map(([n,d,t,k],i,a)=>({n,d,t,dot:k===1?'var(--okb)':(k===2?'#F0A500':'var(--line)'),nc:k===0?'var(--mut)':'var(--ink)',lv:i===a.length-1?'hidden':'visible'})),
+      files:[['picture_as_pdf','Final report · MOT17820011.pdf','12 pages · 2.1 MB','var(--redt)','var(--red)'],['description','FIR 412/2026 · Tambaram PS','PDF · 640 KB','var(--sky)','var(--blue)'],['photo_library','Site photos with GPS stamp','14 photos','var(--sky)','var(--blue)'],['graphic_eq','Statements · voice','3 recordings','var(--sky)','var(--blue)']].map(([ic,n,d,bg,c])=>({ic,n,d,bg,c})),
+      reasons:[['National Lok Adalat','gavel',1],['Court date fixed','balance',0],['Customer escalation','support_agent',0],['Other','more_horiz',0]].map(([n,ic,on])=>({n,ic,bg:on?'var(--sky)':'var(--card)',bd:on?'var(--blue)':'var(--line)',c:on?'var(--blue)':'var(--mut)'})),
+      menu:[['apartment','Company','ICICI Lombard'],['support_agent','TaaSen SPOC','Priya S'],['notifications','Notifications','Released, approvals'],['translate','Language','English'],['pin','Change PIN','']].map(([ic,n,v])=>({ic,n,v})),
+      foot:foot?foot[0]:'',footIc:foot?foot[1]:'',footBg:foot?foot[2]:'',foot2:foot?foot[3]:'',foot2C:foot?foot[4]:'',
+      tabs:[['home','Home'],['folder_open','Cases'],['forum','Messages'],['person','Profile']].map(([ic,n],i)=>({ic,n,c:tabIdx===i?'var(--link)':'var(--mut)',bg:tabIdx===i?'var(--sky)':'transparent'}))};
+  }
+}
+</script>
+</body>
+</html>

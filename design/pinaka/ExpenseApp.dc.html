@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0..1,0" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#0074D9}a:hover{color:#0060B5}
+[data-ex]{--f:'IBM Plex Sans',system-ui,sans-serif;--m:'IBM Plex Mono',ui-monospace,monospace}
+[data-ex=light]{--bg:#EEF3F9;--card:#FFFFFF;--ink:#0B2540;--body:#33475B;--mut:#5A708C;--line:#D7E2EF;--line2:#E7EEF6;--sky:#E3F0FC;--blue:#0074D9;--link:#0060B5;--grad:linear-gradient(135deg,#001F3F 0%,#0074D9 100%);--fld:#F6F9FD;--ok:#1E7A3D;--okt:#E4F6EA;--okb:#2E9E4B;--red:#A3271B;--redt:#FCE9E7;--redb:#D93A2B;--amb:#9A6A00;--ambt:#FFF3D6;--navy:#001F3F;--navyt:#DCE5F0;--grey:#5A708C;--greyt:#E7EEF6;--scrim:rgba(3,17,34,.5);--sh:0 12px 30px rgba(2,32,64,.22)}
+[data-ex=dark]{--bg:#07111D;--card:#0E1C2E;--ink:#E7EEF7;--body:#C3D0DE;--mut:#93A6BC;--line:#22374F;--line2:#1A2C42;--sky:#14304F;--blue:#5AAEF5;--link:#7CC0FF;--grad:linear-gradient(135deg,#000E1C 0%,#0A4B8C 100%);--fld:#0A1726;--ok:#6FD39A;--okt:#0F2E1E;--okb:#2E9E4B;--red:#FF9A8C;--redt:#3A1612;--redb:#C8382A;--amb:#F5BE6A;--ambt:#35260E;--navy:#9CC3EC;--navyt:#162B45;--grey:#AFC0D3;--greyt:#1A2C42;--scrim:rgba(0,0,0,.62);--sh:0 12px 30px rgba(0,0,0,.5)}
+[data-ex] *{box-sizing:border-box}
+[data-ex] button{font-family:var(--f);cursor:pointer}
+[data-ex] input,[data-ex] textarea{font-family:var(--f)}
+[data-ex] i{font-family:'Material Symbols Rounded';font-style:normal;font-weight:normal;font-size:22px;line-height:1;display:inline-block;white-space:nowrap;-webkit-font-smoothing:antialiased;font-feature-settings:'liga'}
+@keyframes exspin{to{transform:rotate(360deg)}}
+@keyframes exshim{0%{background-position:200% 0}100%{background-position:-200% 0}}
+</style>
+</helmet>
+<div data-ex="{{ theme }}" style="width:{{ W }}px;height:{{ H }}px;position:relative;overflow:hidden;background:var(--bg);color:var(--ink);font-family:var(--f);font-size:15px;line-height:1.4">
+<sc-if value="{{ isAnd }}" hint-placeholder-val="{{ true }}"><div style="position:absolute;top:0;left:0;right:0;height:24px;background:{{ sbBg }};color:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 14px;font:500 12px var(--f);z-index:60"><span>4:12</span><span style="display:flex;gap:3px;align-items:center"><i style="font-size:15px">{{ netIc }}</i><i style="font-size:15px">signal_cellular_alt</i><i style="font-size:15px">battery_5_bar</i></span></div></sc-if>
+<sc-if value="{{ isIOS }}" hint-placeholder-val="{{ false }}"><div style="position:absolute;top:0;left:0;right:0;height:47px;background:{{ sbBg }};color:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 30px 0 34px;font:600 16px -apple-system,system-ui,sans-serif;z-index:60"><span>4:12</span><span style="position:absolute;left:50%;top:11px;transform:translateX(-50%);width:122px;height:35px;border-radius:18px;background:#000"></span><span style="display:flex;gap:5px;align-items:center"><i style="font-size:17px">signal_cellular_alt</i><i style="font-size:17px">{{ netIc }}</i><i style="font-size:20px">battery_full</i></span></div></sc-if>
+<div style="position:absolute;left:0;right:0;top:{{ sbH }}px;bottom:{{ bH }}px;overflow:hidden;display:flex;flex-direction:column">
+  <div style="background:var(--grad);color:#fff;flex:none;height:56px;display:grid;grid-template-columns:64px 1fr 96px;align-items:center;padding:0 4px">
+    <button onClick="{{ back }}" style="height:48px;border:0;background:transparent;color:#fff;display:flex;align-items:center;padding:0 8px"><i>{{ backIc }}</i></button>
+    <div style="text-align:center;min-width:0"><div style="font-size:17px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ title }}</div><div style="font:500 11px var(--m);opacity:.82;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ sub }}</div></div>
+    <div style="display:flex;justify-content:flex-end;padding-right:6px"><sc-if value="{{ s.list }}" hint-placeholder-val="{{ true }}"><button onClick="{{ toCreate }}" style="height:34px;padding:0 12px;border-radius:17px;border:0;background:rgba(255,255,255,.2);color:#fff;font-size:13.5px;font-weight:600;display:flex;align-items:center;gap:4px">Create<i style="font-size:18px">add</i></button></sc-if></div>
+  </div>
+  <sc-if value="{{ offline }}" hint-placeholder-val="{{ false }}"><div style="flex:none;min-height:34px;background:var(--ambt);color:var(--amb);display:flex;align-items:center;gap:8px;padding:6px 12px;font-size:12.5px;font-weight:600"><i style="font-size:18px">cloud_off</i>Offline · new expenses wait on this phone and send when online</div></sc-if>
+  <div style="flex:1;overflow-y:auto;min-height:0">
+
+  <sc-if value="{{ s.list }}" hint-placeholder-val="{{ true }}">
+  <div style="padding:12px;display:flex;flex-direction:column;gap:12px">
+    <div style="background:var(--grad);color:#fff;border-radius:16px;padding:14px 16px;display:flex;flex-direction:column;gap:10px">
+      <div style="display:flex;align-items:flex-end;gap:10px"><div><div style="font:500 12px var(--m);opacity:.85">Claim #: MOT17819657</div><div style="font-size:12.5px;opacity:.85;margin-top:6px">Total Amount</div><div style="font-size:28px;font-weight:700">₹{{ total }}</div></div><div style="margin-left:auto;text-align:right;font-size:12.5px;opacity:.9">Total Expenses: {{ count }}</div></div>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px"><sc-for list="{{ strip }}" as="t" hint-placeholder-count="4"><div style="background:rgba(255,255,255,.14);border-radius:10px;padding:6px 8px"><div style="font-size:11px;opacity:.85">{{ t.n }}</div><b style="font-size:13.5px">₹{{ t.v }}</b></div></sc-for></div>
+    </div>
+    <sc-if value="{{ loading }}" hint-placeholder-val="{{ false }}"><div style="display:flex;flex-direction:column;gap:10px"><sc-for list="{{ skel }}" as="k" hint-placeholder-count="3"><div style="height:132px;border-radius:14px;background:linear-gradient(90deg,var(--line2),var(--line),var(--line2));background-size:200% 100%;animation:exshim 1.2s linear infinite"></div></sc-for><div style="text-align:center;color:var(--mut);font-size:13.5px">Loading expenses...</div></div></sc-if>
+    <sc-if value="{{ failed }}" hint-placeholder-val="{{ false }}"><div style="padding:40px 20px;display:flex;flex-direction:column;align-items:center;gap:12px;text-align:center"><span style="width:68px;height:68px;border-radius:34px;background:var(--redt);color:var(--red);display:grid;place-items:center"><i style="font-size:32px">error</i></span><b style="font-size:17px">Failed to load expenses</b><button onClick="{{ retry }}" style="height:48px;padding:0 24px;border-radius:12px;border:0;background:var(--grad);color:#fff;font-size:15px;font-weight:600;display:flex;align-items:center;gap:6px"><i>refresh</i>Try Again</button></div></sc-if>
+    <sc-if value="{{ missedChip }}" hint-placeholder-val="{{ true }}"><button onClick="{{ toMissed }}" style="height:46px;border-radius:12px;border:1.5px solid var(--amb);background:var(--ambt);color:var(--amb);font-size:14px;font-weight:600;display:flex;align-items:center;gap:8px;padding:0 12px"><i style="font-size:20px">history</i>Missed expense · 3 cases without travel<i style="margin-left:auto;font-size:20px">chevron_right</i></button></sc-if>
+    <sc-if value="{{ empty }}" hint-placeholder-val="{{ false }}"><div style="padding:40px 20px;display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center"><span style="width:76px;height:76px;border-radius:38px;background:var(--sky);color:var(--blue);display:grid;place-items:center"><i style="font-size:36px">receipt_long</i></span><b style="font-size:17px">No Expenses Yet</b><span style="font-size:14px;color:var(--mut)">Create your first expense for this case</span><button onClick="{{ toCreate }}" style="margin-top:6px;height:50px;padding:0 22px;border-radius:12px;border:0;background:var(--grad);color:#fff;font-size:15px;font-weight:600;display:flex;align-items:center;gap:6px"><i>add</i>Create First Expense</button></div></sc-if>
+    <sc-for list="{{ items }}" as="e" hint-placeholder-count="4">
+      <div style="background:var(--card);border:1px solid var(--line);border-radius:16px;padding:12px 14px;display:flex;flex-direction:column;gap:8px">
+        <div style="display:flex;align-items:center;gap:8px"><span style="width:38px;height:38px;border-radius:19px;background:var(--sky);color:var(--blue);display:grid;place-items:center;flex:none"><i style="font-size:20px">{{ e.ic }}</i></span><div style="flex:1;min-width:0"><b style="font-size:15.5px;font-weight:600">{{ e.p }}</b><div style="font-size:12px;color:var(--mut)">Created: {{ e.at }}</div></div><div style="text-align:right"><b style="font-size:16px">₹{{ e.amt }}</b></div></div>
+        <sc-if value="{{ e.route }}" hint-placeholder-val="{{ false }}"><div style="font-size:13px;color:var(--body);display:flex;gap:6px;align-items:center"><i style="font-size:17px;color:var(--mut)">route</i>{{ e.route }}</div></sc-if>
+        <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap"><span style="height:26px;padding:0 10px;border-radius:13px;background:{{ e.sBg }};color:{{ e.sFg }};font-size:12.5px;font-weight:600;display:flex;align-items:center;gap:4px"><i style="font-size:15px">{{ e.sIc }}</i>{{ e.st }}</span><sc-if value="{{ e.hasBill }}" hint-placeholder-val="{{ true }}"><span style="height:26px;padding:0 10px;border-radius:13px;border:1px solid var(--line);font-size:12px;display:flex;align-items:center;gap:4px;color:var(--link)"><i style="font-size:15px">description</i>{{ e.bill }}</span></sc-if><sc-if value="{{ e.noDoc }}" hint-placeholder-val="{{ false }}"><span style="font-size:12px;color:var(--mut)">No Document</span></sc-if><sc-if value="{{ e.editable }}" hint-placeholder-val="{{ false }}"><span style="margin-left:auto;display:flex;gap:2px"><button style="width:36px;height:36px;border:0;background:transparent;color:var(--link);display:grid;place-items:center"><i style="font-size:20px">edit</i></button><button style="width:36px;height:36px;border:0;background:transparent;color:var(--red);display:grid;place-items:center"><i style="font-size:20px">delete</i></button></span></sc-if></div>
+        <div style="display:flex;align-items:center;gap:4px;flex-wrap:wrap"><sc-for list="{{ e.lv }}" as="l" hint-placeholder-count="3"><span style="height:24px;padding:0 8px;border-radius:12px;background:{{ l.bg }};color:{{ l.c }};font-size:11.5px;font-weight:600;display:flex;align-items:center;gap:3px"><i style="font-size:14px">{{ l.ic }}</i>{{ l.n }}</span><sc-if value="{{ l.arrow }}" hint-placeholder-val="{{ true }}"><i style="font-size:14px;color:var(--mut)">chevron_right</i></sc-if></sc-for></div>
+        <sc-if value="{{ e.note }}" hint-placeholder-val="{{ false }}"><div style="font-size:12.5px;color:{{ e.noteC }};background:{{ e.noteBg }};border-radius:8px;padding:6px 8px">{{ e.note }}</div></sc-if>
+        <div style="display:flex;justify-content:space-between;font:500 11.5px var(--m);color:var(--mut)"><span>Claim: MOT17819657</span><span>{{ e.proof }}</span></div>
+      </div>
+    </sc-for>
+  </div>
+  </sc-if>
+
+  <sc-if value="{{ s.create }}" hint-placeholder-val="{{ false }}">
+  <div style="padding:12px;display:flex;flex-direction:column;gap:14px">
+    <div style="font:500 13px var(--m);color:var(--mut)">Claim #: MOT17819657</div>
+    <sc-if value="{{ topErr }}" hint-placeholder-val="{{ false }}"><div style="border-radius:12px;padding:10px 12px;background:var(--redt);color:var(--red);font-size:13.5px;font-weight:600;display:flex;gap:8px;align-items:center"><i style="font-variation-settings:'FILL' 1">error</i>{{ topErr }}</div></sc-if>
+    <div style="display:flex;flex-direction:column;gap:6px"><b style="font-size:14.5px">Purpose <span style="color:#E74C3C">*</span></b><button onClick="{{ openPurpose }}" style="height:54px;border:1.5px solid var(--line);border-radius:10px;background:var(--card);padding:0 12px;display:flex;align-items:center;gap:10px;text-align:left;color:var(--ink)"><i style="color:var(--blue)">{{ pIc }}</i><span style="flex:1;font-size:15px;color:{{ pVc }}">{{ pLabel }}</span><i style="color:var(--mut)">expand_more</i></button></div>
+    <sc-if value="{{ hasPurpose }}" hint-placeholder-val="{{ false }}"><div style="border-radius:10px;padding:9px 12px;background:var(--sky);font-size:13px;display:flex;gap:8px;align-items:center"><i style="font-size:18px;color:var(--blue)">info</i>{{ capBanner }}</div></sc-if>
+    <div style="display:flex;flex-direction:column;gap:6px"><b style="font-size:14.5px">Expense date <span style="color:#E74C3C">*</span></b><div style="height:50px;border:1.5px solid var(--line);border-radius:10px;background:var(--card);padding:0 12px;display:flex;align-items:center;gap:10px;font-size:15px"><i style="color:var(--mut)">calendar_month</i>26 Sep, 2026<span style="margin-left:auto;font-size:12px;color:var(--mut)">today</span></div></div>
+    <sc-if value="{{ travel }}" hint-placeholder-val="{{ false }}">
+      <div style="display:flex;flex-direction:column;gap:6px"><b style="font-size:14.5px">How did you travel? <span style="color:#E74C3C">*</span></b><div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px"><sc-for list="{{ modes }}" as="m" hint-placeholder-count="4"><button onClick="{{ m.pick }}" style="height:60px;border-radius:12px;border:1.5px solid {{ m.bd }};background:{{ m.bg }};color:{{ m.fg }};display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;font-size:12px;font-weight:600"><i style="font-size:22px">{{ m.ic }}</i>{{ m.n }}</button></sc-for></div></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px"><div><div style="font-size:12.5px;color:var(--mut);margin-bottom:4px">From</div><div style="height:48px;border:1.5px solid var(--line);border-radius:10px;background:var(--card);padding:0 10px;display:flex;align-items:center;font-size:14.5px">Chennai</div></div><div><div style="font-size:12.5px;color:var(--mut);margin-bottom:4px">To</div><div style="height:48px;border:1.5px solid var(--line);border-radius:10px;background:var(--card);padding:0 10px;display:flex;align-items:center;font-size:14.5px">Kanchipuram</div></div></div>
+      <div><div style="font-size:12.5px;color:var(--mut);margin-bottom:4px">Touch point visited</div><div style="height:48px;border:1.5px solid var(--line);border-radius:10px;background:var(--card);padding:0 10px;display:flex;align-items:center;gap:8px;font-size:14.5px"><i style="font-size:19px;color:var(--blue)">local_police</i>Kanchipuram Taluk PS<i style="margin-left:auto;color:var(--mut)">expand_more</i></div></div>
+    </sc-if>
+    <sc-if value="{{ fuel }}" hint-placeholder-val="{{ false }}"><div style="background:var(--card);border:1.5px solid var(--blue);border-radius:12px;padding:12px;display:flex;flex-direction:column;gap:8px"><div style="display:flex;align-items:center;gap:8px"><i style="color:var(--blue)">conversion_path</i><b style="font-size:14.5px">Bike · km from GPS</b><span style="margin-left:auto;font:500 11px var(--m);color:var(--mut)">auto</span></div><div style="display:grid;grid-template-columns:auto 1fr;gap:3px 12px;font-size:13px"><span style="color:var(--mut)">Started</span><span>26 Sep · 10:41 am · Tambaram</span><span style="color:var(--mut)">Completed</span><span>26 Sep · 4:05 pm · Kanchipuram</span><span style="color:var(--mut)">Distance</span><b>72.4 km</b><span style="color:var(--mut)">Rate</span><span>₹4.00 / km <span style="color:var(--mut)">(sample · rate from Field Masters)</span></span></div><div style="border-top:1px solid var(--line2);padding-top:8px;display:flex;align-items:center"><span style="font-size:13px;color:var(--mut)">72.4 km × ₹4.00</span><b style="margin-left:auto;font-size:18px">₹289.60</b></div><div style="font-size:12px;color:var(--mut)">Counted from the case Start to Complete. No fuel bill is needed for a bike.</div></div></sc-if>
+    <sc-if value="{{ showAmount }}" hint-placeholder-val="{{ true }}">
+    <div style="display:flex;flex-direction:column;gap:6px"><b style="font-size:14.5px">Amount <span style="color:#E74C3C">*</span></b><div style="height:54px;border:1.5px solid {{ amtBd }};border-radius:10px;background:var(--card);padding:0 12px;display:flex;align-items:center;gap:6px"><span style="font-size:17px;color:var(--mut)">₹</span><input value="{{ amt }}" onChange="{{ setAmt }}" inputmode="decimal" placeholder="{{ amtPh }}" style="flex:1;min-width:0;border:0;outline:none;background:transparent;color:var(--ink);font-size:17px"></div><div style="display:flex;justify-content:space-between;font-size:12.5px"><span style="color:var(--red);font-weight:600">{{ amtErr }}</span><span style="color:var(--mut)">{{ amtHint }}</span></div></div>
+    </sc-if>
+    <sc-if value="{{ needDoc }}" hint-placeholder-val="{{ true }}">
+    <div style="display:flex;flex-direction:column;gap:6px"><b style="font-size:14.5px">Attach Document (Mandatory)</b>
+      <sc-for list="{{ bills }}" as="b" hint-placeholder-count="1"><div style="height:54px;border:1.5px solid var(--okb);border-radius:10px;background:var(--okt);padding:0 6px 0 12px;display:flex;align-items:center;gap:10px"><i style="color:var(--ok)">task</i><span style="flex:1;min-width:0"><b style="display:block;font-size:13px;color:var(--ok)">Document Attached</b><span style="font-size:12.5px;color:var(--body);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block">{{ b.n }}</span></span><button style="width:40px;height:40px;border:0;background:transparent;color:var(--mut);display:grid;place-items:center"><i style="font-size:20px">close</i></button></div></sc-for>
+      <button onClick="{{ openAttach }}" style="height:54px;border:1.5px dashed {{ docBd }};border-radius:10px;background:var(--fld);color:var(--link);font-size:14.5px;font-weight:600;display:flex;align-items:center;justify-content:center;gap:8px"><i>attach_file</i>{{ attachLabel }}</button>
+      <sc-if value="{{ docErr }}" hint-placeholder-val="{{ false }}"><span style="font-size:12.5px;color:var(--red);font-weight:600">Please attach a document (Mandatory)</span></sc-if>
+      <span style="font-size:12px;color:var(--mut)">Supported formats: PDF, DOC, DOCX, XLS, XLSX, PPT, Images, etc.</span>
+    </div>
+    </sc-if>
+    <div style="display:flex;flex-direction:column;gap:6px"><b style="font-size:14.5px">Remarks <span style="font-weight:400;color:var(--mut)">(optional)</span></b><div style="position:relative"><textarea placeholder="Anything the office should know" rows="2" style="width:100%;min-height:70px;border:1.5px solid var(--line);border-radius:10px;background:var(--card);color:var(--ink);font-size:14.5px;padding:10px 64px 10px 12px;resize:none;outline:none">{{ remark }}</textarea><span style="position:absolute;right:6px;top:6px;width:52px;display:flex;flex-direction:column;align-items:center;color:var(--blue);font-size:9.5px;font-weight:600"><span style="width:40px;height:40px;border-radius:20px;background:var(--sky);display:grid;place-items:center"><i>mic</i></span>Translator</span></div><span style="font:500 11.5px var(--m);color:var(--mut);text-align:right">{{ remarkCnt }}/200</span></div>
+  </div>
+  </sc-if>
+
+  <sc-if value="{{ s.trip }}" hint-placeholder-val="{{ false }}">
+  <div style="padding:12px;display:flex;flex-direction:column;gap:12px">
+    <div style="border-radius:14px;padding:12px;background:var(--sky);font-size:13.5px;display:flex;gap:10px"><i style="color:var(--blue)">receipt_long</i><span><b style="display:block">Travel expense for this case</b>Add it now, before Complete Case. Your GPS trail from Start to now is already measured.</span></div>
+    <div style="background:var(--card);border:1px solid var(--line);border-radius:16px;overflow:hidden">
+      <div style="height:110px;background:linear-gradient(160deg,#C9D8E8,#E9F0F7);display:grid;place-items:center;color:#5A708C;font-size:12.5px">Route map · Tambaram → Kanchipuram</div>
+      <div style="padding:12px 14px;display:grid;grid-template-columns:auto 1fr;gap:3px 12px;font-size:13px"><span style="color:var(--mut)">Started</span><span>10:41 am · Tambaram</span><span style="color:var(--mut)">Touch points</span><span>Insured · Taluk PS · Hospital · Driver</span><span style="color:var(--mut)">GPS distance</span><b>72.4 km</b></div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:6px"><b style="font-size:14.5px">How did you travel? <span style="color:#E74C3C">*</span></b><div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px"><sc-for list="{{ modes }}" as="m" hint-placeholder-count="4"><button onClick="{{ m.pick }}" style="height:60px;border-radius:12px;border:1.5px solid {{ m.bd }};background:{{ m.bg }};color:{{ m.fg }};display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;font-size:12px;font-weight:600"><i style="font-size:22px">{{ m.ic }}</i>{{ m.n }}</button></sc-for></div></div>
+    <sc-if value="{{ tripBike }}" hint-placeholder-val="{{ true }}"><div style="background:var(--card);border:1.5px solid var(--blue);border-radius:12px;padding:12px;display:flex;align-items:center;gap:8px"><span style="font-size:13.5px;color:var(--body)">72.4 km × ₹4.00 <span style="color:var(--mut)">(sample rate)</span></span><b style="margin-left:auto;font-size:19px">₹289.60</b></div></sc-if>
+    <sc-if value="{{ tripOther }}" hint-placeholder-val="{{ false }}"><div style="background:var(--card);border:1.5px solid var(--line);border-radius:12px;padding:12px;display:flex;flex-direction:column;gap:8px"><div style="height:48px;border:1.5px solid var(--line);border-radius:10px;padding:0 12px;display:flex;align-items:center;gap:6px;font-size:16px"><span style="color:var(--mut)">₹</span>185.00</div><div style="height:48px;border:1.5px dashed var(--line);border-radius:10px;display:flex;align-items:center;justify-content:center;gap:6px;color:var(--link);font-size:14px;font-weight:600"><i style="font-size:19px">attach_file</i>Attach ticket / bill (Mandatory)</div></div></sc-if>
+    <div style="font-size:12.5px;color:var(--mut)">Food, MRD and room rent can be added later from Expenses.</div>
+  </div>
+  </sc-if>
+
+  <sc-if value="{{ s.missed }}" hint-placeholder-val="{{ false }}">
+  <div style="padding:12px;display:flex;flex-direction:column;gap:12px">
+    <div style="border-radius:14px;padding:12px;background:var(--ambt);color:var(--amb);font-size:13.5px;display:flex;gap:10px"><i>history</i><span><b style="display:block">3 cases have no travel expense</b><span style="color:var(--body)">Pick a claim to add what you missed. Allowed within 30 days of completion.</span></span></div>
+    <sc-for list="{{ missed }}" as="m" hint-placeholder-count="3"><div style="background:var(--card);border:1px solid var(--line);border-radius:16px;padding:12px 14px;display:flex;flex-direction:column;gap:6px"><div style="display:flex;align-items:center;gap:8px"><div style="flex:1;min-width:0"><b style="font-size:15px;font-weight:600">{{ m.name }}</b><div style="font:500 11.5px var(--m);color:var(--mut)">{{ m.claim }} · {{ m.prod }}</div></div><span style="font-size:12px;color:{{ m.dc }};font-weight:600">{{ m.left }}</span></div><div style="font-size:12.5px;color:var(--body);display:flex;gap:6px;align-items:center"><i style="font-size:17px;color:var(--mut)">conversion_path</i>Completed {{ m.done }} · GPS {{ m.km }}</div><button onClick="{{ m.add }}" style="align-self:flex-start;height:40px;padding:0 14px;border-radius:10px;border:0;background:var(--sky);color:var(--link);font-size:14px;font-weight:600;display:flex;align-items:center;gap:6px"><i style="font-size:19px">add</i>Add travel expense</button></div></sc-for>
+  </div>
+  </sc-if>
+
+  <sc-if value="{{ s.success }}" hint-placeholder-val="{{ false }}">
+  <div style="padding:48px 20px;display:flex;flex-direction:column;align-items:center;gap:12px;text-align:center">
+    <span style="width:88px;height:88px;border-radius:44px;background:var(--okt);color:var(--ok);display:grid;place-items:center"><i style="font-size:48px;font-variation-settings:'FILL' 1">check_circle</i></span>
+    <b style="font-size:20px">Expense added successfully ✅</b>
+    <span style="font:500 13.5px var(--m);color:var(--mut)">Expense ID: 88214</span>
+    <span style="height:28px;padding:0 12px;border-radius:14px;background:var(--greyt);color:var(--grey);font-size:13px;font-weight:600;display:flex;align-items:center;gap:5px"><i style="font-size:16px">schedule</i>Submitted · waiting for approval</span>
+  </div>
+  </sc-if>
+
+  <sc-if value="{{ s.month }}" hint-placeholder-val="{{ false }}">
+  <div style="padding:12px;display:flex;flex-direction:column;gap:12px">
+    <div style="display:flex;gap:6px;overflow-x:auto"><sc-for list="{{ mFilters }}" as="f" hint-placeholder-count="4"><span style="flex:none;height:34px;padding:0 12px;border-radius:17px;border:1px solid {{ f.bd }};background:{{ f.bg }};color:{{ f.fg }};font-size:13px;font-weight:600;display:flex;align-items:center;gap:4px">{{ f.n }}<i style="font-size:17px">expand_more</i></span></sc-for></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px"><sc-for list="{{ mTotals }}" as="t" hint-placeholder-count="4"><div style="background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 12px"><div style="font-size:12px;color:var(--mut)">{{ t.n }}</div><b style="font-size:18px;color:{{ t.c }}">₹{{ t.v }}</b></div></sc-for></div>
+    <div style="background:var(--card);border:1px solid var(--line);border-radius:16px;padding:2px 14px">
+      <sc-for list="{{ mRows }}" as="r" hint-placeholder-count="6"><div style="display:grid;grid-template-columns:1fr auto;gap:4px 10px;padding:10px 0;border-bottom:1px solid var(--line2)"><b style="font-size:14px;font-weight:600">{{ r.p }}</b><b style="font-size:14px;text-align:right">₹{{ r.v }}</b><span style="font:500 11.5px var(--m);color:var(--mut)">{{ r.claim }} · {{ r.d }}</span><span style="font-size:12px;font-weight:600;color:{{ r.c }};text-align:right">{{ r.s }}</span></div></sc-for>
+    </div>
+  </div>
+  </sc-if>
+  </div>
+
+  <sc-if value="{{ showFoot }}" hint-placeholder-val="{{ false }}"><div style="flex:none;padding:10px 12px 12px;background:var(--card);border-top:1px solid var(--line);display:flex;gap:10px"><sc-if value="{{ foot2 }}" hint-placeholder-val="{{ false }}"><button onClick="{{ foot2Act }}" style="flex:1;height:52px;border-radius:12px;border:1.5px solid var(--line);background:transparent;color:var(--ink);font-size:15px;font-weight:600">{{ foot2 }}</button></sc-if><button onClick="{{ footAct }}" style="flex:1.4;height:52px;border-radius:12px;border:0;background:var(--grad);color:#fff;display:flex;align-items:center;justify-content:center;gap:8px;font-size:15.5px;font-weight:600"><i>{{ footIc }}</i>{{ footLabel }}</button></div></sc-if>
+
+  <sc-if value="{{ scrim }}" hint-placeholder-val="{{ false }}"><div onClick="{{ close }}" style="position:absolute;inset:0;background:var(--scrim);z-index:80"></div></sc-if>
+  <sc-if value="{{ sh.purpose }}" hint-placeholder-val="{{ false }}"><div style="position:absolute;left:0;right:0;bottom:0;z-index:81;background:var(--card);border-radius:{{ sheetRad }};padding:8px 0 12px;max-height:80%;display:flex;flex-direction:column"><div style="width:36px;height:4px;border-radius:2px;background:var(--line);margin:4px auto 8px"></div><b style="font-size:17px;padding:0 16px 8px">Select purpose</b><div style="overflow-y:auto"><sc-for list="{{ purposes }}" as="p" hint-placeholder-count="9"><button onClick="{{ p.pick }}" style="width:100%;min-height:50px;border:0;border-top:1px solid var(--line2);background:{{ p.bg }};color:var(--ink);display:flex;align-items:center;gap:12px;padding:0 16px;text-align:left;font-size:15px"><i style="color:var(--blue);font-size:21px">{{ p.ic }}</i><span style="flex:1">{{ p.n }}</span><span style="font-size:12.5px;color:var(--mut)">{{ p.cap }}</span></button></sc-for></div></div></sc-if>
+  <sc-if value="{{ sh.attach }}" hint-placeholder-val="{{ false }}"><div style="position:absolute;left:0;right:0;bottom:0;z-index:81;background:var(--card);border-radius:{{ sheetRad }};padding:8px 0 14px;display:flex;flex-direction:column"><div style="width:36px;height:4px;border-radius:2px;background:var(--line);margin:4px auto 8px"></div><b style="font-size:17px;padding:0 16px 8px">Attach Document</b><sc-for list="{{ sources }}" as="o" hint-placeholder-count="4"><button onClick="{{ o.pick }}" style="width:100%;min-height:62px;border:0;border-top:1px solid var(--line2);background:transparent;color:var(--ink);display:flex;align-items:center;gap:14px;padding:0 16px;text-align:left"><span style="width:40px;height:40px;border-radius:20px;background:var(--sky);color:var(--blue);display:grid;place-items:center;flex:none"><i style="font-size:20px">{{ o.ic }}</i></span><span><b style="display:block;font-size:15px;font-weight:600">{{ o.n }}</b><span style="font-size:12.5px;color:var(--mut)">{{ o.d }}</span></span></button></sc-for><div style="font-size:12px;color:var(--mut);padding:8px 16px 0">Photos are made smaller (about 300 KB). Up to 10 MB per file. APK, HTML, SVG, EXE and JS files are blocked.</div></div></sc-if>
+  <sc-if value="{{ ov.dup }}" hint-placeholder-val="{{ false }}"><div style="position:absolute;left:24px;right:24px;top:50%;transform:translateY(-50%);z-index:82;background:var(--card);border-radius:{{ dlgRad }};padding:22px 20px 14px;display:flex;flex-direction:column;gap:10px;box-shadow:var(--sh)"><i style="color:var(--amb);font-size:28px">content_copy</i><b style="font-size:18px">Looks like a duplicate — submit anyway?</b><div style="font-size:14px;color:var(--body)">You added Auto Fare ₹80 for this claim today at 11:20 am with a bill from the same place.</div><div style="display:flex;justify-content:flex-end;gap:6px;margin-top:4px"><button onClick="{{ close }}" style="height:44px;padding:0 16px;border-radius:22px;border:0;background:transparent;color:var(--link);font-size:15px;font-weight:600">Cancel</button><button onClick="{{ doSubmit }}" style="height:44px;padding:0 18px;border-radius:22px;border:0;background:var(--grad);color:#fff;font-size:15px;font-weight:600">Submit anyway</button></div></div></sc-if>
+  <sc-if value="{{ ov.busy }}" hint-placeholder-val="{{ false }}"><div style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:82;background:var(--card);border-radius:16px;padding:22px 26px;display:flex;align-items:center;gap:14px;box-shadow:var(--sh)"><span style="width:30px;height:30px;border:3.5px solid var(--sky);border-top-color:var(--blue);border-radius:50%;animation:exspin .8s linear infinite"></span><b style="font-size:15.5px">Submitting...</b></div></sc-if>
+  <sc-if value="{{ ov.expired }}" hint-placeholder-val="{{ false }}"><div style="position:absolute;left:24px;right:24px;top:50%;transform:translateY(-50%);z-index:82;background:var(--card);border-radius:{{ dlgRad }};padding:22px 20px 14px;display:flex;flex-direction:column;gap:10px;box-shadow:var(--sh)"><i style="color:var(--red);font-size:28px">lock_clock</i><b style="font-size:18px">Session expired. Please login again.</b><div style="font-size:14px;color:var(--body)">This expense and its bills stay on the phone and fill in again after login.</div><div style="display:flex;justify-content:flex-end;gap:6px;margin-top:4px"><button onClick="{{ close }}" style="height:44px;padding:0 18px;border-radius:22px;border:0;background:var(--grad);color:#fff;font-size:15px;font-weight:600">Login</button></div></div></sc-if>
+  <sc-if value="{{ hasToast }}" hint-placeholder-val="{{ false }}"><div style="position:absolute;left:12px;right:12px;bottom:84px;z-index:90;background:#0B2540;color:#fff;border-radius:12px;padding:12px 14px;font-size:14px">{{ toast }}</div></sc-if>
+</div>
+<sc-if value="{{ isAnd }}" hint-placeholder-val="{{ true }}"><div style="position:absolute;bottom:0;left:0;right:0;height:16px;background:var(--card);display:grid;place-items:center"><span style="width:108px;height:4px;border-radius:2px;background:var(--ink)"></span></div></sc-if>
+<sc-if value="{{ isIOS }}" hint-placeholder-val="{{ false }}"><div style="position:absolute;bottom:0;left:0;right:0;height:34px;background:var(--card);display:grid;place-items:center"><span style="width:134px;height:5px;border-radius:3px;background:var(--ink)"></span></div></sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:360,&quot;height&quot;:800},&quot;platform&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;android&quot;,&quot;ios&quot;],&quot;default&quot;:&quot;android&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;theme&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;light&quot;,&quot;dark&quot;],&quot;default&quot;:&quot;light&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;scene&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;list&quot;,&quot;loading&quot;,&quot;empty&quot;,&quot;error&quot;,&quot;offline&quot;,&quot;create&quot;,&quot;purpose&quot;,&quot;autoErr&quot;,&quot;fuel&quot;,&quot;train&quot;,&quot;noexp&quot;,&quot;noDoc&quot;,&quot;attach&quot;,&quot;dup&quot;,&quot;expired&quot;,&quot;success&quot;,&quot;trip&quot;,&quot;tripTrain&quot;,&quot;missed&quot;,&quot;month&quot;],&quot;default&quot;:&quot;list&quot;,&quot;tsType&quot;:&quot;string&quot;}}">
+const P=[['Auto Fare','local_taxi',80,1],['Food Allowance','restaurant',100,0],['MRD Charges','description',2000,0],['Room Rent','hotel',2500,0],['Unofficial Expenses','payments',null,0],['Fuel','local_gas_station',null,1],['Train Ticket','train',null,1],['Bus Ticket','directions_bus',null,1],['No Expenses','block',0,0]];
+const PI=n=>P.find(p=>p[0]===n)||null;
+const fmt=v=>Number(v).toLocaleString('en-IN',{minimumFractionDigits:2,maximumFractionDigits:2});
+class Component extends DCLogic {
+  state=this.init(this.props);
+  init(p){ const sc=p.scene||'list';
+    const b={screen:'list',sc,mode:'Bike',purpose:null,amt:'',bills:[],err:false,sheet:null,ov:null,toast:null};
+    switch(sc){
+      case 'create': return {...b,screen:'create'};
+      case 'autoErr': return {...b,screen:'create',purpose:'Auto Fare',amt:'90',bills:['auto_bill_2609.jpg'],err:true};
+      case 'fuel': return {...b,screen:'create',purpose:'Fuel',amt:'620',bills:['fuel_bill_hp_kanchi.jpg']};
+      case 'train': return {...b,screen:'create',purpose:'Train Ticket',amt:'185',bills:['utsonmobile_ticket.pdf','return_ticket.jpg']};
+      case 'noexp': return {...b,screen:'create',purpose:'No Expenses',amt:'0'};
+      case 'noDoc': return {...b,screen:'create',purpose:'MRD Charges',amt:'500',err:true};
+      case 'purpose': return {...b,screen:'create',sheet:'purpose'};
+      case 'attach': return {...b,screen:'create',purpose:'Food Allowance',amt:'100',sheet:'attach'};
+      case 'dup': return {...b,screen:'create',purpose:'Auto Fare',amt:'80',bills:['auto_bill_2609.jpg'],ov:'dup'};
+      case 'expired': return {...b,screen:'create',purpose:'Room Rent',amt:'1800',bills:['lodge_receipt.pdf'],ov:'expired'};
+      case 'success': return {...b,screen:'success'};
+      case 'trip': return {...b,screen:'trip',mode:'Bike'};
+      case 'tripTrain': return {...b,screen:'trip',mode:'Train'};
+      case 'missed': return {...b,screen:'missed'};
+      case 'month': return {...b,screen:'month'};
+      default: return b;
+    }}
+  componentDidUpdate(pp){ if(pp.scene!==this.props.scene) this.setState(this.init(this.props)); }
+  componentWillUnmount(){ clearTimeout(this.tt); clearTimeout(this.bt); }
+  toast(m){ clearTimeout(this.tt); this.setState({toast:m}); this.tt=setTimeout(()=>this.setState({toast:null}),2400); }
+  check(){ const S=this.state,pi=PI(S.purpose); if(!pi) return 'Please fill all fields correctly';
+    if(pi[0]==='Fuel') return null; const v=Number(S.amt); if(pi[0]==='No Expenses') return v===0?null:'Amount must be ₹0 for No Expenses';
+    if(S.amt===''||isNaN(v)||v<=0) return 'Please enter a valid number';
+    if(pi[2]!=null&&v>pi[2]) return 'Maximum amount for '+pi[0]+' is ₹'+pi[2];
+    if(!S.bills.length) return 'doc'; return null; }
+  submit(){ const e=this.check(); if(e) return this.setState({err:true}); this.doSubmit(); }
+  doSubmit(){ if(this.state.sc==='offline'){ this.setState({screen:'list',ov:null}); return this.toast('Waiting to send · saved on this phone'); } this.setState({ov:'busy'}); this.bt=setTimeout(()=>this.setState({ov:null,screen:'success'}),1200); }
+  renderVals(){
+    const S=this.state,Pr=this.props,ios=Pr.platform==='ios',dark=Pr.theme==='dark',sc=S.sc;
+    const s={list:S.screen==='list',create:S.screen==='create',success:S.screen==='success',month:S.screen==='month',trip:S.screen==='trip',missed:S.screen==='missed'};
+    const LV=(a,b,c)=>[['OHS',a],['State Coord.',b],['Admin',c]].map(([n,st],i)=>({n,arrow:i<2,ic:st==='ok'?'check':(st==='now'?'hourglass_top':(st==='no'?'close':'radio_button_unchecked')),bg:st==='ok'?'var(--okt)':(st==='now'?'var(--sky)':(st==='no'?'var(--redt)':'transparent')),c:st==='ok'?'var(--ok)':(st==='now'?'var(--link)':(st==='no'?'var(--red)':'var(--mut)'))}));
+    const LVMAP={'Fuel':LV('ok','now','wait'),'Auto Fare':LV('ok','ok','ok'),'MRD Charges':LV('ok','ok','ok'),'Food Allowance':LV('no','wait','wait'),'Train Ticket':LV('ok','ok','ok'),'Room Rent':LV('wait','wait','wait')};
+    const ST={Submitted:['var(--greyt)','var(--grey)','schedule'],Approved:['var(--okt)','var(--ok)','check_circle'],Rejected:['var(--redt)','var(--red)','cancel'],Paid:['var(--navyt)','var(--navy)','account_balance'],'Waiting to send':['var(--ambt)','var(--amb)','cloud_upload']};
+    let items=[
+      ['Fuel','two_wheeler','26 Sep, 2026 • 04:05 PM',289.6,'Submitted','Bike · Tambaram → Kanchipuram · 72.4 km GPS',null,null,'Proof ID: 88203',true],
+      ['Auto Fare','local_taxi','26 Sep, 2026 • 11:20 AM',80,'Approved','Kanchipuram bus stand → Taluk PS','auto_bill.jpg',null,'Proof ID: 88207'],
+      ['MRD Charges','description','25 Sep, 2026 • 03:05 PM',1500,'Approved ₹1,200.00','','mrd_receipt.pdf','Reason: MRD receipt shows ₹1,200; ₹300 was a courier charge.','Proof ID: 88190'],
+      ['Food Allowance','restaurant','25 Sep, 2026 • 01:30 PM',120,'Rejected','','hotel_bill.jpg','Rejected by Priya S: over the ₹100 cap and the bill is for two people.','Proof ID: 88188'],
+      ['Train Ticket','train','22 Sep, 2026 • 07:10 AM',185,'Paid · 25 Sep','Chennai Beach → Chengalpattu','utsonmobile.pdf',null,'Proof ID: 88121']];
+    if(sc==='offline') items=[['Room Rent','hotel','26 Sep, 2026 • 04:10 PM',1800,'Waiting to send','','lodge_receipt.pdf',null,'',false],...items];
+    const empty=sc==='empty',loading=sc==='loading',failed=sc==='error';
+    const list=(empty||loading||failed)?[]:items.map(([p,ic,at,amt,st,route,bill,note,proof,ed])=>{ const k=Object.keys(ST).find(x=>st.startsWith(x))||'Submitted'; const t=ST[k];
+      return {lv:LVMAP[p]||LV('now','wait','wait'),p:p==='Fuel'?'Travel · Bike':p,ic,at,amt:fmt(amt),st,route,hasBill:!!bill,bill:bill||'',noDoc:!bill,note,noteC:k==='Rejected'?'var(--red)':'var(--body)',noteBg:k==='Rejected'?'var(--redt)':'var(--fld)',proof,editable:!!ed,sBg:t[0],sFg:t[1],sIc:t[2]}; });
+    const sum=(empty||loading||failed)?0:items.reduce((a,x)=>a+x[3],0);
+    const pi=PI(S.purpose), e=S.err?this.check():null;
+    const amtErr=e&&e!=='doc'&&e!=='Please fill all fields correctly'?e:'';
+    const isNo=pi&&pi[0]==='No Expenses';
+    let foot=null;
+    if(s.create) foot={l:'Submit Expense',ic:'send',act:()=>this.submit()};
+    if(s.success) foot={l:'Create Courier',ic:'local_shipping',act:()=>this.toast('Opens Create Courier · this claim\'s expenses attach'),b2:'Back to list',b2a:()=>this.setState({screen:'list'})};
+    if(s.trip) foot={l:'Add travel expense',ic:'add_task',act:()=>{ this.setState({screen:'success'}); },b2:'No travel',b2a:()=>this.toast('Saved as no travel · Complete Case opens')};
+    if(s.missed) foot=null;
+    const MODES=[['Bike','two_wheeler','Fuel'],['Bus','directions_bus','Bus Ticket'],['Train','train','Train Ticket'],['Auto / Taxi','local_taxi','Auto Fare']];
+    const curMode=s.trip?S.mode:(MODES.find(m=>m[2]===S.purpose)||[])[0];
+    const titles={list:'Add Expense Details',create:'Create Expenses',success:'Create Expenses',month:'My Expenses · Sep 2026',trip:'Travel expense',missed:'Missed expense'};
+    return {
+      theme:dark?'dark':'light',isIOS:ios,isAnd:!ios,W:ios?390:360,H:ios?844:800,sbH:ios?47:24,bH:ios?34:16,sbBg:dark?'#000E1C':'#001F3F',
+      netIc:sc==='offline'?'signal_wifi_off':'wifi',offline:sc==='offline',
+      backIc:ios?'chevron_left':'arrow_back',back:()=>this.setState({screen:'list',sheet:null,ov:null}),
+      title:titles[S.screen],sub:(s.month||s.missed)?'Ravi Kumar · sample':'MOT17819657 · Chola MS · sample',s,
+      toCreate:()=>this.setState({screen:'create',purpose:null,amt:'',bills:[],err:false}),
+      total:fmt(sum),count:list.length,
+      strip:[['Claimed',sum],['Approved',1480],['Paid',185],['Pending',sc==='offline'?2420:620]].map(([n,v])=>({n,v:(empty||loading||failed)?'0':Number(v).toLocaleString('en-IN')})),
+      loading,failed,empty,skel:[1,2,3],retry:()=>this.setState({sc:'list'}),items:list,
+      topErr:e==='Please fill all fields correctly'?e:(sc==='autoErr'?'Please fill all fields correctly':''),
+      openPurpose:()=>this.setState({sheet:'purpose'}),pIc:pi?pi[1]:'category',pLabel:pi?pi[0]:'Select purpose',pVc:pi?'var(--ink)':'var(--mut)',hasPurpose:!!pi,
+      capBanner:pi?(isNo?'No Expenses sends ₹0 with no bill':(pi[2]!=null?'Maximum allowed for '+pi[0]+': ₹'+pi[2]:'No maximum limit for '+pi[0])):'',
+      travel:!!(pi&&pi[3]),fuel:!!(pi&&pi[0]==='Fuel'),showAmount:!isNo&&!(pi&&pi[0]==='Fuel'),
+      modes:MODES.map(([n,ic,pp])=>{ const on=curMode===n; return {n,ic,bg:on?'var(--blue)':'var(--card)',fg:on?'#fff':'var(--body)',bd:on?'var(--blue)':'var(--line)',pick:()=>s.trip?this.setState({mode:n}):this.setState({purpose:pp,err:false})}; }),
+      tripBike:S.mode==='Bike',tripOther:S.mode!=='Bike',
+      missedChip:s.list&&!loading&&!failed,toMissed:()=>this.setState({screen:'missed'}),
+      missed:[['K Murugan','CHO-TP-50011290','Motor TP','23 Sep','38.2 km','27 days left','var(--mut)'],['Meena Sundaram','NIA-HL-22031877','Health','18 Sep','21.6 km','22 days left','var(--mut)'],['P Rajesh','CHO-TP-50004603','Motor TP','29 Aug','54.0 km','2 days left','var(--red)']].map(([name,claim,prod,done,km,left,dc])=>({name,claim,prod,done,km,left,dc,add:()=>this.setState({screen:'trip',mode:'Bike'})})),amt:S.amt,setAmt:ev=>this.setState({amt:ev.target.value}),
+      amtPh:pi?'Enter amount for '+pi[0]:'Enter amount',amtBd:amtErr?'var(--red)':'var(--line)',amtErr,amtHint:pi?(pi[2]!=null?'Max: ₹'+pi[2]:'No limit'):'',
+      needDoc:!isNo&&!(pi&&pi[0]==='Fuel'),bills:S.bills.map(n=>({n})),attachLabel:S.bills.length?'Add another bill':'Attach Document',docErr:e==='doc',docBd:e==='doc'?'var(--red)':'var(--line)',
+      openAttach:()=>this.setState({sheet:'attach'}),
+      remark:sc==='fuel'?'Two trips to the Taluk PS; the officer asked me to come back after lunch.':'',remarkCnt:sc==='fuel'?71:0,
+      showFoot:!!foot,footLabel:foot?foot.l:'',footIc:foot?foot.ic:'',footAct:()=>foot&&foot.act(),foot2:foot&&foot.b2||'',foot2Act:()=>foot&&foot.b2a&&foot.b2a(),
+      scrim:!!S.sheet||!!S.ov,close:()=>{ if(S.ov==='busy') return; this.setState({sheet:null,ov:null}); },
+      sh:{purpose:S.sheet==='purpose',attach:S.sheet==='attach'},ov:{dup:S.ov==='dup',busy:S.ov==='busy',expired:S.ov==='expired'},
+      sheetRad:ios?'14px 14px 0 0':'28px 28px 0 0',dlgRad:ios?'14px':'28px',
+      purposes:P.map(p=>({n:p[0],ic:p[1],cap:p[0]==='No Expenses'?'₹0':(p[2]!=null?'Max ₹'+p[2].toLocaleString('en-IN'):'No limit'),bg:S.purpose===p[0]?'var(--sky)':'transparent',pick:()=>this.setState({purpose:p[0],amt:p[0]==='No Expenses'?'0':S.amt,sheet:null,err:false})})),
+      sources:[['folder_open','Documents or PDF File','Choose PDF, Word, Excel, PowerPoint, Text or Archive file'],['picture_as_pdf','Images convert to Doc/PDF','Choose multiple photos to convert as a document'],['photo_library','Select Images','Choose photos from gallery'],['photo_camera','Take Photo','Capture using camera']].map(([ic,n,d])=>({ic,n,d,pick:()=>this.setState(st=>({sheet:null,bills:[...st.bills,'bill_'+(st.bills.length+1)+'.jpg']}))})),
+      doSubmit:()=>this.doSubmit(),
+      mFilters:['September 2026','All status','All purposes'].map((n,i)=>({n,bg:i===0?'var(--blue)':'var(--card)',fg:i===0?'#fff':'var(--body)',bd:i===0?'var(--blue)':'var(--line)'})),
+      mTotals:[['Claimed','8,940.00','var(--ink)'],['Approved','6,210.00','var(--ok)'],['Paid','4,100.00','var(--navy)'],['Pending','2,410.00','var(--amb)']].map(([n,v,c])=>({n,v,c})),
+      mRows:[['Fuel','MOT17819657','26 Sep','620.00','Submitted','var(--grey)'],['Auto Fare','MOT17819657','26 Sep','80.00','Approved','var(--ok)'],['MRD Charges','RR-HS26-15985394','25 Sep','1,200.00','Approved','var(--ok)'],['Food Allowance','RR-HS26-15985394','25 Sep','120.00','Rejected','var(--red)'],['Room Rent','CHO-TP-50011290','23 Sep','1,800.00','Paid','var(--navy)'],['Train Ticket','CHO-TP-50011290','22 Sep','185.00','Paid','var(--navy)']].map(([p,claim,d,v,st,c])=>({p,claim,d,v,s:st,c})),
+      hasToast:!!S.toast,toast:S.toast
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600;700&family=Noto+Sans+Tamil:wght@400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0..1,0" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#0074D9}a:hover{color:#0060B5}
+[data-tr]{--f:'IBM Plex Sans','Noto Sans Tamil',system-ui,sans-serif;--m:'IBM Plex Mono',ui-monospace,monospace}
+[data-tr=light]{--bg:#EEF3F9;--card:#FFFFFF;--ink:#0B2540;--body:#33475B;--mut:#5A708C;--line:#D7E2EF;--line2:#E7EEF6;--sky:#E3F0FC;--blue:#0074D9;--link:#0060B5;--grad:linear-gradient(135deg,#001F3F 0%,#0074D9 100%);--fld:#F6F9FD;--ok:#1E7A3D;--okt:#E4F6EA;--okb:#2E9E4B;--red:#A3271B;--redt:#FCE9E7;--redb:#D93A2B;--amb:#9A6A00;--ambt:#FFF3D6;--scrim:rgba(3,17,34,.5);--sh:0 12px 30px rgba(2,32,64,.22)}
+[data-tr=dark]{--bg:#07111D;--card:#0E1C2E;--ink:#E7EEF7;--body:#C3D0DE;--mut:#93A6BC;--line:#22374F;--line2:#1A2C42;--sky:#14304F;--blue:#5AAEF5;--link:#7CC0FF;--grad:linear-gradient(135deg,#000E1C 0%,#0A4B8C 100%);--fld:#0A1726;--ok:#6FD39A;--okt:#0F2E1E;--okb:#2E9E4B;--red:#FF9A8C;--redt:#3A1612;--redb:#C8382A;--amb:#F5BE6A;--ambt:#35260E;--scrim:rgba(0,0,0,.62);--sh:0 12px 30px rgba(0,0,0,.5)}
+[data-tr] *{box-sizing:border-box}
+[data-tr] button{font-family:var(--f);cursor:pointer}
+[data-tr] textarea{font-family:var(--f)}
+[data-tr] i{font-family:'Material Symbols Rounded';font-style:normal;font-weight:normal;font-size:22px;line-height:1;display:inline-block;white-space:nowrap;-webkit-font-smoothing:antialiased;font-feature-settings:'liga'}
+@keyframes trpulse{0%{box-shadow:0 0 0 0 rgba(217,58,43,.45)}100%{box-shadow:0 0 0 26px rgba(217,58,43,0)}}
+@keyframes trbar{0%{transform:translateX(-100%)}100%{transform:translateX(250%)}}
+</style>
+</helmet>
+<div data-tr="{{ theme }}" style="width:{{ W }}px;height:{{ H }}px;position:relative;overflow:hidden;background:var(--bg);color:var(--ink);font-family:var(--f);font-size:15px;line-height:1.4">
+<sc-if value="{{ isAnd }}" hint-placeholder-val="{{ true }}"><div style="position:absolute;top:0;left:0;right:0;height:24px;background:{{ sbBg }};color:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 14px;font:500 12px var(--f);z-index:60"><span>11:06</span><span style="display:flex;gap:3px;align-items:center"><i style="font-size:15px">{{ netIc }}</i><i style="font-size:15px">signal_cellular_alt</i><i style="font-size:15px">battery_5_bar</i></span></div></sc-if>
+<sc-if value="{{ isIOS }}" hint-placeholder-val="{{ false }}"><div style="position:absolute;top:0;left:0;right:0;height:47px;background:{{ sbBg }};color:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 30px 0 34px;font:600 16px -apple-system,system-ui,sans-serif;z-index:60"><span>11:06</span><span style="position:absolute;left:50%;top:11px;transform:translateX(-50%);width:122px;height:35px;border-radius:18px;background:#000"></span><span style="display:flex;gap:5px;align-items:center"><i style="font-size:17px">signal_cellular_alt</i><i style="font-size:17px">{{ netIc }}</i><i style="font-size:20px">battery_full</i></span></div></sc-if>
+<div style="position:absolute;left:0;right:0;top:{{ sbH }}px;bottom:{{ bH }}px;overflow:hidden;display:flex;flex-direction:column">
+  <div style="background:var(--grad);color:#fff;flex:none;height:56px;display:grid;grid-template-columns:56px 1fr 72px;align-items:center;padding:0 4px">
+    <span style="height:48px;display:flex;align-items:center;padding:0 8px"><i>{{ backIc }}</i></span>
+    <div style="text-align:center;min-width:0"><div style="font-size:17px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ title }}</div><div style="font:500 11px var(--m);opacity:.82;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ sub }}</div></div>
+    <div style="display:flex;justify-content:flex-end;padding-right:6px"><span style="height:28px;padding:0 9px;border-radius:14px;background:rgba(255,255,255,.18);font-size:12px;font-weight:600;display:flex;align-items:center;gap:3px"><i style="font-size:15px">translate</i>EN</span></div>
+  </div>
+  <sc-if value="{{ offline }}" hint-placeholder-val="{{ false }}"><div style="flex:none;min-height:34px;background:var(--ambt);color:var(--amb);display:flex;align-items:center;gap:8px;padding:6px 12px;font-size:12.5px;font-weight:600"><i style="font-size:18px">cloud_off</i>Offline · voice clips convert when you are back online</div></sc-if>
+  <div style="flex:1;overflow-y:auto;min-height:0;padding:12px;display:flex;flex-direction:column;gap:12px">
+    <sc-if value="{{ blockMsg }}" hint-placeholder-val="{{ false }}"><div style="border-radius:12px;padding:10px 12px;background:var(--redt);color:var(--red);font-size:13.5px;font-weight:600;display:flex;gap:8px;align-items:center"><i style="font-variation-settings:'FILL' 1">error</i>A voice clip is still waiting to convert. Submit opens once it is English text.</div></sc-if>
+    <sc-if value="{{ hostFR }}" hint-placeholder-val="{{ true }}"><div style="display:flex;align-items:center;gap:8px"><b style="font-size:14px">3 of 6 answered</b><span style="margin-left:auto;font-size:12px;color:var(--mut)">Saved as draft 11:05 am</span></div></sc-if>
+    <sc-for list="{{ fields }}" as="q" hint-placeholder-count="2">
+      <div style="background:var(--card);border:1.5px solid {{ q.bd }};border-radius:14px;padding:12px;display:flex;flex-direction:column;gap:10px">
+        <div style="font-size:15px;font-weight:600">{{ q.h }}<sc-if value="{{ q.req }}" hint-placeholder-val="{{ true }}"> <span style="color:#E74C3C">*</span></sc-if></div>
+        <sc-if value="{{ q.yn }}" hint-placeholder-val="{{ true }}"><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px"><span style="height:44px;border-radius:10px;background:var(--okb);color:#fff;font-size:15px;font-weight:600;display:flex;align-items:center;justify-content:center;gap:6px"><i style="font-size:19px">check_circle</i>Yes</span><span style="height:44px;border-radius:10px;border:1.5px solid var(--line);color:var(--mut);font-size:15px;font-weight:600;display:flex;align-items:center;justify-content:center;gap:6px"><i style="font-size:19px">radio_button_unchecked</i>No</span></div></sc-if>
+        <div style="display:grid;grid-template-columns:1fr 60px;gap:8px;align-items:start">
+          <div style="min-height:92px;border:1.5px solid var(--line);border-radius:10px;background:var(--fld);padding:10px 12px;font-size:14.5px;color:{{ q.tc }};white-space:pre-wrap">{{ q.v }}</div>
+          <button onClick="{{ q.mic }}" style="height:92px;border-radius:12px;border:1.5px solid {{ q.mBd }};background:{{ q.mBg }};color:{{ q.mFg }};display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-size:10.5px;font-weight:700"><i style="font-size:26px">mic</i>Translator</button>
+        </div>
+        <sc-if value="{{ q.wait }}" hint-placeholder-val="{{ false }}"><div style="align-self:flex-start;height:32px;padding:0 12px;border-radius:16px;background:var(--ambt);color:var(--amb);font-size:13px;font-weight:600;display:flex;align-items:center;gap:6px"><i style="font-size:17px">mic</i>Voice waiting to convert (0:25)</div></sc-if>
+        <sc-if value="{{ q.voice }}" hint-placeholder-val="{{ false }}"><div style="display:flex;gap:6px;align-items:center;font-size:12px;color:var(--mut)"><span style="height:22px;padding:0 8px;border-radius:11px;background:var(--sky);color:var(--link);font-weight:600;display:flex;align-items:center;gap:3px"><i style="font-size:14px">graphic_eq</i>Voice</span>Heard in Tamil · 0:18 · audio kept as proof</div></sc-if>
+        <div style="display:flex;justify-content:space-between;font:500 12px var(--m);color:var(--mut)"><span>{{ q.hint }}</span><span>{{ q.cnt }}</span></div>
+      </div>
+    </sc-for>
+  </div>
+  <div style="flex:none;padding:10px 12px 12px;background:var(--card);border-top:1px solid var(--line)"><button onClick="{{ submit }}" style="width:100%;height:52px;border-radius:12px;border:0;background:{{ subBg }};color:{{ subFg }};display:flex;align-items:center;justify-content:center;gap:8px;font-size:15.5px;font-weight:600"><i>{{ subIc }}</i>{{ subLabel }}</button></div>
+
+  <sc-if value="{{ scrim }}" hint-placeholder-val="{{ false }}"><div onClick="{{ close }}" style="position:absolute;inset:0;background:var(--scrim);z-index:80"></div></sc-if>
+  <sc-if value="{{ sheetOn }}" hint-placeholder-val="{{ false }}">
+  <div style="position:absolute;left:0;right:0;bottom:0;z-index:81;background:var(--card);border-radius:{{ sheetRad }};padding:8px 16px 16px;display:flex;flex-direction:column;gap:12px;max-height:88%;overflow-y:auto">
+    <div style="width:36px;height:4px;border-radius:2px;background:var(--line);margin:4px auto 0;flex:none"></div>
+    <div style="display:flex;align-items:center;gap:8px"><b style="font-size:16px;flex:1;min-width:0">{{ sheetTitle }}</b><button onClick="{{ openLang }}" style="height:34px;padding:0 10px 0 12px;border-radius:17px;border:1.5px solid var(--line);background:var(--card);color:var(--ink);font-size:13.5px;font-weight:600;display:flex;align-items:center;gap:4px"><i style="font-size:17px;color:var(--blue)">translate</i>{{ lang }}<i style="font-size:18px;color:var(--mut)">expand_more</i></button></div>
+
+    <sc-if value="{{ st.langs }}" hint-placeholder-val="{{ false }}"><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px"><sc-for list="{{ langs }}" as="l" hint-placeholder-count="8"><button onClick="{{ l.pick }}" style="height:48px;border-radius:12px;border:1.5px solid {{ l.bd }};background:{{ l.bg }};color:var(--ink);font-size:14px;font-weight:600;display:flex;align-items:center;gap:8px;padding:0 12px;text-align:left"><i style="font-size:19px;color:{{ l.ic_c }}">{{ l.ic }}</i><span style="flex:1">{{ l.n }}</span><span style="font-size:13px;color:var(--mut)">{{ l.native }}</span></button></sc-for></div><div style="font-size:12.5px;color:var(--mut)">Default comes from your profile (Tamil Nadu → Tamil). Pinaka remembers your last pick.</div></sc-if>
+
+    <sc-if value="{{ st.perm }}" hint-placeholder-val="{{ false }}"><div style="display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center;padding:8px 0"><span style="width:72px;height:72px;border-radius:36px;background:var(--sky);color:var(--blue);display:grid;place-items:center"><i style="font-size:34px">mic</i></span><b style="font-size:17px">Allow the microphone</b><span style="font-size:14px;color:var(--body);max-width:280px">Pinaka needs the microphone only while you hold Translator</span><button onClick="{{ allow }}" style="width:100%;height:50px;border-radius:12px;border:0;background:var(--grad);color:#fff;font-size:15px;font-weight:600">Continue</button></div></sc-if>
+
+    <sc-if value="{{ st.denied }}" hint-placeholder-val="{{ false }}"><div style="display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center;padding:8px 0"><span style="width:72px;height:72px;border-radius:36px;background:var(--redt);color:var(--red);display:grid;place-items:center"><i style="font-size:34px">mic_off</i></span><b style="font-size:17px">Microphone permission denied or unavailable.</b><span style="font-size:13.5px;color:var(--mut);max-width:280px">Turn on Microphone for Pinaka in Settings, then come back.</span><button style="width:100%;height:50px;border-radius:12px;border:0;background:var(--grad);color:#fff;font-size:15px;font-weight:600;display:flex;align-items:center;justify-content:center;gap:6px"><i>settings</i>Open Settings</button></div></sc-if>
+
+    <sc-if value="{{ st.rec }}" hint-placeholder-val="{{ false }}">
+      <div style="font-size:14px;color:var(--body);text-align:center">Speak in {{ lang }} — you will get English text</div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:10px;padding:6px 0">
+        <span style="width:96px;height:96px;border-radius:48px;background:{{ micBg }};color:#fff;display:grid;place-items:center;animation:{{ micAnim }}"><i style="font-size:44px">{{ micIc }}</i></span>
+        <div style="font:600 18px var(--m)">{{ clock }} <span style="color:var(--mut);font-weight:500">/ 2:00</span></div>
+        <div style="display:flex;gap:3px;align-items:center;height:30px"><sc-for list="{{ bars }}" as="b" hint-placeholder-count="24"><span style="width:5px;border-radius:3px;height:{{ b.h }}px;background:{{ b.c }}"></span></sc-for></div>
+        <span style="font-size:12.5px;color:var(--mut);display:flex;gap:5px;align-items:center"><i style="font-size:16px">lightbulb</i>Say names, hospital and claim numbers clearly</span>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1.4fr;gap:8px"><button onClick="{{ close }}" style="height:50px;border-radius:12px;border:1.5px solid var(--line);background:transparent;color:var(--ink);font-size:14.5px;font-weight:600">Cancel</button><button onClick="{{ pause }}" style="height:50px;border-radius:12px;border:1.5px solid var(--line);background:transparent;color:var(--ink);font-size:14.5px;font-weight:600;display:flex;align-items:center;justify-content:center;gap:4px"><i style="font-size:20px">{{ pauseIc }}</i>{{ pauseLabel }}</button><button onClick="{{ stop }}" style="height:50px;border-radius:12px;border:0;background:var(--redb);color:#fff;font-size:15px;font-weight:600;display:flex;align-items:center;justify-content:center;gap:6px"><i style="font-size:20px">stop_circle</i>Stop</button></div>
+      <div style="font-size:12px;color:var(--mut);text-align:center">Stops by itself at 2 minutes or after 4 seconds of silence</div>
+    </sc-if>
+
+    <sc-if value="{{ st.conv }}" hint-placeholder-val="{{ false }}"><div style="display:flex;flex-direction:column;gap:10px;padding:18px 0"><div style="display:flex;align-items:center;gap:10px;font-size:15px;font-weight:600"><i style="color:var(--blue)">graphic_eq</i>Converting to English…</div><div style="height:4px;border-radius:2px;background:var(--line2);overflow:hidden"><div style="width:40%;height:100%;background:var(--blue);animation:trbar 1.1s linear infinite"></div></div><span style="font-size:12.5px;color:var(--mut)">0:18 clip · usually under 5 seconds</span></div></sc-if>
+
+    <sc-if value="{{ st.result }}" hint-placeholder-val="{{ false }}">
+      <div style="border:1.5px solid var(--blue);border-radius:12px;padding:10px 12px;display:flex;flex-direction:column;gap:4px"><span style="font-size:11.5px;font-weight:700;color:var(--link);text-transform:uppercase;letter-spacing:.05em">English · you can edit</span><div style="font-size:14.5px;line-height:1.5">{{ english }}</div></div>
+      <div style="background:var(--fld);border-radius:12px;padding:10px 12px;display:flex;flex-direction:column;gap:4px"><span style="font-size:11.5px;font-weight:700;color:var(--mut)">Heard in Tamil</span><div style="font-size:13.5px;color:var(--mut);line-height:1.6">{{ tamil }}</div></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px"><button onClick="{{ addText }}" style="height:50px;border-radius:12px;border:0;background:var(--grad);color:#fff;font-size:15px;font-weight:600;display:flex;align-items:center;justify-content:center;gap:6px"><i style="font-size:20px">add</i>Add to text</button><button onClick="{{ replaceText }}" style="height:50px;border-radius:12px;border:1.5px solid var(--line);background:transparent;color:var(--ink);font-size:15px;font-weight:600;display:flex;align-items:center;justify-content:center;gap:6px"><i style="font-size:20px">swap_horiz</i>Replace text</button><button onClick="{{ again }}" style="height:44px;border-radius:12px;border:0;background:transparent;color:var(--link);font-size:14px;font-weight:600;display:flex;align-items:center;justify-content:center;gap:6px"><i style="font-size:19px">refresh</i>Try again</button><button onClick="{{ close }}" style="height:44px;border-radius:12px;border:0;background:transparent;color:var(--red);font-size:14px;font-weight:600;display:flex;align-items:center;justify-content:center;gap:6px"><i style="font-size:19px">delete</i>Discard</button></div>
+    </sc-if>
+
+    <sc-if value="{{ st.err }}" hint-placeholder-val="{{ false }}"><div style="display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center;padding:10px 0"><span style="width:72px;height:72px;border-radius:36px;background:var(--ambt);color:var(--amb);display:grid;place-items:center"><i style="font-size:34px">{{ errIc }}</i></span><b style="font-size:16px">{{ errText }}</b><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;width:100%"><button onClick="{{ close }}" style="height:48px;border-radius:12px;border:1.5px solid var(--line);background:transparent;color:var(--ink);font-size:14.5px;font-weight:600">Close</button><button onClick="{{ again }}" style="height:48px;border-radius:12px;border:0;background:var(--grad);color:#fff;font-size:14.5px;font-weight:600">Try again</button></div></div></sc-if>
+
+    <sc-if value="{{ st.saved }}" hint-placeholder-val="{{ false }}"><div style="display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center;padding:10px 0"><span style="width:72px;height:72px;border-radius:36px;background:var(--ambt);color:var(--amb);display:grid;place-items:center"><i style="font-size:34px">cloud_upload</i></span><b style="font-size:16px">Clip saved on this phone (0:25)</b><span style="font-size:13.5px;color:var(--mut);max-width:280px">It converts when you are online and a notification brings you back to this box.</span><button onClick="{{ closeSaved }}" style="width:100%;height:48px;border-radius:12px;border:0;background:var(--grad);color:#fff;font-size:15px;font-weight:600">OK</button></div></sc-if>
+  </div>
+  </sc-if>
+  <sc-if value="{{ hasToast }}" hint-placeholder-val="{{ false }}"><div style="position:absolute;left:12px;right:12px;bottom:84px;z-index:90;background:#0B2540;color:#fff;border-radius:12px;padding:12px 14px;font-size:14px">{{ toast }}</div></sc-if>
+</div>
+<sc-if value="{{ isAnd }}" hint-placeholder-val="{{ true }}"><div style="position:absolute;bottom:0;left:0;right:0;height:16px;background:var(--card);display:grid;place-items:center"><span style="width:108px;height:4px;border-radius:2px;background:var(--ink)"></span></div></sc-if>
+<sc-if value="{{ isIOS }}" hint-placeholder-val="{{ false }}"><div style="position:absolute;bottom:0;left:0;right:0;height:34px;background:var(--card);display:grid;place-items:center"><span style="width:134px;height:5px;border-radius:3px;background:var(--ink)"></span></div></sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:360,&quot;height&quot;:800},&quot;platform&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;android&quot;,&quot;ios&quot;],&quot;default&quot;:&quot;android&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;theme&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;light&quot;,&quot;dark&quot;],&quot;default&quot;:&quot;light&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;scene&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;fr&quot;,&quot;remark&quot;,&quot;expense&quot;,&quot;perm&quot;,&quot;denied&quot;,&quot;lang&quot;,&quot;record&quot;,&quot;converting&quot;,&quot;result&quot;,&quot;added&quot;,&quot;silence&quot;,&quot;noisy&quot;,&quot;offline&quot;,&quot;saved&quot;,&quot;blocked&quot;],&quot;default&quot;:&quot;fr&quot;,&quot;tsType&quot;:&quot;string&quot;}}">
+const EN='The insured was admitted on 12-09-2026 at Apollo Hospital, IP number 45872, discharged on 15-09-2026. Bills of ₹2,500 were verified.';
+const TA='காப்பீடு செய்தவர் 12-09-2026 அன்று அப்போலோ மருத்துவமனையில் அனுமதிக்கப்பட்டார், ஐபி எண் 45872, 15-09-2026 அன்று டிஸ்சார்ஜ் ஆனார். ₹2,500 பில்கள் சரிபார்க்கப்பட்டன.';
+const LANGS=[['Tamil','தமிழ்'],['Telugu','తెలుగు'],['Kannada','ಕನ್ನಡ'],['Malayalam','മലയാളം'],['Hindi','हिन्दी'],['Marathi','मराठी'],['English','English'],['Auto','detect']];
+const HOST={
+ fr:{title:'Final Report',sub:'RR-HS26-15985394 · sample',f:[['Admission date matches the IP register',true,'IP register entry seen at the front desk.'],['Bills match the treatment given',true,'']]},
+ remark:{title:'Daily Update',sub:'Saturday 26-09 · 3 cases',f:[['Remarks · CHO-TP-50011290',false,'']]},
+ expense:{title:'Create Expenses',sub:'MOT17819657 · sample',f:[['Remarks (optional)',false,'']]}
+};
+class Component extends DCLogic {
+  state=this.init(this.props);
+  init(p){ const sc=p.scene||'fr'; const host=sc==='remark'?'remark':(sc==='expense'?'expense':'fr');
+    const vals=HOST[host].f.map(x=>x[2]);
+    const m={lang:'langs',record:'rec',converting:'conv',result:'result',silence:'err',noisy:'err',perm:'perm',denied:'denied',saved:'saved'};
+    let v=vals; if(sc==='added') v=[vals[0],EN]; if(sc==='replaced') v=[vals[0],EN];
+    return {sc,host,vals:v,sheet:m[sc]||null,lang:'Tamil',sec:sc==='record'?12:0,paused:false,active:host==='fr'?1:0,err:sc==='noisy'?'noisy':'silence',wait:sc==='offline'||sc==='blocked'||sc==='saved',tick:0,toast:null}; }
+  componentDidMount(){ this.iv=setInterval(()=>{ const S=this.state; if(S.sheet==='rec'&&!S.paused) this.setState({sec:Math.min(120,S.sec+1),tick:S.tick+1}); },1000); }
+  componentDidUpdate(pp){ if(pp.scene!==this.props.scene) this.setState(this.init(this.props)); }
+  componentWillUnmount(){ clearInterval(this.iv); clearTimeout(this.bt); clearTimeout(this.tt); }
+  toast(m){ clearTimeout(this.tt); this.setState({toast:m}); this.tt=setTimeout(()=>this.setState({toast:null}),2400); }
+  put(mode){ const S=this.state,i=S.active; const vals=S.vals.slice(); vals[i]=mode==='add'&&vals[i]?vals[i].trim()+' '+EN:EN; this.setState({vals,sheet:null}); this.toast('Voice converted to text for "'+HOST[S.host].f[i][0]+'"'); }
+  renderVals(){
+    const S=this.state,P=this.props,ios=P.platform==='ios',dark=P.theme==='dark',H=HOST[S.host],sc=S.sc;
+    const st={}; ['langs','perm','denied','rec','conv','result','err','saved'].forEach(k=>st[k]=S.sheet===k);
+    const fields=H.f.map((f,i)=>{ const v=S.vals[i]||''; const on=S.sheet&&S.active===i; const voice=(sc==='added'||sc==='replaced')&&i===1;
+      return {h:f[0],yn:f[1],req:S.host!=='expense',v:v||(S.host==='expense'?'Anything the office should know':'Enter details for '+f[0]+'...'),tc:v?'var(--ink)':'var(--mut)',bd:on?'var(--blue)':'var(--line)',
+        mBg:on?'var(--blue)':'var(--sky)',mFg:on?'#fff':'var(--blue)',mBd:on?'var(--blue)':'var(--line)',wait:S.wait&&i===(H.f.length-1),voice,
+        hint:S.host==='expense'?'':'min 5',cnt:v.length+(S.host==='expense'?'/200':' chars'),
+        mic:()=>this.setState({active:i,sheet:sc==='perm'?'perm':(sc==='denied'?'denied':(S.wait?'saved':'rec')),sec:0,paused:false})}; });
+    const mm=Math.floor(S.sec/60)+':'+String(S.sec%60).padStart(2,'0');
+    const seed=S.tick;
+    const bars=Array.from({length:24},(_,i)=>{ const h=S.paused?4:Math.round(6+22*Math.abs(Math.sin((i+seed*3)*0.7)*Math.cos(i*0.45+seed))); return {h,c:i<16?'var(--blue)':'var(--line)'}; });
+    const titles={langs:'Translator language',perm:'Translator',denied:'Translator',rec:'Translator · recording',conv:'Translator',result:'Check the English',err:'Translator',saved:'Translator'};
+    const blocked=sc==='blocked';
+    return {theme:dark?'dark':'light',isIOS:ios,isAnd:!ios,W:ios?390:360,H:ios?844:800,sbH:ios?47:24,bH:ios?34:16,sbBg:dark?'#000E1C':'#001F3F',
+      netIc:S.wait?'signal_wifi_off':'wifi',offline:S.wait,backIc:ios?'chevron_left':'arrow_back',title:H.title,sub:H.sub,
+      hostFR:S.host==='fr',fields,blockMsg:blocked,
+      subLabel:S.host==='fr'?'Submit Final Report':(S.host==='expense'?'Submit Expense':'Save update'),subIc:blocked?'lock':'send',subBg:blocked?'var(--line)':'var(--grad)',subFg:blocked?'var(--mut)':'#fff',
+      submit:()=>S.wait&&S.host==='fr'?this.setState({sc:'blocked'}):this.toast('Saved'),
+      scrim:!!S.sheet,sheetOn:!!S.sheet,sheetRad:ios?'14px 14px 0 0':'28px 28px 0 0',close:()=>this.setState({sheet:null}),
+      sheetTitle:titles[S.sheet]||'',lang:S.lang,st,openLang:()=>this.setState({sheet:S.sheet==='langs'?'rec':'langs'}),
+      langs:LANGS.map(([n,native])=>{ const on=S.lang===n; return {n,native,ic:on?'radio_button_checked':'radio_button_unchecked',ic_c:on?'var(--blue)':'var(--mut)',bg:on?'var(--sky)':'transparent',bd:on?'var(--blue)':'var(--line)',pick:()=>this.setState({lang:n,sheet:'rec',sec:0})}; }),
+      allow:()=>this.setState({sheet:'rec',sec:0}),
+      micBg:S.paused?'var(--mut)':'var(--redb)',micAnim:S.paused?'none':'trpulse 1.3s ease-out infinite',micIc:S.paused?'pause':'mic',clock:mm,bars,
+      pause:()=>this.setState({paused:!S.paused}),pauseIc:S.paused?'play_arrow':'pause',pauseLabel:S.paused?'Resume':'Pause',
+      stop:()=>{ if(S.sec<2&&sc!=='record'){ return this.setState({sheet:'err',err:'silence'}); } this.setState({sheet:'conv'}); this.bt=setTimeout(()=>this.setState({sheet:'result'}),1400); },
+      english:EN,tamil:TA,addText:()=>this.put('add'),replaceText:()=>this.put('replace'),again:()=>this.setState({sheet:'rec',sec:0,paused:false}),
+      errIc:S.err==='noisy'?'noise_aware':'hearing_disabled',errText:S.err==='noisy'?'Too noisy — move to a quieter place and try again':"Sorry, Didn't hear that. Speak Loudly",
+      closeSaved:()=>this.setState({sheet:null}),
+      hasToast:!!S.toast,toast:S.toast};
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600;700&family=Noto+Sans+Tamil:wght@400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0..1,0" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#0074D9}a:hover{color:#0060B5}
+[data-mc]{--f:'IBM Plex Sans','Noto Sans Tamil',system-ui,sans-serif;--m:'IBM Plex Mono',ui-monospace,monospace}
+[data-mc=light]{--bg:#EEF3F9;--card:#FFFFFF;--ink:#0B2540;--body:#33475B;--mut:#5A708C;--line:#D7E2EF;--line2:#E7EEF6;--sky:#E3F0FC;--blue:#0074D9;--link:#0060B5;--grad:linear-gradient(135deg,#001F3F 0%,#0074D9 100%);--mine:#001F3F;--mineLink:#9FD0FF;--fld:#F6F9FD;--yel:#FFF4CC;--yelbd:#F0C75A;--yelband:rgba(240,165,0,.13);--ok:#1E7A3D;--okt:#E4F6EA;--red:#A3271B;--redt:#FCE9E7;--amb:#9A6A00;--ambt:#FFF3D6;--scrim:rgba(3,17,34,.5);--chip:#D6E9FB;--chipInk:#0B4A8F;--grey:#7D93A8;--sh:0 12px 30px rgba(2,32,64,.22)}
+[data-mc=dark]{--bg:#07111D;--card:#0E1C2E;--ink:#E7EEF7;--body:#C3D0DE;--mut:#93A6BC;--line:#22374F;--line2:#1A2C42;--sky:#14304F;--blue:#5AAEF5;--link:#7CC0FF;--grad:linear-gradient(135deg,#000E1C 0%,#0A4B8C 100%);--mine:#0A4B8C;--mineLink:#CFE6FF;--fld:#0A1726;--yel:#3A2E0A;--yelbd:#8A6A1A;--yelband:rgba(240,165,0,.10);--ok:#6FD39A;--okt:#0F2E1E;--red:#FF9A8C;--redt:#3A1612;--amb:#F5BE6A;--ambt:#35260E;--scrim:rgba(0,0,0,.62);--chip:#16395E;--chipInk:#CFE6FF;--grey:#6E8095;--sh:0 12px 30px rgba(0,0,0,.5)}
+[data-mc] *{box-sizing:border-box}
+[data-mc] button{font-family:var(--f);cursor:pointer}
+[data-mc] i{font-family:'Material Symbols Rounded';font-style:normal;font-weight:normal;font-size:22px;line-height:1;display:inline-block;letter-spacing:normal;text-transform:none;white-space:nowrap;-webkit-font-smoothing:antialiased;font-feature-settings:'liga'}
+[data-mc] input::placeholder,[data-mc] textarea::placeholder{color:var(--mut)}
+@keyframes mcflash{0%,100%{background:transparent}30%,70%{background:rgba(240,165,0,.38)}}
+@keyframes mcshim{0%{background-position:200% 0}100%{background-position:-200% 0}}
+@keyframes mcpulse{0%,100%{transform:scale(1);opacity:.35}50%{transform:scale(1.25);opacity:.12}}
+</style>
+</helmet>
+<div data-mc="{{ theme }}" style="width:{{ W }}px;height:{{ H }}px;position:relative;overflow:hidden;background:var(--bg);color:var(--ink);font-family:var(--f);font-size:15px;line-height:1.4">
+
+<sc-if value="{{ isAnd }}" hint-placeholder-val="{{ true }}">
+<div style="position:absolute;top:0;left:0;right:0;height:24px;background:{{ sbBg }};color:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 14px;font:500 12px var(--f);z-index:60"><span>14:36</span><span style="display:flex;gap:3px;align-items:center"><i style="font-size:15px">wifi</i><i style="font-size:15px">signal_cellular_alt</i><i style="font-size:15px">battery_5_bar</i></span></div>
+</sc-if>
+<sc-if value="{{ isIOS }}" hint-placeholder-val="{{ false }}">
+<div style="position:absolute;top:0;left:0;right:0;height:47px;background:{{ sbBg }};color:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 30px 0 34px;font:600 16px -apple-system,system-ui,sans-serif;z-index:60"><span>14:36</span><span style="position:absolute;left:50%;top:11px;transform:translateX(-50%);width:122px;height:35px;border-radius:18px;background:#000"></span><span style="display:flex;gap:5px;align-items:center"><i style="font-size:17px">signal_cellular_alt</i><i style="font-size:17px">wifi</i><i style="font-size:20px">battery_full</i></span></div>
+</sc-if>
+
+<div style="position:absolute;left:0;right:0;top:{{ sbH }}px;bottom:{{ bH }}px;overflow:hidden">
+
+<!-- CHAT -->
+<sc-if value="{{ s.chat }}" hint-placeholder-val="{{ true }}">
+<div style="position:absolute;inset:0;display:flex;flex-direction:column">
+  <div style="background:var(--grad);color:#fff;flex:none">
+    <div style="height:56px;display:grid;grid-template-columns:104px 1fr 104px;align-items:center;padding:0 4px">
+      <button onClick="{{ go.workspace }}" style="height:48px;border:0;background:transparent;color:#fff;display:flex;align-items:center;gap:0;font-size:16px;padding:0 6px"><i>{{ backIc }}</i><span>{{ backLabel }}</span></button>
+      <div style="text-align:center;min-width:0"><div style="font-size:18px;font-weight:600;line-height:1.2">Team Chat</div><div style="font:500 11.5px var(--m);opacity:.82">MOT17819657</div></div>
+      <div style="display:flex;justify-content:flex-end;padding-right:4px"><button onClick="{{ openMembers }}" style="width:44px;height:44px;border-radius:22px;border:0;background:rgba(255,255,255,.16);color:#fff;display:grid;place-items:center"><i>group</i></button></div>
+    </div>
+    <button onClick="{{ openMembers }}" style="width:100%;min-height:44px;border:0;background:rgba(255,255,255,.08);color:#fff;display:flex;align-items:center;gap:10px;padding:8px 12px;overflow:hidden;text-align:left">
+      <span style="font-size:12.5px;font-weight:600;white-space:nowrap;display:flex;align-items:center;gap:6px;flex:none"><span style="width:8px;height:8px;border-radius:4px;background:#2ECC71"></span>{{ availText }}</span>
+      <span style="display:flex;gap:6px;overflow:hidden">
+        <sc-for list="{{ memberChips }}" as="c" hint-placeholder-count="3"><span style="height:26px;padding:0 10px 0 3px;border-radius:13px;background:rgba(255,255,255,.14);display:inline-flex;align-items:center;gap:6px;font-size:12px;white-space:nowrap;flex:none"><span style="width:20px;height:20px;border-radius:10px;background:{{ c.bg }};display:grid;place-items:center;font-size:10.5px;font-weight:700;border:1px solid rgba(255,255,255,.4)">{{ c.ini }}</span>{{ c.name }}</span></sc-for>
+      </span>
+    </button>
+  </div>
+  <sc-if value="{{ offline }}" hint-placeholder-val="{{ false }}"><div style="flex:none;height:32px;background:var(--ambt);color:var(--amb);display:flex;align-items:center;gap:8px;padding:0 12px;font-size:12.5px;font-weight:600"><i style="font-size:18px">cloud_off</i>Offline · messages wait to send with their tags</div></sc-if>
+
+  <div style="flex:1;position:relative;min-height:0">
+    <div ref="{{ listRef }}" onScroll="{{ onScroll }}" style="position:absolute;inset:0;overflow-y:auto;padding:10px 12px 18px;display:flex;flex-direction:column;gap:6px">
+      <sc-if value="{{ noMsgs }}" hint-placeholder-val="{{ false }}">
+        <div style="margin:auto;display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center;padding:24px;color:var(--mut)"><span style="width:64px;height:64px;border-radius:32px;background:var(--sky);color:var(--blue);display:grid;place-items:center"><i style="font-size:30px">forum</i></span><div style="font-size:15px;color:var(--body);max-width:230px;text-wrap:pretty">No messages yet. Start the team conversation!</div></div>
+      </sc-if>
+      <sc-for list="{{ msgs }}" as="m" hint-placeholder-count="4">
+        <sc-if value="{{ m.day }}" hint-placeholder-val="{{ false }}"><div style="align-self:center;margin:6px 0 2px;font:600 11px var(--m);letter-spacing:.06em;color:var(--mut);background:var(--card);border:1px solid var(--line);padding:3px 10px;border-radius:10px">{{ m.day }}</div></sc-if>
+        <div data-mid="{{ m.id }}" style="display:flex;flex-direction:column;align-items:{{ m.align }};padding:6px 8px 4px;margin:0 -8px;background:{{ m.band }};animation:{{ m.anim }}">
+          <div style="display:flex;gap:8px;align-items:flex-end;max-width:90%;flex-direction:{{ m.dir }}">
+            <sc-if value="{{ m.other }}" hint-placeholder-val="{{ true }}"><span style="width:32px;height:32px;border-radius:16px;background:{{ m.av }};color:#fff;display:grid;place-items:center;font-size:13px;font-weight:700;flex:none">{{ m.ini }}</span></sc-if>
+            <div style="display:flex;flex-direction:column;gap:3px;align-items:{{ m.align }};min-width:0">
+              <sc-if value="{{ m.other }}" hint-placeholder-val="{{ true }}"><div style="font-size:12px;color:var(--mut);padding-left:2px"><b style="color:var(--ink);font-weight:600">{{ m.name }}</b> · {{ m.role }}</div></sc-if>
+              <div onContextMenu="{{ m.onReply }}" style="position:relative;background:{{ m.bg }};color:{{ m.fg }};border:{{ m.bd }};border-radius:{{ m.rad }};padding:8px 12px;font-size:15px;line-height:1.45;overflow-wrap:anywhere">
+                <sc-if value="{{ m.youTag }}" hint-placeholder-val="{{ false }}"><span style="position:absolute;top:-10px;right:10px;background:#F0A500;color:#2B1D00;font:700 11px var(--f);padding:2px 8px;border-radius:9px;display:flex;align-items:center;gap:2px">@ you</span></sc-if>
+                <sc-if value="{{ m.hasReply }}" hint-placeholder-val="{{ false }}"><div style="background:{{ m.qbg }};border-radius:8px;padding:6px 8px;margin:0 0 6px;font-size:13px"><div style="font-weight:600;font-size:12px;display:flex;gap:4px;align-items:center"><i style="font-size:15px">reply</i>{{ m.replyName }}</div><div style="opacity:.85;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:220px">{{ m.replyText }}</div></div></sc-if>
+                <span><sc-for list="{{ m.segs }}" as="g" hint-placeholder-count="1"><sc-if value="{{ g.isM }}" hint-placeholder-val="{{ false }}"><span onClick="{{ g.open }}" style="font-weight:700;color:{{ g.col }};cursor:pointer">@{{ g.name }}</span></sc-if><sc-if value="{{ g.isLeft }}" hint-placeholder-val="{{ false }}"><span style="font-weight:700;color:var(--grey)">@{{ g.name }} <span style="font:500 11px var(--f);padding:1px 6px;border-radius:8px;background:var(--line2);color:var(--mut);white-space:nowrap">left the case</span></span></sc-if><sc-if value="{{ g.isT }}" hint-placeholder-val="{{ true }}"><span>{{ g.text }}</span></sc-if></sc-for></span>
+              </div>
+              <div style="display:flex;align-items:center;gap:6px;font-size:11.5px;color:var(--mut);flex-direction:{{ m.dir }}">
+                <span>{{ m.t }}</span>
+                <sc-if value="{{ m.mine }}" hint-placeholder-val="{{ false }}"><i style="font-size:16px;color:{{ m.tickCol }}">{{ m.tickIc }}</i></sc-if>
+                <sc-if value="{{ m.pending }}" hint-placeholder-val="{{ false }}"><span style="color:var(--amb);font-weight:600">Waiting to send · tags kept</span></sc-if>
+                <button onClick="{{ m.onReply }}" style="height:32px;border:0;background:transparent;color:var(--mut);display:flex;align-items:center;gap:2px;font-size:12px;padding:0 6px;border-radius:16px"><i style="font-size:17px">reply</i>Reply</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+    <sc-if value="{{ showFab }}" hint-placeholder-val="{{ false }}">
+      <button onClick="{{ toBottom }}" style="position:absolute;right:14px;bottom:12px;width:48px;height:48px;border-radius:24px;border:1px solid var(--line);background:var(--card);color:var(--ink);box-shadow:var(--sh);display:grid;place-items:center"><i>keyboard_double_arrow_down</i><span style="position:absolute;top:-4px;right:-4px;min-width:20px;height:20px;border-radius:10px;background:#CC0000;color:#fff;font:700 11px var(--f);display:grid;place-items:center;padding:0 5px">{{ newBelow }}</span></button>
+    </sc-if>
+  </div>
+
+  <div style="flex:none;position:relative;background:var(--card);border-top:1px solid var(--line)">
+    <sc-if value="{{ listOpen }}" hint-placeholder-val="{{ false }}">
+      <div style="position:absolute;left:10px;right:10px;bottom:calc(100% + 6px);background:var(--card);border:1px solid var(--line);border-radius:14px;box-shadow:var(--sh);overflow:hidden;z-index:5">
+        <div style="padding:8px 12px;font:600 10.5px var(--m);letter-spacing:.08em;text-transform:uppercase;color:var(--mut);border-bottom:1px solid var(--line2);display:flex;justify-content:space-between;gap:8px"><span>Tag a member of this case</span><span style="text-transform:none;letter-spacing:0">{{ qLabel }}</span></div>
+        <sc-if value="{{ listLoading }}" hint-placeholder-val="{{ false }}">
+          <sc-for list="{{ skel }}" as="k" hint-placeholder-count="3"><div style="display:flex;align-items:center;gap:10px;padding:10px 12px;height:56px"><span style="width:36px;height:36px;border-radius:18px;background:linear-gradient(90deg,var(--line2),var(--line),var(--line2));background-size:200% 100%;animation:mcshim 1.2s linear infinite"></span><span style="flex:1;display:flex;flex-direction:column;gap:6px"><span style="height:11px;width:{{ k.w }};border-radius:6px;background:linear-gradient(90deg,var(--line2),var(--line),var(--line2));background-size:200% 100%;animation:mcshim 1.2s linear infinite"></span><span style="height:9px;width:40%;border-radius:6px;background:var(--line2)"></span></span></div></sc-for>
+          <div style="padding:0 12px 10px;font-size:12px;color:var(--mut)">Loading this case's team…</div>
+        </sc-if>
+        <sc-for list="{{ listRows }}" as="r" hint-placeholder-count="3">
+          <button onClick="{{ r.pick }}" disabled="{{ r.dis }}" style="width:100%;min-height:56px;border:0;border-bottom:1px solid var(--line2);background:{{ r.bg }};display:flex;align-items:center;gap:10px;padding:8px 12px;text-align:left;color:var(--ink);opacity:{{ r.op }}">
+            <span style="position:relative;width:36px;height:36px;border-radius:18px;background:{{ r.av }};color:#fff;display:grid;place-items:center;font-size:14px;font-weight:700;flex:none">{{ r.ini }}<span style="position:absolute;right:-1px;bottom:-1px;width:11px;height:11px;border-radius:6px;border:2px solid var(--card);background:{{ r.dot }}"></span></span>
+            <span style="flex:1;min-width:0"><span style="display:block;font-size:15px"><b style="font-weight:700;color:var(--link)">{{ r.hit }}</b>{{ r.rest }}</span><span style="display:block;font-size:12.5px;color:var(--mut)">{{ r.role }}</span></span>
+            <span style="font-size:11.5px;color:{{ r.stCol }};font-weight:600;white-space:nowrap">{{ r.st }}</span>
+          </button>
+        </sc-for>
+        <sc-if value="{{ listSolo }}" hint-placeholder-val="{{ false }}"><div style="padding:16px 14px;display:flex;gap:12px;align-items:center"><span style="width:40px;height:40px;border-radius:20px;background:var(--sky);color:var(--blue);display:grid;place-items:center;flex:none"><i>group_off</i></span><span><b style="display:block;font-size:14.5px;font-weight:600">No one else to tag yet</b><span style="font-size:12.5px;color:var(--mut)">Only you are in this case's chat. Members added in the portal appear here.</span></span></div></sc-if>
+        <sc-if value="{{ listNone }}" hint-placeholder-val="{{ false }}"><div style="padding:14px;display:flex;gap:10px;align-items:center;color:var(--mut);font-size:13.5px"><i>search_off</i>No member of this case matches “{{ qRaw }}”</div></sc-if>
+      </div>
+    </sc-if>
+    <sc-if value="{{ hasReplyTo }}" hint-placeholder-val="{{ false }}">
+      <div style="display:flex;align-items:center;gap:10px;padding:6px 6px 6px 12px;background:var(--fld);border-bottom:1px solid var(--line2)"><i style="color:var(--blue)">reply</i><div style="flex:1;min-width:0"><div style="font-size:12.5px;font-weight:600;color:var(--link)">Replying to {{ replyName }}</div><div style="font-size:13px;color:var(--mut);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ replyText }}</div></div><button onClick="{{ clearReply }}" style="width:44px;height:44px;border:0;border-radius:22px;background:transparent;color:var(--mut);display:grid;place-items:center"><i>close</i></button></div>
+    </sc-if>
+    <div style="display:flex;align-items:flex-end;gap:6px;padding:8px 8px 8px 10px">
+      <div onClick="{{ focusIn }}" style="flex:1;min-height:48px;border:1.5px solid {{ inBd }};border-radius:24px;background:var(--fld);display:flex;flex-wrap:wrap;align-items:center;gap:4px;padding:9px 14px;cursor:text">
+        <sc-for list="{{ draft }}" as="g" hint-placeholder-count="0"><sc-if value="{{ g.isM }}" hint-placeholder-val="{{ false }}"><span style="display:inline-flex;align-items:center;height:26px;padding:0 8px;border-radius:7px;background:var(--chip);color:var(--chipInk);font-size:14.5px;font-weight:600;white-space:nowrap">@{{ g.name }}</span></sc-if><sc-if value="{{ g.isT }}" hint-placeholder-val="{{ false }}"><span style="font-size:15px;white-space:pre-wrap">{{ g.text }}</span></sc-if></sc-for>
+        <input ref="{{ inRef }}" value="{{ tail }}" onChange="{{ onTail }}" onKeyDown="{{ onKey }}" placeholder="{{ ph }}" style="flex:1;min-width:70px;border:0;outline:0;background:transparent;font:400 15px var(--f);color:var(--ink);padding:1px 0">
+      </div>
+      <button onClick="{{ openVoice }}" style="width:48px;height:48px;border-radius:24px;border:0;background:var(--sky);color:var(--blue);display:grid;place-items:center;flex:none"><i>mic</i></button>
+      <button onClick="{{ send }}" style="width:48px;height:48px;border-radius:24px;border:0;background:var(--grad);color:#fff;display:grid;place-items:center;flex:none"><i>send</i></button>
+    </div>
+  </div>
+</div>
+</sc-if>
+
+<!-- MENTIONS -->
+<sc-if value="{{ s.mentions }}" hint-placeholder-val="{{ false }}">
+<div style="position:absolute;inset:0;display:flex;flex-direction:column">
+  <div style="background:var(--grad);color:#fff;flex:none;height:56px;display:grid;grid-template-columns:104px 1fr 104px;align-items:center;padding:0 4px">
+    <button onClick="{{ go.bell }}" style="height:48px;border:0;background:transparent;color:#fff;display:flex;align-items:center;font-size:16px;padding:0 6px"><i>{{ backIc }}</i><span>{{ backLabel }}</span></button>
+    <div style="text-align:center;font-size:18px;font-weight:600">Mentions</div><span></span>
+  </div>
+  <div style="flex:none;display:flex;align-items:center;gap:8px;padding:10px 12px;background:var(--card);border-bottom:1px solid var(--line)">
+    <div style="display:flex;border:1px solid var(--line);border-radius:22px;overflow:hidden;height:40px">
+      <button onClick="{{ fUnread }}" style="border:0;padding:0 14px;background:{{ fUnreadBg }};color:{{ fUnreadFg }};font-size:13.5px;font-weight:600;display:flex;align-items:center;gap:6px">Unread <span style="font:600 11px var(--m);padding:1px 6px;border-radius:8px;background:{{ fUnreadPill }}">{{ unreadN }}</span></button>
+      <button onClick="{{ fAll }}" style="border:0;border-left:1px solid var(--line);padding:0 14px;background:{{ fAllBg }};color:{{ fAllFg }};font-size:13.5px;font-weight:600">All</button>
+    </div>
+    <button onClick="{{ markAll }}" style="margin-left:auto;height:40px;border:0;background:transparent;color:var(--link);font-size:13.5px;font-weight:600;display:flex;align-items:center;gap:4px;padding:0 6px"><i style="font-size:19px">done_all</i>Mark all read</button>
+  </div>
+  <div style="flex:1;overflow-y:auto">
+    <sc-for list="{{ mrows }}" as="r" hint-placeholder-count="4">
+      <button onClick="{{ r.open }}" style="width:100%;border:0;border-bottom:1px solid var(--line2);background:{{ r.bg }};padding:12px 14px;display:grid;grid-template-columns:40px 1fr auto;gap:10px;text-align:left;color:var(--ink);align-items:start">
+        <span style="width:40px;height:40px;border-radius:20px;background:{{ r.av }};color:#fff;display:grid;place-items:center;font-weight:700">{{ r.ini }}</span>
+        <span style="min-width:0;display:flex;flex-direction:column;gap:2px">
+          <span style="font-size:14.5px"><b style="font-weight:{{ r.fw }}">{{ r.who }}</b> mentioned you</span>
+          <span style="font:600 12px var(--m);color:var(--mut)">{{ r.claim }} · {{ r.insurer }}</span>
+          <span style="font-size:14px;color:var(--body);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden"><sc-for list="{{ r.segs }}" as="g" hint-placeholder-count="1"><sc-if value="{{ g.isM }}" hint-placeholder-val="{{ false }}"><b style="color:var(--link)">@{{ g.name }}</b></sc-if><sc-if value="{{ g.isT }}" hint-placeholder-val="{{ true }}"><span>{{ g.text }}</span></sc-if></sc-for></span>
+        </span>
+        <span style="display:flex;flex-direction:column;align-items:flex-end;gap:8px"><span style="font-size:12px;color:var(--mut);white-space:nowrap">{{ r.t }}</span><sc-if value="{{ r.unread }}" hint-placeholder-val="{{ false }}"><span style="width:10px;height:10px;border-radius:5px;background:var(--blue)"></span></sc-if></span>
+      </button>
+    </sc-for>
+    <sc-if value="{{ mEmpty }}" hint-placeholder-val="{{ false }}"><div style="padding:60px 24px;text-align:center;color:var(--mut);display:flex;flex-direction:column;align-items:center;gap:10px"><span style="width:64px;height:64px;border-radius:32px;background:var(--okt);color:var(--ok);display:grid;place-items:center"><i style="font-size:30px">alternate_email</i></span><b style="color:var(--ink);font-size:16px">No unread mentions</b><span style="font-size:13.5px">When someone tags you in a case chat, it shows here.</span></div></sc-if>
+  </div>
+</div>
+</sc-if>
+
+<!-- CASES -->
+<sc-if value="{{ s.cases }}" hint-placeholder-val="{{ false }}">
+<div style="position:absolute;inset:0;display:flex;flex-direction:column">
+  <div style="background:var(--grad);color:#fff;flex:none;height:56px;display:grid;grid-template-columns:104px 1fr 104px;align-items:center;padding:0 4px">
+    <span></span><div style="text-align:center;font-size:18px;font-weight:600">My Cases</div>
+    <div style="display:flex;justify-content:flex-end;padding-right:4px"><button onClick="{{ go.bell }}" style="position:relative;width:44px;height:44px;border-radius:22px;border:0;background:rgba(255,255,255,.16);color:#fff;display:grid;place-items:center"><i>notifications</i><sc-if value="{{ bellShow }}" hint-placeholder-val="{{ true }}"><span style="position:absolute;top:2px;right:2px;min-width:18px;height:18px;border-radius:9px;background:#CC0000;font:700 10.5px var(--f);display:grid;place-items:center;padding:0 4px">{{ bellN }}</span></sc-if></button></div>
+  </div>
+  <div style="flex:1;overflow-y:auto;padding:12px;display:flex;flex-direction:column;gap:10px">
+    <div style="height:48px;border:1px solid var(--line);border-radius:12px;background:var(--card);display:flex;align-items:center;gap:10px;padding:0 14px;color:var(--mut);font-size:14.5px"><i>search</i>Search claim, insured or hospital</div>
+    <sc-for list="{{ cases }}" as="c" hint-placeholder-count="3">
+      <div style="background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px;display:flex;flex-direction:column;gap:10px;box-shadow:0 3px 12px rgba(2,32,64,.05)">
+        <div style="display:flex;gap:12px;align-items:flex-start">
+          <span style="width:44px;height:44px;border-radius:22px;background:var(--sky);color:var(--blue);display:grid;place-items:center;flex:none;border:1px solid var(--line)"><i>work</i></span>
+          <div style="flex:1;min-width:0"><div style="font-size:16px;font-weight:600">{{ c.name }}</div><div style="font-size:13px;color:var(--mut)">Claim: <span style="font-family:var(--m)">{{ c.claim }}</span></div><div style="font-size:12.5px;color:var(--mut)">{{ c.insurer }}</div></div>
+          <button onClick="{{ c.chat }}" style="position:relative;width:48px;height:48px;border-radius:24px;border:1px solid var(--line);background:var(--fld);color:var(--blue);display:grid;place-items:center;flex:none"><i>chat_bubble</i>
+            <sc-if value="{{ c.hasUnread }}" hint-placeholder-val="{{ false }}"><span style="position:absolute;top:-4px;right:-4px;min-width:20px;height:20px;border-radius:10px;background:#CC0000;color:#fff;font:700 11px var(--f);display:grid;place-items:center;padding:0 5px;border:2px solid var(--card)">{{ c.unread }}</span></sc-if>
+            <sc-if value="{{ c.at }}" hint-placeholder-val="{{ false }}"><span style="position:absolute;bottom:-4px;right:-6px;height:20px;padding:0 6px;border-radius:10px;background:#F0A500;color:#2B1D00;font:700 11.5px var(--f);display:grid;place-items:center;border:2px solid var(--card)">@</span></sc-if>
+          </button>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap"><span style="height:28px;padding:0 10px;border-radius:14px;background:var(--okt);color:var(--ok);font-size:12.5px;font-weight:600;display:flex;align-items:center;gap:6px"><i style="font-size:16px">check_circle</i>{{ c.status }}</span><sc-if value="{{ c.at }}" hint-placeholder-val="{{ false }}"><span style="font-size:12.5px;color:var(--amb);font-weight:600">You were mentioned</span></sc-if><span style="margin-left:auto;font:600 12px var(--m);color:var(--mut)">{{ c.tat }}</span></div>
+      </div>
+    </sc-for>
+  </div>
+</div>
+</sc-if>
+
+<!-- WORKSPACE (today's layout) -->
+<sc-if value="{{ s.workspace }}" hint-placeholder-val="{{ false }}">
+<div style="position:absolute;inset:0;display:flex;flex-direction:column">
+  <div style="background:var(--grad);color:#fff;flex:none;height:60px;display:grid;grid-template-columns:104px 1fr 104px;align-items:center;padding:0 4px">
+    <button onClick="{{ go.cases }}" style="height:48px;border:0;background:transparent;color:#fff;display:flex;align-items:center;font-size:16px;padding:0 6px"><i>{{ backIc }}</i><span>{{ backLabel }}</span></button>
+    <div style="text-align:center;font-size:18px;font-weight:600;white-space:nowrap">Case Workspace</div>
+    <div style="display:flex;justify-content:flex-end;gap:6px;padding-right:4px">
+      <button onClick="{{ go.chat }}" style="position:relative;width:44px;height:44px;border-radius:22px;border:0;background:rgba(255,255,255,.18);color:#fff;display:grid;place-items:center"><i>chat_bubble</i>
+        <span style="position:absolute;top:-2px;right:-3px;min-width:19px;height:19px;border-radius:10px;background:#CC0000;font:700 10.5px var(--f);display:grid;place-items:center;padding:0 4px">3</span>
+        <sc-if value="{{ wsAt }}" hint-placeholder-val="{{ true }}"><span style="position:absolute;bottom:-3px;left:-4px;height:19px;padding:0 5px;border-radius:10px;background:#F0A500;color:#2B1D00;font:700 11px var(--f);display:grid;place-items:center">@</span></sc-if>
+      </button>
+      <button onClick="{{ openMenu }}" style="width:44px;height:44px;border-radius:22px;border:0;background:rgba(255,255,255,.18);color:#fff;display:grid;place-items:center"><i>menu</i></button>
+    </div>
+  </div>
+  <div style="flex:1;overflow-y:auto;padding:12px;display:flex;flex-direction:column;gap:12px">
+    <div style="background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:10px">
+      <div style="display:flex;gap:12px;align-items:center"><span style="width:44px;height:44px;border-radius:22px;background:var(--sky);color:var(--blue);display:grid;place-items:center;border:1px solid var(--line)"><i>work</i></span><div style="flex:1;min-width:0"><div style="font-size:17px;font-weight:600">Lakshmi Narayanan</div><div style="font-size:13px;color:var(--mut)">Claim: <span style="font-family:var(--m)">MOT17819657</span> · sample</div></div></div>
+      <div style="display:flex;gap:8px"><span style="height:30px;padding:0 12px;border-radius:15px;background:var(--okt);color:var(--ok);font-size:13px;font-weight:600;display:flex;align-items:center;gap:6px"><i style="font-size:17px">check_circle</i>FO Accepted</span><span style="height:30px;padding:0 12px;border-radius:15px;background:var(--redt);color:var(--red);font-size:13px;font-weight:600;display:flex;align-items:center;gap:4px;margin-left:auto"><i style="font-size:17px">close</i>Reject Case</span></div>
+    </div>
+    <div style="display:flex;align-items:center;gap:8px;font-size:16px;font-weight:600"><i style="color:var(--blue)">grid_view</i>Workspace Tools<span style="margin-left:auto;font-size:13px;font-weight:400;color:var(--mut)">5 modules</span></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+      <sc-for list="{{ tools }}" as="t" hint-placeholder-count="5"><div style="background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px 8px;display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center"><span style="width:52px;height:52px;border-radius:26px;background:var(--sky);color:var(--blue);display:grid;place-items:center;border:1px solid var(--line)"><i>{{ t.ic }}</i></span><b style="font-size:14.5px;font-weight:600">{{ t.n }}</b><span style="font-size:11.5px;color:var(--mut)">{{ t.d }}</span></div></sc-for>
+    </div>
+  </div>
+  <div style="flex:none;padding:10px 12px 12px;background:var(--card);border-top:1px solid var(--line)"><div style="height:52px;border-radius:12px;background:#2E9E4B;color:#fff;display:flex;align-items:center;justify-content:center;gap:8px;font-size:16px;font-weight:600"><i>task_alt</i>Final Report for Case</div></div>
+</div>
+</sc-if>
+
+<!-- BELL -->
+<sc-if value="{{ s.bell }}" hint-placeholder-val="{{ false }}">
+<div style="position:absolute;inset:0;display:flex;flex-direction:column">
+  <div style="background:var(--grad);color:#fff;flex:none;height:56px;display:grid;grid-template-columns:104px 1fr 104px;align-items:center;padding:0 4px">
+    <button onClick="{{ go.cases }}" style="height:48px;border:0;background:transparent;color:#fff;display:flex;align-items:center;font-size:16px;padding:0 6px"><i>{{ backIc }}</i><span>{{ backLabel }}</span></button>
+    <div style="text-align:center;font-size:18px;font-weight:600">Notifications</div><span></span>
+  </div>
+  <div style="flex:none;display:flex;gap:8px;padding:10px 12px;overflow-x:auto;background:var(--card);border-bottom:1px solid var(--line)">
+    <sc-for list="{{ bellChips }}" as="b" hint-placeholder-count="4"><span style="height:36px;padding:0 14px;border-radius:18px;border:1px solid var(--line);background:{{ b.bg }};color:{{ b.fg }};font-size:13.5px;font-weight:600;display:flex;align-items:center;gap:6px;white-space:nowrap">{{ b.n }}</span></sc-for>
+  </div>
+  <div style="flex:1;overflow-y:auto">
+    <button onClick="{{ go.mentions }}" style="width:100%;border:0;border-bottom:1px solid var(--line2);background:var(--sky);padding:12px 14px;display:flex;gap:12px;align-items:center;text-align:left;color:var(--ink)"><span style="width:40px;height:40px;border-radius:20px;background:#F0A500;color:#2B1D00;display:grid;place-items:center;font-weight:700;font-size:18px">@</span><span style="flex:1"><b style="font-size:14.5px;font-weight:600">Open Mentions</b><span style="display:block;font-size:12.5px;color:var(--mut)">{{ unreadN }} unread across your cases</span></span><i style="color:var(--mut)">chevron_right</i></button>
+    <sc-for list="{{ notifs }}" as="n" hint-placeholder-count="4">
+      <button onClick="{{ n.open }}" style="width:100%;border:0;border-bottom:1px solid var(--line2);background:var(--card);padding:12px 14px;display:grid;grid-template-columns:40px 1fr auto;gap:12px;text-align:left;color:var(--ink)">
+        <span style="width:40px;height:40px;border-radius:20px;background:{{ n.bg }};color:{{ n.fg }};display:grid;place-items:center;font-weight:700"><i style="font-size:20px">{{ n.ic }}</i></span>
+        <span style="min-width:0"><span style="display:inline-block;font:600 10.5px var(--m);letter-spacing:.06em;text-transform:uppercase;padding:2px 7px;border-radius:6px;background:{{ n.tbg }};color:{{ n.tfg }};margin-bottom:3px">{{ n.type }}</span><b style="display:block;font-size:14.5px;font-weight:600">{{ n.title }}</b><span style="display:block;font-size:13px;color:var(--body);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ n.body }}</span></span>
+        <span style="display:flex;flex-direction:column;align-items:flex-end;gap:8px"><span style="font-size:12px;color:var(--mut);white-space:nowrap">{{ n.t }}</span><sc-if value="{{ n.unread }}" hint-placeholder-val="{{ false }}"><span style="width:10px;height:10px;border-radius:5px;background:var(--blue)"></span></sc-if></span>
+      </button>
+    </sc-for>
+  </div>
+</div>
+</sc-if>
+
+<!-- PUSH -->
+<sc-if value="{{ s.push }}" hint-placeholder-val="{{ false }}">
+<div style="position:absolute;inset:0;background:radial-gradient(120% 80% at 30% 20%,#123A63 0%,#06182C 55%,#020A14 100%);color:#fff;display:flex;flex-direction:column;align-items:center;padding:0 12px">
+  <sc-if value="{{ isAnd }}" hint-placeholder-val="{{ true }}">
+    <div style="width:100%;padding:18px 8px 10px"><div style="font-size:44px;font-weight:300;letter-spacing:-1px">14:36</div><div style="font-size:14px;opacity:.8">Sat, 26 Sep</div></div>
+  </sc-if>
+  <sc-if value="{{ isIOS }}" hint-placeholder-val="{{ false }}">
+    <div style="text-align:center;padding:26px 0 26px"><div style="font:600 17px -apple-system,system-ui,sans-serif;opacity:.85">Saturday 26 September</div><div style="font:700 86px/1 -apple-system,system-ui,sans-serif;letter-spacing:-2px">14:36</div></div>
+  </sc-if>
+  <button onClick="{{ openFromPush }}" style="width:100%;border:0;text-align:left;background:{{ pushBg }};color:{{ pushInk }};border-radius:{{ pushRad }};padding:14px;display:flex;flex-direction:column;gap:6px;box-shadow:0 10px 30px rgba(0,0,0,.35);backdrop-filter:blur(18px)">
+    <span style="display:flex;align-items:center;gap:8px;font-size:12.5px;opacity:.8"><img src="assets/pinaka-eagle.png" style="width:22px;height:22px;border-radius:6px;object-fit:cover" alt="Pinaka"><b style="font-weight:600">Pinaka</b><span>· Team Chat · now</span></span>
+    <b style="font-size:15.5px;font-weight:600">Sujit D N mentioned you · MOT17819657</b>
+    <span style="font-size:14.5px;opacity:.9">@Ravi Kumar please collect the discharge summary before 5 pm.</span>
+    <span style="display:flex;align-items:center;gap:6px;font-size:12px;opacity:.72;margin-top:2px"><i style="font-size:15px">notifications_off</i>Chat is muted · mentions still reach you</span>
+    <sc-if value="{{ isAnd }}" hint-placeholder-val="{{ true }}"><span style="display:flex;gap:18px;margin-top:6px;font-size:14px;font-weight:600;color:{{ pushAct }}"><span>Open chat</span><span>Mark read</span></span></sc-if>
+  </button>
+  <div style="width:100%;margin-top:10px;border-radius:{{ pushRad }};background:{{ pushBg2 }};color:{{ pushInk }};padding:12px 14px;font-size:13px;opacity:.85;display:flex;gap:10px;align-items:center"><img src="assets/pinaka-eagle.png" style="width:22px;height:22px;border-radius:6px;object-fit:cover" alt=""><span><b style="font-weight:600">Pinaka</b> · On duty · location shared until day close</span></div>
+  <div style="margin-top:auto;padding-bottom:18px;font-size:12.5px;opacity:.6">Tap the notification to open the chat at the message</div>
+</div>
+</sc-if>
+
+<!-- SHEETS -->
+<sc-if value="{{ sheetOn }}" hint-placeholder-val="{{ false }}"><div onClick="{{ closeSheet }}" style="position:absolute;inset:0;background:var(--scrim);z-index:80"></div></sc-if>
+
+<sc-if value="{{ sh.menu }}" hint-placeholder-val="{{ false }}">
+  <div style="position:absolute;top:0;bottom:0;left:0;width:296px;background:var(--card);z-index:81;border-radius:0 18px 18px 0;display:flex;flex-direction:column;overflow:hidden">
+    <div style="background:var(--grad);color:#fff;padding:18px 16px;display:flex;gap:12px;align-items:center"><img src="assets/pinaka-eagle.png" style="width:44px;height:44px;border-radius:12px;object-fit:cover" alt="Pinaka"><div><div style="font-size:18px;font-weight:700">Pinaka</div><div style="font-size:12.5px;opacity:.8">Ravi Kumar · FO · sample</div></div></div>
+    <div style="padding:8px;display:flex;flex-direction:column;gap:2px">
+      <sc-for list="{{ menuItems }}" as="it" hint-placeholder-count="6"><button onClick="{{ it.go }}" style="height:52px;border:0;border-radius:26px;background:{{ it.bg }};color:var(--ink);display:flex;align-items:center;gap:14px;padding:0 16px;font-size:15px;font-weight:{{ it.fw }};text-align:left"><i style="color:{{ it.ic_c }}">{{ it.ic }}</i><span style="flex:1">{{ it.n }}</span><sc-if value="{{ it.badge }}" hint-placeholder-val="{{ false }}"><span style="height:22px;min-width:22px;padding:0 7px;border-radius:11px;background:#F0A500;color:#2B1D00;font:700 12px var(--f);display:grid;place-items:center">{{ it.badge }}</span></sc-if></button></sc-for>
+    </div>
+  </div>
+</sc-if>
+
+<sc-if value="{{ sh.members }}" hint-placeholder-val="{{ false }}">
+  <div style="position:absolute;left:0;right:0;bottom:0;z-index:81;background:var(--card);border-radius:{{ sheetRad }};padding:8px 0 16px;max-height:80%;overflow:auto">
+    <div style="width:36px;height:4px;border-radius:2px;background:var(--line);margin:4px auto 10px"></div>
+    <div style="padding:0 16px 8px;display:flex;align-items:baseline;gap:8px"><b style="font-size:18px;font-weight:600">Team Members</b><span style="font-size:13px;color:var(--mut)">{{ availText }}</span></div>
+    <sc-for list="{{ memberRows }}" as="r" hint-placeholder-count="4"><div style="display:flex;align-items:center;gap:12px;padding:10px 16px;min-height:60px;border-top:1px solid var(--line2)"><span style="width:40px;height:40px;border-radius:20px;background:{{ r.av }};color:#fff;display:grid;place-items:center;font-weight:700">{{ r.ini }}</span><span style="flex:1"><b style="display:block;font-size:15px;font-weight:600">{{ r.name }}</b><span style="font-size:13px;color:var(--mut)">{{ r.role }}</span></span><span style="font-size:12.5px;font-weight:600;color:{{ r.stCol }};display:flex;align-items:center;gap:6px"><span style="width:8px;height:8px;border-radius:4px;background:{{ r.dot }}"></span>{{ r.st }}</span></div></sc-for>
+  </div>
+</sc-if>
+
+<sc-if value="{{ sh.person }}" hint-placeholder-val="{{ false }}">
+  <div style="position:absolute;left:0;right:0;bottom:0;z-index:81;background:var(--card);border-radius:{{ sheetRad }};padding:8px 16px 18px;display:flex;flex-direction:column;gap:14px">
+    <div style="width:36px;height:4px;border-radius:2px;background:var(--line);margin:4px auto 0"></div>
+    <div style="display:flex;gap:14px;align-items:center"><span style="width:60px;height:60px;border-radius:30px;background:{{ pp.av }};color:#fff;display:grid;place-items:center;font-size:24px;font-weight:700">{{ pp.ini }}</span><div><div style="font-size:19px;font-weight:600">{{ pp.name }}</div><div style="font-size:14px;color:var(--mut)">{{ pp.role }}</div><div style="font-size:12.5px;color:{{ pp.stCol }};font-weight:600;margin-top:2px">In this case's team · {{ pp.st }}</div></div></div>
+    <div style="display:flex;align-items:center;gap:10px;padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:var(--fld)"><i style="color:var(--mut)">call</i><span style="font:600 15px var(--m);flex:1">{{ pp.ph }}</span><span style="font-size:11.5px;color:var(--mut)">sample</span></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px"><button onClick="{{ closeSheet }}" style="height:52px;border-radius:14px;border:1.5px solid var(--line);background:transparent;color:var(--ink);font-size:15.5px;font-weight:600">Close</button><button onClick="{{ callPerson }}" style="height:52px;border-radius:14px;border:0;background:var(--grad);color:#fff;font-size:15.5px;font-weight:600;display:flex;align-items:center;justify-content:center;gap:8px"><i>call</i>Call</button></div>
+  </div>
+</sc-if>
+
+<sc-if value="{{ sh.voice }}" hint-placeholder-val="{{ false }}">
+  <div style="position:absolute;left:0;right:0;bottom:0;z-index:81;background:var(--card);border-radius:{{ sheetRad }};padding:8px 16px 18px;display:flex;flex-direction:column;gap:12px;align-items:center">
+    <div style="width:36px;height:4px;border-radius:2px;background:var(--line);margin:4px auto 0"></div>
+    <div style="font-size:13px;color:var(--mut)">Speak in Tamil · turned into English</div>
+    <div style="position:relative;width:88px;height:88px;display:grid;place-items:center"><span style="position:absolute;inset:0;border-radius:44px;background:var(--blue);animation:mcpulse 1.4s ease-in-out infinite"></span><span style="position:relative;width:68px;height:68px;border-radius:34px;background:var(--grad);color:#fff;display:grid;place-items:center"><i style="font-size:32px">mic</i></span></div>
+    <b style="font-size:16px;font-weight:600">{{ voiceTitle }}</b>
+    <sc-if value="{{ voiceDone }}" hint-placeholder-val="{{ false }}">
+      <div style="width:100%;border:1px solid var(--line);border-radius:12px;overflow:hidden"><div style="padding:10px 12px;font-size:15px;background:var(--fld)">டிஸ்சார்ஜ் சம்மரி வாங்கிவிட்டேன், இப்போது அப்லோட் செய்கிறேன்.</div><div style="padding:10px 12px;font-size:15px;border-top:1px solid var(--line2)"><span style="display:block;font:600 10.5px var(--m);letter-spacing:.08em;color:var(--mut);margin-bottom:2px">ENGLISH · AI</span>Discharge summary collected, uploading now.</div></div>
+      <div style="font-size:12.5px;color:var(--mut);display:flex;gap:6px;align-items:center;align-self:flex-start"><i style="font-size:17px">info</i>Voice adds text only. Tags come from the @ list.</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;width:100%"><button onClick="{{ openVoice }}" style="height:52px;border-radius:14px;border:1.5px solid var(--line);background:transparent;color:var(--ink);font-size:15px;font-weight:600">Try again</button><button onClick="{{ insertVoice }}" style="height:52px;border-radius:14px;border:0;background:var(--grad);color:#fff;font-size:15px;font-weight:600">Insert English</button></div>
+    </sc-if>
+  </div>
+</sc-if>
+
+<sc-if value="{{ hasToast }}" hint-placeholder-val="{{ false }}"><div style="position:absolute;left:12px;right:12px;bottom:84px;z-index:90;background:#0B2540;color:#fff;border-radius:12px;padding:12px 14px;font-size:14px;box-shadow:0 10px 30px rgba(0,0,0,.3)">{{ toast }}</div></sc-if>
+</div>
+
+<sc-if value="{{ isAnd }}" hint-placeholder-val="{{ true }}"><div style="position:absolute;bottom:0;left:0;right:0;height:16px;background:{{ navBg }};display:grid;place-items:center"><span style="width:108px;height:4px;border-radius:2px;background:{{ pillBg }}"></span></div></sc-if>
+<sc-if value="{{ isIOS }}" hint-placeholder-val="{{ false }}"><div style="position:absolute;bottom:0;left:0;right:0;height:34px;background:{{ navBg }};display:grid;place-items:center"><span style="width:134px;height:5px;border-radius:3px;background:{{ pillBg }}"></span></div></sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:360,&quot;height&quot;:800},&quot;platform&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;android&quot;,&quot;ios&quot;],&quot;default&quot;:&quot;android&quot;,&quot;tsType&quot;:&quot;'android'|'ios'&quot;},&quot;theme&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;light&quot;,&quot;dark&quot;],&quot;default&quot;:&quot;light&quot;,&quot;tsType&quot;:&quot;'light'|'dark'&quot;},&quot;scene&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;sent&quot;,&quot;list&quot;,&quot;filter&quot;,&quot;chips&quot;,&quot;person&quot;,&quot;you&quot;,&quot;push&quot;,&quot;casecard&quot;,&quot;workspace&quot;,&quot;bell&quot;,&quot;mentions&quot;,&quot;menu&quot;,&quot;loading&quot;,&quot;solo&quot;,&quot;nomatch&quot;,&quot;nomatch2&quot;,&quot;offline&quot;,&quot;read&quot;,&quot;readcard&quot;,&quot;left&quot;,&quot;empty&quot;,&quot;members&quot;,&quot;reply&quot;],&quot;default&quot;:&quot;sent&quot;,&quot;tsType&quot;:&quot;string&quot;}}">
+const ME='ravi';
+const M={ravi:{name:'Ravi Kumar',role:'Field Officer',ini:'R',av:'#001F3F',on:true,ph:'+91 98401 22871'},sujit:{name:'Sujit D N',role:'Senior Manager',ini:'S',av:'#0060B5',on:true,ph:'+91 98410 55302'},priya:{name:'Priya',role:'Case Manager',ini:'P',av:'#0E7490',on:true,ph:'+91 90030 41186'},chola:{name:'Chola MS',role:'Client',ini:'C',av:'#9A6A00',on:false,ph:'+91 44 4040 5555'}};
+const OUT={franklin:{name:'Franklin',role:'Field Officer · Madurai'},karthik:{name:'Karthik R',role:'Left the case'}};
+const MSGS0=[
+ {id:1,from:'priya',t:'Sep 25, 17:40',day:'Yesterday · Sep 25',segs:[{m:'ravi'},' the Chola MS team wants the hospital visit photos by tomorrow.']},
+ {id:2,from:'chola',t:'09:12',day:'Today',segs:['Please confirm the date of admission against the IP register.']},
+ {id:3,from:'ravi',t:'10:40',reply:{name:'Chola MS',text:'Please confirm the date of admission against the IP register.'},segs:['Checked the IP register. Admission 11-09-2026 matches.'],ticks:'read'},
+ {id:4,from:'sujit',t:'14:02',segs:[{m:'ravi'},' please collect the discharge summary before 5 pm. ',{m:'priya'},' keep QC informed.']},
+ {id:5,from:'ravi',t:'14:20',segs:[{m:'sujit'},' ',{m:'priya'},' discharge summary collected, uploading now.'],ticks:'read'},
+ {id:6,from:'priya',t:'5m ago',segs:[{m:'karthik'},' had the earlier MLC copy. Check the old folder too.']}
+];
+const MENT=[
+ {id:'a',who:'sujit',claim:'MOT17819657',insurer:'Chola MS',msg:4,segs:[{m:'ravi'},' please collect the discharge summary before 5 pm. ',{m:'priya'},' keep QC informed.'],t:'14:02'},
+ {id:'b',who:'priya',claim:'MOT17820114',insurer:'Chola MS',segs:[{m:'ravi'},' the petitioner changed address. The new one is in Case Details.'],t:'11:48'},
+ {id:'c',who:'priya',claim:'MOT17819657',insurer:'Chola MS',msg:1,segs:[{m:'ravi'},' the Chola MS team wants the hospital visit photos by tomorrow.'],t:'Sep 25, 17:40'},
+ {id:'d',who:'chola',claim:'MOT17811902',insurer:'Chola MS',segs:[{m:'ravi'},' please share the RC copy of the offending vehicle.'],t:'Sep 24, 12:15'}
+];
+const SCR=['chat','mentions','cases','workspace','bell','push'];
+
+class Component extends DCLogic {
+  state=this.initFor(this.props.scene);
+  listRef=React.createRef(); inRef=React.createRef();
+  initFor(sc){
+    const b={screen:'chat',segs:[],tail:'',sheet:null,person:null,replyTo:null,msgs:MSGS0,offline:false,solo:false,loadingList:false,flash:null,scrollTo:null,mFilter:'unread',unread:{a:true,b:true},toast:null,voice:'listen',atBottom:true,newBelow:0};
+    switch(sc){
+      case 'list': return {...b,tail:'@'};
+      case 'filter': return {...b,tail:'@Suj'};
+      case 'chips': return {...b,segs:[{m:'sujit'},{m:'priya'}],tail:'please approve the ₹2,500 police document charge'};
+      case 'person': return {...b,sheet:'person',person:'sujit'};
+      case 'you': return {...b,flash:4,scrollTo:4,atBottom:false,newBelow:2};
+      case 'push': return {...b,screen:'push'};
+      case 'casecard': return {...b,screen:'cases'};
+      case 'workspace': return {...b,screen:'workspace'};
+      case 'bell': return {...b,screen:'bell'};
+      case 'mentions': return {...b,screen:'mentions'};
+      case 'menu': return {...b,screen:'workspace',sheet:'menu'};
+      case 'loading': return {...b,tail:'@',loadingList:true};
+      case 'solo': return {...b,tail:'@',solo:true,msgs:[]};
+      case 'nomatch': return {...b,tail:'@Fra'};
+      case 'nomatch2': return {...b,tail:'@xyz'};
+      case 'offline': return {...b,offline:true,msgs:[...MSGS0,{id:7,from:'ravi',t:'Just now',segs:[{m:'sujit'},' ',{m:'priya'},' MRD says the summary is ready tomorrow.'],ticks:'pending'}]};
+      case 'read': return {...b,screen:'mentions',mFilter:'all',unread:{}};
+      case 'readcard': return {...b,screen:'cases',unread:{}};
+      case 'left': return {...b,scrollTo:6};
+      case 'empty': return {...b,msgs:[]};
+      case 'members': return {...b,sheet:'members'};
+      case 'reply': return {...b,replyTo:{name:'Sujit D N',text:'@Ravi Kumar please collect the discharge summary before 5 pm.'},segs:[{m:'sujit'}],tail:'collected, uploading now'};
+      default: return b;
+    }
+  }
+  componentDidMount(){ this.doScroll(); }
+  componentDidUpdate(pp,ps){
+    if(pp.scene!==this.props.scene){ this.setState(this.initFor(this.props.scene)); return; }
+    if(ps.scrollTo!==this.state.scrollTo || ps.msgs!==this.state.msgs || ps.screen!==this.state.screen) this.doScroll();
+  }
+  componentWillUnmount(){ clearTimeout(this.tt); clearTimeout(this.vt); clearTimeout(this.ft); }
+  doScroll(){
+    requestAnimationFrame(()=>{ const el=this.listRef.current; if(!el) return;
+      const id=this.state.scrollTo;
+      if(id){ const t=el.querySelector('[data-mid="'+id+'"]'); if(t) el.scrollTop=Math.max(0,t.offsetTop-70); }
+      else el.scrollTop=el.scrollHeight; });
+  }
+  toast(msg){ clearTimeout(this.tt); this.setState({toast:msg}); this.tt=setTimeout(()=>this.setState({toast:null}),2600); }
+  nav(screen){ this.setState({screen,sheet:null,scrollTo:null,flash:null}); }
+  members(){ return this.state.solo?['ravi']:Object.keys(M); }
+  query(){ const m=/@([^@]{0,24})$/.exec(this.state.tail); return m?m[1]:null; }
+  rows(){
+    const q=this.query(); if(q===null) return [];
+    const ql=q.toLowerCase().trim();
+    const hit=(n)=>!ql||n.toLowerCase().startsWith(ql)||n.toLowerCase().split(' ').some(w=>w.startsWith(ql));
+    const mine=this.members().filter(id=>id!==ME&&hit(M[id].name)).map(id=>({id,...M[id],out:false}));
+    const outs=ql?Object.keys(OUT).filter(k=>hit(OUT[k].name)).map(k=>({id:k,...OUT[k],ini:OUT[k].name[0],out:true})):[];
+    return [...mine,...outs];
+  }
+  pick(id){
+    const q=this.query(); const before=this.state.tail.slice(0,this.state.tail.length-q.length-1);
+    const segs=[...this.state.segs]; if(before) segs.push(before); segs.push({m:id});
+    this.setState({segs,tail:''},()=>this.inRef.current&&this.inRef.current.focus());
+  }
+  onKey(e){
+    if(e.key==='Enter'){ e.preventDefault(); const r=this.rows().filter(x=>!x.out); if(this.query()!==null&&r.length) this.pick(r[0].id); else this.send(); }
+    else if(e.key==='Backspace'&&this.state.tail===''&&this.state.segs.length){ e.preventDefault(); const segs=[...this.state.segs]; const last=segs.pop(); if(typeof last==='string') this.setState({segs,tail:last.slice(0,-1)}); else this.setState({segs}); }
+  }
+  send(){
+    const S=this.state; const parts=[...S.segs]; if(S.tail.trim()) parts.push(S.tail);
+    if(!parts.length) return;
+    const segs=[]; parts.forEach((p,i)=>{ if(i>0){ const prev=segs[segs.length-1]; const ps=typeof prev==='string'?prev:''; const cs=typeof p==='string'?p:''; if(!(ps.endsWith(' ')||cs.startsWith(' '))) segs.push(' '); } segs.push(p); });
+    const id=Date.now(); const msg={id,from:ME,t:'Just now',segs,ticks:S.offline?'pending':'sent',reply:S.replyTo};
+    this.setState({msgs:[...S.msgs,msg],segs:[],tail:'',replyTo:null,scrollTo:null,solo:S.solo});
+    if(!S.offline) this.ft=setTimeout(()=>this.setState(s=>({msgs:s.msgs.map(m=>m.id===id?{...m,ticks:'read'}:m)})),1400);
+  }
+  segView(segs,mine){
+    return segs.map(g=>{
+      if(typeof g==='string') return {isT:true,text:g};
+      if(OUT[g.m]) return {isLeft:true,name:OUT[g.m].name};
+      return {isM:true,name:M[g.m].name,col:mine?'var(--mineLink)':'var(--link)',open:()=>this.setState({sheet:'person',person:g.m})};
+    });
+  }
+  openAt(msgId,rowId){
+    this.setState(s=>({screen:'chat',sheet:null,scrollTo:msgId,flash:msgId,unread:{...s.unread,[rowId]:false},atBottom:false,newBelow:2}));
+    clearTimeout(this.fl); this.fl=setTimeout(()=>this.setState({flash:null}),3400);
+  }
+  renderVals(){
+    const S=this.state,P=this.props;
+    const ios=P.platform==='ios', theme=P.theme||'light';
+    const s={}; SCR.forEach(k=>s[k]=S.screen===k);
+    const go={}; SCR.forEach(k=>go[k]=()=>this.nav(k));
+    const sh={}; ['menu','members','person','voice'].forEach(k=>sh[k]=S.sheet===k);
+    const mem=this.members();
+    const avail=mem.filter(id=>M[id].on).length;
+    const q=this.query(); const rows=this.rows();
+    const listOpen=q!==null;
+    const unreadN=MENT.filter(r=>S.unread[r.id]).length;
+    const msgs=S.msgs.map(m=>{
+      const mine=m.from===ME, u=M[m.from], you=!mine&&m.segs.some(g=>g&&g.m===ME);
+      return {id:m.id,day:m.day||'',mine,other:!mine,align:mine?'flex-end':'flex-start',dir:mine?'row-reverse':'row',
+        band:you?'var(--yelband)':'transparent',anim:S.flash===m.id?'mcflash 1.1s ease 3':'none',
+        av:u.av,ini:u.ini,name:u.name,role:u.role,t:m.t,
+        bg:mine?'var(--mine)':you?'var(--yel)':'var(--card)',fg:mine?'#fff':'var(--ink)',bd:mine?'1px solid transparent':you?'1px solid var(--yelbd)':'1px solid var(--line)',
+        rad:mine?'16px 16px 4px 16px':'16px 16px 16px 4px',youTag:you,
+        hasReply:!!m.reply,replyName:m.reply?m.reply.name:'',replyText:m.reply?m.reply.text:'',qbg:mine?'rgba(255,255,255,.12)':'var(--fld)',
+        segs:this.segView(m.segs,mine),
+        tickIc:m.ticks==='read'?'done_all':m.ticks==='pending'?'schedule':'done',tickCol:m.ticks==='read'?'#2F9BFF':m.ticks==='pending'?'var(--amb)':'var(--mut)',pending:m.ticks==='pending',
+        onReply:(e)=>{ if(e&&e.preventDefault) e.preventDefault(); this.setState({replyTo:{name:u.name,text:m.segs.map(g=>typeof g==='string'?g:'@'+(M[g.m]||OUT[g.m]).name).join('')}}); }};
+    });
+    const pp=S.person?{...M[S.person],st:M[S.person].on?'Available':'Unavailable',stCol:M[S.person].on?'var(--ok)':'var(--mut)'}:{};
+    const ql=(q||'').trim();
+    const mk=(on)=>({bg:on?'var(--ink)':'transparent',fg:on?'var(--bg)':'var(--ink)'});
+    const fu=mk(S.mFilter==='unread'), fa=mk(S.mFilter==='all');
+    const mrows=MENT.filter(r=>S.mFilter==='all'||S.unread[r.id]).map(r=>({...r,who:M[r.who].name,ini:M[r.who].ini,av:M[r.who].av,unread:!!S.unread[r.id],bg:S.unread[r.id]?'var(--sky)':'var(--card)',fw:S.unread[r.id]?700:500,segs:this.segView(r.segs,false),
+      open:()=>{ if(r.msg) this.openAt(r.msg,r.id); else { this.setState(s=>({unread:{...s.unread,[r.id]:false}})); this.toast('Opens the '+r.claim+' chat at this message'); } }}));
+    return {
+      theme, isIOS:ios, isAnd:!ios, W:ios?390:360, H:ios?844:800, sbH:ios?47:24, bH:ios?34:16,
+      sbBg:S.screen==='push'?'#06182C':(theme==='dark'?'#000E1C':'#001F3F'),
+      navBg:S.screen==='push'?'#020A14':'var(--card)', pillBg:S.screen==='push'?'rgba(255,255,255,.6)':'var(--ink)',
+      backIc:ios?'chevron_left':'arrow_back', backLabel:ios?'Back':'',
+      sheetRad:ios?'14px 14px 0 0':'28px 28px 0 0',
+      pushBg:ios?'rgba(245,245,247,.78)':(theme==='dark'?'#1B2A3C':'#FFFFFF'), pushBg2:ios?'rgba(245,245,247,.55)':(theme==='dark'?'#142233':'#F1F5FA'), pushInk:ios?'#111':(theme==='dark'?'#E7EEF7':'#0B2540'), pushRad:ios?'22px':'20px', pushAct:theme==='dark'?'#7CC0FF':'#0060B5',
+      s, go, sh, sheetOn:!!S.sheet,
+      closeSheet:()=>this.setState({sheet:null}), openMembers:()=>this.setState({sheet:'members'}), openMenu:()=>this.setState({sheet:'menu'}),
+      availText:avail+' available member'+(avail===1?'':'s'),
+      memberChips:mem.map(id=>({name:id===ME?'You':M[id].name,ini:M[id].ini,bg:M[id].av})),
+      memberRows:mem.map(id=>({name:M[id].name+(id===ME?' (You)':''),role:M[id].role,ini:M[id].ini,av:M[id].av,st:M[id].on?'Available':'Unavailable',stCol:M[id].on?'var(--ok)':'var(--mut)',dot:M[id].on?'#2ECC71':'#9AA9BA'})),
+      offline:S.offline, noMsgs:!S.msgs.length, msgs, listRef:this.listRef, inRef:this.inRef,
+      onScroll:(e)=>{ const el=e.currentTarget; const b=el.scrollHeight-el.scrollTop-el.clientHeight<40; if(b!==S.atBottom) this.setState({atBottom:b,newBelow:b?0:S.newBelow}); },
+      showFab:!S.atBottom&&S.msgs.length>0, newBelow:S.newBelow||1, toBottom:()=>{ this.setState({scrollTo:null,atBottom:true,newBelow:0}); this.doScroll(); },
+      listOpen, listLoading:listOpen&&S.loadingList, listSolo:listOpen&&!S.loadingList&&S.solo&&!rows.length,
+      listNone:listOpen&&!S.loadingList&&!S.solo&&!rows.length, qRaw:'@'+ql, qLabel:ql?'“@'+ql+'”':'Type to filter',
+      skel:[{w:'55%'},{w:'42%'},{w:'62%'}],
+      listRows:S.loadingList?[]:rows.map((r,i)=>{ const n=r.name; const L=ql&&n.toLowerCase().startsWith(ql.toLowerCase())?ql.length:0;
+        return {ini:r.ini,av:r.out?'#9AA9BA':r.av,hit:n.slice(0,L),rest:n.slice(L),role:r.out?r.role:r.role,dis:r.out,op:r.out?0.72:1,
+          bg:!r.out&&i===0&&ql?'var(--sky)':'transparent',dot:r.out?'#9AA9BA':(r.on?'#2ECC71':'#9AA9BA'),
+          st:r.out?'Not in this case\'s team':(r.on?'Available':'Unavailable'),stCol:r.out?'var(--red)':(r.on?'var(--ok)':'var(--mut)'),
+          pick:()=>{ if(!r.out) this.pick(r.id); }}; }),
+      hasReplyTo:!!S.replyTo, replyName:S.replyTo?S.replyTo.name:'', replyText:S.replyTo?S.replyTo.text:'', clearReply:()=>this.setState({replyTo:null}),
+      draft:S.segs.map(g=>typeof g==='string'?{isT:true,text:g}:{isM:true,name:M[g.m].name}),
+      tail:S.tail, onTail:(e)=>this.setState({tail:e.target.value}), onKey:(e)=>this.onKey(e),
+      focusIn:()=>this.inRef.current&&this.inRef.current.focus(),
+      ph:S.segs.length?'':'Type a message · @ to tag', inBd:listOpen?'var(--blue)':'var(--line)',
+      send:()=>this.send(),
+      openVoice:()=>{ clearTimeout(this.vt); this.setState({sheet:'voice',voice:'listen'}); this.vt=setTimeout(()=>{ this.setState({voice:'convert'}); this.vt=setTimeout(()=>this.setState({voice:'done'}),900); },1300); },
+      voiceTitle:S.voice==='listen'?'Listening...':S.voice==='convert'?'Converting speech to text...':'Voice converted to text',
+      voiceDone:S.voice==='done',
+      insertVoice:()=>this.setState(s=>({sheet:null,tail:(s.tail?s.tail.replace(/\s*$/,' '):'')+'Discharge summary collected, uploading now.'})),
+      pp, callPerson:()=>{ this.setState({sheet:null}); this.toast('Calling '+pp.name+' · '+pp.ph+' (sample)'); },
+      hasToast:!!S.toast, toast:S.toast,
+      unreadN, fUnread:()=>this.setState({mFilter:'unread'}), fAll:()=>this.setState({mFilter:'all'}),
+      fUnreadBg:fu.bg, fUnreadFg:fu.fg, fUnreadPill:S.mFilter==='unread'?'rgba(255,255,255,.2)':'var(--line2)', fAllBg:fa.bg, fAllFg:fa.fg,
+      markAll:()=>this.setState({unread:{}}), mrows, mEmpty:!mrows.length,
+      bellN:unreadN+1, bellShow:true,
+      cases:[
+        {name:'Lakshmi Narayanan',claim:'MOT17819657',insurer:'Chola MS · Motor TP · sample',status:'FO Accepted',tat:'2d 4h left',unread:3,hasUnread:true,at:!!(S.unread.a),chat:()=>this.nav('chat')},
+        {name:'S. Devi',claim:'MOT17820114',insurer:'Chola MS · Motor TP · sample',status:'FO Accepted',tat:'5d 1h left',unread:1,hasUnread:true,at:!!(S.unread.b),chat:()=>this.toast('Opens the MOT17820114 chat')},
+        {name:'Suddala Revanth',claim:'RR-HS26-15985394',insurer:'Health · sample',status:'FO Accepted',tat:'0d 20h left',unread:0,hasUnread:false,at:false,chat:()=>this.toast('No new messages')}],
+      wsAt:!!S.unread.a,
+      tools:[{ic:'description',n:'Case Details',d:'View complete case information'},{ic:'folder_open',n:'Claim Documents',d:'Manage all claim documents'},{ic:'location_on',n:'Touch Point',d:'Communication history'},{ic:'schedule',n:'Timeline',d:'Case activity timeline'},{ic:'account_balance_wallet',n:'Expenses',d:'Track case expenses'}],
+      bellChips:[{n:'All',bg:'var(--ink)',fg:'var(--bg)'},{n:'Mention · '+unreadN,bg:'transparent',fg:'var(--ink)'},{n:'Case',bg:'transparent',fg:'var(--ink)'},{n:'Chat',bg:'transparent',fg:'var(--ink)'}],
+      notifs:[
+        {ic:'alternate_email',bg:'#F0A500',fg:'#2B1D00',type:'Mention',tbg:'var(--ambt)',tfg:'var(--amb)',title:'Sujit D N mentioned you · MOT17819657',body:'@Ravi Kumar please collect the discharge summary before 5 pm.',t:'14:02',unread:!!S.unread.a,open:()=>this.openAt(4,'a')},
+        {ic:'alternate_email',bg:'#F0A500',fg:'#2B1D00',type:'Mention',tbg:'var(--ambt)',tfg:'var(--amb)',title:'Priya mentioned you · MOT17820114',body:'@Ravi Kumar the petitioner changed address.',t:'11:48',unread:!!S.unread.b,open:()=>{ this.setState(s=>({unread:{...s.unread,b:false}})); this.toast('Opens the MOT17820114 chat at this message'); }},
+        {ic:'chat',bg:'var(--sky)',fg:'var(--blue)',type:'Chat',tbg:'var(--line2)',tfg:'var(--mut)',title:'Priya · MOT17819657',body:'@Karthik R had the earlier MLC copy.',t:'5m ago',unread:true,open:()=>this.nav('chat')},
+        {ic:'assignment_add',bg:'var(--sky)',fg:'var(--blue)',type:'Case',tbg:'var(--line2)',tfg:'var(--mut)',title:'New case assigned',body:'MOT17821230 · Chola MS · accept within 20 minutes',t:'10:10',unread:false,open:()=>this.toast('Opens the new case')}],
+      menuItems:[{ic:'history',n:'Case History'},{ic:'alternate_email',n:'Mentions',badge:unreadN||'',on:true},{ic:'event_busy',n:'Leave'},{ic:'payments',n:'Advance Salary'},{ic:'local_shipping',n:'Courier'},{ic:'cloud_upload',n:'Upload queue'}].map(it=>({...it,badge:it.badge||'',bg:it.on?'var(--sky)':'transparent',fw:it.on?600:500,ic_c:it.on?'var(--blue)':'var(--mut)',go:()=>{ if(it.n==='Mentions') this.nav('mentions'); else this.toast(it.n+' is outside this feature'); }})),
+      openFromPush:()=>this.openAt(4,'a')
+    };
+  }
+}
+</script>
+</body>
+</html>

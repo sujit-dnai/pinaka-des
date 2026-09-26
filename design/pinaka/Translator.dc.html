@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="design_doc_mode" content="canvas">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>body{margin:0;background:#E4EAF1;font-family:'IBM Plex Sans',system-ui,sans-serif;color:#0B2540}a{color:#0074D9}a:hover{color:#0060B5}</style>
+</helmet>
+<section id="t0" style="padding:40px 44px 32px;border-bottom:1px solid rgba(0,0,0,.08)">
+  <div style="display:flex;align-items:baseline;gap:10px"><span style="font:600 10px 'IBM Plex Mono',monospace;padding:3px 7px;background:#001F3F;color:#fff;border-radius:4px">T</span><b style="font-size:18px;color:#001F3F">Translator mic · every free-text box in Pinaka + portal</b></div>
+  <div style="display:grid;grid-template-columns:repeat(3,minmax(0,360px));gap:24px;margin-top:14px;font-size:14px;line-height:1.55;color:#33475B">
+    <div><b style="display:block;color:#001F3F;margin-bottom:6px">Kept exactly as today</b>Speech is still turned into English text in the box. Every existing message stays: "Listening...", "Converting speech to text...", 'Voice converted to text for "{field}"', "Sorry, Didn't hear that. Speak Loudly", and "Microphone permission denied or unavailable." The silence filter stays too.</div>
+    <div><b style="display:block;color:#001F3F;margin-bottom:6px">Added</b>
+      <ul style="margin:0;padding-left:18px">
+        <li>One "Translator" button beside every free-text box: the 8 today, plus Expense, TP Files, Case Completion, Leave, Advance Salary and Courier remarks, and send-back replies.</li>
+        <li>A language chip and a 2:00 timer with a level bar; the clip stops after 4 s of silence.</li>
+        <li>A result card showing the English and "Heard in Tamil", with "Add to text" as the default.</li>
+        <li>A "Too noisy" message, and an offline clip that waits and blocks Submit on the Final Report.</li>
+      </ul>
+    </div>
+    <div><b style="display:block;color:#001F3F;margin-bottom:6px">Portal</b>On the case page, voice answers show ▶ with a "Voice" tag, the Tamil heard, the engine and the confidence. Settings → Translator holds the engine order (Sarvam → Whisper → Workers AI, 8 s fallback), the limits, keep-audio, usage against the monthly cap, and the language for each officer.</div>
+  </div>
+</section>
+<sc-for list="{{ groups }}" as="g" hint-placeholder-count="3">
+<section id="{{ g.id }}" style="padding:40px 44px 32px;border-bottom:1px solid rgba(0,0,0,.08);background:{{ g.bg }}">
+  <div style="display:flex;align-items:baseline;gap:10px"><a href="#{{ g.id }}" style="font:600 10px 'IBM Plex Mono',monospace;padding:3px 7px;background:#001F3F;color:#fff;border-radius:4px;text-decoration:none">{{ g.n }}</a><b style="font-size:18px;color:{{ g.fg }}">{{ g.title }}</b></div>
+  <div style="display:flex;flex-wrap:wrap;gap:28px;align-items:flex-start;margin-top:16px">
+    <sc-for list="{{ g.items }}" as="it" hint-placeholder-count="4">
+      <div id="{{ it.id }}" style="flex:none;display:flex;flex-direction:column;gap:9px">
+        <div style="display:flex;align-items:baseline;gap:8px;font-size:12.5px;font-weight:500;max-width:390px;color:{{ g.lc }}"><a href="#{{ it.id }}" style="font:600 10.5px 'IBM Plex Mono',monospace;padding:3px 7px;background:rgba(0,116,217,.14);border-radius:5px;text-decoration:none;color:{{ g.fg }}">{{ it.id }}</a>{{ it.label }}</div>
+        <div style="background:#fff;border:1px solid rgba(0,0,0,.1);box-shadow:0 10px 30px rgba(2,32,64,.14);overflow:hidden;border-radius:{{ it.r }}px">
+          <sc-if value="{{ it.phone }}" hint-placeholder-val="{{ true }}"><dc-import name="TranslatorApp" platform="{{ it.p }}" theme="{{ it.t }}" scene="{{ it.s }}" hint-size="360px,800px"></dc-import></sc-if>
+          <sc-if value="{{ it.web }}" hint-placeholder-val="{{ false }}"><dc-import name="PortalTranslator" scene="{{ it.s }}" hint-size="1440px,900px"></dc-import></sc-if>
+        </div>
+      </div>
+    </sc-for>
+  </div>
+</section>
+</sc-for>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  renderVals(){
+    const A=(id,label,s,p,t)=>({id,label,s,p:p||'android',t:t||'light',r:p==='ios'?46:30,phone:true,web:false});
+    const W=(id,label,s)=>({id,label,s,r:10,phone:false,web:true});
+    const groups=[
+      {id:'t1',n:'1',title:'The button · Android',items:[A('1a','Final Report answer · tap Translator to try the flow','fr'),A('1b','Daily Update remark box','remark'),A('1c','Expense Remarks','expense')]},
+      {id:'t2',n:'2',title:'Record → English',items:[A('2a','First use · permission explainer','perm'),A('2b','Language chip · 8 choices','lang'),A('2c','Recording · live 2:00 timer, level bar','record'),A('2d','Converting to English…','converting'),A('2e','Result · English + Heard in Tamil','result'),A('2f','After Add to text · Voice tag','added')]},
+      {id:'t3',n:'3',title:'Errors and offline',items:[A('3a','Silence','silence'),A('3b','Too noisy','noisy'),A('3c','Permission denied · Open Settings','denied'),A('3d','Offline · clip saved','saved'),A('3e','Voice waiting to convert chip','offline'),A('3f','Final Report blocked while a clip waits','blocked')]},
+      {id:'t4',n:'4',title:'iPhone · light',items:[A('4a','Recording','record','ios'),A('4b','Result','result','ios'),A('4c','Expense Remarks','expense','ios')]},
+      {id:'t5',n:'5',title:'Dark',bg:'#0B1726',fg:'#E7EEF7',lc:'#93A6BC',items:[A('5a','Recording','record','android','dark'),A('5b','Result','result','android','dark'),A('5c','Offline chip','offline','ios','dark')]},
+      {id:'t6',n:'6',title:'Portal · 1440',items:[W('6a','Case page · voice answers with ▶ and Voice tag','case'),W('6b','Settings → Translator','settings')]}
+    ].map(g=>({bg:'transparent',fg:'#001F3F',lc:'#33475B',...g}));
+    return {groups};
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<meta name="design_doc_mode" content="canvas">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#E4EAF1;font-family:'IBM Plex Sans',system-ui,sans-serif;color:#0B2540}
+a{color:#0074D9}a:hover{color:#0060B5}
+.dv-turn{padding:40px 44px 32px;border-bottom:1px solid rgba(0,0,0,.08);scroll-margin-top:16px}
+.dv-thd{display:flex;align-items:baseline;gap:10px;margin:0 0 8px}
+.dv-tid{font:600 10px 'IBM Plex Mono',monospace;padding:3px 7px;background:#001F3F;color:#fff;border-radius:4px;text-decoration:none}
+.dv-tname{font:700 18px/1.2 'IBM Plex Sans',sans-serif;color:#001F3F}
+.dv-opts{display:flex;flex-wrap:wrap;gap:28px;align-items:flex-start}
+.dv-opt{flex:none;display:flex;flex-direction:column;gap:9px;scroll-margin-top:16px}
+.dv-oid{font:600 10.5px 'IBM Plex Mono',monospace;padding:3px 7px;background:rgba(0,31,63,.1);color:#001F3F;border-radius:5px;text-decoration:none}
+.dv-olabel{display:flex;align-items:baseline;gap:8px;font:500 12.5px/1.3 'IBM Plex Sans',sans-serif;color:#33475B;max-width:390px}
+.dv-card{background:#fff;border:1px solid rgba(0,0,0,.1);border-radius:30px;box-shadow:0 10px 30px rgba(2,32,64,.14);overflow:hidden}
+.dv-web{background:#fff;border:1px solid rgba(0,0,0,.1);border-radius:10px;box-shadow:0 10px 30px rgba(2,32,64,.14);overflow:hidden}
+.dv-opt:target .dv-oid{background:#0074D9;color:#fff}
+.dv-next{margin:22px 0 0;font:12.5px/1.5 'IBM Plex Sans',sans-serif;color:#5A708C}
+</style>
+</helmet>
+
+<section class="dv-turn" id="t0">
+  <div class="dv-thd"><a class="dv-tid" href="#t0">T</a><span class="dv-tname">Team Chat · @mention — Pinaka app + TaaSen portal</span></div>
+  <div style="display:grid;grid-template-columns:repeat(3,minmax(0,360px));gap:24px;margin-top:14px;font-size:14px;line-height:1.55;color:#33475B">
+    <div><b style="display:block;color:#001F3F;margin-bottom:6px">Kept exactly as today</b>One group chat per case (FO, case manager / coordinators, insurer client). Header "{n} available member(s)" with name chips and the Team Members list. Reply by long-press or the Reply button ("Replying to {name}", quote in bubble). My messages right in navy; others left with an initial avatar. Time formats, the Tamil mic, read ticks, unread badges, scroll-to-bottom, "No messages yet. Start the team conversation!".</div>
+    <div><b style="display:block;color:#001F3F;margin-bottom:6px">Added</b>Type "@" for this case's members only; filter as you type; tap or Enter to insert a chip; Backspace removes the whole chip. Non-members show "Not in this case's team". Sent @names in bold blue open a person card with Call. Mentions of me get a yellow band and "@ you". The push arrives even when muted and opens the chat at the message with a flash. "@" badges on the case card and workspace chat icon, "Mention" type in the bell, and a Mentions screen.</div>
+    <div><b style="display:block;color:#001F3F;margin-bottom:6px">How to read this board</b>Row 1 is a working phone for each platform: type @, pick, Backspace, send, tap a blue name, use the mic, tap Reply. Below are the named views for Android and iPhone in light and dark, the states, and the portal at 1440. Everything is sample data. Rules: replying never tags the sender by itself, and voice never adds a tag.</div>
+  </div>
+</section>
+
+<section class="dv-turn" id="t1">
+  <div class="dv-thd"><a class="dv-tid" href="#t1">1</a><span class="dv-tname">Live prototype</span></div>
+  <div class="dv-opts" style="margin-top:16px">
+    <div class="dv-opt" id="1a"><div class="dv-olabel"><a class="dv-oid" href="#1a">1a</a>Android 360 × 800 · light · start at the chat, type “@”</div><div class="dv-card" style="width:360px"><dc-import name="MentionChat" platform="android" theme="light" scene="sent" hint-size="360px,800px"></dc-import></div></div>
+    <div class="dv-opt" id="1b"><div class="dv-olabel"><a class="dv-oid" href="#1b">1b</a>iPhone 390 × 844 · light · start at the push, tap it</div><div class="dv-card" style="width:390px;border-radius:46px"><dc-import name="MentionChat" platform="ios" theme="light" scene="push" hint-size="390px,844px"></dc-import></div></div>
+    <div class="dv-opt" id="1c"><div class="dv-olabel"><a class="dv-oid" href="#1c">1c</a>Android · dark · start at My Cases, tap a chat icon</div><div class="dv-card" style="width:360px"><dc-import name="MentionChat" platform="android" theme="dark" scene="casecard" hint-size="360px,800px"></dc-import></div></div>
+  </div>
+</section>
+
+<section class="dv-turn" id="t2">
+  <div class="dv-thd"><a class="dv-tid" href="#t2">2</a><span class="dv-tname">Android · light · the required views</span></div>
+  <div class="dv-opts" style="margin-top:16px">
+    <sc-for list="{{ andL }}" as="it" hint-placeholder-count="6">
+      <div class="dv-opt" id="{{ it.id }}"><div class="dv-olabel"><a class="dv-oid" href="#{{ it.id }}">{{ it.id }}</a>{{ it.label }}</div><div class="dv-card" style="width:360px"><dc-import name="MentionChat" platform="android" theme="light" scene="{{ it.s }}" hint-size="360px,800px"></dc-import></div></div>
+    </sc-for>
+  </div>
+</section>
+
+<section class="dv-turn" id="t3">
+  <div class="dv-thd"><a class="dv-tid" href="#t3">3</a><span class="dv-tname">States · Android · light</span></div>
+  <div class="dv-opts" style="margin-top:16px">
+    <sc-for list="{{ states }}" as="it" hint-placeholder-count="6">
+      <div class="dv-opt" id="{{ it.id }}"><div class="dv-olabel"><a class="dv-oid" href="#{{ it.id }}">{{ it.id }}</a>{{ it.label }}</div><div class="dv-card" style="width:360px"><dc-import name="MentionChat" platform="android" theme="light" scene="{{ it.s }}" hint-size="360px,800px"></dc-import></div></div>
+    </sc-for>
+  </div>
+</section>
+
+<section class="dv-turn" id="t4">
+  <div class="dv-thd"><a class="dv-tid" href="#t4">4</a><span class="dv-tname">iPhone · light · back label, grabber sheets, lock-screen push</span></div>
+  <div class="dv-opts" style="margin-top:16px">
+    <sc-for list="{{ iosL }}" as="it" hint-placeholder-count="6">
+      <div class="dv-opt" id="{{ it.id }}"><div class="dv-olabel"><a class="dv-oid" href="#{{ it.id }}">{{ it.id }}</a>{{ it.label }}</div><div class="dv-card" style="width:390px;border-radius:46px"><dc-import name="MentionChat" platform="ios" theme="light" scene="{{ it.s }}" hint-size="390px,844px"></dc-import></div></div>
+    </sc-for>
+  </div>
+</section>
+
+<section class="dv-turn" id="t5" style="background:#0B1726">
+  <div class="dv-thd"><a class="dv-tid" href="#t5" style="background:#0074D9">5</a><span class="dv-tname" style="color:#E7EEF7">Dark · Android and iPhone</span></div>
+  <div class="dv-opts" style="margin-top:16px">
+    <sc-for list="{{ darkL }}" as="it" hint-placeholder-count="6">
+      <div class="dv-opt" id="{{ it.id }}"><div class="dv-olabel" style="color:#93A6BC"><a class="dv-oid" href="#{{ it.id }}" style="background:rgba(255,255,255,.12);color:#E7EEF7">{{ it.id }}</a>{{ it.label }}</div><div class="dv-card" style="width:{{ it.w }}px;border-radius:{{ it.r }}px;border-color:#22374F"><dc-import name="MentionChat" platform="{{ it.p }}" theme="dark" scene="{{ it.s }}" hint-size="390px,844px"></dc-import></div></div>
+    </sc-for>
+  </div>
+</section>
+
+<section class="dv-turn" id="t6">
+  <div class="dv-thd"><a class="dv-tid" href="#t6">6</a><span class="dv-tname">Portal · 1440 · case page chat panel and header mentions counter</span></div>
+  <div class="dv-opts" style="margin-top:16px;flex-direction:column">
+    <div class="dv-opt" id="6a"><div class="dv-olabel"><a class="dv-oid" href="#6a">6a</a>Case page · Team Chat with the @ list open, a chip in the box, “@ you” on Ravi’s message · light</div><div class="dv-web" style="width:1440px"><dc-import name="PortalChat" theme="light" scene="list" hint-size="1440px,900px"></dc-import></div></div>
+    <div class="dv-opt" id="6b"><div class="dv-olabel"><a class="dv-oid" href="#6b">6b</a>Header “Mentions” counter and its dropdown (Unread / All, Mark all read) · light · click the counter to toggle</div><div class="dv-web" style="width:1440px"><dc-import name="PortalChat" theme="light" scene="dropdown" hint-size="1440px,900px"></dc-import></div></div>
+    <div class="dv-opt" id="6c"><div class="dv-olabel"><a class="dv-oid" href="#6c">6c</a>Same panel · dark</div><div class="dv-web" style="width:1440px"><dc-import name="PortalChat" theme="dark" scene="list" hint-size="1440px,900px"></dc-import></div></div>
+    <div class="dv-opt" id="6d"><div class="dv-olabel"><a class="dv-oid" href="#6d">6d</a>Mentions dropdown · dark</div><div class="dv-web" style="width:1440px"><dc-import name="PortalChat" theme="dark" scene="dropdown" hint-size="1440px,900px"></dc-import></div></div>
+  </div>
+</section>
+
+<section class="dv-turn" id="t7">
+  <div class="dv-thd"><a class="dv-tid" href="#t7">7</a><span class="dv-tname">Component list and hand-off notes for Claude Code</span></div>
+  <div style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,440px);gap:28px;margin-top:16px;max-width:1300px">
+    <div style="background:#fff;border:1px solid #D7E2EF;border-radius:14px;overflow:hidden">
+      <sc-for list="{{ comps }}" as="c" hint-placeholder-count="8">
+        <div style="display:grid;grid-template-columns:200px minmax(0,1fr) 110px;gap:14px;padding:12px 16px;border-bottom:1px solid #E7EEF6;font-size:13.5px;line-height:1.5">
+          <span style="font:600 13px 'IBM Plex Mono',monospace;color:#001F3F">{{ c.n }}</span>
+          <span style="color:#33475B">{{ c.d }}</span>
+          <span style="font:600 11px 'IBM Plex Mono',monospace;color:{{ c.col }}">{{ c.tag }}</span>
+        </div>
+      </sc-for>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:12px">
+      <div style="background:#001F3F;color:#fff;border-radius:14px;padding:18px 20px;font-size:13.5px;line-height:1.6">
+        <b style="display:block;font-size:14px;margin-bottom:8px">Hand-off notes</b>
+        <sc-for list="{{ notes }}" as="n" hint-placeholder-count="6"><div style="display:flex;gap:10px;padding:5px 0;border-top:1px solid rgba(255,255,255,.1)"><span style="font:600 11px 'IBM Plex Mono',monospace;color:#7CC0FF;flex:none;padding-top:3px">{{ n.k }}</span><span>{{ n.v }}</span></div></sc-for>
+      </div>
+      <div style="background:#fff;border:1px solid #D7E2EF;border-radius:14px;padding:16px 18px;font-size:13px;line-height:1.6;color:#33475B"><b style="color:#001F3F">Message shape</b><pre style="margin:8px 0 0;font:500 12px/1.55 'IBM Plex Mono',monospace;color:#0B2540;white-space:pre-wrap">{ id, caseId, senderId, text, replyTo, createdAt, readBy[],   // unchanged
+  mentions: [{ userId, name }] }                           // new
+
+text keeps the visible "@Name" so old clients still read it;
+mentions[] is the source of truth for tagging.</pre></div>
+      <div style="font-size:12.5px;color:#5A708C">Full list also in <a href="Components-Mentions.md">Components-Mentions.md</a>.</div>
+    </div>
+  </div>
+  <p class="dv-next">Next in the queue: multi-allocation, then Final Report + Case Complete, then Expenses, then the tracking screens, then the full app.</p>
+</section>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  renderVals(){
+    const A=[['2a','01 · Chat · “@” typed, member list open','list'],['2b','02 · Filter “@Suj” → Sujit D N (Enter inserts)','filter'],['2c','03 · Typed message with 2 chips','chips'],['2d','04 · Sent bubble with @names in bold','sent'],['2e','05 · Tap @name → person card with Call','person'],['2f','06 · “@ you” band + tag, opened from the push (flashes)','you'],['2g','07 · Push · shows even when the chat is muted','push'],['2h','08 · Case card with “@” badge beside the unread count','casecard'],['2i','09 · Workspace chat icon with “@” badge (today’s layout)','workspace'],['2j','10 · Bell · “Mention” as its own type','bell'],['2k','11 · Mentions screen · Unread / All · Mark all read','mentions'],['2l','12 · Side menu · Mentions entry with count','menu']];
+    const ST=[['3a','Member list loading','loading'],['3b','Case with 1 member · “No one else to tag yet”','solo'],['3c','Non-member typed · “Not in this case’s team”','nomatch'],['3d','No match','nomatch2'],['3e','Offline · message waits to send with tags kept','offline'],['3f','Mention read · Mentions list, no unread','read'],['3g','Mention read · case card “@” badge cleared','readcard'],['3h','Member who left · grey name, “left the case”','left'],['3i','Empty chat (today’s text) with @ ready','empty'],['3j','Team Members list (today)','members'],['3k','Reply + mention together · sender not auto-tagged','reply']];
+    const I=[['4a','01 · @ list open','list'],['4b','03 · Two chips','chips'],['4c','04 · Sent bubble · person card','person'],['4d','06 · “@ you” highlighted','you'],['4e','07 · Lock-screen push','push'],['4f','08 · Case card with “@” badge','casecard'],['4g','11 · Mentions screen','mentions'],['4h','Offline, tags kept','offline']];
+    const D=[['5a','Android · @ list open','android','list'],['5b','Android · two chips','android','chips'],['5c','Android · “@ you”','android','you'],['5d','Android · push','android','push'],['5e','Android · case card','android','casecard'],['5f','Android · Mentions','android','mentions'],['5g','iPhone · @ list open','ios','list'],['5h','iPhone · sent + person card','ios','person'],['5i','iPhone · “@ you”','ios','you'],['5j','iPhone · push','ios','push'],['5k','iPhone · case card','ios','casecard'],['5l','iPhone · Mentions','ios','mentions']];
+    const m=a=>a.map(([id,label,s])=>({id,label,s}));
+    return {
+      andL:m(A), states:m(ST), iosL:m(I),
+      darkL:D.map(([id,label,p,s])=>({id,label,p,s,w:p==='ios'?390:360,r:p==='ios'?46:30})),
+      comps:[
+        {n:'MentionInput',d:'Composer box holding text runs and mention chips. Owns the draft {segments[], tail}. "@" at a word start opens MentionList; Enter picks the first match; Backspace on an empty tail removes the previous chip whole.',tag:'NEW',col:'#0074D9'},
+        {n:'MentionList',d:'Popup above the composer. Rows: avatar/initial, name with the typed part bold, role, Available/Unavailable. States: loading (3 skeleton rows), solo ("No one else to tag yet"), non-member ("Not in this case\'s team", disabled), no match.',tag:'NEW',col:'#0074D9'},
+        {n:'MentionChip',d:'"@Name" chip inside MentionInput. Blue tint, 7 px radius, atomic for Backspace.',tag:'NEW',col:'#0074D9'},
+        {n:'MentionSpan',d:'@Name inside a sent bubble, bold blue (light blue on my navy bubble). Tap opens PersonCard. Variant "left": grey + "left the case" pill, not tappable.',tag:'NEW',col:'#0074D9'},
+        {n:'YouHighlight',d:'Row band (soft yellow) + yellow bubble + "@ you" tag when mentions[] contains me. Flash animation (3 pulses) when opened from a push or the Mentions list.',tag:'NEW',col:'#0074D9'},
+        {n:'PersonCard',d:'Bottom sheet: avatar, name, role, "In this case\'s team · Available", phone, Close / Call.',tag:'NEW',col:'#0074D9'},
+        {n:'MentionBadge',d:'Yellow "@" pill beside the red unread count on the case card chat icon and the workspace header chat icon, shown while unread mentions > 0 for that case.',tag:'NEW',col:'#0074D9'},
+        {n:'MentionsScreen',d:'All cases, newest first. Row: who, claim · insurer, message (2 lines, @names bold), time, unread dot. Unread / All, Mark all read. Tap → chat scrolled to the message + flash. From the bell and the side menu.',tag:'NEW',col:'#0074D9'},
+        {n:'MentionPush',d:'"{name} mentioned you · {claim}" + first line. Delivered even when the chat is muted. Tap → openAt(caseId, messageId).',tag:'NEW',col:'#0074D9'},
+        {n:'PortalMentionsCounter',d:'Topbar button "@ Mentions" with a red count, and a 420 px dropdown (Unread / All, Mark all read, View all mentions). Same MentionList / chips / highlight in the case page chat panel.',tag:'NEW · portal',col:'#0074D9'},
+        {n:'ChatHeader, MemberChips, TeamMembersSheet',d:'Today\'s header "{n} available member(s)", chips and member list. Unchanged.',tag:'KEEP',col:'#1E7A3D'},
+        {n:'MessageBubble, ReplyBar, ReadTicks',d:'Today\'s bubbles (mine right navy, others left with initial), reply by long-press / button, quote, ticks, time formats. Unchanged; they only render MentionSpan inside the text.',tag:'KEEP',col:'#1E7A3D'},
+        {n:'VoiceInputSheet',d:'Today\'s Tamil → English mic. Inserts plain text only; never creates a mention.',tag:'KEEP',col:'#1E7A3D'},
+        {n:'ScrollToBottomButton, EmptyChat',d:'Unchanged, including "No messages yet. Start the team conversation!".',tag:'KEEP',col:'#1E7A3D'}],
+      notes:[
+        {k:'DATA',v:'Each message stores mentions: [{userId, name}] beside its text. Existing message fields stay as they are.'},
+        {k:'SERVER',v:'Validate mentions[] against the case\'s chat members at send time; drop anyone who is not a member. Push the mention only to tagged users who are members.'},
+        {k:'PUSH',v:'Mention push ignores the chat mute setting. Payload carries caseId + messageId so the app opens the chat at that message.'},
+        {k:'COUNT',v:'Unread mentions counted per user per case; cleared when that message is seen in the chat or marked read in Mentions.'},
+        {k:'TICKS',v:'Read-receipt logic unchanged. The mention count is a separate counter.'},
+        {k:'LEFT',v:'If a tagged member later leaves the case, keep the mention; render it grey with "left the case" and disable the card.'},
+        {k:'VOICE',v:'Speech-to-text output is inserted as plain text. Only picking from MentionList adds to mentions[].'},
+        {k:'OFFLINE',v:'Queued messages keep mentions[]; the push fires when the server receives it.'}]
+    };
+  }
+}
+</script>
+</body>
+</html>

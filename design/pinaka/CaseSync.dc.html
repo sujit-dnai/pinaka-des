@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0..1,0" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#0074D9}a:hover{color:#0060B5}
+[data-cs]{--f:'IBM Plex Sans',system-ui,sans-serif;--m:'IBM Plex Mono',ui-monospace,monospace}
+[data-cs=light]{--bg:#EEF3F9;--card:#FFFFFF;--ink:#0B2540;--body:#33475B;--mut:#5A708C;--line:#D7E2EF;--line2:#E7EEF6;--sky:#E3F0FC;--blue:#0074D9;--link:#0060B5;--grad:linear-gradient(135deg,#001F3F 0%,#0074D9 100%);--fld:#F6F9FD;--ok:#1E7A3D;--okt:#E4F6EA;--okb:#2E9E4B;--red:#A3271B;--redt:#FCE9E7;--redb:#D93A2B;--amb:#9A6A00;--ambt:#FFF3D6;--scrim:rgba(3,17,34,.5);--sh:0 12px 30px rgba(2,32,64,.22)}
+[data-cs=dark]{--bg:#07111D;--card:#0E1C2E;--ink:#E7EEF7;--body:#C3D0DE;--mut:#93A6BC;--line:#22374F;--line2:#1A2C42;--sky:#14304F;--blue:#5AAEF5;--link:#7CC0FF;--grad:linear-gradient(135deg,#000E1C 0%,#0A4B8C 100%);--fld:#0A1726;--ok:#6FD39A;--okt:#0F2E1E;--okb:#2E9E4B;--red:#FF9A8C;--redt:#3A1612;--redb:#C8382A;--amb:#F5BE6A;--ambt:#35260E;--scrim:rgba(0,0,0,.62);--sh:0 12px 30px rgba(0,0,0,.5)}
+[data-cs] *{box-sizing:border-box}
+[data-cs] button{font-family:var(--f);cursor:pointer}
+[data-cs] textarea,[data-cs] input{font-family:var(--f)}
+[data-cs] i{font-family:'Material Symbols Rounded';font-style:normal;font-weight:normal;font-size:22px;line-height:1;display:inline-block;white-space:nowrap;-webkit-font-smoothing:antialiased;font-feature-settings:'liga'}
+@keyframes csring{0%{box-shadow:0 0 0 0 rgba(46,158,75,.55)}100%{box-shadow:0 0 0 34px rgba(46,158,75,0)}}
+@keyframes cspulse{0%,100%{transform:scale(1)}50%{transform:scale(1.07)}}
+</style>
+</helmet>
+<div data-cs="{{ theme }}" style="width:{{ W }}px;height:{{ H }}px;position:relative;overflow:hidden;background:var(--bg);color:var(--ink);font-family:var(--f);font-size:15px;line-height:1.4">
+<sc-if value="{{ isAnd }}" hint-placeholder-val="{{ true }}"><div style="position:absolute;top:0;left:0;right:0;height:24px;background:{{ sbBg }};color:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 14px;font:500 12px var(--f);z-index:60"><span>{{ clock }}</span><span style="display:flex;gap:3px;align-items:center"><i style="font-size:15px">{{ locIc }}</i><i style="font-size:15px">{{ netIc }}</i><i style="font-size:15px">signal_cellular_alt</i><i style="font-size:15px">battery_5_bar</i></span></div></sc-if>
+<sc-if value="{{ isIOS }}" hint-placeholder-val="{{ false }}"><div style="position:absolute;top:0;left:0;right:0;height:47px;background:{{ sbBg }};color:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 30px 0 34px;font:600 16px -apple-system,system-ui,sans-serif;z-index:60"><span>{{ clock }}</span><span style="position:absolute;left:50%;top:11px;transform:translateX(-50%);width:122px;height:35px;border-radius:18px;background:#000"></span><span style="display:flex;gap:5px;align-items:center"><i style="font-size:17px">signal_cellular_alt</i><i style="font-size:17px">{{ netIc }}</i><i style="font-size:20px">battery_full</i></span></div></sc-if>
+
+<div style="position:absolute;left:0;right:0;top:{{ sbH }}px;bottom:{{ bH }}px;overflow:hidden;display:flex;flex-direction:column">
+
+<sc-if value="{{ s.push }}" hint-placeholder-val="{{ false }}">
+<div style="flex:1;background:linear-gradient(180deg,#0A2238 0%,#02101E 100%);color:#fff;padding:36px 12px 20px;display:flex;flex-direction:column;gap:10px">
+  <div style="text-align:center;font:300 64px/1 var(--f)">10:21</div>
+  <div style="text-align:center;font-size:15px;opacity:.8;margin-bottom:26px">Saturday, 26 September</div>
+  <div style="background:rgba(255,255,255,.95);color:#0B2540;border-radius:20px;padding:12px 14px;display:flex;flex-direction:column;gap:6px;box-shadow:0 10px 30px rgba(0,0,0,.4)">
+    <div style="display:flex;align-items:center;gap:8px;font-size:12px;color:#5A708C"><img src="assets/pinaka-eagle.png" alt="" style="width:20px;height:20px;border-radius:5px;background:#001F3F;object-fit:contain"><b style="color:#0B2540">Pinaka</b><span>· now</span><span style="margin-left:auto;display:flex;align-items:center;gap:3px;color:#D93A2B;font-weight:600"><i style="font-size:15px">notifications_active</i>Ringing</span></div>
+    <b style="font-size:15.5px">New case assigned · accept in 20:00</b>
+    <div style="font-size:13.5px;color:#33475B">MOT17819657 · Motor TP · ICICI Lombard · Tambaram, 6.2 km away. Assigned by Priya S.</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:4px"><button onClick="{{ toAlarm }}" style="height:44px;border-radius:12px;border:0;background:#E3F0FC;color:#0060B5;font-size:14px;font-weight:600">Open</button><button onClick="{{ toAlarm }}" style="height:44px;border-radius:12px;border:0;background:#2E9E4B;color:#fff;font-size:14px;font-weight:600">Accept</button></div>
+  </div>
+  <div style="margin-top:auto;text-align:center;font-size:12.5px;opacity:.75;display:flex;gap:6px;justify-content:center;align-items:center"><i style="font-size:17px">volume_up</i>The alarm rings and vibrates until the case is opened</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ s.alarm }}" hint-placeholder-val="{{ true }}">
+<div style="flex:1;display:flex;flex-direction:column;background:var(--grad);color:#fff;min-height:0">
+  <div style="padding:14px 16px 12px;display:flex;flex-direction:column;align-items:center;gap:8px;flex:none">
+    <div style="font-size:12.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;opacity:.85">{{ alarmKicker }}</div>
+    <div style="width:128px;height:128px;border-radius:64px;border:5px solid {{ ringCol }};display:grid;place-items:center;animation:{{ ringAnim }}"><div style="text-align:center"><div style="font:600 32px/1 var(--m)">{{ mmss }}</div><div style="font-size:11.5px;opacity:.8;margin-top:4px">{{ timerSub }}</div></div></div>
+  </div>
+  <sc-if value="{{ nightNote }}" hint-placeholder-val="{{ false }}"><div style="margin:0 12px 10px;border-radius:12px;padding:10px 12px;background:rgba(255,255,255,.14);font-size:13px;display:flex;gap:8px"><i style="font-size:19px">bedtime</i><span>Assigned at 10:48 pm. The 20-minute timer runs only from 8 AM to 8 PM, so it starts at 8:00 AM. Accept before 8:20 AM.</span></div></sc-if>
+  <sc-if value="{{ missedNote }}" hint-placeholder-val="{{ false }}"><div style="margin:0 12px 10px;border-radius:12px;padding:10px 12px;background:#D93A2B;font-size:13px;display:flex;gap:8px"><i style="font-size:19px;font-variation-settings:'FILL' 1">error</i><span><b>₹50 added to Fine Amount.</b> Not accepted in 20 minutes. No verification bata for this case, and your rating goes down.</span></div></sc-if>
+  <div style="flex:1;min-height:0;overflow-y:auto;background:var(--card);color:var(--ink);border-radius:22px 22px 0 0;padding:14px 14px 8px;display:flex;flex-direction:column;gap:10px">
+    <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap"><span style="height:26px;padding:0 10px;border-radius:13px;background:var(--sky);color:var(--link);font-size:12.5px;font-weight:600;display:flex;align-items:center">Motor TP</span><span style="height:26px;padding:0 10px;border-radius:13px;background:var(--okt);color:var(--ok);font-size:12.5px;font-weight:600;display:flex;align-items:center;gap:4px"><i style="font-size:15px">timer</i>TAT 2d 4h left</span><span style="margin-left:auto;font:500 11px var(--m);color:var(--mut)">sample</span></div>
+    <div><div style="font-size:19px;font-weight:700">Lakshmi Narayanan</div><div style="font:500 13px var(--m);color:var(--mut)">MOT17819657 · ICICI Lombard</div></div>
+    <div style="display:grid;grid-template-columns:22px 1fr;gap:8px;font-size:13.5px;color:var(--body)">
+      <i style="font-size:19px;color:var(--mut)">calendar_month</i><span>Accident date 14-06-2026</span>
+      <i style="font-size:19px;color:var(--mut)">location_on</i><span>GST Rd, Tambaram, Chennai · <b style="color:var(--ink)">6.2 km</b> from you</span>
+      <i style="font-size:19px;color:var(--mut)">manage_accounts</i><span>Manager Priya S</span>
+      <i style="font-size:19px;color:var(--mut)">send</i><span>Allocated by Priya S on taasenclaims.com · 26-09-2026 10:21 am</span>
+    </div>
+    <div style="border-top:1px solid var(--line2);padding-top:8px"><div style="font-size:12px;color:var(--mut);font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px">Touch points · 4</div><div style="display:flex;flex-wrap:wrap;gap:6px"><sc-for list="{{ tps }}" as="t" hint-placeholder-count="4"><span style="height:30px;padding:0 10px;border-radius:15px;border:1px solid var(--line);font-size:13px;display:flex;align-items:center;gap:5px"><i style="font-size:16px;color:var(--blue)">{{ t.ic }}</i>{{ t.n }}</span></sc-for></div></div>
+  </div>
+  <div style="flex:none;background:var(--card);padding:10px 12px 12px;border-top:1px solid var(--line);display:grid;grid-template-columns:1fr 1.6fr;gap:10px">
+    <button onClick="{{ reject }}" style="height:56px;border-radius:14px;border:1.5px solid var(--line);background:transparent;color:var(--red);font-size:16px;font-weight:600">Reject</button>
+    <button onClick="{{ accept }}" style="height:56px;border-radius:14px;border:0;background:var(--okb);color:#fff;font-size:17px;font-weight:700;display:flex;align-items:center;justify-content:center;gap:8px"><i>check_circle</i>Accept case</button>
+  </div>
+</div>
+</sc-if>
+
+<sc-if value="{{ s.meet }}" hint-placeholder-val="{{ false }}">
+<div style="flex:1;background:linear-gradient(180deg,#001F3F 0%,#02101E 100%);color:#fff;display:flex;flex-direction:column;align-items:center;padding:34px 20px 24px;gap:8px;text-align:center">
+  <div style="font-size:13px;opacity:.8;display:flex;gap:6px;align-items:center"><i style="font-size:17px">videocam</i>Pinaka meeting · rings for 2 min</div>
+  <div style="width:112px;height:112px;border-radius:56px;background:#0074D9;display:grid;place-items:center;margin:24px 0 12px;animation:csring 1.4s ease-out infinite"><i style="font-size:52px;font-variation-settings:'FILL' 1">groups</i></div>
+  <b style="font-size:24px;line-height:1.2">{{ meetName }}</b>
+  <div style="font-size:15px;opacity:.9">{{ meetBy }}</div>
+  <div style="font-size:13px;opacity:.7">{{ meetWho }}</div>
+  <div style="margin-top:14px;border-radius:12px;padding:10px 12px;background:rgba(255,255,255,.1);font-size:13px;line-height:1.45">Join within 10 minutes of the start. After that the meeting counts as missed and ₹100 is added to Fine Amount.</div>
+  <div style="margin-top:auto;width:100%;display:grid;grid-template-columns:1fr 1fr;gap:28px;padding:0 18px">
+    <div style="display:flex;flex-direction:column;align-items:center;gap:8px"><button onClick="{{ openCant }}" style="width:72px;height:72px;border-radius:36px;border:0;background:#D93A2B;color:#fff;display:grid;place-items:center"><i style="font-size:32px">call_end</i></button><span style="font-size:13.5px">Can't join</span></div>
+    <div style="display:flex;flex-direction:column;align-items:center;gap:8px"><button onClick="{{ joinMeet }}" style="width:72px;height:72px;border-radius:36px;border:0;background:#2E9E4B;color:#fff;display:grid;place-items:center;animation:cspulse 1s ease-in-out infinite"><i style="font-size:32px">videocam</i></button><span style="font-size:13.5px">Join</span></div>
+  </div>
+</div>
+</sc-if>
+
+<sc-if value="{{ s.gps }}" hint-placeholder-val="{{ false }}">
+<div style="flex:1;background:var(--card);display:flex;flex-direction:column;align-items:center;padding:52px 20px 16px;gap:12px;text-align:center">
+  <span style="width:96px;height:96px;border-radius:48px;background:var(--redt);color:var(--red);display:grid;place-items:center"><i style="font-size:48px">location_off</i></span>
+  <b style="font-size:22px">GPS is off</b>
+  <div style="font-size:14.5px;color:var(--body);max-width:290px">Pinaka needs your location while you are on duty. The app stays locked until GPS is on.</div>
+  <div style="width:100%;border:1px solid var(--line);border-radius:14px;padding:2px 14px;text-align:left;margin-top:8px">
+    <div style="display:flex;gap:10px;padding:10px 0;border-bottom:1px solid var(--line2);font-size:13.5px"><i style="font-size:19px;color:var(--red)">schedule</i><span>Turned off at 10:52 am</span></div>
+    <div style="display:flex;gap:10px;padding:10px 0;border-bottom:1px solid var(--line2);font-size:13.5px"><i style="font-size:19px;color:var(--amb)">notifications</i><span>Your manager Priya S has been told</span></div>
+    <div style="display:flex;gap:10px;padding:10px 0;font-size:13.5px"><i style="font-size:19px;color:var(--red)">currency_rupee</i><span><b>₹50 added to Fine Amount.</b> You can appeal it from your profile.</span></div>
+  </div>
+  <button onClick="{{ gpsOn }}" style="margin-top:auto;width:100%;height:56px;border-radius:14px;border:0;background:var(--grad);color:#fff;font-size:16px;font-weight:600;display:flex;align-items:center;justify-content:center;gap:8px"><i>my_location</i>Turn on GPS</button>
+</div>
+</sc-if>
+
+<sc-if value="{{ hasHead }}" hint-placeholder-val="{{ false }}">
+  <div style="background:var(--grad);color:#fff;flex:none;height:56px;display:grid;grid-template-columns:64px 1fr 64px;align-items:center;padding:0 4px">
+    <button onClick="{{ back }}" style="height:48px;border:0;background:transparent;color:#fff;display:flex;align-items:center;padding:0 8px;visibility:{{ backVis }}"><i>{{ backIc }}</i></button>
+    <div style="text-align:center;min-width:0"><div style="font-size:17px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ title }}</div><div style="font:500 11px var(--m);opacity:.82">{{ sub }}</div></div>
+    <div style="display:flex;justify-content:flex-end;padding-right:6px"><span style="height:28px;padding:0 9px;border-radius:14px;background:rgba(255,255,255,.18);font-size:12px;font-weight:600;display:flex;align-items:center;gap:3px"><i style="font-size:15px">translate</i>EN</span></div>
+  </div>
+  <sc-if value="{{ offline }}" hint-placeholder-val="{{ false }}"><div style="flex:none;min-height:34px;background:var(--ambt);color:var(--amb);display:flex;align-items:center;gap:8px;padding:6px 12px;font-size:12.5px;font-weight:600"><i style="font-size:18px">cloud_off</i>Offline · cases as of 10:18 am · your actions send when online</div></sc-if>
+  <div style="flex:1;overflow-y:auto;min-height:0">
+
+  <sc-if value="{{ s.list }}" hint-placeholder-val="{{ false }}">
+  <div style="padding:12px;display:flex;flex-direction:column;gap:10px">
+    <sc-if value="{{ revoked }}" hint-placeholder-val="{{ false }}"><div style="border-radius:14px;padding:12px;background:var(--sky);display:flex;gap:10px"><i style="color:var(--blue)">move_up</i><div style="flex:1;font-size:13.5px"><b style="display:block">CHO-TP-50004603 moved to Franklin</b>Priya S re-assigned it on the portal at 11:05 am. Your uploads stay with the case.</div><button onClick="{{ dismissRev }}" style="width:36px;height:36px;border:0;background:transparent;color:var(--mut);display:grid;place-items:center;flex:none"><i style="font-size:20px">close</i></button></div></sc-if>
+    <sc-if value="{{ ootBanner }}" hint-placeholder-val="{{ false }}"><div style="border-radius:14px;padding:12px;background:var(--redt);color:var(--red);display:flex;gap:10px;font-size:13.5px"><i style="font-variation-settings:'FILL' 1">block</i><span><b style="display:block">1 case out of TAT</b>Release these first. No new cases until then.</span></div></sc-if>
+    <div style="display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--mut)"><i style="font-size:17px;color:{{ syncCol }}">{{ syncIc }}</i><span>{{ syncText }}</span><span style="margin-left:auto">4 cases</span></div>
+    <div style="display:flex;gap:6px;overflow-x:auto"><sc-for list="{{ filters }}" as="f" hint-placeholder-count="4"><span style="flex:none;height:34px;padding:0 13px;border-radius:17px;border:1px solid {{ f.bd }};background:{{ f.bg }};color:{{ f.fg }};font-size:13px;font-weight:600;display:flex;align-items:center">{{ f.n }}</span></sc-for></div>
+    <sc-for list="{{ cases }}" as="c" hint-placeholder-count="4">
+      <button onClick="{{ c.open }}" style="text-align:left;background:var(--card);border:1.5px solid {{ c.bd }};border-radius:16px;padding:12px;display:flex;flex-direction:column;gap:8px;color:var(--ink)">
+        <div style="display:flex;gap:6px;align-items:center;width:100%"><sc-if value="{{ c.isNew }}" hint-placeholder-val="{{ false }}"><span style="height:22px;padding:0 8px;border-radius:11px;background:var(--blue);color:#fff;font-size:11.5px;font-weight:700;display:flex;align-items:center">NEW</span></sc-if><span style="height:22px;padding:0 8px;border-radius:11px;background:var(--sky);color:var(--link);font-size:11.5px;font-weight:600;display:flex;align-items:center">{{ c.prod }}</span><span style="margin-left:auto;height:24px;padding:0 9px;border-radius:12px;background:{{ c.tBg }};color:{{ c.tFg }};font-size:12px;font-weight:700;display:flex;align-items:center;gap:4px"><i style="font-size:15px">timer</i>{{ c.tat }}</span></div>
+        <div><div style="font-size:16px;font-weight:600">{{ c.name }}</div><div style="font:500 12px var(--m);color:var(--mut)">{{ c.claim }} · {{ c.ins }}</div></div>
+        <div style="display:flex;gap:6px;align-items:center;font-size:12.5px;color:var(--body);width:100%"><i style="font-size:17px;color:var(--mut)">location_on</i><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ c.loc }}</span><b style="font-weight:600">{{ c.km }}</b></div>
+        <div style="display:flex;gap:8px;align-items:center;font-size:12.5px;width:100%"><span style="width:8px;height:8px;border-radius:4px;background:{{ c.stDot }}"></span><span style="color:var(--body)">{{ c.st }}</span><span style="margin-left:auto;color:var(--mut)">{{ c.tp }}</span></div>
+      </button>
+    </sc-for>
+    <div style="font-size:12px;color:var(--mut);text-align:center;padding:4px 0 8px">Cases come from taasenclaims.com · sample data</div>
+  </div>
+  </sc-if>
+
+  <sc-if value="{{ s.ws }}" hint-placeholder-val="{{ false }}">
+  <div style="padding:12px;display:flex;flex-direction:column;gap:12px">
+    <div style="background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px;display:flex;flex-direction:column;gap:8px">
+      <div style="display:flex;gap:6px;align-items:center"><span style="height:24px;padding:0 9px;border-radius:12px;background:var(--sky);color:var(--link);font-size:12px;font-weight:600;display:flex;align-items:center">Motor TP</span><span style="margin-left:auto;height:24px;padding:0 9px;border-radius:12px;background:var(--okt);color:var(--ok);font-size:12px;font-weight:700;display:flex;align-items:center;gap:4px"><i style="font-size:15px">timer</i>2d 4h left</span></div>
+      <div style="font-size:18px;font-weight:700">Lakshmi Narayanan</div>
+      <div style="display:grid;grid-template-columns:auto 1fr;gap:4px 12px;font-size:13px"><span style="color:var(--mut)">Insurer</span><span>ICICI Lombard</span><span style="color:var(--mut)">Accident</span><span>14-06-2026</span><span style="color:var(--mut)">Location</span><span>GST Rd, Tambaram · 6.2 km</span><span style="color:var(--mut)">Manager</span><span>Priya S</span><span style="color:var(--mut)">Allocated</span><span>Priya S · 26-09 10:21 am</span></div>
+    </div>
+    <div style="background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px"><b style="font-size:15px">Sent to the portal</b><span style="margin-left:auto;font-size:12px;color:var(--mut);display:flex;gap:4px;align-items:center"><i style="font-size:16px;color:var(--ok)">cloud_done</i>live</span></div>
+      <sc-for list="{{ steps }}" as="p" hint-placeholder-count="6"><div style="display:grid;grid-template-columns:24px 1fr auto;gap:10px;align-items:start;padding:0 0 10px"><span style="width:24px;height:24px;border-radius:12px;background:{{ p.bg }};color:{{ p.fg }};display:grid;place-items:center"><i style="font-size:16px">{{ p.ic }}</i></span><div style="font-size:13.5px"><b style="font-weight:600;color:{{ p.tc }}">{{ p.n }}</b><div style="font-size:12px;color:var(--mut)">{{ p.d }}</div></div><span style="font:500 11.5px var(--m);color:var(--mut)">{{ p.t }}</span></div></sc-for>
+    </div>
+    <div style="background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px;display:flex;flex-direction:column;gap:8px">
+      <div style="display:flex;align-items:center"><b style="font-size:15px">Touch points</b><span style="margin-left:auto;font-size:13px;color:var(--mut)">1 of 4 done</span></div>
+      <div style="height:6px;border-radius:3px;background:var(--line2);overflow:hidden"><div style="height:100%;width:25%;background:var(--blue)"></div></div>
+      <sc-for list="{{ tpRows }}" as="t" hint-placeholder-count="4"><div style="display:flex;align-items:center;gap:10px;padding:6px 0;border-top:1px solid var(--line2);font-size:14px"><i style="font-size:20px;color:{{ t.c }}">{{ t.ic }}</i><span style="flex:1">{{ t.n }}</span><span style="font-size:12.5px;color:{{ t.c }};font-weight:600">{{ t.s }}</span></div></sc-for>
+    </div>
+  </div>
+  </sc-if>
+
+  <sc-if value="{{ s.commit }}" hint-placeholder-val="{{ false }}">
+  <div style="padding:12px;display:flex;flex-direction:column;gap:12px">
+    <div style="border-radius:14px;padding:12px;background:var(--sky);font-size:13.5px;display:flex;gap:10px"><i style="color:var(--blue)">wb_sunny</i><span>Punched in at 8:12 am. Say what you will do today on every case you hold. New cases reach you only after this is saved.</span></div>
+    <sc-for list="{{ commits }}" as="c" hint-placeholder-count="3">
+      <div style="background:var(--card);border:1.5px solid {{ c.bd }};border-radius:16px;padding:12px;display:flex;flex-direction:column;gap:8px">
+        <div style="display:flex;align-items:center;gap:8px"><div style="flex:1;min-width:0"><div style="font-size:15px;font-weight:600">{{ c.name }}</div><div style="font:500 11.5px var(--m);color:var(--mut)">{{ c.claim }}</div></div><span style="height:24px;padding:0 9px;border-radius:12px;background:{{ c.tBg }};color:{{ c.tFg }};font-size:12px;font-weight:700;display:flex;align-items:center">{{ c.tat }}</span></div>
+        <div style="display:flex;gap:6px;flex-wrap:wrap"><sc-for list="{{ c.chips }}" as="k" hint-placeholder-count="3"><button onClick="{{ k.pick }}" style="height:34px;padding:0 12px;border-radius:17px;border:1.5px solid {{ k.bd }};background:{{ k.bg }};color:{{ k.fg }};font-size:13px;font-weight:600">{{ k.n }}</button></sc-for></div>
+        <div style="display:grid;grid-template-columns:104px 1fr;gap:8px">
+          <div style="height:46px;border:1.5px solid var(--line);border-radius:10px;background:var(--fld);display:flex;align-items:center;gap:6px;padding:0 10px;font-size:14px"><i style="font-size:18px;color:var(--mut)">schedule</i>{{ c.time }}</div>
+          <div style="height:46px;border:1.5px solid var(--line);border-radius:10px;background:var(--fld);display:flex;align-items:center;gap:6px;padding:0 6px 0 10px;font-size:13.5px;color:{{ c.nc }}"><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ c.note }}</span><span style="display:flex;flex-direction:column;align-items:center;color:var(--blue);font-size:9px;font-weight:600;flex:none"><i style="font-size:18px">mic</i>Translator</span></div>
+        </div>
+        <sc-if value="{{ c.err }}" hint-placeholder-val="{{ false }}"><span style="font-size:12.5px;color:var(--red);font-weight:600">Pick a plan and a time for this case.</span></sc-if>
+      </div>
+    </sc-for>
+  </div>
+  </sc-if>
+
+  <sc-if value="{{ s.fines }}" hint-placeholder-val="{{ false }}">
+  <div style="padding:12px;display:flex;flex-direction:column;gap:12px">
+    <div style="background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:4px">
+      <span style="font-size:12.5px;color:var(--mut)">Fine amount · September 2026</span>
+      <div style="display:flex;align-items:baseline;gap:8px"><b style="font-size:32px;color:var(--red)">₹600</b><span style="font-size:13px;color:var(--mut)">8 entries · 1 under appeal</span></div>
+      <span style="font-size:12.5px;color:var(--mut)">Deducted from the month's pay after admin review</span>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px"><sc-for list="{{ fineKinds }}" as="k" hint-placeholder-count="5"><div style="background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px;display:flex;flex-direction:column;gap:2px"><span style="font-size:12px;color:var(--mut)">{{ k.n }}</span><b style="font-size:16px">{{ k.v }}</b><span style="font-size:11.5px;color:var(--mut)">{{ k.c }}</span></div></sc-for></div>
+    <div style="background:var(--card);border:1px solid var(--line);border-radius:16px;padding:4px 14px">
+      <sc-for list="{{ fineRows }}" as="r" hint-placeholder-count="6"><button onClick="{{ r.open }}" style="width:100%;border:0;background:transparent;color:var(--ink);text-align:left;display:grid;grid-template-columns:36px 1fr auto;gap:10px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line2)"><span style="width:36px;height:36px;border-radius:18px;background:var(--redt);color:var(--red);display:grid;place-items:center"><i style="font-size:19px">{{ r.ic }}</i></span><span style="min-width:0"><b style="display:block;font-size:14px;font-weight:600">{{ r.n }}</b><span style="font-size:12px;color:var(--mut)">{{ r.d }}</span></span><span style="text-align:right"><b style="display:block;font-size:14.5px">{{ r.v }}</b><span style="font-size:11.5px;font-weight:600;color:{{ r.sc }}">{{ r.s }}</span></span></button></sc-for>
+    </div>
+  </div>
+  </sc-if>
+
+  <sc-if value="{{ s.appeal }}" hint-placeholder-val="{{ false }}">
+  <div style="padding:12px;display:flex;flex-direction:column;gap:12px">
+    <div style="background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px;display:flex;flex-direction:column;gap:8px">
+      <div style="display:flex;align-items:center;gap:10px"><span style="width:40px;height:40px;border-radius:20px;background:var(--redt);color:var(--red);display:grid;place-items:center"><i>location_off</i></span><div style="flex:1"><b style="font-size:15.5px">GPS turned off</b><div style="font-size:12.5px;color:var(--mut)">26-09-2026 · 10:52 am to 11:09 am</div></div><b style="font-size:18px;color:var(--red)">₹50</b></div>
+      <div style="height:120px;border-radius:12px;background:linear-gradient(160deg,#C9D8E8,#E9F0F7);display:grid;place-items:center;color:#5A708C;font-size:12.5px">Map of last known point · Tambaram</div>
+      <div style="font-size:12.5px;color:var(--mut)">Manager Priya S was told at 10:53 am.</div>
+    </div>
+    <b style="font-size:15px">Appeal this fine</b>
+    <div style="display:flex;flex-direction:column;gap:6px"><sc-for list="{{ appealWhy }}" as="a" hint-placeholder-count="4"><button onClick="{{ a.pick }}" style="min-height:48px;border-radius:12px;border:1.5px solid {{ a.bd }};background:{{ a.bg }};color:var(--ink);display:flex;align-items:center;gap:10px;padding:0 12px;font-size:14px;text-align:left"><i style="font-size:20px;color:{{ a.ic_c }}">{{ a.ic }}</i>{{ a.n }}</button></sc-for></div>
+    <div style="position:relative"><textarea placeholder="Explain what happened" rows="3" style="width:100%;min-height:84px;border:1.5px solid var(--line);border-radius:10px;background:var(--card);color:var(--ink);font-size:14.5px;padding:10px 60px 10px 12px;resize:none;outline:none">Phone restarted after the update at the Tambaram PS. GPS came on by itself at 11:09.</textarea><span style="position:absolute;right:6px;top:6px;width:48px;display:flex;flex-direction:column;align-items:center;color:var(--blue);font-size:9.5px;font-weight:600"><span style="width:40px;height:40px;border-radius:20px;background:var(--sky);display:grid;place-items:center"><i>mic</i></span>Translator</span></div>
+    <div style="height:48px;border:1.5px dashed var(--line);border-radius:10px;display:flex;align-items:center;justify-content:center;gap:6px;color:var(--link);font-size:14px;font-weight:600"><i style="font-size:19px">attach_file</i>Add proof (optional)</div>
+    <div style="font-size:12.5px;color:var(--mut)">Your manager and admin decide. The fine stays in the total until then.</div>
+  </div>
+  </sc-if>
+  </div>
+
+  <sc-if value="{{ showFoot }}" hint-placeholder-val="{{ false }}"><div style="flex:none;padding:10px 12px 12px;background:var(--card);border-top:1px solid var(--line)"><button onClick="{{ footAct }}" style="width:100%;height:52px;border-radius:12px;border:0;background:{{ footBg }};color:#fff;display:flex;align-items:center;justify-content:center;gap:8px;font-size:15.5px;font-weight:600"><i>{{ footIc }}</i>{{ footLabel }}</button></div></sc-if>
+  <sc-if value="{{ hasTabs }}" hint-placeholder-val="{{ false }}"><div style="flex:none;height:64px;background:var(--card);border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(4,1fr)"><sc-for list="{{ tabs }}" as="t" hint-placeholder-count="4"><button onClick="{{ t.go }}" style="border:0;background:transparent;color:{{ t.c }};display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;font-size:11.5px;font-weight:600"><span style="width:56px;height:30px;border-radius:15px;background:{{ t.bg }};display:grid;place-items:center"><i style="font-size:21px">{{ t.ic }}</i></span>{{ t.n }}</button></sc-for></div></sc-if>
+</sc-if>
+
+<sc-if value="{{ scrim }}" hint-placeholder-val="{{ false }}"><div onClick="{{ closeSheet }}" style="position:absolute;inset:0;background:var(--scrim);z-index:80"></div></sc-if>
+<sc-if value="{{ sheetOn }}" hint-placeholder-val="{{ false }}">
+  <div style="position:absolute;left:0;right:0;bottom:0;z-index:81;background:var(--card);color:var(--ink);border-radius:{{ sheetRad }};padding:8px 16px 16px;display:flex;flex-direction:column;gap:8px">
+    <div style="width:36px;height:4px;border-radius:2px;background:var(--line);margin:4px auto 6px"></div>
+    <b style="font-size:17px">{{ sheetT }}</b>
+    <span style="font-size:13px;color:var(--mut)">{{ sheetD }}</span>
+    <sc-for list="{{ sheetRows }}" as="r" hint-placeholder-count="4"><button onClick="{{ r.pick }}" style="min-height:48px;border:0;border-top:1px solid var(--line2);background:transparent;color:var(--ink);display:flex;align-items:center;gap:12px;text-align:left;font-size:15px;padding:0 2px"><i style="font-size:21px;color:{{ r.c }}">{{ r.ic }}</i>{{ r.n }}</button></sc-for>
+    <button onClick="{{ closeSheet }}" style="height:50px;border-radius:12px;border:0;background:var(--grad);color:#fff;font-size:15px;font-weight:600;margin-top:4px">Send</button>
+  </div>
+</sc-if>
+<sc-if value="{{ hasToast }}" hint-placeholder-val="{{ false }}"><div style="position:absolute;left:12px;right:12px;bottom:84px;z-index:90;background:#0B2540;color:#fff;border-radius:12px;padding:12px 14px;font-size:14px;box-shadow:0 10px 30px rgba(0,0,0,.3)">{{ toast }}</div></sc-if>
+</div>
+<sc-if value="{{ isAnd }}" hint-placeholder-val="{{ true }}"><div style="position:absolute;bottom:0;left:0;right:0;height:16px;background:{{ navBg }};display:grid;place-items:center"><span style="width:108px;height:4px;border-radius:2px;background:{{ navFg }}"></span></div></sc-if>
+<sc-if value="{{ isIOS }}" hint-placeholder-val="{{ false }}"><div style="position:absolute;bottom:0;left:0;right:0;height:34px;background:{{ navBg }};display:grid;place-items:center"><span style="width:134px;height:5px;border-radius:3px;background:{{ navFg }}"></span></div></sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:360,&quot;height&quot;:800},&quot;platform&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;android&quot;,&quot;ios&quot;],&quot;default&quot;:&quot;android&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;theme&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;light&quot;,&quot;dark&quot;],&quot;default&quot;:&quot;light&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;scene&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;push&quot;,&quot;alarm&quot;,&quot;night&quot;,&quot;missed&quot;,&quot;rejectSheet&quot;,&quot;list&quot;,&quot;offline&quot;,&quot;revoked&quot;,&quot;ws&quot;,&quot;commit&quot;,&quot;commitErr&quot;,&quot;meet&quot;,&quot;meetSC&quot;,&quot;cantJoin&quot;,&quot;gps&quot;,&quot;fines&quot;,&quot;appeal&quot;],&quot;default&quot;:&quot;alarm&quot;,&quot;tsType&quot;:&quot;string&quot;}}">
+class Component extends DCLogic {
+  state=this.init(this.props);
+  init(p){ const sc=p.scene||'alarm'; const m={push:'push',alarm:'alarm',night:'alarm',missed:'alarm',list:'list',offline:'list',revoked:'list',ws:'ws',commit:'commit',commitErr:'commit',meet:'meet',meetSC:'meet',cantJoin:'meet',gps:'gps',fines:'fines',appeal:'appeal'};
+    return {screen:m[sc]||'alarm',sc,sec:sc==='missed'?0:(sc==='night'?1200:1187),sheet:sc==='cantJoin'?'cant':(sc==='rejectSheet'?'reject':null),toast:null,revoked:sc==='revoked',plan:{0:'Visit',1:'',2:'Call'},appeal:1,accepted:false}; }
+  componentDidMount(){ this.iv=setInterval(()=>{ const S=this.state; if(S.screen==='alarm'&&S.sc==='alarm'&&S.sec>0) this.setState({sec:S.sec-1}); },1000); }
+  componentDidUpdate(pp){ if(pp.scene!==this.props.scene) this.setState(this.init(this.props)); }
+  componentWillUnmount(){ clearInterval(this.iv); clearTimeout(this.tt); }
+  toast(m){ clearTimeout(this.tt); this.setState({toast:m}); this.tt=setTimeout(()=>this.setState({toast:null}),2600); }
+  go(screen,x){ this.setState({screen,sheet:null,...(x||{})}); }
+  renderVals(){
+    const S=this.state,P=this.props,ios=P.platform==='ios',dark=P.theme==='dark',scr=S.screen,sc=S.sc;
+    const s={}; ['push','alarm','meet','gps','list','ws','commit','fines','appeal'].forEach(k=>s[k]=scr===k);
+    const mm=String(Math.floor(S.sec/60)).padStart(2,'0')+':'+String(S.sec%60).padStart(2,'0');
+    const low=S.sec<300;
+    const T=(bg,fg)=>({tBg:bg,tFg:fg});
+    const cases=[
+      {isNew:!S.accepted,prod:'Motor TP',name:'Lakshmi Narayanan',claim:'MOT17819657',ins:'ICICI Lombard',loc:'GST Rd, Tambaram',km:'6.2 km',tat:'2d 4h',...T('var(--okt)','var(--ok)'),st:S.accepted?'FO Accepted · 10:23 am':'Assigned · accept in '+mm,stDot:S.accepted?'var(--okb)':'var(--blue)',tp:'0 of 4',bd:S.accepted?'var(--line)':'var(--blue)'},
+      {isNew:false,prod:'Health',name:'Suddala Revanth',claim:'RR-HS26-15985394',ins:'Star Health',loc:'Apollo Hospital, Vanagaram',km:'11 km',tat:'18h left',...T('var(--ambt)','var(--amb)'),st:'Started · reach within 24 h',stDot:'var(--amb)',tp:'1 of 3',bd:'var(--line)'},
+      {isNew:false,prod:'Motor TP',name:'K Murugan',claim:'CHO-TP-50011290',ins:'Cholamandalam MS',loc:'Poonamallee High Rd, Maduravoyal',km:'8.4 km',tat:'Out by 1d',...T('var(--redt)','var(--red)'),st:'In progress',stDot:'var(--redb)',tp:'3 of 4',bd:'var(--redb)'},
+      {isNew:false,prod:'Health',name:'Meena Sundaram',claim:'NIA-HL-22031877',ins:'New India Assurance',loc:'MIOT Hospital, Manapakkam',km:'14 km',tat:'3d left',...T('var(--okt)','var(--ok)'),st:'FO Accepted',stDot:'var(--okb)',tp:'0 of 2',bd:'var(--line)'}
+    ].map((c,i)=>({...c,open:()=>i===0?this.go('ws'):this.toast('Opens the Case Workspace')}));
+    const steps=[['Assigned on taasenclaims.com','Priya S · Allocate tab','10:21','check',1],['Accepted in app','Portal status → FO Accepted','10:23','check',1],['Started','Motor TP · start within 3 days','10:41','check',1],['Reached · GPS photo','Stamp with map, lat/long, time','10:58','photo_camera',1],['Touch points','1 of 4 done · each one syncs as saved','—','pending',0],['Final report submitted','Status 4 · FO Completed','—','radio_button_unchecked',0]].map(([n,d,t,ic,on])=>({n,d,t,ic,bg:on?'var(--okt)':'var(--line2)',fg:on?'var(--ok)':'var(--mut)',tc:on?'var(--ink)':'var(--mut)'}));
+    const plans=['Visit','Call','Documents','Report'];
+    const commitsBase=[['K Murugan','CHO-TP-50011290','Out by 1d','var(--redt)','var(--red)','11:00 am','Visit insured at Maduravoyal, collect DL copy'],['Suddala Revanth','RR-HS26-15985394','18h left','var(--ambt)','var(--amb)','—','What will you do today?'],['Meena Sundaram','NIA-HL-22031877','3d left','var(--okt)','var(--ok)','3:30 pm','Call the MRD for the indoor case papers']];
+    const commits=commitsBase.map((c,i)=>{ const pl=S.plan[i]; const err=sc==='commitErr'&&!pl; return {name:c[0],claim:c[1],tat:c[2],tBg:c[3],tFg:c[4],time:pl?c[5]:'—',note:pl?c[6]:'What will you do today?',nc:pl?'var(--ink)':'var(--mut)',bd:err?'var(--red)':'var(--line)',err,
+      chips:plans.map(n=>({n,bg:pl===n?'var(--blue)':'transparent',fg:pl===n?'#fff':'var(--body)',bd:pl===n?'var(--blue)':'var(--line)',pick:()=>this.setState(st=>({plan:{...st.plan,[i]:n}}))}))}; });
+    const fineRows=[['location_off','GPS turned off','26-09 · 10:52–11:09 am','₹50','Under appeal','var(--amb)',true],['alarm_off','Case not accepted in 20 min','25-09 · CHO-TP-50011290','₹50','Added','var(--red)'],['event_busy','Daily FO meeting missed','25-09 · Anand R (OHS TL)','₹100','Added','var(--red)'],['assignment_late','Day update not saved by 7:30 PM','24-09 · 2 cases open','₹250','Added','var(--red)'],['directions_car','Motor TP not started in 3 days','22-09 · MOT17811002','₹50','Added','var(--red)'],['groups','State Coordinator meeting missed','21-09 · Karthik V','₹100','Waived by admin','var(--ok)']].map(([ic,n,d,v,st,scol,ap])=>({ic,n,d,v,s:st,sc:scol,open:()=>ap?this.go('appeal'):this.toast('Opens the entry · Appeal')}));
+    const why=['Phone restarted / switched off','Network or GPS signal lost','Battery died','Other reason'];
+    let foot=null;
+    if(scr==='commit') foot={l:'Save today\'s plan',ic:'task_alt',bg:'var(--okb)',act:()=>{ if(Object.values(S.plan).some(v=>!v)) return this.setState({sc:'commitErr'}); this.go('list'); this.toast('Plan saved · manager can see it'); }};
+    if(scr==='appeal') foot={l:'Send appeal',ic:'send',bg:'var(--grad)',act:()=>{ this.go('fines'); this.toast('Appeal sent to Priya S and admin'); }};
+    if(scr==='ws') foot={l:'Start touch point · Insured',ic:'play_arrow',bg:'var(--grad)',act:()=>this.toast('Opens Touch Point · Insured')};
+    const titles={list:'My Cases',ws:'Case Workspace',commit:'Morning commitment',fines:'Fine Amount',appeal:'Appeal'};
+    const subs={list:'Ravi Kumar · FO',ws:'MOT17819657 · sample',commit:'Saturday 26-09 · 3 cases',fines:'Ravi Kumar · sample',appeal:'GPS turned off · ₹50'};
+    const hasHead=['list','ws','commit','fines','appeal'].includes(scr);
+    const tabOf={list:0,ws:0,commit:0,fines:3,appeal:3};
+    const tabs=[['work','Cases','list'],['today','Today','commit'],['forum','Chat',null],['person','Profile','fines']].map(([ic,n,to],i)=>{ const on=tabOf[scr]===i; return {ic,n,c:on?'var(--link)':'var(--mut)',bg:on?'var(--sky)':'transparent',go:()=>to?this.go(to):this.toast('Team Chat')}; });
+    const meetSC=sc==='meetSC';
+    const sheet=S.sheet;
+    const sheetRows=(sheet==='cant'?['On a field visit right now','At the police station / court','No network here','Other reason']:['Too far from my location','Already holding many cases','On leave today','Other reason']).map((n,i)=>({n,ic:i===0?'radio_button_checked':'radio_button_unchecked',c:i===0?'var(--blue)':'var(--mut)',pick:()=>{}}));
+    const headScreen=hasHead;
+    return {
+      theme:dark?'dark':'light', isIOS:ios, isAnd:!ios, W:ios?390:360, H:ios?844:800, sbH:ios?47:24, bH:ios?34:16,
+      sbBg:scr==='push'?'#0A2238':(dark?'#000E1C':'#001F3F'), clock:scr==='push'?'10:21':(scr==='meet'?'9:30':(sc==='night'?'7:58':'10:24')),
+      netIc:sc==='offline'?'signal_wifi_off':'wifi', locIc:scr==='gps'?'location_disabled':'location_on',
+      navBg:headScreen||scr==='gps'?'var(--card)':(scr==='alarm'?'var(--card)':'#02101E'), navFg:headScreen||scr==='gps'||scr==='alarm'?'var(--ink)':'#fff',
+      s, hasHead, title:titles[scr]||'', sub:subs[scr]||'', backIc:ios?'chevron_left':'arrow_back', backVis:(scr==='list'||scr==='commit'||scr==='fines')?'hidden':'visible',
+      back:()=>this.go(scr==='appeal'?'fines':'list'), offline:sc==='offline',
+      toAlarm:()=>this.go('alarm'),
+      alarmKicker:sc==='missed'?'Time up':(sc==='night'?'New case · waiting for 8 AM':'New case assigned'), mmss:sc==='night'?'20:00':mm, timerSub:sc==='missed'?'fine added':(sc==='night'?'starts 8:00 AM':'left to accept'),
+      ringCol:sc==='missed'?'#D93A2B':(low?'#F0A500':'rgba(255,255,255,.9)'), ringAnim:sc==='alarm'?'cspulse 1s ease-in-out infinite':'none',
+      nightNote:sc==='night', missedNote:sc==='missed',
+      tps:[['person','Insured'],['local_police','Police station'],['local_hospital','Hospital'],['directions_car','Driver']].map(([ic,n])=>({ic,n})),
+      accept:()=>{ this.go('list',{accepted:true}); this.toast('Accepted · the portal now shows FO Accepted'); },
+      reject:()=>this.setState({sheet:'reject'}),
+      revoked:S.revoked, dismissRev:()=>this.setState({revoked:false}), ootBanner:sc!=='revoked',
+      syncIc:sc==='offline'?'cloud_off':'sync', syncCol:sc==='offline'?'var(--amb)':'var(--ok)', syncText:sc==='offline'?'Last synced 10:18 am':'Synced with taasenclaims.com · just now',
+      filters:['All 4','New 1','Out of TAT 1','Health 2'].map((n,i)=>({n,bg:i===0?'var(--blue)':'var(--card)',fg:i===0?'#fff':'var(--body)',bd:i===0?'var(--blue)':'var(--line)'})),
+      cases, steps,
+      tpRows:[['Insured','check_circle','Done','var(--ok)'],['Police station','pending','Next','var(--link)'],['Hospital','radio_button_unchecked','Not started','var(--mut)'],['Driver','radio_button_unchecked','Not started','var(--mut)']].map(([n,ic,st,c])=>({n,ic,s:st,c})),
+      commits,
+      meetName:meetSC?'State Coordinator meeting':'Daily FO meeting', meetBy:meetSC?'Karthik V · State Coordinator':'Anand R · OHS Team Leader', meetWho:meetSC?'OHS + FOs, Tamil Nadu · 34 people rung · 11:00 am':'OHS Team Chennai · 12 people rung · 9:30 am',
+      openCant:()=>this.setState({sheet:'cant'}), joinMeet:()=>this.toast('Opening the meeting room…'),
+      gpsOn:()=>{ this.go('list'); this.toast('GPS on · the portal shows you on duty again'); },
+      fineKinds:[['GPS off','₹50','1 time'],['Not accepted in 20 min','₹50','1 case'],['Meetings missed','₹100','1 of 2 waived'],['Day update after 7:30 PM','₹250','1 day'],['Motor TP not started','₹50','1 case']].map(([n,v,c])=>({n,v,c})),
+      fineRows,
+      appealWhy:why.map((n,i)=>({n,ic:S.appeal===i?'radio_button_checked':'radio_button_unchecked',ic_c:S.appeal===i?'var(--blue)':'var(--mut)',bg:S.appeal===i?'var(--sky)':'transparent',bd:S.appeal===i?'var(--blue)':'var(--line)',pick:()=>this.setState({appeal:i})})),
+      showFoot:!!foot, footLabel:foot?foot.l:'', footIc:foot?foot.ic:'', footBg:foot?foot.bg:'', footAct:()=>foot&&foot.act(),
+      hasTabs:['list','fines','commit'].includes(scr)&&!foot, tabs,
+      scrim:!!sheet, sheetOn:!!sheet, sheetRad:ios?'14px 14px 0 0':'28px 28px 0 0', closeSheet:()=>this.setState({sheet:null}),
+      sheetT:sheet==='cant'?'Why can\'t you join?':'Reject this case?', sheetD:sheet==='cant'?'Anand R sees this reason. Without a reason the ₹100 fine applies.':'Your manager sees this reason and re-assigns the case.',
+      sheetRows, hasToast:!!S.toast, toast:S.toast
+    };
+  }
+}
+</script>
+</body>
+</html>

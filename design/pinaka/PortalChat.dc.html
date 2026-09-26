@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<style>
+body{margin:0}
+a{color:#0074D9}a:hover{color:#0060B5}
+[data-pc]{--font:'IBM Plex Sans',system-ui,'Segoe UI',Arial,sans-serif;--mono:'IBM Plex Mono',ui-monospace,Menlo,monospace}
+[data-pc=light]{--navy:#001F3F;--navy2:#012A54;--blue:#0074D9;--bluet:#E3F0FC;--ink:#0B2540;--body:#33475B;--muted:#5A708C;--faint:#6E8095;--bg:#EEF3F9;--card:#FFFFFF;--line:#D7E2EF;--line2:#E7EEF6;--head:#F8FBFE;--ok:#1E7A3D;--okt:#E4F6EA;--link:#0060B5;--mine:#001F3F;--mineLink:#9FD0FF;--yel:#FFF4CC;--yelbd:#F0C75A;--yelband:rgba(240,165,0,.13);--chip:#D6E9FB;--chipInk:#0B4A8F;--fld:#F6F9FD;--sh:0 10px 30px rgba(2,32,64,.12);--hdr:var(--navy)}
+[data-pc=dark]{--navy:#001F3F;--navy2:#012A54;--blue:#5AAEF5;--bluet:#14304F;--ink:#E7EEF7;--body:#C3D0DE;--muted:#93A6BC;--faint:#8095AC;--bg:#07111D;--card:#0E1C2E;--line:#22374F;--line2:#1A2C42;--head:#112236;--ok:#6FD39A;--okt:#0F2E1E;--link:#7CC0FF;--mine:#0A4B8C;--mineLink:#CFE6FF;--yel:#3A2E0A;--yelbd:#8A6A1A;--yelband:rgba(240,165,0,.10);--chip:#16395E;--chipInk:#CFE6FF;--fld:#0A1726;--sh:0 10px 30px rgba(0,0,0,.5);--hdr:#E7EEF7}
+[data-pc] *{box-sizing:border-box}
+[data-pc] button{font-family:var(--font);cursor:pointer}
+</style>
+</helmet>
+<div data-pc="{{ theme }}" style="width:1440px;height:900px;display:flex;background:var(--bg);color:var(--ink);font-family:var(--font);-webkit-font-smoothing:antialiased;overflow:hidden;position:relative">
+  <aside style="width:232px;flex:none;background:linear-gradient(180deg,#001F3F 0%,#012A54 100%);color:#fff;padding:18px 12px 14px;display:flex;flex-direction:column">
+    <div style="display:flex;align-items:center;gap:11px;padding:4px 10px 20px"><span style="width:36px;height:36px;background:#fff;border-radius:9px;display:flex;align-items:center;justify-content:center;overflow:hidden"><img src="assets/pinaka-eagle.png" style="width:36px;height:36px;object-fit:cover" alt="Pinaka"></span><span><b style="display:block;font-size:17px;font-weight:800;letter-spacing:-.2px;line-height:1.1">TaaSen</b><small style="font:600 8.5px var(--mono);letter-spacing:2.6px;color:#7CC0FF">CLAIMS PORTAL</small></span></div>
+    <nav style="display:flex;flex-direction:column;gap:2px">
+      <sc-for list="{{ nav }}" as="n" hint-placeholder-count="7"><a style="display:flex;align-items:center;gap:12px;padding:11px 12px;border-radius:10px;color:{{ n.fg }};background:{{ n.bg }};text-decoration:none;font-size:13.5px;font-weight:{{ n.fw }};white-space:nowrap"><i class="{{ n.ic }}" style="width:20px;text-align:center;font-size:14px"></i><span style="flex:1">{{ n.label }}</span><sc-if value="{{ n.badge }}" hint-placeholder-val="{{ false }}"><span style="background:#CC0000;color:#fff;border-radius:999px;min-width:19px;height:19px;padding:0 6px;display:inline-flex;align-items:center;justify-content:center;font:800 11px var(--font)">{{ n.badge }}</span></sc-if></a></sc-for>
+    </nav>
+  </aside>
+  <main style="flex:1;display:flex;flex-direction:column;min-width:0">
+    <div style="display:flex;align-items:center;gap:12px;background:var(--card);border-bottom:1px solid var(--line);padding:12px 24px;position:relative;z-index:30">
+      <h1 style="margin:0;font-size:16.5px;font-weight:700;color:var(--hdr);letter-spacing:-.2px;flex:1">Case · <span style="font-family:var(--mono)">MOT17819657</span> <span style="font-weight:500;color:var(--muted);font-size:13px">sample</span></h1>
+      <button onClick="{{ toggleDrop }}" title="Mentions" style="position:relative;height:38px;padding:0 12px;border:1px solid {{ atBd }};background:{{ atBg }};color:{{ atFg }};border-radius:10px;display:inline-flex;align-items:center;gap:8px;font:700 13px var(--font)"><i class="fa-solid fa-at"></i>Mentions<sc-if value="{{ hasUnread }}" hint-placeholder-val="{{ true }}"><span style="background:#CC0000;color:#fff;border-radius:999px;min-width:19px;height:19px;padding:0 6px;display:inline-flex;align-items:center;justify-content:center;font:800 11px var(--font)">{{ unreadN }}</span></sc-if></button>
+      <button style="position:relative;width:38px;height:38px;border:1px solid var(--line);background:var(--card);color:var(--hdr);border-radius:10px"><i class="fa-regular fa-bell"></i><span style="position:absolute;top:-5px;right:-5px;background:#CC0000;color:#fff;border-radius:999px;min-width:17px;height:17px;padding:0 5px;font:800 10px var(--font);display:inline-flex;align-items:center;justify-content:center">5</span></button>
+      <span style="display:inline-flex;align-items:center;gap:9px;background:var(--fld);border:1px solid var(--line);border-radius:999px;padding:5px 12px 5px 6px;font-size:12.5px;font-weight:600"><span style="width:26px;height:26px;border-radius:50%;background:var(--bluet);color:var(--blue);display:inline-flex;align-items:center;justify-content:center;font-size:11px;font-weight:700">S</span>Sujit D N<span style="font:700 9px var(--mono);letter-spacing:1px;background:#001F3F;color:#fff;border-radius:5px;padding:2.5px 7px">SM</span></span>
+
+      <sc-if value="{{ dropOpen }}" hint-placeholder-val="{{ false }}">
+        <div style="position:absolute;top:58px;right:170px;width:420px;background:var(--card);border:1px solid var(--line);border-radius:14px;box-shadow:var(--sh);overflow:hidden">
+          <div style="display:flex;align-items:center;gap:10px;padding:12px 16px;border-bottom:1px solid var(--line2);background:var(--head)"><b style="font-size:14px;color:var(--hdr);flex:1"><i class="fa-solid fa-at" style="color:var(--blue);margin-right:7px"></i>Mentions</b>
+            <span style="display:inline-flex;border:1px solid var(--line);border-radius:9px;overflow:hidden"><button onClick="{{ fUnread }}" style="border:0;padding:6px 12px;font:700 12px var(--font);background:{{ fuBg }};color:{{ fuFg }}">Unread {{ unreadN }}</button><button onClick="{{ fAll }}" style="border:0;padding:6px 12px;font:700 12px var(--font);background:{{ faBg }};color:{{ faFg }}">All</button></span>
+            <button onClick="{{ markAll }}" style="border:0;background:transparent;color:var(--link);font:600 12px var(--font)">Mark all read</button></div>
+          <sc-for list="{{ drows }}" as="r" hint-placeholder-count="3">
+            <div style="display:grid;grid-template-columns:34px 1fr auto;gap:10px;padding:12px 16px;border-bottom:1px solid var(--line2);background:{{ r.bg }};cursor:pointer">
+              <span style="width:34px;height:34px;border-radius:50%;background:{{ r.av }};color:#fff;display:grid;place-items:center;font-weight:700;font-size:13px">{{ r.ini }}</span>
+              <span style="min-width:0"><span style="display:block;font-size:13px"><b>{{ r.who }}</b> mentioned you · <span style="font:600 12px var(--mono);color:var(--muted)">{{ r.claim }}</span></span><span style="display:block;font-size:12.5px;color:var(--body);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ r.text }}</span></span>
+              <span style="display:flex;flex-direction:column;align-items:flex-end;gap:6px;font:500 11px var(--mono);color:var(--faint)">{{ r.t }}<sc-if value="{{ r.unread }}" hint-placeholder-val="{{ false }}"><span style="width:8px;height:8px;border-radius:50%;background:var(--blue)"></span></sc-if></span>
+            </div>
+          </sc-for>
+          <sc-if value="{{ dEmpty }}" hint-placeholder-val="{{ false }}"><div style="padding:34px 16px;text-align:center;color:var(--faint);font-size:13px"><i class="fa-solid fa-at" style="font-size:26px;color:#C4D2E3;display:block;margin-bottom:10px"></i>No unread mentions</div></sc-if>
+          <div style="padding:10px 16px;text-align:center;font:600 12.5px var(--font);color:var(--link);background:var(--head)">View all mentions</div>
+        </div>
+      </sc-if>
+    </div>
+
+    <div style="padding:20px 24px;display:flex;flex-direction:column;gap:14px;min-height:0;flex:1">
+      <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+        <span style="font:700 18px var(--mono);color:var(--hdr)">MOT17819657</span>
+        <span style="display:inline-flex;align-items:center;gap:6px;padding:3.5px 10px;border-radius:999px;font-size:11px;font-weight:600;background:#E0F4F6;color:#0E7490"><span style="width:6px;height:6px;border-radius:50%;background:#17A2B8"></span>FO Accepted</span>
+        <span style="font-size:13px;color:var(--muted)">Chola MS · Motor TP Investigation · Lakshmi Narayanan · FO Ravi Kumar</span>
+        <span style="margin-left:auto;font:600 12px var(--mono);color:var(--ok)">TAT 2d 4h left</span>
+      </div>
+      <div style="display:flex;gap:6px;border-bottom:1px solid var(--line)"><sc-for list="{{ tabs }}" as="t" hint-placeholder-count="4"><span style="padding:8px 14px;font-weight:700;font-size:13px;color:{{ t.fg }};border-bottom:2px solid {{ t.bd }}">{{ t.n }}</span></sc-for></div>
+      <div style="display:grid;grid-template-columns:minmax(0,1fr) 480px;gap:16px;min-height:0;flex:1">
+        <div style="background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;align-self:start">
+          <div style="padding:12px 16px;border-bottom:1px solid var(--line2);background:var(--head)"><b style="font-size:14px;color:var(--hdr)">Case details</b></div>
+          <div style="padding:8px 16px 14px">
+            <sc-for list="{{ kv }}" as="r" hint-placeholder-count="8"><div style="display:flex;gap:10px;padding:8px 0;font-size:13px;border-bottom:1px dashed var(--line2)"><span style="min-width:150px;color:var(--muted);font-weight:600">{{ r.k }}</span><span style="color:var(--body)">{{ r.v }}</span></div></sc-for>
+          </div>
+        </div>
+
+        <div style="background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;display:flex;flex-direction:column;min-height:0">
+          <div style="padding:12px 16px;border-bottom:1px solid var(--line2);background:var(--head);display:flex;flex-direction:column;gap:8px">
+            <div style="display:flex;align-items:center;gap:8px"><b style="font-size:14px;color:var(--hdr);flex:1"><i class="fa-regular fa-comments" style="color:var(--blue);margin-right:7px"></i>Team Chat</b><span style="display:inline-flex;align-items:center;gap:6px;font-size:10.5px;font-weight:700;color:var(--ok);background:var(--okt);border-radius:999px;padding:3px 9px"><span style="width:6px;height:6px;border-radius:50%;background:#2ECC71"></span>3 available members</span></div>
+            <div style="display:flex;gap:6px;flex-wrap:wrap"><sc-for list="{{ mchips }}" as="c" hint-placeholder-count="4"><span style="display:inline-flex;align-items:center;gap:6px;background:var(--fld);border:1px solid var(--line);border-radius:999px;padding:3px 10px 3px 3px;font-size:12px;font-weight:600;white-space:nowrap"><span style="width:20px;height:20px;border-radius:50%;background:{{ c.av }};color:#fff;display:grid;place-items:center;font-size:10px;font-weight:700">{{ c.ini }}</span>{{ c.n }}<span style="font-weight:500;color:var(--faint)">· {{ c.r }}</span></span></sc-for></div>
+          </div>
+          <div style="flex:1;overflow:auto;padding:12px 14px;display:flex;flex-direction:column;gap:8px;min-height:0">
+            <sc-for list="{{ msgs }}" as="m" hint-placeholder-count="4">
+              <div style="display:flex;flex-direction:column;align-items:{{ m.align }};padding:6px 8px;margin:0 -8px;background:{{ m.band }};border-radius:10px">
+                <div style="display:flex;gap:8px;align-items:flex-end;max-width:88%;flex-direction:{{ m.dir }}">
+                  <sc-if value="{{ m.other }}" hint-placeholder-val="{{ true }}"><span style="width:30px;height:30px;border-radius:50%;background:{{ m.av }};color:#fff;display:grid;place-items:center;font-size:12px;font-weight:700;flex:none">{{ m.ini }}</span></sc-if>
+                  <div style="display:flex;flex-direction:column;gap:3px;align-items:{{ m.align }}">
+                    <sc-if value="{{ m.other }}" hint-placeholder-val="{{ true }}"><span style="font-size:11.5px;color:var(--muted);white-space:nowrap"><b style="color:var(--ink)">{{ m.name }}</b> · {{ m.role }}</span></sc-if>
+                    <div style="position:relative;background:{{ m.bg }};color:{{ m.fg }};border:{{ m.bd }};border-radius:{{ m.rad }};padding:8px 12px;font-size:13.5px;line-height:1.5">
+                      <sc-if value="{{ m.you }}" hint-placeholder-val="{{ false }}"><span style="position:absolute;top:-9px;right:10px;background:#F0A500;color:#2B1D00;font:700 10.5px var(--font);padding:1px 7px;border-radius:9px">@ you</span></sc-if>
+                      <sc-for list="{{ m.segs }}" as="g" hint-placeholder-count="1"><sc-if value="{{ g.isM }}" hint-placeholder-val="{{ false }}"><b style="color:{{ g.col }};cursor:pointer">@{{ g.name }}</b></sc-if><sc-if value="{{ g.isT }}" hint-placeholder-val="{{ true }}"><span>{{ g.text }}</span></sc-if></sc-for>
+                    </div>
+                    <span style="font:500 11px var(--mono);color:var(--faint);display:flex;gap:6px;align-items:center">{{ m.t }}<sc-if value="{{ m.mine }}" hint-placeholder-val="{{ false }}"><i class="fa-solid fa-check-double" style="color:#2F9BFF"></i></sc-if><span style="font-family:var(--font);color:var(--muted)"><i class="fa-solid fa-reply"></i> Reply</span></span>
+                  </div>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+          <div style="position:relative;border-top:1px solid var(--line);padding:12px 14px;background:var(--card)">
+            <sc-if value="{{ listOpen }}" hint-placeholder-val="{{ true }}">
+              <div style="position:absolute;left:14px;right:14px;bottom:calc(100% - 4px);background:var(--card);border:1px solid var(--line);border-radius:12px;box-shadow:var(--sh);overflow:hidden">
+                <div style="padding:8px 12px;font:700 10px var(--mono);letter-spacing:1px;color:var(--faint);border-bottom:1px solid var(--line2);display:flex;justify-content:space-between"><span>TAG A MEMBER OF THIS CASE</span><span>↑↓ · Enter</span></div>
+                <sc-for list="{{ lrows }}" as="r" hint-placeholder-count="3"><div style="display:flex;align-items:center;gap:10px;padding:9px 12px;background:{{ r.bg }};border-bottom:1px solid var(--line2);cursor:pointer"><span style="width:30px;height:30px;border-radius:50%;background:{{ r.av }};color:#fff;display:grid;place-items:center;font-size:12px;font-weight:700">{{ r.ini }}</span><span style="flex:1"><b style="font-size:13.5px">{{ r.n }}</b><span style="display:block;font-size:11.5px;color:var(--muted)">{{ r.r }}</span></span><span style="font-size:11px;font-weight:700;color:{{ r.sc }}">{{ r.st }}</span></div></sc-for>
+              </div>
+            </sc-if>
+            <div style="display:flex;gap:8px;align-items:center">
+              <div style="flex:1;min-height:42px;border:1.5px solid var(--blue);box-shadow:0 0 0 3px rgba(0,116,217,.13);border-radius:10px;background:var(--fld);display:flex;align-items:center;gap:4px;padding:6px 12px;flex-wrap:wrap;font-size:13.5px">
+                <span style="display:inline-flex;align-items:center;height:24px;padding:0 7px;border-radius:6px;background:var(--chip);color:var(--chipInk);font-weight:600">@Ravi Kumar</span><span>thanks. Share the MRD receipt with</span><span style="color:var(--link);font-weight:600">@</span><span style="width:1.5px;height:18px;background:var(--blue)"></span>
+              </div>
+              <button style="width:42px;height:42px;border:1px solid var(--line);background:var(--card);color:var(--blue);border-radius:10px"><i class="fa-solid fa-microphone"></i></button>
+              <button style="height:42px;padding:0 16px;border:0;background:var(--blue);color:#fff;border-radius:9px;font:600 13px var(--font)"><i class="fa-solid fa-paper-plane"></i> Send</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1440,&quot;height&quot;:900},&quot;theme&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;light&quot;,&quot;dark&quot;],&quot;default&quot;:&quot;light&quot;,&quot;tsType&quot;:&quot;'light'|'dark'&quot;},&quot;scene&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;list&quot;,&quot;dropdown&quot;],&quot;default&quot;:&quot;list&quot;,&quot;tsType&quot;:&quot;'list'|'dropdown'&quot;}}">
+const P={ravi:{n:'Ravi Kumar',r:'Field Officer',ini:'R',av:'#001F3F',on:true},sujit:{n:'Sujit D N',r:'Senior Manager',ini:'S',av:'#0060B5',on:true},priya:{n:'Priya',r:'Case Manager',ini:'P',av:'#0E7490',on:true},chola:{n:'Chola MS',r:'Client',ini:'C',av:'#9A6A00',on:false}};
+const ME='sujit';
+const MS=[
+ {from:'chola',t:'09:12',segs:['Please confirm the date of admission against the IP register.']},
+ {from:'sujit',t:'14:02',segs:[{m:'ravi'},' please collect the discharge summary before 5 pm. ',{m:'priya'},' keep QC informed.']},
+ {from:'ravi',t:'14:20',segs:[{m:'sujit'},' ',{m:'priya'},' discharge summary collected, uploading now.']},
+ {from:'priya',t:'5m ago',segs:['Noted. QC will pick it up after the upload.']}
+];
+const DR=[
+ {id:1,who:'ravi',claim:'MOT17819657',text:'@Sujit D N @Priya discharge summary collected, uploading now.',t:'14:20'},
+ {id:2,who:'priya',claim:'MOT17820114',text:'@Sujit D N approve the ₹2,500 police document charge?',t:'12:05'},
+ {id:3,who:'chola',claim:'MOT17811902',text:'@Sujit D N please share the revised TAT for this claim.',t:'Sep 25, 16:10'},
+ {id:4,who:'ravi',claim:'MOT17809877',text:'@Sujit D N FIR copy uploaded.',t:'Sep 24, 11:30'}
+];
+class Component extends DCLogic {
+  state={drop:this.props.scene==='dropdown',f:'unread',unread:{1:true,2:true,3:true}};
+  componentDidUpdate(pp){ if(pp.scene!==this.props.scene) this.setState({drop:this.props.scene==='dropdown'}); }
+  renderVals(){
+    const S=this.state; const unreadN=Object.values(S.unread).filter(Boolean).length;
+    const seg=(segs,mine)=>segs.map(g=>typeof g==='string'?{isT:true,text:g}:{isM:true,name:P[g.m].n,col:mine?'var(--mineLink)':'var(--link)'});
+    const on=(x)=>({bg:x?'var(--blue)':'transparent',fg:x?'#fff':'var(--muted)'});
+    const fu=on(S.f==='unread'),fa=on(S.f==='all');
+    return {
+      theme:this.props.theme||'light', dropOpen:S.drop, toggleDrop:()=>this.setState({drop:!S.drop}),
+      unreadN, hasUnread:unreadN>0, atBg:S.drop?'var(--bluet)':'var(--card)', atBd:S.drop?'var(--blue)':'var(--line)', atFg:S.drop?'var(--blue)':'var(--hdr)',
+      fUnread:()=>this.setState({f:'unread'}), fAll:()=>this.setState({f:'all'}), fuBg:fu.bg,fuFg:fu.fg,faBg:fa.bg,faFg:fa.fg,
+      markAll:()=>this.setState({unread:{}}),
+      drows:DR.filter(r=>S.f==='all'||S.unread[r.id]).map(r=>({...r,who:P[r.who].n,ini:P[r.who].ini,av:P[r.who].av,unread:!!S.unread[r.id],bg:S.unread[r.id]?'var(--bluet)':'var(--card)'})),
+      dEmpty:!DR.filter(r=>S.f==='all'||S.unread[r.id]).length,
+      nav:[['fa-solid fa-gauge','Dashboard'],['fa-solid fa-folder-open','Cases',0,1],['fa-solid fa-users','Field Force'],['fa-solid fa-at','Mentions',unreadN],['fa-solid fa-circle-check','Approvals',4],['fa-solid fa-file-lines','Reporting'],['fa-solid fa-chart-line','Analytics']].map(([ic,label,b,a])=>({ic,label,badge:b||'',fg:a?'#fff':'#B9D2EC',bg:a?'rgba(0,116,217,.28)':'transparent',fw:a?600:500})),
+      tabs:['Details','Field Work','Documents','Timeline'].map((n,i)=>({n,fg:i===0?'var(--blue)':'var(--muted)',bd:i===0?'var(--blue)':'transparent'})),
+      kv:[{k:'Insurer',v:'Chola MS (sample)'},{k:'Product',v:'Motor TP Investigation · TAT 25 days'},{k:'Petitioner',v:'Lakshmi Narayanan · injured'},{k:'Accident',v:'14-06-2026 · 07:40 PM · GST Rd, Tambaram'},{k:'Vehicle',v:'TN 22 CK 4471 · goods carrier'},{k:'FIR',v:'412/2026 · Tambaram PS'},{k:'MACT',v:'OP 1187/2026 · Chengalpattu'},{k:'Hospital',v:'Govt. Hospital, Chromepet'},{k:'Field officer',v:'Ravi Kumar (FO) · allocated 02-09-2026'},{k:'Case manager',v:'Priya'}],
+      mchips:Object.keys(P).map(k=>({n:k===ME?'You':P[k].n,r:P[k].r,ini:P[k].ini,av:P[k].av})),
+      msgs:MS.map(m=>{ const mine=m.from===ME, you=!mine&&m.segs.some(g=>g.m===ME), u=P[m.from];
+        return {mine,other:!mine,you,align:mine?'flex-end':'flex-start',dir:mine?'row-reverse':'row',band:you?'var(--yelband)':'transparent',av:u.av,ini:u.ini,name:u.n,role:u.r,t:m.t,
+          bg:mine?'var(--mine)':you?'var(--yel)':'var(--fld)',fg:mine?'#fff':'var(--ink)',bd:mine?'1px solid transparent':you?'1px solid var(--yelbd)':'1px solid var(--line)',rad:mine?'14px 14px 4px 14px':'14px 14px 14px 4px',segs:seg(m.segs,mine)}; }),
+      listOpen:this.props.scene!=='dropdown',
+      lrows:['priya','chola','ravi'].map((k,i)=>({n:P[k].n,r:P[k].r,ini:P[k].ini,av:P[k].av,st:P[k].on?'Available':'Unavailable',sc:P[k].on?'var(--ok)':'var(--faint)',bg:i===0?'var(--bluet)':'transparent'}))
+    };
+  }
+}
+</script>
+</body>
+</html>

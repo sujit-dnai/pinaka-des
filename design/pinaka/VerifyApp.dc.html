@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0..1,0" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#0074D9}a:hover{color:#0060B5}
+[data-va]{--f:'IBM Plex Sans',system-ui,sans-serif;--m:'IBM Plex Mono',ui-monospace,monospace}
+[data-va=light]{--bg:#EEF3F9;--card:#FFFFFF;--ink:#0B2540;--body:#33475B;--mut:#5A708C;--line:#D7E2EF;--line2:#E7EEF6;--sky:#E3F0FC;--blue:#0074D9;--link:#0060B5;--grad:linear-gradient(135deg,#001F3F 0%,#0074D9 100%);--fld:#F6F9FD;--ok:#1E7A3D;--okt:#E4F6EA;--okb:#2E9E4B;--red:#A3271B;--redt:#FCE9E7;--redb:#D93A2B;--amb:#9A6A00;--ambt:#FFF3D6}
+[data-va=dark]{--bg:#07111D;--card:#0E1C2E;--ink:#E7EEF7;--body:#C3D0DE;--mut:#93A6BC;--line:#22374F;--line2:#1A2C42;--sky:#14304F;--blue:#5AAEF5;--link:#7CC0FF;--grad:linear-gradient(135deg,#000E1C 0%,#0A4B8C 100%);--fld:#0A1726;--ok:#6FD39A;--okt:#0F2E1E;--okb:#2E9E4B;--red:#FF9A8C;--redt:#3A1612;--redb:#C8382A;--amb:#F5BE6A;--ambt:#35260E}
+[data-va] *{box-sizing:border-box}
+[data-va] button{font-family:var(--f);cursor:pointer}
+[data-va] i{font-family:'Material Symbols Rounded';font-style:normal;font-weight:normal;font-size:22px;line-height:1;display:inline-block;white-space:nowrap;-webkit-font-smoothing:antialiased;font-feature-settings:'liga'}
+</style>
+</helmet>
+<div data-va="{{ theme }}" style="width:{{ W }}px;height:{{ H }}px;position:relative;overflow:hidden;background:var(--bg);color:var(--ink);font-family:var(--f);font-size:15px;line-height:1.4">
+<sc-if value="{{ isAnd }}" hint-placeholder-val="{{ true }}"><div style="position:absolute;top:0;left:0;right:0;height:24px;background:{{ sbBg }};color:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 14px;font:500 12px var(--f);z-index:60"><span>{{ clock }}</span><span style="display:flex;gap:3px;align-items:center"><i style="font-size:15px">location_on</i><i style="font-size:15px">wifi</i><i style="font-size:15px">signal_cellular_alt</i><i style="font-size:15px">battery_5_bar</i></span></div></sc-if>
+<sc-if value="{{ isIOS }}" hint-placeholder-val="{{ false }}"><div style="position:absolute;top:0;left:0;right:0;height:47px;background:{{ sbBg }};color:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 30px 0 34px;font:600 16px -apple-system,system-ui,sans-serif;z-index:60"><span>{{ clock }}</span><span style="position:absolute;left:50%;top:11px;transform:translateX(-50%);width:122px;height:35px;border-radius:18px;background:#000"></span><span style="display:flex;gap:5px;align-items:center"><i style="font-size:17px">signal_cellular_alt</i><i style="font-size:17px">wifi</i><i style="font-size:20px">battery_full</i></span></div></sc-if>
+<div style="position:absolute;left:0;right:0;top:{{ sbH }}px;bottom:{{ bH }}px;overflow:hidden;display:flex;flex-direction:column">
+
+<sc-if value="{{ cam }}" hint-placeholder-val="{{ false }}">
+<div style="flex:1;display:flex;flex-direction:column;background:#000;color:#fff;min-height:0">
+  <div style="flex:none;height:52px;display:flex;align-items:center;gap:10px;padding:0 12px"><i>close</i><div style="flex:1;min-width:0"><b style="font-size:15px">{{ camTitle }}</b><div style="font-size:11.5px;opacity:.75">{{ camSub }}</div></div><span style="height:28px;padding:0 10px;border-radius:14px;background:rgba(46,158,75,.25);color:#8BE0A8;font-size:12px;font-weight:600;display:flex;align-items:center;gap:4px"><i style="font-size:15px">my_location</i>± 6 m</span></div>
+  <sc-if value="{{ s.camB }}" hint-placeholder-val="{{ false }}"><div style="flex:none;display:flex;gap:6px;overflow-x:auto;padding:0 12px 8px"><sc-for list="{{ shots }}" as="t" hint-placeholder-count="4"><span style="flex:none;height:34px;padding:0 12px;border-radius:17px;background:{{ t.bg }};color:{{ t.fg }};font-size:12.5px;font-weight:600;display:flex;align-items:center;gap:5px;border:1.5px solid {{ t.bd }}"><i style="font-size:16px">{{ t.ic }}</i>{{ t.n }}</span></sc-for></div></sc-if>
+  <sc-if value="{{ s.camC }}" hint-placeholder-val="{{ false }}"><div style="flex:none;margin:0 12px 8px;background:rgba(255,255,255,.1);border-radius:12px;padding:10px 12px;font-size:13.5px"><b style="display:block;font-size:11.5px;opacity:.7;text-transform:uppercase;letter-spacing:.05em">Question 2 of 6 · photo needed</b>Admission date matches the IP register · take a photo of the register page</div></sc-if>
+  <div style="flex:1;min-height:0;margin:0 12px;border-radius:18px;background:linear-gradient(170deg,#56687A,#212C38);position:relative;overflow:hidden">
+    <div style="position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.12) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.12) 1px,transparent 1px);background-size:33.33% 33.33%"></div>
+    <sc-if value="{{ s.camB }}" hint-placeholder-val="{{ false }}"><div style="position:absolute;left:16%;right:16%;top:22%;bottom:34%;border:2.5px solid #F0A500;border-radius:10px"><span style="position:absolute;top:-28px;left:0;background:#F0A500;color:#1A1200;font-size:12px;font-weight:700;border-radius:6px;padding:3px 8px">Fit the hospital name board here</span></div></sc-if>
+    <div style="position:absolute;left:8px;right:8px;bottom:8px;display:grid;grid-template-columns:64px 1fr;gap:8px;background:rgba(0,0,0,.6);border-radius:10px;padding:6px;font-size:10.5px;line-height:1.35"><span style="height:56px;border-radius:6px;background:linear-gradient(135deg,#7FA3C7,#C9D8E8);position:relative"><span style="position:absolute;left:26px;top:20px;width:12px;height:12px;border-radius:6px;background:#D93A2B;border:2px solid #fff"></span></span><span><b style="display:block;font-size:12px">Apollo Hospital, Vanagaram, Chennai 600095</b>Lat 13.06216° Long 80.15591°<br>26-09-2026 10:44 AM GMT +05:30 · RR-HS26-15985394</span></div>
+  </div>
+  <div style="flex:none;height:120px;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:0 24px">
+    <div style="display:flex;gap:6px"><sc-for list="{{ thumbs }}" as="t" hint-placeholder-count="2"><span style="width:44px;height:44px;border-radius:8px;background:linear-gradient(150deg,#6A7D90,#2A3644);border:2px solid #fff"></span></sc-for></div>
+    <span style="width:76px;height:76px;border-radius:38px;border:5px solid #fff;display:grid;place-items:center"><span style="width:58px;height:58px;border-radius:29px;background:#fff"></span></span>
+    <div style="display:flex;justify-content:flex-end;gap:14px;opacity:.9"><i>flash_auto</i><i>cameraswitch</i></div>
+  </div>
+</div>
+</sc-if>
+
+<sc-if value="{{ s.stamp }}" hint-placeholder-val="{{ false }}">
+<div style="flex:1;display:flex;flex-direction:column;background:#000;color:#fff;min-height:0">
+  <div style="flex:none;height:52px;display:flex;align-items:center;gap:10px;padding:0 12px"><i>arrow_back</i><b style="font-size:15px;flex:1">Check the photo</b><span style="font-size:12px;opacity:.75">3 of 4</span></div>
+  <div style="flex:1;min-height:0;position:relative;background:linear-gradient(170deg,#6A7D90,#2A3644)">
+    <span style="position:absolute;left:0;right:0;top:40%;text-align:center;font-size:12.5px;opacity:.6">Photo · hospital front board</span>
+    <div style="position:absolute;left:0;right:0;bottom:0;background:rgba(0,0,0,.72);display:grid;grid-template-columns:96px 1fr;gap:10px;padding:10px">
+      <span style="height:96px;border-radius:6px;background:linear-gradient(135deg,#7FA3C7,#C9D8E8);position:relative;overflow:hidden"><span style="position:absolute;left:0;right:0;top:44px;height:6px;background:#fff;opacity:.7"></span><span style="position:absolute;left:44px;top:0;bottom:0;width:6px;background:#fff;opacity:.7"></span><span style="position:absolute;left:39px;top:38px;width:16px;height:16px;border-radius:8px;background:#D93A2B;border:3px solid #fff"></span><span style="position:absolute;left:4px;bottom:3px;font-size:8px;color:#33475B;font-weight:700">Map</span></span>
+      <div style="font-size:11.5px;line-height:1.45"><b style="display:block;font-size:13.5px">Chennai, Tamil Nadu, India</b>Apollo Hospital, 64 Vanagaram Main Rd, Vanagaram, Chennai 600095<br>Lat 13.062160° Long 80.155910°<br>Saturday, 26-09-2026 10:44 AM GMT +05:30<br><span style="opacity:.75">RR-HS26-15985394 · Ravi Kumar · Pinaka</span></div>
+    </div>
+  </div>
+  <div style="flex:none;padding:12px;display:grid;grid-template-columns:1fr 1.4fr;gap:10px"><button style="height:52px;border-radius:12px;border:1.5px solid rgba(255,255,255,.35);background:transparent;color:#fff;font-size:15px;font-weight:600;display:flex;align-items:center;justify-content:center;gap:6px"><i style="font-size:20px">replay</i>Retake</button><button style="height:52px;border-radius:12px;border:0;background:#2E9E4B;color:#fff;font-size:15px;font-weight:600;display:flex;align-items:center;justify-content:center;gap:6px"><i style="font-size:20px">check</i>Use photo</button></div>
+</div>
+</sc-if>
+
+<sc-if value="{{ hasHead }}" hint-placeholder-val="{{ true }}">
+  <div style="background:var(--grad);color:#fff;flex:none;height:56px;display:grid;grid-template-columns:56px 1fr 56px;align-items:center;padding:0 4px"><span style="height:48px;display:flex;align-items:center;padding:0 8px"><i>{{ backIc }}</i></span><div style="text-align:center;min-width:0"><div style="font-size:17px;font-weight:600">{{ title }}</div><div style="font:500 11px var(--m);opacity:.82;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ sub }}</div></div><span></span></div>
+  <div style="flex:1;overflow-y:auto;min-height:0;padding:12px;display:flex;flex-direction:column;gap:12px">
+    <sc-if value="{{ banner }}" hint-placeholder-val="{{ false }}"><div style="border-radius:16px;padding:14px;background:{{ bnBg }};color:{{ bnFg }};display:flex;flex-direction:column;gap:8px"><div style="display:flex;gap:10px;align-items:center"><i style="font-size:26px;font-variation-settings:'FILL' 1">{{ bnIc }}</i><b style="font-size:16px;flex:1">{{ bnT }}</b><sc-if value="{{ bnClock }}" hint-placeholder-val="{{ false }}"><span style="font:600 20px var(--m)">{{ bnClock }}</span></sc-if></div><span style="font-size:13.5px;color:var(--body)">{{ bnD }}</span><sc-if value="{{ bnBar }}" hint-placeholder-val="{{ false }}"><div style="height:6px;border-radius:3px;background:rgba(0,0,0,.08);overflow:hidden"><div style="height:100%;width:{{ bnPct }}%;background:{{ bnFg }}"></div></div></sc-if></div></sc-if>
+    <div style="background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px;display:flex;flex-direction:column;gap:6px"><div style="display:flex;gap:6px;align-items:center"><span style="height:22px;padding:0 8px;border-radius:11px;background:var(--sky);color:var(--link);font-size:11.5px;font-weight:600;display:flex;align-items:center">{{ prod }}</span><span style="font-size:12px;color:var(--mut)">{{ ins }}</span><span style="margin-left:auto;font:600 12px var(--m);color:{{ tatC }}">{{ tat }}</span></div><b style="font-size:17px">{{ person }}</b><span style="font:500 12px var(--m);color:var(--mut)">{{ claim }}</span></div>
+    <sc-if value="{{ s.tp }}" hint-placeholder-val="{{ true }}"><div style="display:flex;align-items:center;gap:8px"><b style="font-size:15px">Touch points</b><span style="margin-left:auto;font-size:13px;color:var(--mut)">1 of 4 done</span></div>
+      <sc-for list="{{ tps }}" as="t" hint-placeholder-count="4"><div style="background:var(--card);border:1.5px solid {{ t.bd }};border-radius:16px;padding:12px 14px;display:flex;flex-direction:column;gap:8px"><div style="display:flex;align-items:center;gap:10px"><span style="width:40px;height:40px;border-radius:20px;background:{{ t.bg }};color:{{ t.c }};display:grid;place-items:center"><i style="font-size:20px">{{ t.ic }}</i></span><div style="flex:1;min-width:0"><b style="font-size:15px;font-weight:600">{{ t.n }}</b><div style="font-size:12.5px;color:var(--mut)">{{ t.d }}</div></div><span style="font-size:12.5px;font-weight:600;color:{{ t.c }}">{{ t.s }}</span></div><sc-if value="{{ t.act }}" hint-placeholder-val="{{ false }}"><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px"><span style="height:42px;border-radius:10px;border:1.5px solid var(--line);color:var(--red);font-size:13.5px;font-weight:600;display:flex;align-items:center;justify-content:center">Reject touch point</span><span style="height:42px;border-radius:10px;background:var(--grad);color:#fff;font-size:13.5px;font-weight:600;display:flex;align-items:center;justify-content:center;gap:6px"><i style="font-size:18px">photo_camera</i>Verify</span></div></sc-if></div></sc-for>
+    </sc-if>
+    <sc-if value="{{ timeline }}" hint-placeholder-val="{{ false }}"><div style="background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px 14px 4px"><sc-for list="{{ steps }}" as="p" hint-placeholder-count="4"><div style="display:grid;grid-template-columns:18px 1fr auto;gap:10px;min-height:46px"><span style="display:flex;flex-direction:column;align-items:center"><span style="width:14px;height:14px;border-radius:7px;background:{{ p.dot }};flex:none"></span><span style="flex:1;width:2px;background:var(--line2);visibility:{{ p.lv }}"></span></span><span><b style="font-size:14px;font-weight:600;color:{{ p.nc }}">{{ p.n }}</b><span style="display:block;font-size:12px;color:var(--mut)">{{ p.d }}</span></span><span style="font:500 11.5px var(--m);color:var(--mut)">{{ p.t }}</span></div></sc-for></div></sc-if>
+  </div>
+  <sc-if value="{{ foot }}" hint-placeholder-val="{{ false }}"><div style="flex:none;padding:10px 12px 12px;background:var(--card);border-top:1px solid var(--line)"><button style="width:100%;height:54px;border-radius:12px;border:0;background:{{ footBg }};color:{{ footFg }};font-size:16px;font-weight:600;display:flex;align-items:center;justify-content:center;gap:8px"><i>{{ footIc }}</i>{{ foot }}</button></div></sc-if>
+</sc-if>
+</div>
+<sc-if value="{{ isAnd }}" hint-placeholder-val="{{ true }}"><div style="position:absolute;bottom:0;left:0;right:0;height:16px;background:{{ navBg }};display:grid;place-items:center"><span style="width:108px;height:4px;border-radius:2px;background:{{ navFg }}"></span></div></sc-if>
+<sc-if value="{{ isIOS }}" hint-placeholder-val="{{ false }}"><div style="position:absolute;bottom:0;left:0;right:0;height:34px;background:{{ navBg }};display:grid;place-items:center"><span style="width:134px;height:5px;border-radius:3px;background:{{ navFg }}"></span></div></sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:360,&quot;height&quot;:800},&quot;platform&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;android&quot;,&quot;ios&quot;],&quot;default&quot;:&quot;android&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;theme&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;light&quot;,&quot;dark&quot;],&quot;default&quot;:&quot;light&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;scene&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;tp&quot;,&quot;camA&quot;,&quot;camB&quot;,&quot;camC&quot;,&quot;stamp&quot;,&quot;hStart&quot;,&quot;h8&quot;,&quot;hMoved&quot;,&quot;hReached&quot;,&quot;mDay2&quot;,&quot;mDay3&quot;,&quot;mFine&quot;],&quot;default&quot;:&quot;tp&quot;,&quot;tsType&quot;:&quot;string&quot;}}">
+class Component extends DCLogic {
+  renderVals(){
+    const P=this.props,ios=P.platform==='ios',dark=P.theme==='dark',sc=P.scene||'tp';
+    const s={}; ['tp','camA','camB','camC','stamp','hStart','h8','hMoved','hReached','mDay2','mDay3','mFine'].forEach(k=>s[k]=k===sc);
+    const cam=s.camA||s.camB||s.camC, black=cam||s.stamp;
+    const health=sc.startsWith('h'), motor=sc.startsWith('m');
+    const B={
+      hStart:['timer','var(--sky)','var(--link)','Reach the hospital','21:14:08','Tap "I have reached" at the hospital and take the GPS photo. After 24 hours this case moves to another officer by itself.',12],
+      h8:['warning','var(--ambt)','var(--amb)','16 hours left or this case moves','16:00:00','8 hours have passed since you started. Reach the hospital and take the GPS photo.',33],
+      hMoved:['move_up','var(--redt)','var(--red)','Case moved to Franklin J','','24 hours passed without "I have reached". The case moved by itself at 10:41 am. No manager step.',100],
+      hReached:['where_to_vote','var(--okt)','var(--ok)','Reached at 1:12 pm','','GPS photo saved at Apollo Hospital. The 24-hour rule is done for this case.',100],
+      mDay2:['event_upcoming','var(--ambt)','var(--amb)','Day 2 · start this case','1 day left','Motor TP cases must be started within 3 days of accepting. Start tomorrow at the latest.',66],
+      mDay3:['alarm','var(--redt)','var(--red)','Last day to start · today','until 8:00 pm','Start this case today. If not, ₹50 is added and your rating goes down. The case stays with you.',90],
+      mFine:['currency_rupee','var(--redt)','var(--red)','₹50 added · not started in 3 days','','The case stays with you. Start it now. Appeal from Profile → Fine Amount.',100]}[sc];
+    const steps=health?[['Accepted','23-09 · 10:21 am',1],['Started','23-09 · 10:41 am',1],['I have reached + GPS photo',sc==='hReached'?'26-09 · 1:12 pm':(sc==='hMoved'?'not done':'due by 24-09 10:41 am'),sc==='hReached'?1:(sc==='hMoved'?2:0)],['Touch points and report','',0]]:[['Accepted','24-09 · 10:23 am',1],['Start the case',sc==='mFine'?'not started · ₹50':(sc==='mDay3'?'today':'by 26-09'),sc==='mFine'?2:0],['Touch points','Insured · Police · Hospital · Driver',0],['Final report','',0]];
+    const foot={hStart:['I have reached','where_to_vote','var(--okb)','#fff'],h8:['I have reached','where_to_vote','var(--okb)','#fff'],hMoved:['Back to My Cases','arrow_back','var(--line)','var(--ink)'],hReached:['Open touch points','checklist','var(--grad)','#fff'],mDay2:['Start case','play_arrow','var(--grad)','#fff'],mDay3:['Start case now','play_arrow','var(--redb)','#fff'],mFine:['Start case now','play_arrow','var(--grad)','#fff'],tp:null}[sc];
+    const shotsDone=2;
+    return {theme:dark?'dark':'light',isIOS:ios,isAnd:!ios,W:ios?390:360,H:ios?844:800,sbH:ios?47:24,bH:ios?34:16,
+      sbBg:black?'#000':(dark?'#000E1C':'#001F3F'),navBg:black?'#000':'var(--card)',navFg:black?'#fff':'var(--ink)',clock:'10:44',s,cam,
+      camTitle:{camA:'Hospital · verify',camB:'Hospital · 4 photos needed',camC:'Hospital · form + photo'}[sc]||'',camSub:'RR-HS26-15985394 · GPS stamp on every photo',
+      shots:[['Name board','check_circle'],['IP register','check_circle'],['Patient in ward','photo_camera'],['Bills','radio_button_unchecked']].map(([n,ic],i)=>({n,ic,bg:i<shotsDone?'rgba(46,158,75,.25)':(i===shotsDone?'#F0A500':'rgba(255,255,255,.1)'),fg:i<shotsDone?'#8BE0A8':(i===shotsDone?'#1A1200':'#fff'),bd:i===shotsDone?'#F0A500':'transparent'})),
+      thumbs:[1,2],
+      hasHead:!black,backIc:ios?'chevron_left':'arrow_back',title:s.tp?'Touch Points':'Case Workspace',sub:(motor?'MOT17819657':'RR-HS26-15985394')+' · sample',
+      prod:motor?'Motor TP':'Health cashless',ins:motor?'ICICI Lombard':'Star Health',person:motor?'Lakshmi Narayanan':'Suddala Revanth',claim:motor?'MOT17819657':'RR-HS26-15985394',tat:motor?'2d 4h left':'18h left',tatC:motor?'var(--ok)':'var(--amb)',
+      banner:!!B,bnIc:B?B[0]:'',bnBg:B?B[1]:'',bnFg:B?B[2]:'',bnT:B?B[3]:'',bnClock:B?B[4]:'',bnD:B?B[5]:'',bnBar:!!B,bnPct:B?B[6]:0,
+      timeline:health||motor,steps:steps.map(([n,d,st],i,a)=>({n,d,t:'',dot:st===1?'var(--okb)':(st===2?'var(--redb)':'var(--line)'),nc:st===0?'var(--mut)':'var(--ink)',lv:i===a.length-1?'hidden':'visible'})),
+      tps:[['Hospital','local_hospital','Apollo Hospital, Vanagaram · 11 km','Done','ok'],['Treating doctor','stethoscope','Dr. R. Anand · same hospital','Next','now'],['Insured','person','Porur · 4.2 km','Not started','wait'],['Pharmacy','medication','Apollo Pharmacy','Not started','wait']].map(([n,ic,d,st,k])=>({n,ic,d,s:st,act:k==='now',c:k==='ok'?'var(--ok)':(k==='now'?'var(--link)':'var(--mut)'),bg:k==='ok'?'var(--okt)':'var(--sky)',bd:k==='now'?'var(--blue)':'var(--line)'})),
+      foot:foot?foot[0]:'',footIc:foot?foot[1]:'',footBg:foot?foot[2]:'',footFg:foot?foot[3]:''};
+  }
+}
+</script>
+</body>
+</html>

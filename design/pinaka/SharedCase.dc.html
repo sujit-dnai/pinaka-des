@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0..1,0" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#0074D9}a:hover{color:#0060B5}
+[data-sc]{--f:'IBM Plex Sans',system-ui,sans-serif;--m:'IBM Plex Mono',ui-monospace,monospace;--su:#0074D9;--fr:#F97316}
+[data-sc=light]{--bg:#EEF3F9;--card:#FFFFFF;--ink:#0B2540;--body:#33475B;--mut:#5A708C;--line:#D7E2EF;--line2:#E7EEF6;--sky:#E3F0FC;--blue:#0074D9;--link:#0060B5;--grad:linear-gradient(135deg,#001F3F 0%,#0074D9 100%);--fld:#F6F9FD;--ok:#1E7A3D;--okt:#E4F6EA;--red:#A3271B;--redt:#FCE9E7;--amb:#9A6A00;--ambt:#FFF3D6;--frt:#FFEDD5;--frInk:#9A3412;--sut:#DCEBFB;--suInk:#0B4A8F;--scrim:rgba(3,17,34,.5);--sh:0 12px 30px rgba(2,32,64,.22);--map:#E6EEE2;--road:#FFFFFF;--water:#CFE3F5}
+[data-sc=dark]{--bg:#07111D;--card:#0E1C2E;--ink:#E7EEF7;--body:#C3D0DE;--mut:#93A6BC;--line:#22374F;--line2:#1A2C42;--sky:#14304F;--blue:#5AAEF5;--link:#7CC0FF;--grad:linear-gradient(135deg,#000E1C 0%,#0A4B8C 100%);--fld:#0A1726;--ok:#6FD39A;--okt:#0F2E1E;--red:#FF9A8C;--redt:#3A1612;--amb:#F5BE6A;--ambt:#35260E;--frt:#3A2112;--frInk:#FDBA74;--sut:#12304F;--suInk:#CFE6FF;--scrim:rgba(0,0,0,.62);--sh:0 12px 30px rgba(0,0,0,.5);--map:#16241C;--road:#2A3A4C;--water:#0E2A44}
+[data-sc] *{box-sizing:border-box}
+[data-sc] button{font-family:var(--f);cursor:pointer}
+[data-sc] i{font-family:'Material Symbols Rounded';font-style:normal;font-weight:normal;font-size:22px;line-height:1;display:inline-block;white-space:nowrap;-webkit-font-smoothing:antialiased;font-feature-settings:'liga'}
+</style>
+</helmet>
+<div data-sc="{{ theme }}" style="width:{{ W }}px;height:{{ H }}px;position:relative;overflow:hidden;background:var(--bg);color:var(--ink);font-family:var(--f);font-size:15px;line-height:1.4">
+<sc-if value="{{ isAnd }}" hint-placeholder-val="{{ true }}"><div style="position:absolute;top:0;left:0;right:0;height:24px;background:{{ sbBg }};color:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 14px;font:500 12px var(--f);z-index:60"><span>16:12</span><span style="display:flex;gap:3px;align-items:center"><i style="font-size:15px">{{ netIc }}</i><i style="font-size:15px">signal_cellular_alt</i><i style="font-size:15px">battery_5_bar</i></span></div></sc-if>
+<sc-if value="{{ isIOS }}" hint-placeholder-val="{{ false }}"><div style="position:absolute;top:0;left:0;right:0;height:47px;background:{{ sbBg }};color:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 30px 0 34px;font:600 16px -apple-system,system-ui,sans-serif;z-index:60"><span>16:12</span><span style="position:absolute;left:50%;top:11px;transform:translateX(-50%);width:122px;height:35px;border-radius:18px;background:#000"></span><span style="display:flex;gap:5px;align-items:center"><i style="font-size:17px">signal_cellular_alt</i><i style="font-size:17px">{{ netIc }}</i><i style="font-size:20px">battery_full</i></span></div></sc-if>
+
+<div style="position:absolute;left:0;right:0;top:{{ sbH }}px;bottom:{{ bH }}px;overflow:hidden;display:flex;flex-direction:column">
+  <div style="background:var(--grad);color:#fff;flex:none;height:56px;display:grid;grid-template-columns:96px 1fr 96px;align-items:center;padding:0 4px">
+    <sc-if value="{{ hasBack }}" hint-placeholder-val="{{ true }}"><button onClick="{{ back }}" style="height:48px;border:0;background:transparent;color:#fff;display:flex;align-items:center;font-size:16px;padding:0 6px"><i>{{ backIc }}</i><span>{{ backLabel }}</span></button></sc-if>
+    <sc-if value="{{ noBack }}" hint-placeholder-val="{{ false }}"><span></span></sc-if>
+    <div style="text-align:center;min-width:0"><div style="font-size:17px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ title }}</div><div style="font:500 11px var(--m);opacity:.82;white-space:nowrap">{{ sub }}</div></div>
+    <div style="display:flex;justify-content:flex-end;padding-right:4px"><span style="height:30px;padding:0 10px;border-radius:15px;background:rgba(255,255,255,.16);display:flex;align-items:center;gap:6px;font-size:12px;font-weight:600;white-space:nowrap"><span style="width:10px;height:10px;border-radius:5px;background:{{ meCol }};border:1.5px solid #fff"></span>{{ meShort }}</span></div>
+  </div>
+  <sc-if value="{{ offline }}" hint-placeholder-val="{{ false }}"><div style="flex:none;min-height:32px;background:var(--ambt);color:var(--amb);display:flex;align-items:center;gap:8px;padding:6px 12px;font-size:12.5px;font-weight:600"><i style="font-size:18px">cloud_off</i>Offline · my work queues · {{ otherName }}’s work as last synced 1:45 pm</div></sc-if>
+
+  <div style="flex:1;overflow-y:auto;min-height:0;position:relative">
+
+  <!-- CASE LIST -->
+  <sc-if value="{{ s.cases }}" hint-placeholder-val="{{ false }}">
+  <div style="padding:12px;display:flex;flex-direction:column;gap:10px">
+    <div style="height:48px;border:1px solid var(--line);border-radius:12px;background:var(--card);display:flex;align-items:center;gap:10px;padding:0 14px;color:var(--mut);font-size:14.5px"><i>search</i>Search claim, insured or hospital</div>
+    <button onClick="{{ go.workspace }}" style="text-align:left;background:var(--card);border:1.5px solid var(--blue);border-radius:16px;padding:14px;display:flex;flex-direction:column;gap:10px;color:var(--ink)">
+      <div style="display:flex;gap:12px;align-items:flex-start"><span style="width:44px;height:44px;border-radius:22px;background:var(--sky);color:var(--blue);display:grid;place-items:center;flex:none;border:1px solid var(--line)"><i>work</i></span><div style="flex:1;min-width:0"><div style="font-size:16px;font-weight:600">Lakshmi Narayanan</div><div style="font-size:13px;color:var(--mut)">Claim: <span style="font-family:var(--m)">MOT17819657</span></div><div style="font-size:12.5px;color:var(--mut)">Chola MS · Motor TP · sample</div></div><sc-if value="{{ iAmLead }}" hint-placeholder-val="{{ false }}"><span style="height:24px;padding:0 8px;border-radius:12px;background:#001F3F;color:#fff;font:700 10.5px var(--m);letter-spacing:.06em;display:flex;align-items:center;gap:3px"><i style="font-size:14px;font-variation-settings:'FILL' 1">star</i>LEAD</span></sc-if></div>
+      <div style="display:flex;flex-wrap:wrap;gap:6px;align-items:center">
+        <span style="height:28px;padding:0 10px;border-radius:14px;background:var(--sky);color:var(--link);font-size:12.5px;font-weight:600;display:flex;align-items:center;gap:6px"><i style="font-size:17px">group</i>Shared · 2 officers</span>
+        <span style="height:28px;padding:0 10px 0 4px;border-radius:14px;background:{{ otherT }};color:{{ otherInk }};font-size:12.5px;font-weight:600;display:flex;align-items:center;gap:6px"><span style="width:20px;height:20px;border-radius:10px;background:{{ otherCol }};color:#fff;display:grid;place-items:center;font-size:11px;font-weight:700">{{ otherIni }}</span>with {{ otherName }}</span>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+        <div style="border:1px solid var(--line);border-radius:10px;padding:8px 10px"><div style="font-size:11px;color:var(--mut);font-weight:600;text-transform:uppercase;letter-spacing:.06em">My part</div><div style="font-size:13.5px;font-weight:600;color:{{ myPartCol }}">{{ myPartSt }}</div><div style="font:500 12px var(--m);color:var(--mut)">{{ myCount }}</div></div>
+        <div style="border:1px solid var(--line);border-radius:10px;padding:8px 10px"><div style="font-size:11px;color:var(--mut);font-weight:600;text-transform:uppercase;letter-spacing:.06em">{{ otherName }}’s part</div><div style="font-size:13.5px;font-weight:600;color:{{ otPartCol }}">{{ otPartSt }}</div><div style="font:500 12px var(--m);color:var(--mut)">{{ otCount }}</div></div>
+      </div>
+    </button>
+    <sc-for list="{{ otherCases }}" as="c" hint-placeholder-count="2"><div style="background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px;display:flex;gap:12px;align-items:center"><span style="width:44px;height:44px;border-radius:22px;background:var(--sky);color:var(--blue);display:grid;place-items:center;border:1px solid var(--line)"><i>work</i></span><div style="flex:1;min-width:0"><div style="font-size:15.5px;font-weight:600">{{ c.n }}</div><div style="font-size:13px;color:var(--mut)">Claim: <span style="font-family:var(--m)">{{ c.c }}</span></div></div><span style="height:26px;padding:0 10px;border-radius:13px;background:var(--okt);color:var(--ok);font-size:12px;font-weight:600;display:flex;align-items:center">FO Accepted</span></div></sc-for>
+  </div>
+  </sc-if>
+
+  <!-- WORKSPACE -->
+  <sc-if value="{{ s.workspace }}" hint-placeholder-val="{{ false }}">
+  <div style="padding:12px;display:flex;flex-direction:column;gap:12px">
+    <sc-for list="{{ banners }}" as="b" hint-placeholder-count="0"><div style="border-radius:14px;padding:12px 14px;background:{{ b.bg }};color:{{ b.fg }};display:flex;gap:10px;align-items:flex-start"><i style="font-variation-settings:'FILL' 1">{{ b.ic }}</i><div style="font-size:13.5px;line-height:1.45;color:var(--ink)"><b style="display:block;color:{{ b.fg }}">{{ b.t }}</b>{{ b.d }}</div></div></sc-for>
+    <div style="background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px;display:flex;flex-direction:column;gap:10px">
+      <div style="display:flex;gap:12px;align-items:center"><span style="width:44px;height:44px;border-radius:22px;background:var(--sky);color:var(--blue);display:grid;place-items:center;border:1px solid var(--line)"><i>work</i></span><div style="flex:1"><div style="font-size:17px;font-weight:600">Lakshmi Narayanan</div><div style="font-size:13px;color:var(--mut)">Claim: <span style="font-family:var(--m)">MOT17819657</span> · Chola MS</div></div></div>
+      <div style="font-size:11px;color:var(--mut);font-weight:600;text-transform:uppercase;letter-spacing:.06em">Officers on this case</div>
+      <sc-for list="{{ officers }}" as="o" hint-placeholder-count="2"><div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-top:1px solid var(--line2)"><span style="width:34px;height:34px;border-radius:17px;background:{{ o.col }};color:#fff;display:grid;place-items:center;font-weight:700;font-size:14px">{{ o.ini }}</span><div style="flex:1;min-width:0"><div style="font-size:14.5px;font-weight:600;display:flex;align-items:center;gap:6px">{{ o.name }}<sc-if value="{{ o.lead }}" hint-placeholder-val="{{ false }}"><span style="height:20px;padding:0 6px;border-radius:10px;background:#001F3F;color:#fff;font:700 10px var(--m);display:flex;align-items:center;gap:2px"><i style="font-size:12px;font-variation-settings:'FILL' 1">star</i>LEAD</span></sc-if></div><div style="font-size:12.5px;color:var(--mut)">{{ o.tps }}</div></div><span style="font-size:12.5px;font-weight:600;color:{{ o.stCol }};text-align:right">{{ o.st }}<span style="display:block;font:500 11.5px var(--m);color:var(--mut)">{{ o.cnt }}</span></span></div></sc-for>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+      <sc-for list="{{ tools }}" as="t" hint-placeholder-count="6"><button onClick="{{ t.go }}" style="background:var(--card);border:1px solid var(--line);border-radius:16px;padding:12px 8px;display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center;color:var(--ink)"><span style="width:48px;height:48px;border-radius:24px;background:var(--sky);color:var(--blue);display:grid;place-items:center;border:1px solid var(--line)"><i>{{ t.ic }}</i></span><b style="font-size:14px;font-weight:600">{{ t.n }}</b><span style="font-size:11.5px;color:var(--mut)">{{ t.d }}</span></button></sc-for>
+    </div>
+  </div>
+  </sc-if>
+
+  <!-- TOUCH POINTS -->
+  <sc-if value="{{ s.touch }}" hint-placeholder-val="{{ true }}">
+  <div style="padding:12px;display:flex;flex-direction:column;gap:12px">
+    <sc-for list="{{ tbanners }}" as="b" hint-placeholder-count="0"><div style="border-radius:14px;padding:10px 12px;background:{{ b.bg }};display:flex;gap:10px;align-items:flex-start"><i style="color:{{ b.fg }};font-variation-settings:'FILL' 1">{{ b.ic }}</i><div style="font-size:13px;line-height:1.45"><b style="display:block;color:{{ b.fg }}">{{ b.t }}</b>{{ b.d }}</div></div></sc-for>
+    <div style="background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 14px;display:flex;flex-direction:column;gap:8px">
+      <div style="display:flex;justify-content:space-between;font-size:14px;font-weight:600"><span>Mine {{ myDone }}/{{ myTotal }}</span><span style="color:var(--mut);font-weight:500">Case {{ caseDone }}/{{ caseTotal }}</span></div>
+      <div style="height:10px;border-radius:5px;background:var(--line2);display:flex;overflow:hidden"><span style="width:{{ barMine }}%;background:{{ meCol }}"></span><span style="width:{{ barOther }}%;background:{{ otherCol }}"></span></div>
+      <div style="display:flex;gap:14px;font-size:12px;color:var(--mut)"><span style="display:flex;align-items:center;gap:5px"><span style="width:10px;height:10px;border-radius:3px;background:{{ meCol }}"></span>{{ meName }} (you)</span><span style="display:flex;align-items:center;gap:5px"><span style="width:10px;height:10px;border-radius:3px;background:{{ otherCol }}"></span>{{ otherName }}</span></div>
+    </div>
+    <div style="display:flex;align-items:center;gap:8px;font-size:15px;font-weight:600;margin-top:2px"><span style="width:12px;height:12px;border-radius:6px;background:{{ meCol }}"></span>My touch points<span style="margin-left:auto;font-size:12.5px;font-weight:500;color:var(--mut)">{{ myDone }} of {{ myTotal }} done</span></div>
+    <sc-for list="{{ mine }}" as="t" hint-placeholder-count="2">
+      <div style="background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px;display:flex;flex-direction:column;gap:10px">
+        <div style="display:flex;gap:10px;align-items:flex-start"><span style="width:32px;height:32px;border-radius:16px;background:{{ t.nBg }};color:{{ t.nFg }};display:grid;place-items:center;font-weight:700;font-size:14px;flex:none"><i style="font-size:18px">{{ t.nIc }}</i></span><div style="flex:1;min-width:0"><div style="font-size:15px;font-weight:600">{{ t.n }}</div><div style="font-size:13px;color:var(--body)">{{ t.place }}</div><div style="font-size:12.5px;color:var(--mut);display:flex;gap:4px;align-items:flex-start"><i style="font-size:15px">location_on</i>{{ t.addr }}</div></div><span style="height:22px;padding:0 8px 0 3px;border-radius:11px;background:{{ meT }};color:{{ meInk }};font-size:11.5px;font-weight:600;display:flex;align-items:center;gap:4px;flex:none"><span style="width:16px;height:16px;border-radius:8px;background:{{ meCol }};color:#fff;font-size:9.5px;display:grid;place-items:center">{{ meIni }}</span>Me</span></div>
+        <div style="font-size:12.5px;font-weight:600;color:{{ t.stCol }}">{{ t.st }}</div>
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px">
+          <sc-for list="{{ t.acts }}" as="a" hint-placeholder-count="4"><button onClick="{{ a.on }}" style="height:48px;border-radius:12px;border:1px solid var(--line);background:{{ a.bg }};color:{{ a.fg }};font-size:11.5px;font-weight:600;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px"><i style="font-size:19px">{{ a.ic }}</i>{{ a.n }}</button></sc-for>
+        </div>
+      </div>
+    </sc-for>
+    <div style="display:flex;align-items:center;gap:8px;font-size:15px;font-weight:600;margin-top:6px"><span style="width:12px;height:12px;border-radius:6px;background:{{ otherCol }}"></span>{{ otherName }}’s touch points<span style="margin-left:auto;font-size:12px;font-weight:600;color:var(--mut);display:flex;gap:4px;align-items:center"><i style="font-size:15px">visibility</i>Read-only</span></div>
+    <sc-for list="{{ theirs }}" as="t" hint-placeholder-count="3">
+      <button onClick="{{ t.open }}" style="text-align:left;background:var(--fld);border:1px dashed var(--line);border-radius:14px;padding:12px;display:flex;gap:10px;align-items:flex-start;color:var(--ink)">
+        <span style="width:32px;height:32px;border-radius:16px;background:{{ t.nBg }};color:{{ t.nFg }};display:grid;place-items:center;flex:none"><i style="font-size:18px">{{ t.nIc }}</i></span>
+        <div style="flex:1;min-width:0"><div style="font-size:15px;font-weight:600">{{ t.n }}</div><div style="font-size:12.5px;color:var(--mut);display:flex;gap:4px;align-items:center"><i style="font-size:15px">lock</i>Address with {{ otherName }}</div><div style="font-size:12.5px;font-weight:600;color:{{ t.stCol }};margin-top:4px">{{ t.st }}</div></div>
+        <div style="display:flex;flex-direction:column;align-items:flex-end;gap:8px;flex:none"><span style="height:22px;padding:0 8px 0 3px;border-radius:11px;background:{{ otherT }};color:{{ otherInk }};font-size:11.5px;font-weight:600;display:flex;align-items:center;gap:4px"><span style="width:16px;height:16px;border-radius:8px;background:{{ otherCol }};color:#fff;font-size:9.5px;display:grid;place-items:center">{{ otherIni }}</span>{{ otherName }}</span><sc-if value="{{ t.done }}" hint-placeholder-val="{{ false }}"><span style="font-size:12.5px;font-weight:600;color:var(--link);display:flex;align-items:center">View<i style="font-size:18px">chevron_right</i></span></sc-if></div>
+      </button>
+    </sc-for>
+  </div>
+  </sc-if>
+
+  <!-- OTHER OFFICER'S TP, READ-ONLY -->
+  <sc-if value="{{ s.tp }}" hint-placeholder-val="{{ false }}">
+  <div style="display:flex;flex-direction:column;min-height:100%">
+    <div style="padding:10px 12px;background:{{ otherT }};color:{{ otherInk }};display:flex;gap:10px;align-items:center;font-size:13px"><span style="width:28px;height:28px;border-radius:14px;background:{{ otherCol }};color:#fff;display:grid;place-items:center;font-weight:700;font-size:12px;flex:none">{{ otherIni }}</span><span style="color:var(--ink)"><b>Read-only · {{ otherName }}’s touch point</b><span style="display:block;color:var(--body)">Done {{ tpDone }} · by {{ otherName }}</span></span></div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);background:var(--card);border-bottom:1px solid var(--line)"><sc-for list="{{ tpTabs }}" as="b" hint-placeholder-count="3"><button onClick="{{ b.on }}" style="height:48px;border:0;border-bottom:3px solid {{ b.bd }};background:transparent;color:{{ b.fg }};font-size:14px;font-weight:600">{{ b.n }}</button></sc-for></div>
+    <sc-if value="{{ tab.form }}" hint-placeholder-val="{{ true }}">
+      <div style="padding:12px;display:flex;flex-direction:column;gap:10px">
+        <div style="display:flex;justify-content:space-between;font-size:12.5px;color:var(--mut)"><span>Verification form · page 1 of 2</span><span>Submitted {{ tpDone }}</span></div>
+        <sc-for list="{{ tpQs }}" as="q" hint-placeholder-count="3"><div style="background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px;display:flex;flex-direction:column;gap:8px"><div style="font-size:14px;font-weight:600">{{ q.q }}</div><span style="align-self:flex-start;height:26px;padding:0 12px;border-radius:13px;background:{{ q.bg }};color:{{ q.fg }};font-size:13px;font-weight:700;display:flex;align-items:center">{{ q.yn }}</span><div style="font-size:14px;color:var(--body);background:var(--fld);border-radius:8px;padding:8px 10px">{{ q.a }}</div></div></sc-for>
+        <div style="display:flex;gap:8px"><span style="flex:1;height:44px;border-radius:12px;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;color:var(--mut);font-size:13.5px">‹ Page 1</span><span style="flex:1;height:44px;border-radius:12px;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;color:var(--ink);font-size:13.5px;font-weight:600">Page 2 ›</span></div>
+      </div>
+    </sc-if>
+    <sc-if value="{{ tab.photo }}" hint-placeholder-val="{{ false }}">
+      <div style="padding:12px;display:flex;flex-direction:column;gap:10px">
+        <div style="position:relative;height:430px;border-radius:14px;overflow:hidden;background:linear-gradient(160deg,#3A4656 0%,#1B232D 100%);display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.35)">
+          <div style="display:flex;flex-direction:column;align-items:center;gap:6px;font-size:12px"><i style="font-size:44px">photo_camera</i>Visit photo (sample)</div>
+          <div style="position:absolute;left:8px;right:8px;bottom:8px;display:flex;gap:8px;background:rgba(0,0,0,.66);border-radius:10px;padding:8px;color:#fff">
+            <div style="width:70px;height:70px;border-radius:6px;flex:none;position:relative;background:#DCE7D3;background-image:linear-gradient(35deg,transparent 46%,#fff 46%,#fff 54%,transparent 54%),linear-gradient(120deg,transparent 47%,#fff 47%,#fff 52%,transparent 52%)"><i style="position:absolute;left:50%;top:50%;transform:translate(-50%,-80%);color:#F97316;font-variation-settings:'FILL' 1;font-size:26px">location_on</i></div>
+            <div style="flex:1;min-width:0;font-size:11px;line-height:1.4"><div style="font-weight:700;font-size:12.5px">MOT17819657 · {{ tpName }}</div><div style="font-family:var(--m)">{{ tpDone }} IST</div><div style="font-family:var(--m)">GPS {{ tpGps }}</div><div style="font-weight:700;color:{{ otherStampCol }}">by {{ otherName }} · {{ otherId }}</div></div>
+          </div>
+        </div>
+        <div style="font-size:12.5px;color:var(--mut);display:flex;gap:6px;align-items:center"><i style="font-size:17px">info</i>The stamp prints GPS only. Street addresses stay with {{ otherName }}.</div>
+      </div>
+    </sc-if>
+    <sc-if value="{{ tab.files }}" hint-placeholder-val="{{ false }}">
+      <div style="padding:12px;display:flex;flex-direction:column;gap:10px">
+        <div style="border-radius:12px;padding:10px 12px;background:var(--sky);font-size:13px;display:flex;gap:8px;align-items:center"><i style="color:var(--blue)">folder_shared</i>This folder is shared. Upload is disabled for your login.</div>
+        <sc-for list="{{ tpFiles }}" as="f" hint-placeholder-count="2"><div style="background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 12px;display:flex;align-items:center;gap:10px"><span style="width:40px;height:40px;border-radius:10px;background:var(--sky);color:var(--blue);display:grid;place-items:center"><i>{{ f.ic }}</i></span><div style="flex:1;min-width:0"><div style="font-size:14px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ f.n }}</div><div style="font:500 12px var(--m);color:var(--mut)">{{ f.m }}</div></div><button style="width:44px;height:44px;border-radius:22px;border:0;background:transparent;color:var(--blue)"><i>visibility</i></button><button style="width:44px;height:44px;border-radius:22px;border:0;background:transparent;color:var(--blue)"><i>download</i></button></div></sc-for>
+      </div>
+    </sc-if>
+  </div>
+  </sc-if>
+
+  <!-- MAP -->
+  <sc-if value="{{ s.map }}" hint-placeholder-val="{{ false }}">
+  <div style="position:absolute;inset:0;background:var(--map);overflow:hidden">
+    <div style="position:absolute;inset:0;background-image:linear-gradient(28deg,transparent 49%,var(--road) 49%,var(--road) 51%,transparent 51%),linear-gradient(118deg,transparent 58%,var(--road) 58%,var(--road) 59.5%,transparent 59.5%),linear-gradient(75deg,transparent 30%,var(--road) 30%,var(--road) 31%,transparent 31%)"></div>
+    <div style="position:absolute;right:-40px;top:0;bottom:0;width:90px;background:var(--water)"></div>
+    <span style="position:absolute;right:62px;top:98px;font:700 12px var(--f);color:var(--mut);letter-spacing:.08em">CHENNAI</span>
+    <span style="position:absolute;left:30px;bottom:230px;font:700 12px var(--f);color:var(--mut);letter-spacing:.08em">MADURAI</span>
+    <span style="position:absolute;left:44%;top:44%;font:500 11px var(--m);color:var(--mut)">≈ 460 km</span>
+    <div style="position:absolute;left:10px;right:10px;top:10px;display:flex;gap:6px">
+      <sc-for list="{{ mapChips }}" as="c" hint-placeholder-count="3"><button onClick="{{ c.on }}" style="height:40px;padding:0 14px;border-radius:20px;border:1px solid var(--line);background:{{ c.bg }};color:{{ c.fg }};font-size:13.5px;font-weight:600;box-shadow:0 2px 8px rgba(2,32,64,.12);display:flex;align-items:center;gap:6px"><span style="width:10px;height:10px;border-radius:5px;background:{{ c.dot }}"></span>{{ c.n }}</button></sc-for>
+    </div>
+    <sc-for list="{{ pins }}" as="p" hint-placeholder-count="4">
+      <button onClick="{{ p.on }}" style="position:absolute;left:{{ p.x }}px;top:{{ p.y }}px;border:0;background:transparent;padding:0;display:flex;flex-direction:column;align-items:center">
+        <sc-if value="{{ p.photo }}" hint-placeholder-val="{{ true }}"><span style="width:40px;height:40px;border-radius:10px;border:3px solid {{ p.col }};background:linear-gradient(160deg,#5B6878,#26303B);display:grid;place-items:center;color:rgba(255,255,255,.7);box-shadow:0 4px 10px rgba(0,0,0,.3)"><i style="font-size:18px">photo_camera</i></span><span style="width:0;height:0;border-left:7px solid transparent;border-right:7px solid transparent;border-top:8px solid {{ p.col }}"></span></sc-if>
+        <sc-if value="{{ p.addr }}" hint-placeholder-val="{{ false }}"><i style="font-size:38px;color:{{ p.col }};font-variation-settings:'FILL' 1;filter:drop-shadow(0 3px 4px rgba(0,0,0,.3))">location_on</i></sc-if>
+        <span style="font:600 10.5px var(--f);background:var(--card);color:var(--ink);padding:1px 6px;border-radius:6px;margin-top:2px;white-space:nowrap">{{ p.n }}</span>
+      </button>
+    </sc-for>
+    <div style="position:absolute;left:10px;bottom:{{ legendBottom }}px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:8px 10px;font-size:12px;display:flex;flex-direction:column;gap:5px;box-shadow:0 2px 8px rgba(2,32,64,.12)">
+      <span style="display:flex;align-items:center;gap:6px"><span style="width:12px;height:12px;border-radius:3px;border:2.5px solid var(--su)"></span>Sujit D N · photo</span>
+      <span style="display:flex;align-items:center;gap:6px"><span style="width:12px;height:12px;border-radius:3px;border:2.5px solid var(--fr)"></span>Franklin · photo</span>
+      <span style="display:flex;align-items:center;gap:6px"><i style="font-size:15px;color:{{ meCol }};font-variation-settings:'FILL' 1">location_on</i>My address · not visited</span>
+    </div>
+    <sc-if value="{{ pinOpen }}" hint-placeholder-val="{{ false }}">
+      <div style="position:absolute;left:0;right:0;bottom:0;background:var(--card);border-radius:{{ sheetRad }};padding:8px 14px 14px;box-shadow:var(--sh);display:flex;flex-direction:column;gap:10px">
+        <div style="width:36px;height:4px;border-radius:2px;background:var(--line);margin:2px auto 0"></div>
+        <div style="display:flex;gap:12px"><div style="width:120px;height:120px;border-radius:12px;background:linear-gradient(160deg,#3A4656,#1B232D);border:3px solid {{ pin.col }};flex:none;position:relative;overflow:hidden"><div style="position:absolute;left:0;right:0;bottom:0;background:rgba(0,0,0,.66);color:#fff;font:500 9px/1.35 var(--m);padding:4px 5px">MOT17819657 · {{ pin.n }}<br>{{ pin.t }}<br>by {{ pin.who }}</div></div>
+          <div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:3px"><b style="font-size:16px">{{ pin.n }}</b><span style="font-size:13px;color:var(--mut)">{{ pin.t }}</span><span style="font:500 12px var(--m);color:var(--mut)">GPS {{ pin.gps }}</span><span style="align-self:flex-start;margin-top:4px;height:24px;padding:0 9px 0 3px;border-radius:12px;background:{{ pin.tb }};color:{{ pin.ti }};font-size:12px;font-weight:600;display:flex;align-items:center;gap:5px"><span style="width:18px;height:18px;border-radius:9px;background:{{ pin.col }};color:#fff;font-size:10px;display:grid;place-items:center">{{ pin.ini }}</span>Taken by {{ pin.who }}</span></div></div>
+        <button onClick="{{ closePin }}" style="height:48px;border-radius:12px;border:1px solid var(--line);background:transparent;color:var(--ink);font-size:14.5px;font-weight:600">Close</button>
+      </div>
+    </sc-if>
+  </div>
+  </sc-if>
+
+  <!-- FINAL REPORT (lead) -->
+  <sc-if value="{{ s.report }}" hint-placeholder-val="{{ false }}">
+  <div style="padding:12px;display:flex;flex-direction:column;gap:12px">
+    <div style="border-radius:12px;padding:10px 12px;background:var(--okt);color:var(--ok);font-size:13px;display:flex;gap:8px;align-items:center"><i style="font-variation-settings:'FILL' 1">verified</i><span style="color:var(--ink)"><b style="color:var(--ok)">All parts completed</b> · you are the Lead, so you write the report for the whole case.</span></div>
+    <div style="font-size:11px;color:var(--mut);font-weight:600;text-transform:uppercase;letter-spacing:.06em">Evidence from every part</div>
+    <sc-for list="{{ parts }}" as="p" hint-placeholder-count="2">
+      <div style="background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px;display:flex;flex-direction:column;gap:8px">
+        <div style="display:flex;align-items:center;gap:8px"><span style="width:26px;height:26px;border-radius:13px;background:{{ p.col }};color:#fff;display:grid;place-items:center;font-size:12px;font-weight:700">{{ p.ini }}</span><b style="font-size:14.5px;flex:1">{{ p.name }}’s part</b><span style="font-size:12px;color:var(--ok);font-weight:600">Part completed</span></div>
+        <div style="display:flex;gap:6px;overflow-x:auto"><sc-for list="{{ p.tps }}" as="t" hint-placeholder-count="2"><div style="flex:none;width:96px;border:1px solid var(--line);border-radius:10px;overflow:hidden"><div style="height:56px;background:linear-gradient(160deg,#4A5666,#222B35);border-bottom:3px solid {{ p.col }}"></div><div style="padding:5px 6px;font-size:11.5px;line-height:1.3"><b style="display:block">{{ t.n }}</b><span style="color:var(--mut)">Form ✓ · {{ t.files }} files</span></div></div></sc-for></div>
+      </div>
+    </sc-for>
+    <div style="background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px;display:flex;flex-direction:column;gap:10px">
+      <b style="font-size:15px">Select Report Details</b>
+      <sc-for list="{{ pickers }}" as="k" hint-placeholder-count="3"><div style="height:52px;border:1px solid var(--line);border-radius:10px;padding:0 12px;display:flex;align-items:center;justify-content:space-between;background:var(--fld)"><span><span style="display:block;font-size:11px;color:var(--mut)">{{ k.l }}</span><span style="font-size:14.5px">{{ k.v }}</span></span><i style="color:var(--mut)">expand_more</i></div></sc-for>
+    </div>
+    <div style="background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px;display:flex;flex-direction:column;gap:8px">
+      <div style="font-size:14.5px;font-weight:600">Police record matches the accident story <span style="color:#E74C3C">*</span></div>
+      <div style="display:flex;gap:8px"><span style="flex:1;height:44px;border-radius:10px;background:#1E7A3D;color:#fff;display:grid;place-items:center;font-weight:600">Yes</span><span style="flex:1;height:44px;border-radius:10px;border:1px solid var(--line);display:grid;place-items:center;font-weight:600;color:var(--mut)">No</span></div>
+      <div style="font-size:14px;background:var(--fld);border:1px solid var(--line);border-radius:10px;padding:10px;color:var(--body)">FIR 412/2026 at Tallakulam PS matches the date and vehicle. <span style="color:var(--frInk);font-weight:600">From Franklin’s Police Station form.</span></div>
+      <div style="font-size:12px;color:var(--mut)">Full Final Report design comes in its own pass.</div>
+    </div>
+  </div>
+  </sc-if>
+
+  <!-- FINAL REPORT read-only (non-lead) -->
+  <sc-if value="{{ s.reportro }}" hint-placeholder-val="{{ false }}">
+  <div style="padding:12px;display:flex;flex-direction:column;gap:12px">
+    <div style="border-radius:12px;padding:10px 12px;background:var(--sky);font-size:13px;display:flex;gap:8px;align-items:center"><i style="color:var(--blue)">lock</i><span><b>Final report by Sujit D N (Lead)</b> · submitted 26-09-2026 5:20 pm · read-only for you</span></div>
+    <div style="background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px;display:flex;flex-direction:column;gap:10px">
+      <div style="display:flex;gap:8px;align-items:center"><span style="height:28px;padding:0 12px;border-radius:14px;background:var(--okt);color:var(--ok);font-size:13px;font-weight:700;display:flex;align-items:center">Non Discrepant</span><span style="font-size:12.5px;color:var(--mut)">Final conclusion</span></div>
+      <sc-for list="{{ roQs }}" as="q" hint-placeholder-count="3"><div style="border-top:1px solid var(--line2);padding-top:10px"><div style="font-size:14px;font-weight:600">{{ q.q }}</div><div style="display:flex;gap:8px;align-items:flex-start;margin-top:4px"><span style="height:22px;padding:0 9px;border-radius:11px;background:var(--okt);color:var(--ok);font-size:12px;font-weight:700;display:flex;align-items:center;flex:none">Yes</span><span style="font-size:13.5px;color:var(--body)">{{ q.a }}</span></div></div></sc-for>
+    </div>
+  </div>
+  </sc-if>
+
+  <!-- TIMELINE -->
+  <sc-if value="{{ s.timeline }}" hint-placeholder-val="{{ false }}">
+  <div style="padding:14px 14px 14px 10px">
+    <sc-for list="{{ events }}" as="e" hint-placeholder-count="6">
+      <div style="display:grid;grid-template-columns:28px 1fr;gap:8px">
+        <div style="display:flex;flex-direction:column;align-items:center"><span style="width:14px;height:14px;border-radius:7px;background:{{ e.col }};border:3px solid var(--card);box-shadow:0 0 0 1px var(--line);margin-top:4px"></span><span style="flex:1;width:2px;background:var(--line)"></span></div>
+        <div style="padding-bottom:16px"><div style="font-size:14px"><b style="color:{{ e.nameCol }}">{{ e.who }}</b> {{ e.what }}</div><sc-if value="{{ e.hasNote }}" hint-placeholder-val="{{ false }}"><div style="font-size:13px;color:var(--body);background:var(--card);border:1px solid var(--line);border-radius:10px;padding:8px 10px;margin-top:4px">{{ e.note }}</div></sc-if><div style="font:500 12px var(--m);color:var(--mut);margin-top:2px">{{ e.t }}</div></div>
+      </div>
+    </sc-for>
+  </div>
+  </sc-if>
+
+  <!-- EXPENSES (per officer) -->
+  <sc-if value="{{ s.expenses }}" hint-placeholder-val="{{ false }}">
+  <div style="padding:12px;display:flex;flex-direction:column;gap:10px">
+    <div style="background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 14px;display:grid;grid-template-columns:1fr 1fr;gap:8px">
+      <div><div style="font-size:11px;color:var(--mut);font-weight:600;text-transform:uppercase;letter-spacing:.06em">My expenses</div><div style="font-size:22px;font-weight:700">{{ myExp }}</div></div>
+      <div><div style="font-size:11px;color:var(--mut);font-weight:600;text-transform:uppercase;letter-spacing:.06em">Case total · all officers</div><div style="font-size:22px;font-weight:700;color:var(--mut)">₹1,960.00</div></div>
+    </div>
+    <sc-for list="{{ exps }}" as="x" hint-placeholder-count="2"><div style="background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px;display:flex;justify-content:space-between;gap:10px"><div><b style="font-size:14.5px">{{ x.p }}</b><div style="font-size:12.5px;color:var(--mut)">Created: {{ x.d }}</div><div style="font-size:12.5px;color:var(--mut)">Claim: MOT17819657</div></div><b style="font-size:15px">{{ x.a }}</b></div></sc-for>
+    <div style="font-size:12.5px;color:var(--mut);display:flex;gap:6px;align-items:center"><i style="font-size:17px">visibility_off</i>{{ otherName }}’s bills are not shown. Only the case total includes them.</div>
+  </div>
+  </sc-if>
+  </div>
+
+  <sc-if value="{{ showFoot }}" hint-placeholder-val="{{ true }}">
+  <div style="flex:none;padding:10px 12px 12px;background:var(--card);border-top:1px solid var(--line);display:flex;flex-direction:column;gap:6px">
+    <button onClick="{{ footAct }}" disabled="{{ footDis }}" style="height:52px;border-radius:12px;border:0;background:{{ footBg }};color:{{ footFg }};display:flex;align-items:center;justify-content:center;gap:8px;font-size:16px;font-weight:600"><i>{{ footIc }}</i>{{ footLabel }}</button>
+    <sc-if value="{{ footNote }}" hint-placeholder-val="{{ false }}"><div style="font-size:12px;color:var(--mut);text-align:center">{{ footNote }}</div></sc-if>
+  </div>
+  </sc-if>
+
+  <sc-if value="{{ sheetComplete }}" hint-placeholder-val="{{ false }}">
+    <div onClick="{{ closeSheet }}" style="position:absolute;inset:0;background:var(--scrim);z-index:80"></div>
+    <div style="position:absolute;left:0;right:0;bottom:0;z-index:81;background:var(--card);border-radius:{{ sheetRad }};padding:8px 16px 16px;display:flex;flex-direction:column;gap:12px">
+      <div style="width:36px;height:4px;border-radius:2px;background:var(--line);margin:4px auto 0"></div>
+      <b style="font-size:19px">Complete my part?</b>
+      <sc-for list="{{ mine }}" as="t" hint-placeholder-count="2"><div style="display:flex;align-items:center;gap:10px;font-size:14px"><i style="color:var(--ok);font-variation-settings:'FILL' 1">check_circle</i><span style="flex:1">{{ t.n }}</span><span style="font-size:12.5px;color:var(--mut)">Visit · form · {{ t.files }} files</span></div></sc-for>
+      <div style="font-size:13.5px;color:var(--body);background:var(--fld);border-radius:10px;padding:10px 12px;line-height:1.5">Your part becomes <b>Part completed</b>. {{ otherName }} sees it at once. The case becomes FO Completed only when every officer’s part is completed.</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px"><button onClick="{{ closeSheet }}" style="height:52px;border-radius:14px;border:1.5px solid var(--line);background:transparent;color:var(--ink);font-size:15px;font-weight:600">Not yet</button><button onClick="{{ doComplete }}" style="height:52px;border-radius:14px;border:0;background:#2E9E4B;color:#fff;font-size:15px;font-weight:600">Complete my part</button></div>
+    </div>
+  </sc-if>
+  <sc-if value="{{ hasToast }}" hint-placeholder-val="{{ false }}"><div style="position:absolute;left:12px;right:12px;bottom:92px;z-index:90;background:#0B2540;color:#fff;border-radius:12px;padding:12px 14px;font-size:14px;box-shadow:0 10px 30px rgba(0,0,0,.3)">{{ toast }}</div></sc-if>
+</div>
+<sc-if value="{{ isAnd }}" hint-placeholder-val="{{ true }}"><div style="position:absolute;bottom:0;left:0;right:0;height:16px;background:var(--card);display:grid;place-items:center"><span style="width:108px;height:4px;border-radius:2px;background:var(--ink)"></span></div></sc-if>
+<sc-if value="{{ isIOS }}" hint-placeholder-val="{{ false }}"><div style="position:absolute;bottom:0;left:0;right:0;height:34px;background:var(--card);display:grid;place-items:center"><span style="width:134px;height:5px;border-radius:3px;background:var(--ink)"></span></div></sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:360,&quot;height&quot;:800},&quot;platform&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;android&quot;,&quot;ios&quot;],&quot;default&quot;:&quot;android&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;theme&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;light&quot;,&quot;dark&quot;],&quot;default&quot;:&quot;light&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;viewer&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;sujit&quot;,&quot;franklin&quot;],&quot;default&quot;:&quot;sujit&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;variant&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;normal&quot;,&quot;notAccepted&quot;,&quot;rejected&quot;,&quot;oneDone&quot;,&quot;allDone&quot;,&quot;leadRemoved&quot;,&quot;offline&quot;],&quot;default&quot;:&quot;normal&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;scene&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;cases&quot;,&quot;workspace&quot;,&quot;touch&quot;,&quot;tp&quot;,&quot;photo&quot;,&quot;files&quot;,&quot;map&quot;,&quot;pin&quot;,&quot;complete&quot;,&quot;report&quot;,&quot;reportro&quot;,&quot;timeline&quot;,&quot;expenses&quot;],&quot;default&quot;:&quot;touch&quot;,&quot;tsType&quot;:&quot;string&quot;}}">
+const OFF={sujit:{name:'Sujit D N',short:'Sujit',ini:'S',col:'#0074D9',t:'var(--sut)',ink:'var(--suInk)',id:'FO-TN-0112',city:'Chennai'},franklin:{name:'Franklin',short:'Franklin',ini:'F',col:'#F97316',t:'var(--frt)',ink:'var(--frInk)',id:'FO-TN-0387',city:'Madurai'}};
+const TPS=[
+ {id:'s1',own:'sujit',n:'Hospital',place:'Apollo Hospitals, Greams Rd',addr:'21 Greams Lane, Thousand Lights, Chennai 600006',done:'26-09-2026 11:20 am',files:3,gps:'13.0613, 80.2521',x:250,y:150},
+ {id:'s2',own:'sujit',n:'Doctor',place:'Dr. R. Meena · Apollo OPD',addr:'Apollo OPD block, Greams Rd, Chennai 600006',done:'26-09-2026 12:05 pm',files:1,gps:'13.0609, 80.2530',x:290,y:195},
+ {id:'f1',own:'franklin',n:'Insured',place:'K. Selvam (vehicle owner)',addr:'14 Bypass Rd, Madurai 625010',done:'26-09-2026 10:15 am',files:2,gps:'9.9252, 78.1198',x:40,y:430},
+ {id:'f2',own:'franklin',n:'Petitioner',place:'M. Pandi',addr:'Anna Nagar, Madurai 625020',done:'26-09-2026 1:30 pm',files:2,gps:'9.9312, 78.1374',x:100,y:470},
+ {id:'f3',own:'franklin',n:'Police Station',place:'Tallakulam PS',addr:'Tallakulam, Madurai 625002',done:null,files:1,gps:'9.9401, 78.1302',x:150,y:410}
+];
+const SCR=['cases','workspace','touch','tp','map','report','reportro','timeline','expenses'];
+const TITLES={cases:['My Cases',''],workspace:['Case Workspace','MOT17819657'],touch:['Touch Points','MOT17819657'],tp:['',''],map:['Case Map','MOT17819657 · photo pins'],report:['Final Report','MOT17819657 · Lead'],reportro:['Final Report','MOT17819657 · read-only'],timeline:['Timeline','MOT17819657'],expenses:['Expenses','Add Expense Details']};
+class Component extends DCLogic {
+  state=this.init(this.props);
+  init(p){ const sc=p.scene||'touch'; const v=p.variant||'normal';
+    const map={pin:'map',photo:'tp',files:'tp',complete:'touch'};
+    return {screen:map[sc]||(SCR.includes(sc)?sc:'touch'),tp:sc==='tp'||sc==='photo'||sc==='files'?(p.viewer==='franklin'?'s1':'f2'):null,tab:sc==='photo'?'photo':sc==='files'?'files':'form',mapF:'all',pin:sc==='pin'?(p.viewer==='franklin'?'s1':'f2'):null,sheet:sc==='complete'?'complete':null,partDone:{sujit:v==='allDone'||v==='leadRemoved',franklin:v==='oneDone'||v==='allDone'||v==='leadRemoved'},toast:null,stack:[]}; }
+  componentDidUpdate(pp){ if(pp.scene!==this.props.scene||pp.viewer!==this.props.viewer||pp.variant!==this.props.variant){ const st=this.init(this.props); if(this.props.scene==='pin') st.screen='map'; if(['photo','files'].includes(this.props.scene)) st.screen='tp'; this.setState(st);} }
+  componentDidMount(){ const sc=this.props.scene; if(sc==='pin') this.setState({screen:'map'}); if(sc==='photo'||sc==='files') this.setState({screen:'tp'}); if(sc==='complete') this.setState({screen:'touch'}); }
+  nav(sc){ this.setState(s=>({screen:sc,stack:[...s.stack,s.screen],sheet:null})); }
+  toast(m){ clearTimeout(this.tt); this.setState({toast:m}); this.tt=setTimeout(()=>this.setState({toast:null}),2600); }
+  renderVals(){
+    const S=this.state,P=this.props, ios=P.platform==='ios', V=P.viewer||'sujit', O=V==='sujit'?'franklin':'sujit', v=P.variant||'normal';
+    const me=OFF[V], ot=OFF[O];
+    const tps=TPS.map(t=>{ let done=t.done;
+      if(t.id==='f3'&&(v==='oneDone'||v==='fReady'||v==='allDone'||v==='leadRemoved')) done='26-09-2026 3:42 pm';
+      if(t.id==='s2'&&v==='oneDone') done=null;
+      if(t.own==='franklin'&&(v==='notAccepted'||v==='rejected')) done=null;
+      return {...t,done}; });
+    const mineT=tps.filter(t=>t.own===V), theirT=tps.filter(t=>t.own===O);
+    const myDone=mineT.filter(t=>t.done).length, otDone=theirT.filter(t=>t.done).length;
+    const partStatus=(who)=>{ if(who==='franklin'&&v==='notAccepted') return ['Assigned · not accepted yet','var(--amb)'];
+      if(who==='franklin'&&v==='rejected') return ['Rejected · Out of Station','var(--red)'];
+      if(S.partDone[who]) return ['Part completed','var(--ok)']; return ['Accepted','var(--link)']; };
+    const [myPartSt,myPartCol]=partStatus(V), [otPartSt,otPartCol]=partStatus(O);
+    const allParts=S.partDone.sujit&&S.partDone.franklin;
+    const iAmLead=V==='sujit'&&v!=='leadRemoved';
+    const off=v==='offline';
+    const banners=[];
+    if(v==='notAccepted') banners.push({ic:'hourglass_top',bg:'var(--ambt)',fg:'var(--amb)',t:'Franklin has not accepted his part yet',d:'Assigned 25-09-2026 6:10 pm · Insured, Petitioner, Police Station. Your part is not affected.'});
+    if(v==='rejected') banners.push({ic:'block',bg:'var(--redt)',fg:'var(--red)',t:'Franklin rejected his part · Out of Station',d:'Your manager must reassign Insured, Petitioner and Police Station. Your part is not affected.'});
+    if(S.partDone[O]&&!allParts) banners.push({ic:'task_alt',bg:'var(--okt)',fg:'var(--ok)',t:ot.name+' completed his part · 26-09-2026 4:10 pm',d:'Waiting for your part.'});
+    if(allParts&&v!=='leadRemoved') banners.push({ic:'verified',bg:'var(--okt)',fg:'var(--ok)',t:'All parts completed',d:iAmLead?'Write the Final Report for the whole case.':'Waiting for Sujit D N’s Final Report.'});
+    if(v==='leadRemoved') banners.push({ic:'person_remove',bg:'var(--redt)',fg:'var(--red)',t:'The Lead officer was removed from this case',d:'The portal will pick a new lead. Final Report is paused until then.'});
+    if(off) banners.push({ic:'cloud_off',bg:'var(--ambt)',fg:'var(--amb)',t:'Offline',d:'Your work waits to send. '+ot.name+'’s work is shown as last synced at 1:45 pm.'});
+    const acts=(t)=>[['photo_camera','Verify'],['assignment','Form'],['folder','Files'],['block','Reject']].map(([ic,n],i)=>({ic,n,bg:i===0&&!t.done?'var(--sky)':'transparent',fg:i===3?'var(--red)':'var(--link)',on:()=>this.toast(n+' · '+t.n+(off&&i===0?' · queued offline':''))}));
+    const mine=mineT.map(t=>({...t,nIc:t.done?'check':'pending',nBg:t.done?'var(--okt)':'var(--line2)',nFg:t.done?'var(--ok)':'var(--mut)',st:t.done?(off&&t.id==='s2'?'Done '+t.done+' · waiting to send':'Done '+t.done):'Pending · visit, form and files needed',stCol:t.done?'var(--ok)':'var(--amb)',acts:acts(t)}));
+    const theirs=theirT.map(t=>({...t,nIc:t.done?'check':'schedule',nBg:t.done?'var(--okt)':'var(--line2)',nFg:t.done?'var(--ok)':'var(--mut)',done:!!t.done,
+      st:t.done?('Done by '+ot.name+' · '+t.done):(v==='rejected'&&O==='franklin'?'Rejected by Franklin · waiting for reassignment':v==='notAccepted'&&O==='franklin'?'Franklin has not accepted yet':'Not done yet by '+ot.name),
+      stCol:t.done?'var(--ok)':(v==='rejected'&&O==='franklin'?'var(--red)':'var(--mut)'),
+      open:()=>{ if(t.done) this.setState(s=>({screen:'tp',tp:t.id,tab:'form',stack:[...s.stack,s.screen]})); else this.toast('Not done yet by '+ot.name); }}));
+    const tpT=TPS.find(t=>t.id===S.tp)||TPS[3]; const tpX=tps.find(t=>t.id===tpT.id);
+    const s={}; SCR.forEach(k=>s[k]=S.screen===k);
+    const go={}; SCR.forEach(k=>go[k]=()=>this.nav(k));
+    const tt=TITLES[S.screen]||['',''];
+    let title=tt[0], sub=tt[1]; if(S.screen==='tp'){ title=tpT.n; sub='by '+ot.name+' · read-only'; }
+    const myCanComplete=mineT.every(t=>t.done)&&!S.partDone[V];
+    let foot=null;
+    if(S.screen==='touch') foot=S.partDone[V]?{l:'Part completed · 4:10 pm',ic:'task_alt',bg:'var(--okt)',fg:'var(--ok)',dis:true,note:'The case becomes FO Completed when every part is completed.'}:{l:'Complete my part',ic:'task_alt',bg:myCanComplete?'#2E9E4B':'var(--line)',fg:myCanComplete?'#fff':'var(--mut)',dis:!myCanComplete,note:myCanComplete?'':(mineT.filter(t=>!t.done).length+' touch point pending: '+mineT.filter(t=>!t.done).map(t=>t.n).join(', ')),act:()=>this.setState({sheet:'complete'})};
+    if(S.screen==='workspace') foot=iAmLead?(allParts?{l:'Final Report for Case',ic:'task_alt',bg:'#2E9E4B',fg:'#fff',act:()=>this.nav('report')}:{l:'Final Report for Case',ic:'lock',bg:'var(--line)',fg:'var(--mut)',dis:true,note:'Unlocks when every part is completed · '+(S.partDone[O]?'your part is pending':ot.name+'’s part is pending')}):
+      (v==='leadRemoved'?{l:'Final report paused',ic:'pause_circle',bg:'var(--line)',fg:'var(--mut)',dis:true,note:'Waiting for the portal to pick a new lead'}:{l:allParts?'View Final Report by Sujit D N':'Final report by Sujit D N',ic:allParts?'visibility':'lock',bg:allParts?'var(--sky)':'var(--line)',fg:allParts?'var(--link)':'var(--mut)',dis:!allParts,act:()=>this.nav('reportro'),note:allParts?'':'Only the Lead writes the Final Report'});
+    const mapTps=tps.filter(t=>S.mapF==='all'||(S.mapF==='mine'?t.own===V:t.own===O));
+    const pins=[];
+    mapTps.forEach(t=>{ if(t.done) pins.push({photo:true,addr:false,col:OFF[t.own].col,x:t.x,y:t.y,n:t.n,on:()=>this.setState({pin:t.id})}); else if(t.own===V) pins.push({photo:false,addr:true,col:me.col,x:t.x,y:t.y,n:t.n+' · my address',on:()=>this.toast('Your address pin · Navigate')}); });
+    const pinT=tps.find(t=>t.id===S.pin); const pinO=pinT?OFF[pinT.own]:me;
+    const chip=(k,n,dot)=>({n,dot,bg:S.mapF===k?'var(--ink)':'var(--card)',fg:S.mapF===k?'var(--bg)':'var(--ink)',on:()=>this.setState({mapF:k,pin:null})});
+    const ev=[
+      ...(S.partDone.franklin?[{who:'Franklin',what:'completed his part',t:'26-09-2026 · 4:10 pm',o:'franklin'}]:[]),
+      ...(tps.find(t=>t.id==='f3').done?[{who:'Franklin',what:'verified Police Station',t:'26-09-2026 · 3:42 pm',o:'franklin'}]:[]),
+      {who:'Franklin',what:'added a daily update',note:'Met the petitioner at Anna Nagar. Statement recorded; FIR copy applied at Tallakulam PS.',t:'26-09-2026 · 1:45 pm',o:'franklin'},
+      {who:'Franklin',what:'verified Petitioner',t:'26-09-2026 · 1:30 pm',o:'franklin'},
+      ...(tps.find(t=>t.id==='s2').done?[{who:'Sujit D N',what:'verified Doctor',t:'26-09-2026 · 12:05 pm',o:'sujit'}]:[]),
+      {who:'Sujit D N',what:'verified Hospital',t:'26-09-2026 · 11:20 am',o:'sujit'},
+      {who:'Franklin',what:'verified Insured',t:'26-09-2026 · 10:15 am',o:'franklin'},
+      {who:'Franklin',what:'accepted his part',t:'26-09-2026 · 9:40 am',o:'franklin'},
+      {who:'Sujit D N',what:'accepted his part · Lead',t:'26-09-2026 · 9:05 am',o:'sujit'},
+      {who:'Priya (CM)',what:'allocated: Sujit D N (Lead) – Hospital, Doctor · Franklin – Insured, Petitioner, Police Station',t:'25-09-2026 · 6:10 pm',o:null}];
+    return {
+      theme:P.theme||'light', isIOS:ios, isAnd:!ios, W:ios?390:360, H:ios?844:800, sbH:ios?47:24, bH:ios?34:16, sbBg:(P.theme==='dark')?'#000E1C':'#001F3F', netIc:off?'signal_wifi_off':'wifi',
+      backIc:ios?'chevron_left':'arrow_back', backLabel:ios?'Back':'', sheetRad:ios?'14px 14px 0 0':'28px 28px 0 0',
+      hasBack:S.screen!=='cases', noBack:S.screen==='cases', back:()=>this.setState(s=>{ const st=[...s.stack]; const p=st.pop()||(s.screen==='workspace'?'cases':'workspace'); return {screen:p,stack:st,sheet:null,pin:null}; }),
+      title, sub, meCol:me.col, meShort:me.short, meName:me.name, meIni:me.ini, meT:me.t, meInk:me.ink,
+      otherName:ot.short, otherIni:ot.ini, otherCol:ot.col, otherT:ot.t, otherInk:ot.ink, otherId:ot.id, otherStampCol:O==='franklin'?'#FDBA74':'#9FD0FF',
+      offline:off, s, go, iAmLead,
+      myPartSt, myPartCol, otPartSt, otPartCol, myCount:myDone+'/'+mineT.length+' touch points', otCount:otDone+'/'+theirT.length+' touch points',
+      otherCases:[{n:'S. Devi',c:'MOT17820114'},{n:'Suddala Revanth',c:'RR-HS26-15985394'}],
+      banners, tbanners:banners,
+      officers:['sujit','franklin'].map(k=>{ const [st,stCol]=partStatus(k); const own=tps.filter(t=>t.own===k); return {name:OFF[k].name+(k===V?' (you)':''),ini:OFF[k].ini,col:OFF[k].col,lead:k==='sujit'&&v!=='leadRemoved',tps:OFF[k].city+' · '+own.map(t=>t.n).join(', '),st,stCol,cnt:own.filter(t=>t.done).length+'/'+own.length}; }),
+      tools:[{ic:'description',n:'Case Details',d:'View complete case information'},{ic:'folder_open',n:'Claim Documents',d:'Manage all claim documents'},{ic:'location_on',n:'Touch Point',d:'Mine + '+ot.short+'’s',go:go.touch},{ic:'map',n:'Case Map',d:'Photo pins of all officers',go:go.map},{ic:'schedule',n:'Timeline',d:'Case activity timeline',go:go.timeline},{ic:'account_balance_wallet',n:'Expenses',d:'Track case expenses',go:go.expenses}].map(t=>({...t,go:t.go||(()=>this.toast(t.n+' · unchanged'))})),
+      myDone, myTotal:mineT.length, caseDone:myDone+otDone, caseTotal:tps.length, barMine:Math.round(myDone/tps.length*100), barOther:Math.round(otDone/tps.length*100),
+      mine, theirs,
+      tpDone:tpX&&tpX.done||'', tpName:tpT.n, tpGps:tpT.gps,
+      tpTabs:[['form','Form'],['photo','Photo'],['files','Files']].map(([k,n])=>({n,fg:S.tab===k?'var(--link)':'var(--mut)',bd:S.tab===k?'var(--blue)':'transparent',on:()=>this.setState({tab:k})})),
+      tab:{form:S.tab==='form',photo:S.tab==='photo',files:S.tab==='files'},
+      tpQs:[{q:'Met the person named in the claim?',yn:'Yes',a:'Met '+tpT.place+' at the address. ID card checked.'},{q:'Statement matches the claim form?',yn:'Yes',a:'Date, time and place of the accident match the FIR.'},{q:'Any document refused?',yn:'No',a:'All requested documents were shared.'}].map(q=>({...q,bg:q.yn==='Yes'?'var(--okt)':'var(--redt)',fg:q.yn==='Yes'?'var(--ok)':'var(--red)'})),
+      tpFiles:[{ic:'picture_as_pdf',n:tpT.n.replace(' ','_')+'_statement.pdf',m:'412 KB · 26-09-2026'},{ic:'image',n:'IMG_'+tpT.n.replace(' ','')+'_0926.jpg',m:'298 KB · stamped'}].slice(0,Math.max(1,Math.min(2,tpT.files))),
+      mapChips:[chip('all','All','linear-gradient(90deg,#0074D9 50%,#F97316 50%)'),chip('mine','Mine',me.col),chip('other',ot.short,ot.col)],
+      pins, pinOpen:!!pinT&&S.screen==='map', legendBottom:pinT?262:14, closePin:()=>this.setState({pin:null}),
+      pin:pinT?{n:pinT.n,t:pinT.done,gps:pinT.gps,who:pinO.name,ini:pinO.ini,col:pinO.col,tb:pinO.t,ti:pinO.ink}:{},
+      parts:['sujit','franklin'].map(k=>({name:OFF[k].name,ini:OFF[k].ini,col:OFF[k].col,tps:tps.filter(t=>t.own===k)})),
+      pickers:[{l:'Category',v:'Motor TP'},{l:'Stage',v:'Final'},{l:'Case Field',v:'Accident & liability'}],
+      roQs:[{q:'Accident spot and date confirmed',a:'Spot on Bypass Rd, Madurai matches the FIR.'},{q:'Injury matches hospital records',a:'Apollo records: fracture right tibia, admitted 14-06-2026.'},{q:'Police record matches the accident story',a:'FIR 412/2026 at Tallakulam PS.'}],
+      events:ev.map(e=>({...e,col:e.o?OFF[e.o].col:'#5A708C',nameCol:e.o?OFF[e.o].col:'var(--ink)',hasNote:!!e.note,note:e.note||''})),
+      myExp:V==='sujit'?'₹880.00':'₹1,080.00', exps:V==='sujit'?[{p:'Auto Fare',d:'26 Sep, 2026 • 10:52 am',a:'₹80.00'},{p:'MRD Charges',d:'26 Sep, 2026 • 11:40 am',a:'₹800.00'}]:[{p:'Bus Ticket',d:'26 Sep, 2026 • 08:30 am',a:'₹980.00'},{p:'Food Allowance',d:'26 Sep, 2026 • 01:50 pm',a:'₹100.00'}],
+      showFoot:!!foot, footLabel:foot?foot.l:'', footIc:foot?foot.ic:'', footBg:foot?foot.bg:'', footFg:foot?foot.fg:'', footDis:foot?!!foot.dis:true, footNote:foot&&foot.note||'', footAct:()=>{ if(foot&&foot.act&&!foot.dis) foot.act(); },
+      sheetComplete:S.sheet==='complete', closeSheet:()=>this.setState({sheet:null}),
+      doComplete:()=>{ this.setState(s=>({sheet:null,partDone:{...s.partDone,[V]:true}})); this.toast(off?'Part completed · will send when online':'Part completed · '+ot.short+' can see it now'); },
+      hasToast:!!S.toast, toast:S.toast
+    };
+  }
+}
+</script>
+</body>
+</html>

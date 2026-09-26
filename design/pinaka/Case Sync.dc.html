@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="design_doc_mode" content="canvas">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>body{margin:0;background:#E4EAF1;font-family:'IBM Plex Sans',system-ui,sans-serif;color:#0B2540}a{color:#0074D9}a:hover{color:#0060B5}</style>
+</helmet>
+<section id="t0" style="padding:40px 44px 32px;border-bottom:1px solid rgba(0,0,0,.08)">
+  <div style="display:flex;align-items:baseline;gap:10px"><span style="font:600 10px 'IBM Plex Mono',monospace;padding:3px 7px;background:#001F3F;color:#fff;border-radius:4px">T</span><b style="font-size:18px;color:#001F3F">Case sync, meetings, fines · taasenclaims.com ↔ Pinaka app</b></div>
+  <div style="display:grid;grid-template-columns:repeat(3,minmax(0,360px));gap:24px;margin-top:14px;font-size:14px;line-height:1.55;color:#33475B">
+    <div><b style="display:block;color:#001F3F;margin-bottom:6px">Portal → app</b>A case assigned on the portal (Allocate tab or auto-assign) reaches the officer's phone as a push plus a full-screen alarm that rings until opened. The 20-minute accept timer runs only from 8 AM to 8 PM, so a late-night case starts counting at 8:00 AM. A re-assigned case leaves the list with a notice.</div>
+    <div><b style="display:block;color:#001F3F;margin-bottom:6px">App → portal</b>Accept or reject with a reason, started, reached with a GPS photo, each touch point as it is saved, final report submitted, and live location. When GPS goes off, the app locks, the manager is alerted, the Live Board row turns red, and ₹50 is added. The morning commitment is taken at punch-in for every held case.</div>
+    <div><b style="display:block;color:#001F3F;margin-bottom:6px">Meetings and fines</b>Daily Meetings: only Boss, OHS, State Coordinators and managers start a meeting. Connect rings only the ticked people, full screen, for 2 minutes. Joining more than 10 minutes late counts as missed (₹100). Fine Amount sits on the profile with a breakup and an appeal, and admin downloads the monthly Excel.</div>
+  </div>
+</section>
+<sc-for list="{{ groups }}" as="g" hint-placeholder-count="3">
+<section id="{{ g.id }}" style="padding:40px 44px 32px;border-bottom:1px solid rgba(0,0,0,.08);background:{{ g.bg }}">
+  <div style="display:flex;align-items:baseline;gap:10px"><a href="#{{ g.id }}" style="font:600 10px 'IBM Plex Mono',monospace;padding:3px 7px;background:#001F3F;color:#fff;border-radius:4px;text-decoration:none">{{ g.n }}</a><b style="font-size:18px;color:{{ g.fg }}">{{ g.title }}</b></div>
+  <div style="display:flex;flex-wrap:wrap;gap:28px;align-items:flex-start;margin-top:16px">
+    <sc-for list="{{ g.items }}" as="it" hint-placeholder-count="4">
+      <div id="{{ it.id }}" style="flex:none;display:flex;flex-direction:column;gap:9px">
+        <div style="display:flex;align-items:baseline;gap:8px;font-size:12.5px;font-weight:500;max-width:390px;color:{{ g.lc }}"><a href="#{{ it.id }}" style="font:600 10.5px 'IBM Plex Mono',monospace;padding:3px 7px;background:rgba(0,116,217,.14);border-radius:5px;text-decoration:none;color:{{ g.fg }}">{{ it.id }}</a>{{ it.label }}</div>
+        <div style="background:#fff;border:1px solid rgba(0,0,0,.1);box-shadow:0 10px 30px rgba(2,32,64,.14);overflow:hidden;border-radius:{{ it.r }}px">
+          <sc-if value="{{ it.phone }}" hint-placeholder-val="{{ true }}"><dc-import name="CaseSync" platform="{{ it.p }}" theme="{{ it.t }}" scene="{{ it.s }}" hint-size="360px,800px"></dc-import></sc-if>
+          <sc-if value="{{ it.web }}" hint-placeholder-val="{{ false }}"><dc-import name="PortalSync" scene="{{ it.s }}" hint-size="1440px,900px"></dc-import></sc-if>
+        </div>
+      </div>
+    </sc-for>
+  </div>
+</section>
+</sc-for>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  renderVals(){
+    const A=(id,label,s,p,t)=>({id,label,s,p:p||'android',t:t||'light',r:p==='ios'?46:30,phone:true,web:false});
+    const Wb=(id,label,s)=>({id,label,s,r:10,phone:false,web:true});
+    const groups=[
+      {id:'t1',n:'1',title:'New case from the portal · Android',items:[A('1a','Lock screen push · rings until opened','push'),A('1b','Full-screen New Case · live 20:00 countdown · tap Accept','alarm'),A('1c','Assigned at night · timer waits for 8:00 AM','night'),A('1d','Time up · ₹50 added','missed'),A('1e','Reject · reason goes to the manager','rejectSheet')]},
+      {id:'t2',n:'2',title:'My Cases and Workspace · Android',items:[A('2a','My Cases synced · NEW case on top, TAT chips','list'),A('2b','Offline banner · actions queue','offline'),A('2c','Re-assigned on the portal · notice','revoked'),A('2d','Workspace · what the portal sees','ws'),A('2e','Morning commitment at punch-in','commit'),A('2f','Commitment · missing plan','commitErr')]},
+      {id:'t3',n:'3',title:'Meetings, GPS, Fine Amount · Android',items:[A('3a','Daily FO meeting ring · OHS TL','meet'),A('3b','State Coordinator meeting ring','meetSC'),A('3c','Can\'t join · reason','cantJoin'),A('3d','GPS off · app locked, ₹50','gps'),A('3e','Profile → Fine Amount · breakup','fines'),A('3f','Appeal a fine','appeal')]},
+      {id:'t4',n:'4',title:'iPhone 390×844 · light',items:[A('4a','New Case alarm','alarm','ios'),A('4b','My Cases','list','ios'),A('4c','Meeting ring','meet','ios'),A('4d','Fine Amount','fines','ios')]},
+      {id:'t5',n:'5',title:'Dark',bg:'#0B1726',fg:'#E7EEF7',lc:'#93A6BC',items:[A('5a','New Case alarm','alarm','android','dark'),A('5b','My Cases','list','android','dark'),A('5c','GPS off','gps','android','dark'),A('5d','Morning commitment','commit','ios','dark'),A('5e','Fine Amount','fines','ios','dark')]},
+      {id:'t6',n:'6',title:'Portal · 1440',items:[Wb('6a','Daily Meetings · New meeting, tick teams or people, Connect rings phones','meet'),Wb('6b','After Connect · live ring status','meetLive'),Wb('6c','Case sync board · app status, TAT, GPS, commitment per case','board'),Wb('6d','Accounts → Fine Amount · admin only · monthly Excel + appeals','fines'),Wb('6e','Reporting → Excel downloads','excel')]}
+    ].map(g=>({bg:'transparent',fg:'#001F3F',lc:'#33475B',...g}));
+    return {groups};
+  }
+}
+</script>
+</body>
+</html>

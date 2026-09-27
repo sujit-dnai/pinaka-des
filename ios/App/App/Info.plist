@@ -69,7 +69,18 @@
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>remote-notification</string>
+		<string>location</string>
 	</array>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Pinaka shares your location with TaaSen only while you are on duty, for your cases and travel km.</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>Pinaka keeps sharing your location while you are on duty, even with the screen locked. Duty ends at 9 PM.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Pinaka needs the microphone only while you hold Translator.</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Pinaka uses the camera to photograph expense bills.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Pinaka lets you attach a bill photo from your gallery.</string>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
 </dict>

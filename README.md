@@ -8,8 +8,8 @@ so the alarm sounds even when the app is closed.
 |---|---|
 | App name | Pinaka |
 | Android package / iOS bundle ID | `com.taasenclaims.pinaka` |
-| Version | 1.0.0 (build 1) |
-| Talks to | `https://taasenclaims.com/api/app/*` (portal v34.8 or later) |
+| Version | 2.0.0 (build 3) |
+| Talks to | `https://taasenclaims.com/api/app/*` (portal v34.9 or later) |
 | Privacy policy URL | `https://taasenclaims.com/pinaka/privacy` |
 
 ## Folders
@@ -69,7 +69,7 @@ In Android Studio, use **Build → Generate Signed App Bundle**.
 4. **App content**:
    - Privacy policy: `https://taasenclaims.com/pinaka/privacy`
    - App access: *All or some functionality is restricted*. Give the reviewer a login (see "Review login" below).
-   - Data safety: the app collects **Name, Phone number, User IDs** (for app functionality, not shared) and a **Device ID** (the push token). Data is encrypted in transit. Deletion is on request.
+   - Data safety: the app collects **Name, Phone number, User IDs** (for app functionality, not shared), a **Device ID** (the push token), **Precise location** (only while on duty), **Photos** (bills) and **Voice recordings** (Translator, kept as proof). Data is encrypted in transit. Deletion is on request.
    - Ads: none. Target audience: 18+.
 5. **Full-screen notification (Android 14+)**: this app does **not** use the full-screen-intent permission. The alarm is a max-importance notification on its own alarm channel, and it repeats every 2 minutes. That avoids Play's calling/alarm-apps-only restriction.
 
@@ -85,7 +85,7 @@ This needs a Mac with Xcode 16 or later.
    - add **Time Sensitive Notifications**
 4. Choose **Product → Archive**, then **Distribute App → App Store Connect**.
 5. In App Store Connect, create the app with bundle ID `com.taasenclaims.pinaka`, fill the listing, attach the build, and submit.
-   - App Privacy: Contact Info (name, phone), Identifiers (user ID, device ID). All are used for App Functionality and none for tracking.
+   - App Privacy: Contact Info (name, phone), Identifiers (user ID, device ID), Location (precise), Photos, Audio Data. All are used for App Functionality and none for tracking.
    - Encryption: the app uses only standard HTTPS. `ITSAppUsesNonExemptEncryption` is already set to NO.
    - Sign-in: accounts are issued by the employer, so no in-app sign-up or account deletion is needed. Say this in the review notes.
 
@@ -94,6 +94,31 @@ This needs a Mac with Xcode 16 or later.
 Reviewers need a way in. On the portal, go to **Pinaka App**, search for your own test officer (or type a name such as "Store Review" into Give access), and press **Give access**.
 Put the **Employee ID** and the **6-digit code** in the review notes. The code lasts 72 hours and works once, so make it on the day you submit. Make a fresh one if the store asks again.
 Mention in the notes: *"Internal app for TaaSen field officers. Access codes are issued by the employer's portal. New cases arrive as push alarms."*
+
+## What 2.0.0 adds — the app is Sujit's design (pinaka-des)
+
+- **Sign in with the Employee ID** + password (set on the portal), then a daily PIN. No logout; only admin signs a phone out.
+- **Punch attendance** (selfie + GPS, from 7 AM; Late after 8:30 with a reason) and the **morning plan**.
+- Home (next action), My Cases (TAT chips, out-of-TAT block), Case Workspace with the Health / Motor TP / **Cashless 20 h** timers.
+- **Touch points** with the camera: the photos-needed checklist and a GPS stamp burned into every photo.
+- **Final Report** (Field Masters questions) → **Case Complete Report** → travel expense.
+- **Today's work** (6–7:30 PM), **Fine Amount** with **Appeal**, Battery settings, GPS-off lock.
+- **Permissions the stores will ask about:** Camera (selfie + touch-point photos, including the punch selfie), Location (on duty, punch, photos), Microphone (Translator), Notifications (alarm).
+- Data safety adds: **Photos** (selfies and verification photos, kept by TaaSen as proof).
+
+## What 1.1.0 adds
+
+- **Sign-in:** TaaSen User (Employee ID or mobile + the password set on the portal) or External User (opens the portal). A one-time code from the portal still works.
+- **Start duty / End duty:** location is shared only while on duty, including with the screen locked (background location plugin, with an "On duty" notification). Duty ends by itself at 9 PM.
+- **Expenses:** today's purposes, limits and words, plus status chips, totals, edit/delete while Submitted, month view, expense date, From/To and touch point, Fuel km from GPS × ₹4, several bills, remarks, a duplicate check and an offline queue. Approval runs OHS → State Coordinator → Admin → Accounts Payouts on the portal.
+- **Translator:** a mic beside every free-text box. The officer speaks in his language; the portal turns it into English (keys stay on the portal, never in the app).
+- **Permissions the stores will ask you to explain:**
+  - Location "all the time" / background, only while on duty. Play needs a **background-location declaration** and a short video of the Start duty button.
+  - Camera, for bill photos.
+  - Microphone, only while the officer taps the Translator mic.
+  - Notifications, for the alarm.
+
+The location plugin (`@capacitor-community/background-geolocation` 1.2.26) lists support up to Capacitor 7. This project is on Capacitor 8, so check tracking first on the test APK.
 
 ## How the alarm works
 

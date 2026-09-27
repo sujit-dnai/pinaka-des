@@ -4,4 +4,7 @@
     <string name="title_activity_main">Pinaka</string>
     <string name="package_name">com.taasenclaims.pinaka</string>
     <string name="custom_url_scheme">com.taasenclaims.pinaka</string>
+    <string name="capacitor_background_geolocation_notification_channel_name">Pinaka on duty</string>
+    <string name="capacitor_background_geolocation_notification_icon">drawable/ic_stat_pinaka</string>
+    <string name="capacitor_background_geolocation_notification_color">#0074D9</string>
 </resources>

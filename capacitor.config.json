@@ -3,7 +3,8 @@
   "appName": "Pinaka",
   "webDir": "www",
   "android": {
-    "allowMixedContent": false
+    "allowMixedContent": false,
+    "useLegacyBridge": true
   },
   "server": {
     "androidScheme": "https",
@@ -16,6 +17,9 @@
         "sound",
         "alert"
       ]
+    },
+    "CapacitorHttp": {
+      "enabled": true
     }
   },
   "experimental": {

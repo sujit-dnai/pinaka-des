@@ -1,0 +1,24 @@
+PINAKA APP 2.0.0 — the update (your pinaka-des design, built as the real app)
+
+This folder holds ONLY the files that changed since the app you uploaded (1.0), in the same
+folders as the repo. Upload them on top — nothing is deleted.
+
+1. Open your app repo on GitHub (sujit-dnai/pinaka-des, or pinaka-app if you made the private one).
+   Add file → Upload files → drag EVERYTHING inside this folder (README.md, package.json,
+   package-lock.json, capacitor.config.json and the folders android, ios, www). Commit.
+   GitHub puts each file in its folder and replaces the old one.
+2. The build robot (the Mac hides folders that start with a dot, so this one by hand, once):
+   Add file → Create new file → name:  .github/workflows/android.yml
+   Open COPY-THIS-android.yml from this folder, copy everything, paste, Commit.
+   (If you already created it earlier, skip this step.)
+3. Settings → Secrets and variables → Actions → add GOOGLE_SERVICES_JSON and the keystore
+   secrets listed in README.md (only once).
+4. Actions → Android build → Run workflow. When it finishes, open the run → Artifacts:
+     pinaka-debug-apk   → install on a phone and test
+     pinaka-release-aab → upload to Google Play (Internal testing first)
+Version 2.0.0 (versionCode 3). iPhone: the Xcode project is ready; we do it after Android.
+
+The same app runs today, without any store, at taasenclaims.com/pinaka in Chrome
+(laptop or Android) once the portal zip is uploaded.
+
+Note: pinaka-des is a PUBLIC repo. The app has no keys in it, but a PRIVATE repo is safer.

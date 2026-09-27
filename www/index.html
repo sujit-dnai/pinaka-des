@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+<meta name="theme-color" content="#001F3F">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Pinaka">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="icon" href="icon-192.png">
+<title>Pinaka</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0..1,0&display=block" rel="stylesheet">
+<style>
+/* Pinaka · TaaSen field officer app · v34.8
+   One file for both homes: taasenclaims.com/pinaka (installable web app) and the store
+   builds (Android / iPhone, Capacitor www/index.html). Colour tokens are the design's. */
+:root{
+  --navy:#001F3F;--blue:#0074D9;--sky:#E8F2FC;
+  --bg:#F2F5F9;--card:#FFFFFF;--ink:#0B1B2B;--body:#33475B;--mut:#6B7C8F;--line:#E1E8F0;--link:#0060B5;
+  --ok:#0F8A4B;--okt:#0B6B3A;--okb:#E3F5EA;--red:#D0342C;--redt:#A5231C;--redb:#FDE8E7;--amb:#B86E00;--ambt:#8A5200;--ambb:#FFF3DC;
+  --r:14px;--sh:0 2px 10px rgba(0,31,63,.07);
+  --f1:12px;--f2:14px;--f3:16px;--f4:20px;--f5:28px;--f6:44px;
+  --s1:4px;--s2:8px;--s3:12px;--s4:16px;--s5:24px;--s6:32px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#08121D;--card:#0F1D2C;--ink:#EAF1F8;--body:#C3D0DD;--mut:#8497AA;--line:#1D3043;--link:#6CB4FF;--sky:#10263D;
+    --okb:#0E2A1C;--ok:#3CCB7F;--okt:#7FE0AA;--redb:#34110F;--red:#FF6B61;--redt:#FFA39C;--ambb:#2E2108;--amb:#F2A93B;--ambt:#F7C878;
+    --sh:0 2px 10px rgba(0,0,0,.4);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#08121D;--card:#0F1D2C;--ink:#EAF1F8;--body:#C3D0DD;--mut:#8497AA;--line:#1D3043;--link:#6CB4FF;--sky:#10263D;
+  --okb:#0E2A1C;--ok:#3CCB7F;--okt:#7FE0AA;--redb:#34110F;--red:#FF6B61;--redt:#FFA39C;--ambb:#2E2108;--amb:#F2A93B;--ambt:#F7C878;
+  --sh:0 2px 10px rgba(0,0,0,.4);
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;background:var(--bg);color:var(--body);font:400 var(--f2)/1.45 'IBM Plex Sans',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;min-height:100%;overscroll-behavior:none}
+button,input,select,textarea{font:inherit;color:inherit}
+.ms{font-family:'Material Symbols Rounded';font-weight:normal;font-style:normal;font-size:22px;line-height:1;display:inline-block;letter-spacing:normal;text-transform:none;white-space:nowrap;direction:ltr;-webkit-font-smoothing:antialiased;font-feature-settings:'liga';vertical-align:middle}
+.noicons .ms{display:none}
+.fb{display:none}.noicons .fb{display:inline}
+.mono{font-family:'IBM Plex Mono',ui-monospace,monospace;font-weight:500}
+#app{max-width:560px;margin:0 auto;min-height:100vh;display:flex;flex-direction:column}
+header.top{background:linear-gradient(135deg,var(--navy),var(--blue));color:#fff;padding:calc(env(safe-area-inset-top) + 12px) var(--s4) var(--s4);position:sticky;top:0;z-index:5}
+.toprow{display:flex;align-items:center;gap:var(--s3)}
+.toprow img{width:34px;height:34px;border-radius:9px;background:#fff1}
+.toprow .t{flex:1;min-width:0}
+.toprow .t b{display:block;font-size:var(--f3);font-weight:600;color:#fff}
+.toprow .t small{display:block;color:#CFE4FA;font-size:var(--f1);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.chip{border:1px solid #ffffff55;background:#ffffff1a;color:#fff;border-radius:999px;padding:5px 10px;font-size:var(--f1);font-weight:600;min-height:32px;display:inline-flex;align-items:center;gap:4px}
+.iconbtn{background:#ffffff1a;border:0;color:#fff;border-radius:10px;width:40px;height:40px;display:grid;place-items:center}
+main{flex:1;padding:var(--s4);padding-bottom:calc(var(--s6) + env(safe-area-inset-bottom))}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--sh);padding:var(--s4);margin-bottom:var(--s3)}
+h1{font-size:var(--f5);color:var(--ink);margin:var(--s2) 0 var(--s2);font-weight:700;line-height:1.2}
+h2{font-size:var(--f3);color:var(--ink);margin:0 0 var(--s2);font-weight:600}
+.mut{color:var(--mut)}
+.lbl{font-size:var(--f1);color:var(--mut);font-weight:600;letter-spacing:.02em;text-transform:uppercase;margin:var(--s4) 0 var(--s2)}
+input.in{width:100%;border:1.5px solid var(--line);background:var(--card);border-radius:12px;padding:14px;font-size:var(--f3);color:var(--ink);outline:none}
+input.in:focus{border-color:var(--blue)}
+.btn{width:100%;min-height:52px;border:0;border-radius:12px;font-weight:600;font-size:var(--f3);display:flex;align-items:center;justify-content:center;gap:8px;cursor:pointer}
+.btn.p{background:var(--blue);color:#fff}
+.btn.ok{background:var(--ok);color:#fff}
+.btn.no{background:var(--card);color:var(--red);border:1.5px solid var(--red)}
+.btn.g{background:var(--sky);color:var(--link)}
+.btn:disabled{opacity:.55}
+.err{background:var(--redb);color:var(--redt);border-radius:10px;padding:10px 12px;margin:var(--s3) 0;font-size:var(--f2)}
+.note{background:var(--ambb);color:var(--ambt);border-radius:10px;padding:10px 12px;margin:0 0 var(--s3);font-size:var(--f2);display:flex;gap:8px}
+.good{background:var(--okb);color:var(--okt);border-radius:10px;padding:10px 12px;margin:0 0 var(--s3);font-size:var(--f2);display:flex;gap:8px}
+.pinrow{display:flex;gap:10px;justify-content:center;margin:var(--s5) 0}
+.pinrow i{width:16px;height:16px;border-radius:50%;border:2px solid var(--blue);display:block}
+.pinrow i.f{background:var(--blue)}
+.pad{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;max-width:320px;margin:0 auto}
+.pad button{min-height:62px;border-radius:14px;border:1px solid var(--line);background:var(--card);font-size:var(--f4);font-weight:600;color:var(--ink)}
+.tabs{display:flex;gap:8px;margin:0 0 var(--s3);overflow-x:auto}
+.tabs button{border:1px solid var(--line);background:var(--card);border-radius:999px;padding:8px 14px;font-weight:600;color:var(--body);white-space:nowrap;min-height:40px}
+.tabs button.on{background:var(--navy);color:#fff;border-color:var(--navy)}
+.case{display:block;width:100%;text-align:left;border:1px solid var(--line);background:var(--card);border-radius:var(--r);padding:var(--s3) var(--s4);margin-bottom:10px;box-shadow:var(--sh)}
+.case .r1{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.case .cl{font-family:'IBM Plex Mono',monospace;font-weight:500;color:var(--ink);font-size:var(--f2)}
+.pill{font-size:11px;font-weight:700;border-radius:999px;padding:3px 8px;white-space:nowrap}
+.pill.b{background:var(--sky);color:var(--link)}
+.pill.g{background:var(--okb);color:var(--okt)}
+.pill.r{background:var(--redb);color:var(--redt)}
+.pill.a{background:var(--ambb);color:var(--ambt)}
+.case .nm{color:var(--ink);font-weight:600;margin-top:4px}
+.case .mt{color:var(--mut);font-size:var(--f1);margin-top:2px;display:flex;gap:10px;flex-wrap:wrap}
+.kv{display:grid;grid-template-columns:120px 1fr;gap:6px 10px;font-size:var(--f2)}
+.kv dt{color:var(--mut)}
+.kv dd{margin:0;color:var(--ink);word-break:break-word}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.empty{text-align:center;padding:var(--s6) var(--s4);color:var(--mut)}
+.empty .ms{font-size:44px;color:var(--blue);display:block;margin:0 auto var(--s2)}
+/* the alarm */
+#alarm{position:fixed;inset:0;z-index:50;background:linear-gradient(160deg,#001F3F 0%,#003B73 55%,#0074D9 100%);color:#fff;display:none;flex-direction:column;padding:calc(env(safe-area-inset-top) + 20px) 20px calc(env(safe-area-inset-bottom) + 20px)}
+#alarm.on{display:flex}
+#alarm .ring{width:120px;height:120px;border-radius:50%;background:#ffffff1f;display:grid;place-items:center;margin:28px auto 16px;animation:pulse 1.1s infinite}
+#alarm .ring .ms{font-size:64px;color:#fff}
+@keyframes pulse{0%{box-shadow:0 0 0 0 #ffffff66}70%{box-shadow:0 0 0 28px #ffffff00}100%{box-shadow:0 0 0 0 #ffffff00}}
+#alarm .big{font-size:var(--f1);letter-spacing:.12em;text-transform:uppercase;color:#CFE4FA;text-align:center}
+#alarm .claim{font-family:'IBM Plex Mono',monospace;font-size:26px;text-align:center;margin:6px 0 4px;word-break:break-all}
+#alarm .sub{text-align:center;color:#DCEBFA;font-size:var(--f2)}
+#alarm .count{font-family:'IBM Plex Mono',monospace;font-size:var(--f6);text-align:center;margin:18px 0 4px}
+#alarm .count.late{color:#FFB4AE}
+#alarm .acts{margin-top:auto;display:grid;gap:12px}
+#alarm .acts .btn.no{background:transparent;color:#fff;border-color:#ffffffaa}
+#alarm .more{text-align:center;color:#CFE4FA;font-size:var(--f1);margin-top:8px}
+.sheet{position:fixed;inset:0;z-index:60;background:#0008;display:none;align-items:flex-end}
+.sheet.on{display:flex}
+.sheet .in2{background:var(--card);width:100%;max-width:560px;margin:0 auto;border-radius:18px 18px 0 0;padding:var(--s5) var(--s4) calc(var(--s5) + env(safe-area-inset-bottom))}
+.opt{display:flex;align-items:center;gap:10px;width:100%;text-align:left;border:1px solid var(--line);background:var(--card);border-radius:12px;padding:12px;margin-bottom:8px;min-height:48px;color:var(--ink)}
+.opt.on{border-color:var(--blue);background:var(--sky)}
+textarea.in{width:100%;min-height:80px;border:1.5px solid var(--line);border-radius:12px;padding:12px;background:var(--card);color:var(--ink)}
+.toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom));transform:translateX(-50%);background:var(--ink);color:var(--card);padding:10px 16px;border-radius:14px;font-weight:600;z-index:80;display:none;max-width:90vw;text-align:center}
+.toast.on{display:block}
+.hero{text-align:center;padding:var(--s5) 0 var(--s3)}
+.hero img{width:96px;height:96px;border-radius:24px;box-shadow:var(--sh)}
+.steps{margin:0;padding-left:20px}
+.steps li{margin-bottom:6px}
+a{color:var(--link)}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<div id="alarm" role="alertdialog" aria-live="assertive"></div>
+<div class="sheet" id="sheet"><div class="in2" id="sheetIn"></div></div>
+<div class="toast" id="toast"></div>
+<script>
+'use strict';
+/* ═══ where the portal is ═══════════════════════════════════════════════════════════════
+   On taasenclaims.com the doors are same-origin. Inside the store app (capacitor://localhost
+   or https://localhost) they are the full address. */
+var PORTAL = 'https://taasenclaims.com';
+var ON_PORTAL = /taasenclaims\.com$|workers\.dev$/.test(location.hostname);
+var API = ON_PORTAL ? '' : PORTAL;
+var CAP = !!(window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform());
+var PLATFORM = CAP ? window.Capacitor.getPlatform() : (/iphone|ipad|ipod/i.test(navigator.userAgent) ? 'ios-web' : (/android/i.test(navigator.userAgent) ? 'android-web' : 'web'));
+var APP_V = '1.0.0 (portal v34.8)';
+var IMG = ON_PORTAL ? '/pinaka/eagle.png' : 'eagle.png';
+
+/* ═══ words, in seven languages (main labels; the case data stays as SKD sends it) ═══════ */
+var LANGS = [['en','EN'],['ta','தமிழ்'],['te','తెలుగు'],['kn','ಕನ್ನಡ'],['ml','മലയാളം'],['mr','मराठी'],['hi','हिंदी']];
+var T = {
+  en:{hello:'Sign in to Pinaka',idl:'Employee ID or mobile number',code:'6-digit code from your manager',go:'Sign in',askcode:'No code? Your manager gives it on the portal → Pinaka App → Give access.',setpin:'Set your PIN',setpin2:'4 digits. You will use it every day to open Pinaka.',again:'Type the PIN again',enter:'Enter your PIN',nomatch:'The two PINs are different. Start again.',wrongpin:'Wrong PIN',forgot:'Forgot PIN? Ask your manager for a new code.',cases:'My Cases',newc:'New case',accept:'Accept',reject:'Reject',left:'left to accept',late:'Time over — accept now',why:'Why are you rejecting?',send:'Send',cancel:'Cancel',profile:'Profile',alarmOn:'Alarm is ON',alarmOff:'Alarm is OFF — turn it on so new cases ring',turnOn:'Turn on alarm',testSound:'Test alarm sound',lang:'Language',signed:'Only the admin can sign this phone out.',noCases:'No open cases on your name right now.',refresh:'Refresh',call:'Call insured',map:'Open map',parts:'Your parts',all:'All',waiting:'Waiting',accepted:'Accepted',insured:'Insured',hospital:'Hospital',client:'Client',status:'Status',allotted:'Allotted',tat:'TAT',manager:'Manager',address:'Address',police:'Police station',back:'Back',skdSlow:'SKD is slow right now — showing the last copy.',accOk:'Accepted. Your manager can see it on the portal.',rejOk:'Rejected. Your manager has been told.',install:'Install Pinaka',installWhy:'Add Pinaka to your home screen so the alarm can ring.',tapStop:'Tap anywhere to silence',oneMore:'more waiting',search:'Search claim, name, hospital'},
+  ta:{hello:'பினாகாவில் உள்நுழைக',idl:'பணியாளர் ID அல்லது கைபேசி எண்',code:'மேலாளர் தந்த 6 இலக்க குறியீடு',go:'உள்நுழை',setpin:'உங்கள் PIN அமைக்கவும்',enter:'உங்கள் PIN உள்ளிடவும்',cases:'என் வழக்குகள்',newc:'புதிய வழக்கு',accept:'ஏற்கிறேன்',reject:'மறுக்கிறேன்',left:'ஏற்க மீதி நேரம்',late:'நேரம் முடிந்தது — இப்போதே ஏற்கவும்',why:'ஏன் மறுக்கிறீர்கள்?',send:'அனுப்பு',cancel:'ரத்து',profile:'சுயவிவரம்',alarmOn:'அலாரம் இயக்கத்தில்',turnOn:'அலாரத்தை இயக்கு',lang:'மொழி',noCases:'இப்போது உங்கள் பெயரில் வழக்குகள் இல்லை.',refresh:'புதுப்பி',call:'காப்பீட்டாளரை அழை',map:'வரைபடம்',back:'பின்',tapStop:'ஒலியை நிறுத்த தொடவும்'},
+  te:{hello:'పినాకాలో సైన్ ఇన్ చేయండి',idl:'ఉద్యోగి ID లేదా మొబైల్ నంబర్',code:'మేనేజర్ ఇచ్చిన 6 అంకెల కోడ్',go:'సైన్ ఇన్',setpin:'మీ PIN సెట్ చేయండి',enter:'మీ PIN నమోదు చేయండి',cases:'నా కేసులు',newc:'కొత్త కేసు',accept:'అంగీకరించు',reject:'తిరస్కరించు',left:'అంగీకరించడానికి మిగిలిన సమయం',late:'సమయం అయిపోయింది — ఇప్పుడే అంగీకరించండి',why:'ఎందుకు తిరస్కరిస్తున్నారు?',send:'పంపు',cancel:'రద్దు',profile:'ప్రొఫైల్',alarmOn:'అలారం ఆన్‌లో ఉంది',turnOn:'అలారం ఆన్ చేయండి',lang:'భాష',noCases:'ప్రస్తుతం మీ పేరుపై కేసులు లేవు.',refresh:'రిఫ్రెష్',call:'బీమాదారుకు కాల్',map:'మ్యాప్',back:'వెనుకకు',tapStop:'శబ్దం ఆపడానికి తాకండి'},
+  kn:{hello:'ಪಿನಾಕಾಗೆ ಸೈನ್ ಇನ್ ಮಾಡಿ',idl:'ಉದ್ಯೋಗಿ ID ಅಥವಾ ಮೊಬೈಲ್ ಸಂಖ್ಯೆ',code:'ಮ್ಯಾನೇಜರ್ ಕೊಟ್ಟ 6 ಅಂಕಿಯ ಕೋಡ್',go:'ಸೈನ್ ಇನ್',setpin:'ನಿಮ್ಮ PIN ಹೊಂದಿಸಿ',enter:'ನಿಮ್ಮ PIN ನಮೂದಿಸಿ',cases:'ನನ್ನ ಪ್ರಕರಣಗಳು',newc:'ಹೊಸ ಪ್ರಕರಣ',accept:'ಸ್ವೀಕರಿಸಿ',reject:'ತಿರಸ್ಕರಿಸಿ',left:'ಸ್ವೀಕರಿಸಲು ಉಳಿದ ಸಮಯ',late:'ಸಮಯ ಮುಗಿದಿದೆ — ಈಗಲೇ ಸ್ವೀಕರಿಸಿ',why:'ಏಕೆ ತಿರಸ್ಕರಿಸುತ್ತಿದ್ದೀರಿ?',send:'ಕಳುಹಿಸಿ',cancel:'ರದ್ದು',profile:'ಪ್ರೊಫೈಲ್',alarmOn:'ಅಲಾರಂ ಆನ್ ಆಗಿದೆ',turnOn:'ಅಲಾರಂ ಆನ್ ಮಾಡಿ',lang:'ಭಾಷೆ',noCases:'ಈಗ ನಿಮ್ಮ ಹೆಸರಿನಲ್ಲಿ ಪ್ರಕರಣಗಳಿಲ್ಲ.',refresh:'ರಿಫ್ರೆಶ್',call:'ವಿಮಾದಾರರಿಗೆ ಕರೆ',map:'ನಕ್ಷೆ',back:'ಹಿಂದೆ',tapStop:'ಶಬ್ದ ನಿಲ್ಲಿಸಲು ಸ್ಪರ್ಶಿಸಿ'},
+  ml:{hello:'പിനാകയിൽ സൈൻ ഇൻ ചെയ്യുക',idl:'എംപ്ലോയി ID അല്ലെങ്കിൽ മൊബൈൽ നമ്പർ',code:'മാനേജർ നൽകിയ 6 അക്ക കോഡ്',go:'സൈൻ ഇൻ',setpin:'നിങ്ങളുടെ PIN സജ്ജമാക്കുക',enter:'നിങ്ങളുടെ PIN നൽകുക',cases:'എന്റെ കേസുകൾ',newc:'പുതിയ കേസ്',accept:'സ്വീകരിക്കുക',reject:'നിരസിക്കുക',left:'സ്വീകരിക്കാൻ ബാക്കി സമയം',late:'സമയം കഴിഞ്ഞു — ഇപ്പോൾ സ്വീകരിക്കുക',why:'എന്തുകൊണ്ട് നിരസിക്കുന്നു?',send:'അയക്കുക',cancel:'റദ്ദാക്കുക',profile:'പ്രൊഫൈൽ',alarmOn:'അലാറം ഓണാണ്',turnOn:'അലാറം ഓണാക്കുക',lang:'ഭാഷ',noCases:'ഇപ്പോൾ നിങ്ങളുടെ പേരിൽ കേസുകളില്ല.',refresh:'പുതുക്കുക',call:'ഇൻഷ്വേർഡിനെ വിളിക്കുക',map:'മാപ്പ്',back:'തിരികെ',tapStop:'ശബ്ദം നിർത്താൻ തൊടുക'},
+  mr:{hello:'पिनाकामध्ये साइन इन करा',idl:'कर्मचारी ID किंवा मोबाइल नंबर',code:'मॅनेजरने दिलेला 6 अंकी कोड',go:'साइन इन',setpin:'तुमचा PIN सेट करा',enter:'तुमचा PIN टाका',cases:'माझी प्रकरणे',newc:'नवीन प्रकरण',accept:'स्वीकारा',reject:'नाकारा',left:'स्वीकारण्यासाठी उरलेला वेळ',late:'वेळ संपली — आत्ताच स्वीकारा',why:'का नाकारत आहात?',send:'पाठवा',cancel:'रद्द',profile:'प्रोफाइल',alarmOn:'अलार्म चालू आहे',turnOn:'अलार्म चालू करा',lang:'भाषा',noCases:'सध्या तुमच्या नावावर प्रकरणे नाहीत.',refresh:'रिफ्रेश',call:'विमाधारकाला कॉल',map:'नकाशा',back:'मागे',tapStop:'आवाज थांबवण्यासाठी स्पर्श करा'},
+  hi:{hello:'पिनाका में साइन इन करें',idl:'कर्मचारी ID या मोबाइल नंबर',code:'मैनेजर का दिया 6 अंकों का कोड',go:'साइन इन',setpin:'अपना PIN सेट करें',enter:'अपना PIN डालें',cases:'मेरे केस',newc:'नया केस',accept:'स्वीकार करें',reject:'अस्वीकार करें',left:'स्वीकार करने का समय बचा',late:'समय खत्म — अभी स्वीकार करें',why:'क्यों अस्वीकार कर रहे हैं?',send:'भेजें',cancel:'रद्द',profile:'प्रोफ़ाइल',alarmOn:'अलार्म चालू है',turnOn:'अलार्म चालू करें',lang:'भाषा',noCases:'अभी आपके नाम पर कोई केस नहीं है।',refresh:'रीफ़्रेश',call:'बीमित को कॉल करें',map:'नक्शा',back:'वापस',tapStop:'आवाज़ बंद करने के लिए छुएँ'}
+};
+function S(k){ var l = store.get('lang') || 'en'; return (T[l] && T[l][k]) || T.en[k] || k; }
+
+/* ═══ storage — localStorage, with a copy of the token in IndexedDB for the service worker ═ */
+var store = {
+  get: function (k) { try { return localStorage.getItem('pinaka.' + k); } catch (e) { return null; } },
+  set: function (k, v) { try { if (v == null) localStorage.removeItem('pinaka.' + k); else localStorage.setItem('pinaka.' + k, v); } catch (e) {} }
+};
+function idbPut(token) {
+  try {
+    var req = indexedDB.open('pinaka', 1);
+    req.onupgradeneeded = function () { req.result.createObjectStore('kv'); };
+    req.onsuccess = function () { try { var tx = req.result.transaction('kv', 'readwrite'); tx.objectStore('kv').put(token || '', 'token'); } catch (e) {} };
+  } catch (e) {}
+}
+
+/* ═══ the portal, asked ════════════════════════════════════════════════════════════════ */
+function api(path, opts) {
+  opts = opts || {};
+  var h = { 'content-type': 'application/json' };
+  var tok = store.get('token');
+  if (tok) h.authorization = 'Bearer ' + tok;
+  return fetch(API + path, { method: opts.method || 'GET', headers: h, body: opts.body ? JSON.stringify(opts.body) : undefined, credentials: 'omit' })
+    .then(function (r) { return r.json().catch(function () { return { ok: false, error: 'The portal answered ' + r.status }; }).then(function (j) { j._status = r.status; return j; }); })
+    .then(function (j) {
+      if (j && j.signedOut) { store.set('token', null); store.set('pinHash', null); idbPut(''); state.view = 'activate'; render(); }
+      return j;
+    })
+    .catch(function () { return { ok: false, error: 'No internet — check your data and try again.', offline: true }; });
+}
+
+/* ═══ state + helpers ══════════════════════════════════════════════════════════════════ */
+var state = { view: 'boot', me: null, cases: [], alarms: [], tab: 'all', q: '', open: null, pin: '', pin1: '', err: '', busy: false, skdQuiet: false };
+function $(id) { return document.getElementById(id); }
+function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+function toast(msg) { var t = $('toast'); t.textContent = msg; t.className = 'toast on'; clearTimeout(toast._t); toast._t = setTimeout(function () { t.className = 'toast'; }, 3200); }
+function today() { var d = new Date(Date.now() + 330 * 60000); return d.toISOString().slice(0, 10); }
+function sha(s) {
+  if (!(window.crypto && crypto.subtle)) return Promise.resolve('x' + s);
+  return crypto.subtle.digest('SHA-256', new TextEncoder().encode('pinaka-pin|' + s)).then(function (b) {
+    return Array.prototype.map.call(new Uint8Array(b), function (x) { return ('0' + x.toString(16)).slice(-2); }).join('');
+  });
+}
+function mmss(ms) { var neg = ms < 0; ms = Math.abs(ms); var m = Math.floor(ms / 60000), s = Math.floor((ms % 60000) / 1000); return (neg ? '-' : '') + (m < 10 ? '0' : '') + m + ':' + (s < 10 ? '0' : '') + s; }
+function applyTheme() { var t = store.get('theme'); if (t) document.documentElement.setAttribute('data-theme', t); else document.documentElement.removeAttribute('data-theme'); }
+
+/* ═══ header ═════════════════════════════════════════════════════════════════════════ */
+function head(title, sub, right) {
+  return '<header class="top"><div class="toprow"><img src="' + IMG + '" alt="">' +
+    '<div class="t"><b>' + esc(title) + '</b><small>' + esc(sub || '') + '</small></div>' +
+    '<button class="chip" data-act="lang"><span class="ms" style="font-size:16px">translate</span>' + esc((LANGS.filter(function (l) { return l[0] === (store.get('lang') || 'en'); })[0] || LANGS[0])[1]) + '</button>' +
+    (right || '') + '</div></header>';
+}
+
+/* ═══ screens ════════════════════════════════════════════════════════════════════════ */
+function vActivate() {
+  return head('Pinaka', 'TaaSen Claims · Field Officer') +
+    '<main><div class="hero"><img src="' + IMG + '" alt="Pinaka"></div>' +
+    '<h1>' + S('hello') + '</h1>' +
+    '<div class="lbl">' + S('idl') + '</div><input class="in" id="fId" autocomplete="username" inputmode="text" value="' + esc(store.get('lastId') || '') + '">' +
+    '<div class="lbl">' + S('code') + '</div><input class="in mono" id="fCode" inputmode="numeric" maxlength="6" autocomplete="one-time-code" placeholder="••••••">' +
+    (state.err ? '<div class="err">' + esc(state.err) + '</div>' : '') +
+    '<div style="height:16px"></div><button class="btn p" data-act="activate"' + (state.busy ? ' disabled' : '') + '><span class="ms">login</span>' + S('go') + '</button>' +
+    '<p class="mut" style="margin-top:16px">' + S('askcode') + '</p></main>';
+}
+function vPin(mode) {
+  var title = mode === 'set1' ? S('setpin') : mode === 'set2' ? S('again') : S('enter');
+  var n = state.pin.length, dots = '';
+  for (var i = 0; i < 4; i++) dots += '<i class="' + (i < n ? 'f' : '') + '"></i>';
+  var keys = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '', '0', '⌫'];
+  return head('Pinaka', state.me ? state.me.name : '') +
+    '<main><h1 style="text-align:center">' + title + '</h1>' +
+    (mode === 'set1' ? '<p class="mut" style="text-align:center">' + S('setpin2') + '</p>' : '') +
+    '<div class="pinrow">' + dots + '</div>' +
+    (state.err ? '<div class="err" style="text-align:center">' + esc(state.err) + '</div>' : '') +
+    '<div class="pad">' + keys.map(function (k) { return k ? '<button data-act="key" data-k="' + k + '">' + k + '</button>' : '<span></span>'; }).join('') + '</div>' +
+    (mode === 'unlock' ? '<p class="mut" style="text-align:center;margin-top:20px">' + S('forgot') + '</p>' : '') + '</main>';
+}
+function statusPill(c) {
+  var a = c.app;
+  if (a && a.acceptedAt) return '<span class="pill g">' + S('accepted') + (a.late ? ' · late' : '') + '</span>';
+  if (a && !a.rejectedAt && !a.closedAt) return '<span class="pill r">' + S('newc') + '</span>';
+  var s = String(c.status || '');
+  var cls = /complet/i.test(s) ? 'g' : /accept/i.test(s) ? 'b' : /assign|pending/i.test(s) ? 'a' : 'b';
+  return '<span class="pill ' + cls + '">' + esc(s || '—') + '</span>';
+}
+function place(c) { return c.hospitalCity || c.insuredCity || c.hospital || c.insuredAddress || ''; }
+function vHome() {
+  var list = state.cases.slice();
+  if (state.tab === 'waiting') list = list.filter(function (c) { return c.app && !c.app.acceptedAt && !c.app.rejectedAt && !c.app.closedAt; });
+  if (state.tab === 'accepted') list = list.filter(function (c) { return c.app && c.app.acceptedAt; });
+  var q = state.q.trim().toLowerCase();
+  if (q) list = list.filter(function (c) { return [c.claim, c.insured, c.hospital, c.client, c.insuredCity, c.hospitalCity].join(' ').toLowerCase().indexOf(q) >= 0; });
+  var alarmBar = '';
+  if (!alarmReady()) alarmBar = '<div class="note"><span class="ms">notifications_off</span><div><b>' + S('alarmOff') + '</b><div style="margin-top:8px"><button class="btn p" style="min-height:40px" data-act="enablePush">' + S('turnOn') + '</button></div></div></div>';
+  var waiting = state.alarms.length ? '<button class="btn" style="background:var(--red);color:#fff;margin-bottom:12px" data-act="showAlarm"><span class="ms">notifications_active</span>' + S('newc') + ' · ' + state.alarms.length + '</button>' : '';
+  return head(S('cases'), (state.me ? state.me.name : '') + ' · ' + state.cases.length,
+      '<button class="iconbtn" data-act="profile" aria-label="' + S('profile') + '"><span class="ms">person</span><span class="fb">Me</span></button>') +
+    '<main>' + alarmBar + waiting +
+    (state.skdQuiet ? '<div class="note"><span class="ms">cloud_off</span>' + S('skdSlow') + '</div>' : '') +
+    '<input class="in" id="fQ" placeholder="' + S('search') + '" value="' + esc(state.q) + '" style="margin-bottom:12px">' +
+    '<div class="tabs">' + [['all', S('all')], ['waiting', S('waiting')], ['accepted', S('accepted')]].map(function (t) { return '<button data-act="tab" data-t="' + t[0] + '" class="' + (state.tab === t[0] ? 'on' : '') + '">' + t[1] + '</button>'; }).join('') +
+    '<button data-act="refresh"><span class="ms" style="font-size:18px">refresh</span><span class="fb">↻</span></button></div>' +
+    (list.length ? list.map(function (c, i) {
+      return '<button class="case" data-act="open" data-c="' + esc(c.claim) + '"><div class="r1"><span class="cl">' + esc(c.claim) + '</span>' + statusPill(c) + '</div>' +
+        '<div class="nm">' + esc(c.insured || '—') + '</div>' +
+        '<div class="mt"><span>' + esc(c.client) + '</span><span>' + esc(c.product || c.subProduct) + '</span>' + (place(c) ? '<span><span class="ms" style="font-size:14px">location_on</span>' + esc(place(c)) + '</span>' : '') + '</div>' +
+        (c.parts && c.parts.length ? '<div class="mt">' + esc(c.parts.map(function (p) { return p.name; }).join(' · ')) + '</div>' : '') + '</button>';
+    }).join('') : '<div class="empty"><span class="ms">inbox</span>' + S('noCases') + '</div>') + '</main>';
+}
+function mapLink(c) {
+  var a = [c.hospital, c.hospitalAddress, c.hospitalCity, c.hospitalPin].filter(Boolean).join(', ') || [c.insuredAddress, c.insuredCity, c.insuredPin].filter(Boolean).join(', ');
+  return a ? 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(a) : '';
+}
+function vCase() {
+  var c = state.cases.filter(function (x) { return x.claim === state.open; })[0];
+  if (!c) { state.view = 'home'; return vHome(); }
+  function r(k, v) { return v ? '<dt>' + S(k) + '</dt><dd>' + esc(v) + '</dd>' : ''; }
+  var tel = String(c.contact || '').replace(/[^\d+]/g, '');
+  var m = mapLink(c);
+  return head(c.claim, c.client, '<button class="iconbtn" data-act="home" aria-label="' + S('back') + '"><span class="ms">arrow_back</span><span class="fb">←</span></button>') +
+    '<main><div class="card"><div class="r1" style="display:flex;justify-content:space-between;align-items:center"><span class="mono" style="color:var(--ink)">' + esc(c.claim) + '</span>' + statusPill(c) + '</div>' +
+    '<h1 style="font-size:var(--f4)">' + esc(c.insured || '—') + '</h1>' +
+    '<dl class="kv">' + r('client', c.client) + r('status', c.status) + r('allotted', c.allotted || c.created) + r('tat', c.tat) + r('hospital', c.hospital) +
+    r('address', [c.hospitalAddress, c.hospitalCity, c.hospitalPin].filter(Boolean).join(', ')) + r('insured', [c.insuredAddress, c.insuredCity, c.insuredPin].filter(Boolean).join(', ')) +
+    r('police', c.policeStation) + r('manager', c.manager) + '</dl></div>' +
+    (c.parts && c.parts.length ? '<div class="card"><h2>' + S('parts') + '</h2>' + c.parts.map(function (p) { return '<div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px dashed var(--line)"><span>' + esc(p.name) + '</span><span class="mut">' + esc(p.status) + '</span></div>'; }).join('') + '</div>' : '') +
+    '<div class="row2">' + (tel ? '<a class="btn g" href="tel:' + esc(tel) + '"><span class="ms">call</span>' + S('call') + '</a>' : '') + (m ? '<a class="btn g" href="' + esc(m) + '" target="_blank" rel="noopener"><span class="ms">map</span>' + S('map') + '</a>' : '') + '</div>' +
+    (c.app && !c.app.acceptedAt && !c.app.rejectedAt && !c.app.closedAt ? '<div style="height:12px"></div><div class="row2"><button class="btn ok" data-act="accept" data-id="' + c.app.id + '">' + S('accept') + '</button><button class="btn no" data-act="reject" data-id="' + c.app.id + '">' + S('reject') + '</button></div>' : '') +
+    '</main>';
+}
+function vProfile() {
+  var me = state.me || {};
+  return head(S('profile'), me.name || '', '<button class="iconbtn" data-act="home"><span class="ms">arrow_back</span><span class="fb">←</span></button>') +
+    '<main><div class="card"><h2>' + esc(me.name || '') + '</h2><div class="mut">' + esc([me.user, me.state].filter(Boolean).join(' · ')) + '</div></div>' +
+    '<div class="card"><h2>' + (alarmReady() ? S('alarmOn') : S('alarmOff')) + '</h2>' +
+    (alarmReady() ? '' : '<button class="btn p" data-act="enablePush">' + S('turnOn') + '</button><div style="height:10px"></div>') +
+    '<button class="btn g" data-act="testSound"><span class="ms">volume_up</span>' + S('testSound') + '</button>' +
+    (!CAP && !isStandalone() ? '<div class="lbl">' + S('install') + '</div><ol class="steps mut"><li><b>Android (Chrome):</b> ⋮ menu → Install app.</li><li><b>iPhone (Safari):</b> Share → Add to Home Screen, then open Pinaka from the icon.</li></ol>' : '') + '</div>' +
+    '<div class="card"><h2>' + S('lang') + '</h2><div class="tabs" style="flex-wrap:wrap">' + LANGS.map(function (l) { return '<button data-act="setLang" data-l="' + l[0] + '" class="' + ((store.get('lang') || 'en') === l[0] ? 'on' : '') + '">' + l[1] + '</button>'; }).join('') + '</div>' +
+    '<div class="tabs">' + [['', 'Auto'], ['light', 'Light'], ['dark', 'Dark']].map(function (t) { return '<button data-act="setTheme" data-v="' + t[0] + '" class="' + ((store.get('theme') || '') === t[0] ? 'on' : '') + '">' + t[1] + '</button>'; }).join('') + '</div></div>' +
+    '<div class="card"><div class="good"><span class="ms">lock</span>' + S('signed') + '</div><div class="mut">Pinaka ' + APP_V + ' · ' + esc(PLATFORM) + '</div></div></main>';
+}
+
+/* ═══ the alarm: full screen, loops sound + vibration until answered or silenced ════════ */
+var sound = { ctx: null, timer: null, vib: null };
+function soundStart() {
+  soundStop();
+  try {
+    var AC = window.AudioContext || window.webkitAudioContext;
+    if (AC) {
+      sound.ctx = sound.ctx || new AC();
+      if (sound.ctx.state === 'suspended') sound.ctx.resume();
+      var beep = function () {
+        var t0 = sound.ctx.currentTime;
+        [0, 0.28, 0.56].forEach(function (d, i) {
+          var o = sound.ctx.createOscillator(), g = sound.ctx.createGain();
+          o.type = 'square'; o.frequency.value = i === 1 ? 1175 : 880;
+          g.gain.setValueAtTime(0.0001, t0 + d); g.gain.exponentialRampToValueAtTime(0.35, t0 + d + 0.02); g.gain.exponentialRampToValueAtTime(0.0001, t0 + d + 0.22);
+          o.connect(g); g.connect(sound.ctx.destination); o.start(t0 + d); o.stop(t0 + d + 0.24);
+        });
+      };
+      beep(); sound.timer = setInterval(beep, 1300);
+    }
+  } catch (e) {}
+  try { if (navigator.vibrate) { navigator.vibrate([800, 400, 800]); sound.vib = setInterval(function () { navigator.vibrate([800, 400, 800]); }, 2200); } } catch (e) {}
+}
+function soundStop() { clearInterval(sound.timer); clearInterval(sound.vib); sound.timer = sound.vib = null; try { if (navigator.vibrate) navigator.vibrate(0); } catch (e) {} }
+var alarmTick = null;
+function showAlarm() {
+  if (!state.alarms.length) { hideAlarm(); return; }
+  var a = state.alarms[0];
+  var el = $('alarm');
+  var isTest = a.source === 'test';
+  function paint() {
+    var left = a.acceptBy - Date.now();
+    el.innerHTML = '<div class="big">' + (isTest ? 'Test alarm' : S('newc')) + '</div>' +
+      '<div class="ring"><span class="ms">notifications_active</span></div>' +
+      '<div class="claim">' + esc(a.claim) + '</div>' +
+      '<div class="sub">' + esc(a.part || '') + (a.by ? ' · ' + esc(a.by) : '') + '</div>' +
+      '<div class="count' + (left < 0 ? ' late' : '') + '">' + mmss(left) + '</div>' +
+      '<div class="sub">' + (left < 0 ? S('late') : S('left')) + '</div>' +
+      '<div class="acts"><button class="btn ok" data-act="accept" data-id="' + a.id + '"><span class="ms">check_circle</span>' + S('accept') + '</button>' +
+      '<button class="btn no" data-act="reject" data-id="' + a.id + '"><span class="ms">cancel</span>' + S('reject') + '</button>' +
+      '<div class="more">' + (state.alarms.length > 1 ? (state.alarms.length - 1) + ' ' + S('oneMore') + ' · ' : '') + S('tapStop') + '</div></div>';
+  }
+  paint();
+  el.className = 'on';
+  clearInterval(alarmTick); alarmTick = setInterval(paint, 1000);
+  if (!sound.timer && !showAlarm.muted) soundStart();
+  if (!a.seenAt) { a.seenAt = Date.now(); api('/api/app/seen', { method: 'POST', body: { id: a.id } }); }
+}
+function hideAlarm() { $('alarm').className = ''; clearInterval(alarmTick); soundStop(); }
+
+/* ═══ reject sheet ═══════════════════════════════════════════════════════════════════ */
+var REASONS = ['Too far / not my area', 'Already have too many cases', 'On leave / unwell', 'Wrong allocation', 'Other'];
+function openReject(id) {
+  soundStop(); showAlarm.muted = true;
+  var pick = '';
+  var el = $('sheetIn');
+  function paint() {
+    el.innerHTML = '<h2>' + S('why') + '</h2>' + REASONS.map(function (r) { return '<button class="opt' + (pick === r ? ' on' : '') + '" data-r="' + esc(r) + '"><span class="ms">' + (pick === r ? 'radio_button_checked' : 'radio_button_unchecked') + '</span>' + esc(r) + '</button>'; }).join('') +
+      '<textarea class="in" id="rDet" maxlength="300" placeholder="Details (optional)"></textarea><div style="height:12px"></div>' +
+      '<div class="row2"><button class="btn g" data-x="cancel">' + S('cancel') + '</button><button class="btn no" data-x="send"' + (pick ? '' : ' disabled') + '>' + S('send') + '</button></div>';
+  }
+  paint();
+  $('sheet').className = 'sheet on';
+  el.onclick = function (ev) {
+    var b = ev.target.closest('button'); if (!b) return;
+    if (b.dataset.r) { var det = ($('rDet') || {}).value || ''; pick = b.dataset.r; paint(); $('rDet').value = det; return; }
+    if (b.dataset.x === 'cancel') { $('sheet').className = 'sheet'; return; }
+    if (b.dataset.x === 'send') {
+      b.disabled = true;
+      api('/api/app/reject', { method: 'POST', body: { id: Number(id), reason: pick, details: ($('rDet') || {}).value || '' } }).then(function (j) {
+        $('sheet').className = 'sheet';
+        if (j.ok) { toast(S('rejOk')); afterAnswer(id); } else toast(j.error || 'Could not send');
+      });
+    }
+  };
+}
+function afterAnswer(id) {
+  state.alarms = state.alarms.filter(function (a) { return String(a.id) !== String(id); });
+  showAlarm.muted = false;
+  if (state.alarms.length) showAlarm(); else hideAlarm();
+  loadCases();
+}
+
+/* ═══ push: the store app (Firebase) or the installed web app (Web Push) ═══════════════ */
+function isStandalone() { return (window.matchMedia && matchMedia('(display-mode: standalone)').matches) || navigator.standalone === true; }
+function alarmReady() {
+  if (CAP) return store.get('pushOk') === '1';
+  return ('Notification' in window) && Notification.permission === 'granted' && store.get('pushOk') === '1';
+}
+function b64uToU8(s) { s = s.replace(/-/g, '+').replace(/_/g, '/'); while (s.length % 4) s += '='; var b = atob(s), u = new Uint8Array(b.length); for (var i = 0; i < b.length; i++) u[i] = b.charCodeAt(i); return u; }
+function enablePush() {
+  if (CAP) return enableNativePush();
+  if (!('serviceWorker' in navigator) || !('PushManager' in window)) { toast(/iphone|ipad/i.test(navigator.userAgent) && !isStandalone() ? 'iPhone: first Add to Home Screen, then open Pinaka from the icon.' : 'This browser cannot ring. Use Chrome on Android.'); return Promise.resolve(); }
+  return Notification.requestPermission().then(function (perm) {
+    if (perm !== 'granted') { toast('Notifications are blocked. Allow them in the phone settings for this app.'); return; }
+    return navigator.serviceWorker.register('/pinaka/sw.js', { scope: '/pinaka/' }).then(function () { return navigator.serviceWorker.ready; }).then(function (reg) {
+      return api('/api/app/me').then(function (me) {
+        if (!me.pushKey) { toast('The portal has no push key switched on yet.'); return; }
+        return reg.pushManager.subscribe({ userVisibleOnly: true, applicationServerKey: b64uToU8(me.pushKey) }).then(function (sub) {
+          return api('/api/app/push', { method: 'POST', body: sub.toJSON() }).then(function (j) { if (j.ok) { store.set('pushOk', '1'); toast(S('alarmOn')); render(); } else toast(j.error || 'Could not switch on'); });
+        });
+      });
+    });
+  }).catch(function (e) { toast('Could not switch on: ' + (e && e.message ? e.message : e)); });
+}
+function nativePlugins() { return (window.Capacitor && window.Capacitor.Plugins) || {}; }
+/* The store app: Firebase Cloud Messaging on both Android and iPhone (@capacitor-firebase/messaging),
+   so the portal sends ONE kind of push. Android gets its own "pinaka_alarm" channel with the alarm
+   sound at max importance, so the ring sounds with the app closed. */
+function enableNativePush() {
+  var FM = nativePlugins().FirebaseMessaging;
+  if (!FM) { toast('Push plugin missing in this build.'); return Promise.resolve(); }
+  var chan = (PLATFORM === 'android' && FM.createChannel) ? FM.createChannel({ id: 'pinaka_alarm', name: 'New case alarm', description: 'Rings when a case is given to you', importance: 5, visibility: 1, sound: 'pinaka_alarm', vibration: true, lights: true, lightColor: '#0074D9' }).catch(function () {}) : Promise.resolve();
+  return chan.then(function () { return FM.requestPermissions(); }).then(function (r) {
+    if (!r || r.receive !== 'granted') { toast('Notifications are blocked. Allow them in Settings → Apps → Pinaka.'); return; }
+    return FM.getToken().then(function (t) { return sendNativeToken(t && t.token); });
+  }).catch(function (e) { toast('Could not switch on: ' + (e && e.message ? e.message : e)); });
+}
+function sendNativeToken(tok) {
+  if (!tok) return;
+  return api('/api/app/push', { method: 'POST', body: { fcmToken: tok, platform: PLATFORM } }).then(function (j) {
+    if (j.ok) { store.set('pushOk', '1'); render(); } else toast(j.error || 'Could not switch on the alarm');
+  });
+}
+function wireNative() {
+  var FM = nativePlugins().FirebaseMessaging;
+  if (!FM || wireNative.done) return;
+  wireNative.done = true;
+  FM.addListener('tokenReceived', function (e) { if (store.get('pushOk') === '1') sendNativeToken(e && e.token); });
+  FM.addListener('notificationReceived', function () { loadAlarms(true); });
+  FM.addListener('notificationActionPerformed', function () { loadAlarms(true); });
+  var App = nativePlugins().App;
+  if (App && App.addListener) App.addListener('appStateChange', function (s) { if (s.isActive && store.get('token')) { loadAlarms(true); loadCases(); } });
+  if (store.get('pushOk') === '1') enableNativePush();
+}
+
+/* ═══ data ═══════════════════════════════════════════════════════════════════════════ */
+function loadAlarms(ring) {
+  return api('/api/app/alarm').then(function (j) {
+    if (!j.ok) return;
+    var before = state.alarms.map(function (a) { return a.id; }).join(',');
+    state.alarms = j.alarms || [];
+    var fresh = state.alarms.some(function (a) { return before.split(',').indexOf(String(a.id)) < 0; });
+    if (state.alarms.length && (ring || fresh) && state.view !== 'pin') { showAlarm.muted = false; showAlarm(); }
+    if (!state.alarms.length) hideAlarm();
+    if (state.view === 'home') render();
+  });
+}
+function loadCases() {
+  return api('/api/app/cases').then(function (j) {
+    if (!j.ok) { if (!j.signedOut) toast(j.error || 'Could not load cases'); return; }
+    state.cases = j.cases || []; state.skdQuiet = !!j.skdQuiet;
+    if (state.view === 'home' || state.view === 'case') render();
+  });
+}
+
+/* ═══ render + events ════════════════════════════════════════════════════════════════ */
+function render() {
+  applyTheme();
+  var v = state.view, html = '';
+  if (v === 'boot') html = head('Pinaka', '') + '<main><div class="empty"><span class="ms">hourglass_top</span></div></main>';
+  else if (v === 'activate') html = vActivate();
+  else if (v === 'pin') html = vPin(state.pinMode);
+  else if (v === 'home') html = vHome();
+  else if (v === 'case') html = vCase();
+  else if (v === 'profile') html = vProfile();
+  $('app').innerHTML = html;
+  var q = $('fQ'); if (q) q.oninput = function () { state.q = q.value; var pos = q.selectionStart; render(); var q2 = $('fQ'); q2.focus(); try { q2.setSelectionRange(pos, pos); } catch (e) {} };
+}
+function goHome() { state.view = 'home'; render(); loadCases(); loadAlarms(false); }
+function pinKey(k) {
+  state.err = '';
+  if (k === '⌫') { state.pin = state.pin.slice(0, -1); render(); return; }
+  if (state.pin.length >= 4) return;
+  state.pin += k; render();
+  if (state.pin.length < 4) return;
+  var p = state.pin;
+  (function () {
+    if (state.pinMode === 'set1') { state.pin1 = p; state.pin = ''; state.pinMode = 'set2'; render(); return; }
+    if (state.pinMode === 'set2') {
+      if (p !== state.pin1) { state.pin = ''; state.pin1 = ''; state.pinMode = 'set1'; state.err = S('nomatch'); render(); return; }
+      sha(p).then(function (h) { store.set('pinHash', h); store.set('unlocked', today()); state.pin = ''; goHome(); if (!alarmReady()) enablePush(); });
+      return;
+    }
+    sha(p).then(function (h) {
+      if (h === store.get('pinHash')) { store.set('unlocked', today()); state.pin = ''; goHome(); }
+      else { state.pin = ''; state.err = S('wrongpin'); render(); }
+    });
+  })();
+}
+document.addEventListener('click', function (ev) {
+  if (ev.target.closest('#alarm') && !ev.target.closest('button')) { soundStop(); showAlarm.muted = true; return; }
+  var b = ev.target.closest('[data-act]'); if (!b) return;
+  var act = b.dataset.act;
+  if (act === 'key') return pinKey(b.dataset.k);
+  if (act === 'activate') {
+    var id = $('fId').value.trim(), code = $('fCode').value.replace(/\D/g, '');
+    state.err = ''; state.busy = true; render(); $('fId').value = id; $('fCode').value = code;
+    api('/api/app/activate', { method: 'POST', body: { id: id, code: code, platform: PLATFORM } }).then(function (j) {
+      state.busy = false;
+      if (!j.ok) { state.err = j.error || 'Could not sign in'; render(); $('fId').value = id; return; }
+      store.set('token', j.token); idbPut(j.token); store.set('lastId', id); store.set('pushOk', null);
+      state.me = j.officer; state.view = 'pin'; state.pinMode = 'set1'; state.pin = ''; render();
+    });
+    return;
+  }
+  if (act === 'tab') { state.tab = b.dataset.t; render(); return; }
+  if (act === 'refresh') { loadCases(); loadAlarms(false); toast(S('refresh') + '…'); return; }
+  if (act === 'open') { state.open = b.dataset.c; state.view = 'case'; render(); window.scrollTo(0, 0); return; }
+  if (act === 'home') { state.view = 'home'; render(); return; }
+  if (act === 'profile') { state.view = 'profile'; render(); return; }
+  if (act === 'enablePush') { enablePush(); return; }
+  if (act === 'showAlarm') { showAlarm.muted = false; showAlarm(); return; }
+  if (act === 'testSound') { soundStart(); setTimeout(soundStop, 4000); return; }
+  if (act === 'setLang') { store.set('lang', b.dataset.l); render(); return; }
+  if (act === 'setTheme') { store.set('theme', b.dataset.v || null); render(); return; }
+  if (act === 'lang') { var i = LANGS.map(function (l) { return l[0]; }).indexOf(store.get('lang') || 'en'); store.set('lang', LANGS[(i + 1) % LANGS.length][0]); render(); if ($('alarm').className === 'on') showAlarm(); return; }
+  if (act === 'accept') {
+    b.disabled = true;
+    api('/api/app/accept', { method: 'POST', body: { id: Number(b.dataset.id) } }).then(function (j) {
+      if (j.ok) { toast(S('accOk')); afterAnswer(b.dataset.id); } else { b.disabled = false; toast(j.error || 'Could not accept'); }
+    });
+    return;
+  }
+  if (act === 'reject') { openReject(b.dataset.id); return; }
+});
+
+/* ═══ start ═══════════════════════════════════════════════════════════════════════════ */
+(function boot() {
+  applyTheme();
+  /* no icon font (no data yet, or blocked): hide the icon words instead of printing them */
+  try { if (document.fonts && document.fonts.load) document.fonts.load('24px "Material Symbols Rounded"').then(function (f) { if (!f || !f.length) document.documentElement.classList.add('noicons'); }).catch(function () { document.documentElement.classList.add('noicons'); }); } catch (e) {}
+  if (!ON_PORTAL && !CAP) { API = PORTAL; }
+  if (!store.get('token')) { state.view = 'activate'; render(); return; }
+  idbPut(store.get('token'));
+  render();
+  api('/api/app/me').then(function (j) {
+    if (!j.ok) { if (!store.get('token')) return; state.me = { name: '' }; }
+    else state.me = j.officer;
+    if (j.ok && j.push === false) store.set('pushOk', null);
+    if (CAP) wireNative();
+    else if ('serviceWorker' in navigator) navigator.serviceWorker.register('/pinaka/sw.js', { scope: '/pinaka/' }).catch(function () {});
+    if (!store.get('pinHash')) { state.view = 'pin'; state.pinMode = 'set1'; }
+    else if (store.get('unlocked') !== today()) { state.view = 'pin'; state.pinMode = 'unlock'; }
+    else { goHome(); return; }
+    render();
+  });
+  /* a second chance for the alarm while the app is open: ask every 20 seconds */
+  setInterval(function () { if (store.get('token') && document.visibilityState === 'visible' && (state.view === 'home' || state.view === 'case' || state.view === 'profile')) loadAlarms(false); }, 20000);
+  document.addEventListener('visibilitychange', function () { if (document.visibilityState === 'visible' && store.get('token') && state.view !== 'pin' && state.view !== 'activate') { loadAlarms(true); loadCases(); } });
+  if ('serviceWorker' in navigator && navigator.serviceWorker.addEventListener) navigator.serviceWorker.addEventListener('message', function (e) { if (e.data && e.data.type === 'pinaka-alarm') loadAlarms(true); });
+  if (/[?#&]alarm=/.test(location.href)) setTimeout(function () { loadAlarms(true); }, 800);
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,24 @@
+{
+  "name": "pinaka-app",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Pinaka — TaaSen Claims field officer app (Android + iPhone), connected to taasenclaims.com",
+  "scripts": {
+    "sync": "npx cap sync",
+    "android": "npx cap open android",
+    "ios": "npx cap open ios",
+    "icons": "npx capacitor-assets generate --iconBackgroundColor '#0B0E17' --splashBackgroundColor '#001F3F'"
+  },
+  "dependencies": {
+    "@capacitor/android": "^8.5.2",
+    "@capacitor/app": "^8.1.1",
+    "@capacitor/core": "^8.5.2",
+    "@capacitor/ios": "^8.5.2",
+    "@capacitor-firebase/messaging": "^8.5.2",
+    "firebase": "^12.19.0"
+  },
+  "devDependencies": {
+    "@capacitor/assets": "^3.0.5",
+    "@capacitor/cli": "^8.5.2"
+  }
+}

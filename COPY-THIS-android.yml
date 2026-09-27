@@ -1,0 +1,59 @@
+# Builds Pinaka for Android on every push to main (and by hand from the Actions tab).
+# Download the results from the run page → Artifacts:
+#   pinaka-debug-apk      install straight on a phone to test
+#   pinaka-release-aab    upload to Google Play Console (signed when the keystore secrets are set)
+#
+# Repository secrets (Settings → Secrets and variables → Actions):
+#   GOOGLE_SERVICES_JSON        the whole google-services.json from Firebase (Android app com.taasenclaims.pinaka)
+#   ANDROID_KEYSTORE_BASE64     base64 of your upload keystore (.jks)
+#   ANDROID_KEYSTORE_PASSWORD   its store password
+#   ANDROID_KEY_ALIAS           the key alias
+#   ANDROID_KEY_PASSWORD        the key password
+name: Android build
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+      - uses: android-actions/setup-android@v3
+      - run: npm ci
+      - run: npx cap sync android
+      - name: Firebase config
+        env:
+          GOOGLE_SERVICES_JSON: ${{ secrets.GOOGLE_SERVICES_JSON }}
+        run: |
+          if [ -n "$GOOGLE_SERVICES_JSON" ]; then printf '%s' "$GOOGLE_SERVICES_JSON" > android/app/google-services.json; else echo "::warning::GOOGLE_SERVICES_JSON not set - the app will build but cannot receive the alarm"; fi
+      - name: Keystore
+        env:
+          KS: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+        run: |
+          if [ -n "$KS" ]; then echo "$KS" | base64 -d > "$RUNNER_TEMP/pinaka.jks"; echo "PINAKA_KEYSTORE=$RUNNER_TEMP/pinaka.jks" >> "$GITHUB_ENV"; else echo "::warning::No keystore secret - release AAB will be unsigned"; fi
+      - name: Build
+        working-directory: android
+        env:
+          PINAKA_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          PINAKA_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          PINAKA_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+        run: |
+          chmod +x gradlew
+          ./gradlew --no-daemon assembleDebug bundleRelease
+      - uses: actions/upload-artifact@v4
+        with:
+          name: pinaka-debug-apk
+          path: android/app/build/outputs/apk/debug/*.apk
+      - uses: actions/upload-artifact@v4
+        with:
+          name: pinaka-release-aab
+          path: android/app/build/outputs/bundle/release/*.aab

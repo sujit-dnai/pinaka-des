@@ -1,0 +1,21 @@
+PINAKA APP — HOW TO UPLOAD TO GITHUB (the web page takes 100 files at a time)
+
+Use a NEW PRIVATE repo named  pinaka-app  (not pinaka-des: that one is public).
+github.com → New repository → name pinaka-app → Private → Create.
+
+UPLOAD 1 (80 files)
+  Open the folder Pinaka-Upload-1. Select everything INSIDE it (Cmd+A) and drag onto
+  "Add file → Upload files". Commit.
+
+UPLOAD 2 (63 files — the Android icons and splash screens)
+  Open the folder Pinaka-Upload-2. Drag the "android" folder inside it onto
+  "Add file → Upload files". GitHub puts the files into the same android folder. Commit.
+
+UPLOAD 3 — the build robot (Mac hides folders that start with a dot, so do this one by hand)
+  In the repo: Add file → Create new file.
+  Name:  .github/workflows/android.yml
+  Open COPY-THIS-android.yml from Upload 1, copy everything, paste it in. Commit.
+  (You can delete COPY-THIS-android.yml and UPLOAD-STEPS.txt from the repo afterwards.)
+
+Then: Settings → Secrets and variables → Actions → add the secrets listed in README.md,
+and Actions → Android build → Run workflow. The APK and the AAB appear under Artifacts.

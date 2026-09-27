@@ -1,0 +1,36 @@
+{
+	"appId": "com.taasenclaims.pinaka",
+	"appName": "Pinaka",
+	"webDir": "www",
+	"android": {
+		"allowMixedContent": false
+	},
+	"server": {
+		"androidScheme": "https",
+		"iosScheme": "capacitor"
+	},
+	"plugins": {
+		"FirebaseMessaging": {
+			"presentationOptions": [
+				"badge",
+				"sound",
+				"alert"
+			]
+		}
+	},
+	"experimental": {
+		"ios": {
+			"spm": {
+				"packageOptions": {
+					"@capacitor-firebase/messaging": {
+						"symlink": true
+					}
+				}
+			}
+		}
+	},
+	"packageClassList": [
+		"AppPlugin",
+		"FirebaseMessagingPlugin"
+	]
+}

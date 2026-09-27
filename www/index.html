@@ -230,6 +230,9 @@ var API = ON_PORTAL ? '' : PORTAL;
 var CAP = !!(window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform());
 var PLATFORM = CAP ? window.Capacitor.getPlatform() : (/iphone|ipad|ipod/i.test(navigator.userAgent) ? 'ios-web' : (/android/i.test(navigator.userAgent) ? 'android-web' : 'web'));
 var APP_V = '2.1.0 (portal v34.9)';
+/* v34.9 — every call says which app and which version, so an old installed app can be told to update */
+var APP_NUM = APP_V.split(' ')[0];
+function appHdr(h) { h['x-app-version'] = APP_NUM; h['x-app-platform'] = CAP ? PLATFORM : 'web'; return h; }
 var IMG = ON_PORTAL ? '/pinaka/eagle.png' : 'eagle.png';
 
 /* ═══ words, in seven languages (main labels; the case data stays as SKD sends it) ═══════ */
@@ -281,19 +284,20 @@ function idbPut(token) {
 /* ═══ the portal, asked ════════════════════════════════════════════════════════════════ */
 function api(path, opts) {
   opts = opts || {};
-  var h = { 'content-type': 'application/json' };
+  var h = appHdr({ 'content-type': 'application/json' });
   var tok = store.get('token');
   if (tok) h.authorization = 'Bearer ' + tok;
   return fetch(API + path, { method: opts.method || (opts.body ? 'POST' : 'GET'), headers: h, body: opts.body ? JSON.stringify(opts.body) : undefined, credentials: 'omit' })
     .then(function (r) { return r.json().catch(function () { return { ok: false, error: 'The portal answered ' + r.status }; }).then(function (j) { j._status = r.status; return j; }); })
     .then(function (j) {
       if (j && j.signedOut) { store.set('token', null); store.set('pinHash', null); idbPut(''); state.view = 'login'; render(); }
+      if (j && j.updateRequired) { state.update = j; if (state.view !== 'update') { state.view = 'update'; render(); } }
       return j;
     })
     .catch(function () { return { ok: false, error: 'No internet — check your data and try again.', offline: true }; });
 }
 function upload(kind, blob, extra) {
-  var h = { 'content-type': blob.type || 'image/jpeg', authorization: 'Bearer ' + store.get('token'), 'x-kind': kind };
+  var h = appHdr({ 'content-type': blob.type || 'image/jpeg', authorization: 'Bearer ' + store.get('token'), 'x-kind': kind });
   Object.keys(extra || {}).forEach(function (k) { if (extra[k] != null) h['x-' + k] = encodeURIComponent(String(extra[k])); });
   return fetch(API + '/api/app/upload', { method: 'POST', headers: h, body: blob, credentials: 'omit' })
     .then(function (r) { return r.json(); }).catch(function () { return { ok: false, offline: true, error: 'No internet — try again when the signal is back.' }; });
@@ -869,7 +873,7 @@ function vProfile() {
   var expMonth = (state.exps || []).filter(function (x) { return String(x.date || '').slice(0, 7) === today().slice(0, 7); }).reduce(function (a, x) { return a + Number(x.amount || 0); }, 0);
   var m = [['currency_rupee', 'var(--redt)', 'var(--red)', S('fineT'), '₹' + (d.finesMonth || 0), 'var(--red)', 'fines'], ['receipt_long', 'var(--sky)', 'var(--blue)', S('myExp'), '₹' + Math.round(expMonth).toLocaleString('en-IN'), 'var(--ink)', 'navExp'],
     ['event_available', 'var(--okt)', 'var(--ok)', S('attendance'), d.attendanceMonth ? d.attendanceMonth.days + ' of ' + d.attendanceMonth.dayOfMonth + ' days' : '', 'var(--ink)', 'attendance'],
-    ['beach_access', 'var(--ambt)', 'var(--amb)', S('leave'), 'Soon', 'var(--mut)', 'soon'], ['account_balance_wallet', 'var(--ambt)', 'var(--amb)', S('advance'), 'Soon', 'var(--mut)', 'soon'],
+    ['beach_access', 'var(--ambt)', 'var(--amb)', S('leave'), lvWord(), 'var(--ink)', 'leaveOpen'], ['account_balance_wallet', 'var(--ambt)', 'var(--amb)', S('advance'), 'Soon', 'var(--mut)', 'soon'],
     ['translate', 'var(--sky)', 'var(--blue)', S('lang'), langName(), 'var(--ink)', 'langSheet'], ['pin', 'var(--sky)', 'var(--blue)', S('changePin'), '', '', 'changePin'],
     ['notifications_active', alarmReady() ? 'var(--okt)' : 'var(--redt)', alarmReady() ? 'var(--ok)' : 'var(--red)', S('alarm'), alarmReady() ? 'On' : 'Turn on', alarmReady() ? 'var(--ok)' : 'var(--red)', 'enablePush'],
     ['battery_saver', 'var(--okt)', 'var(--ok)', S('battery'), store.get('oemDone') ? 'Done' : 'Set up', 'var(--ok)', 'battery'],
@@ -975,7 +979,7 @@ function uploadBill(file) {
   if (BLOCKED.test(file.name || '')) return Promise.resolve({ ok: false, error: 'This kind of file cannot be attached.' });
   if (file.size > 10 * 1024 * 1024) return Promise.resolve({ ok: false, error: 'File size too large. Please upload a smaller file.' });
   return shrinkImage(file).then(function (blob) {
-    var h = { 'content-type': blob.type || file.type || 'application/octet-stream', 'x-file-name': encodeURIComponent(file.name || 'bill'), authorization: 'Bearer ' + store.get('token') };
+    var h = appHdr({ 'content-type': blob.type || file.type || 'application/octet-stream', 'x-file-name': encodeURIComponent(file.name || 'bill'), authorization: 'Bearer ' + store.get('token') });
     return fetch(API + '/api/app/expense/bill', { method: 'POST', headers: h, body: blob, credentials: 'omit' }).then(function (r) { return r.json(); }).catch(function () { return { ok: false, offline: true, error: 'No internet' }; });
   });
 }
@@ -1632,6 +1636,7 @@ function readView() {
   if (v === 'commit' && state.commit) state.commit.cases.forEach(function (x, i) { var t = $('cT' + i), n = $('cN' + i), d = $('cD' + i); if (t) x.time = t.value; if (n) x.note = n.value; if (d) x.laterDay = d.value; });
   if (v === 'today' && state.todayData) state.todayData.cases.forEach(function (x, i) { var u = $('u' + i); if (u) x.text = u.value; });
   if (v === 'tpOne' && state.tpData && $('tpRem')) state.tpData.tps[state.tpI].remarks = $('tpRem').value;
+  if (v === 'leaveNew' && typeof lvRead === 'function') lvRead();
   if (v === 'appeal' && $('apText')) { state.appeal = state.appeal || {}; state.appeal.text = $('apText').value; }
   if (v === 'caseChat' && CHS && $('chatIn')) CHS.draft = $('chatIn').value;
   if (v === 'trip' && state.trip) { if ($('tKm')) state.trip.kmTyped = $('tKm').value; if ($('tKmWhy')) state.trip.kmWhy = $('tKmWhy').value; }
@@ -1646,7 +1651,7 @@ function render() {
   var scroll = ($('scroller') && state._lastView === v) ? $('scroller').scrollTop : 0;
   if (v === 'boot') html = '<div class="scr hero" style="align-items:center;justify-content:center"><img src="' + IMG + '" alt="" style="width:84px;height:84px;border-radius:22px;background:#fff;padding:8px"></div>';
   else if (v === 'pin') html = vPin(state.pinMode);
-  else if (state.onDuty && state.gpsBad && v !== 'login' && v !== 'profile' && v !== 'fines' && v !== 'appeal') html = vGpsLock();
+  else if (state.onDuty && state.gpsBad && v !== 'login' && v !== 'profile' && v !== 'fines' && v !== 'appeal' && v !== 'leave' && v !== 'leaveNew') html = vGpsLock();
   else html = (VIEWS[v] || vHome)();
   $('app').innerHTML = html;
   state._lastView = v;
@@ -2501,7 +2506,7 @@ function docOpen(key) {
   var loc = state.docLocal && state.docLocal[key];
   if (loc) { window.open(loc, '_blank'); return; }
   toast('Opening…');
-  fetch(API + '/api/app/myfile?key=' + encodeURIComponent(key), { headers: { authorization: 'Bearer ' + store.get('token') }, credentials: 'omit' })
+  fetch(API + '/api/app/myfile?key=' + encodeURIComponent(key), { headers: appHdr({ authorization: 'Bearer ' + store.get('token') }), credentials: 'omit' })
     .then(function (r) { if (!r.ok) throw new Error(); return r.blob(); })
     .then(function (bl) { var u = URL.createObjectURL(bl); state.docLocal = state.docLocal || {}; state.docLocal[key] = u; window.open(u, '_blank'); })
     .catch(function () { toast('Could not open — check the signal.'); });
@@ -2557,6 +2562,113 @@ function tpVideo(lab) {
   inp.click();
 }
 VIEWS.caseChat = vCaseChat;
+/* v34.9 — an old installed app: "this cannot be opened, please install the new Pinaka" */
+function vUpdate() {
+  var u = state.update || {};
+  return '<div class="scr hero" style="align-items:center;justify-content:center;padding:24px;text-align:center;gap:14px"><img src="' + IMG + '" alt="" style="width:84px;height:84px;border-radius:22px;background:#fff;padding:8px">' +
+    '<b style="font-size:22px">Please install the new Pinaka</b><div style="opacity:.9;max-width:340px;line-height:1.5">This version (' + esc(APP_NUM) + ') is old and cannot be opened any more. Install version ' + esc(u.minVersion || '') + ' or newer. Your cases, reports and photos are safe on the portal.</div>' +
+    '<a class="btn green" style="text-decoration:none;max-width:320px" href="https://play.google.com/store/apps/details?id=com.taasenclaims.pinaka" target="_blank" rel="noopener">' + ic('system_update') + 'Get the new app</a>' +
+    '<a class="btn" style="text-decoration:none;max-width:320px;background:rgba(255,255,255,.15);color:#fff" href="' + PORTAL + '/pinaka" target="_blank" rel="noopener">' + ic('open_in_browser') + 'Open taasenclaims.com/pinaka in Chrome</a>' +
+    '<div class="small" style="opacity:.8;max-width:320px">No Play Store link yet? Ask your manager for the new app file (APK).</div></div>';
+}
+VIEWS.update = vUpdate;
+/* ═══ v34.9 · LEAVE — apply any time; OHS → State Coordinator → manager / admin approve step by step.
+   2 days or more: the app lists the cases he holds — once approved they go back to the office (Pending)
+   and are given to other field officers. He ticks "I understand". The decision also comes by mail. ═══ */
+var LV = { list: null, types: ['Casual leave', 'Sick leave', 'Emergency', 'Personal', 'Other'], moveDays: 2, f: null, warn: null, cancelId: null };
+var LV_TAG = { submitted: ['Waiting for OHS', 'c-amb'], l1: ['OHS approved · waiting for State Coordinator', 'c-amb'], l2: ['State Coordinator approved · waiting for manager', 'c-amb'],
+  approved: ['Approved', 'c-ok'], rejected: ['Rejected', 'c-red'], cancelled: ['Cancelled', 'c-line'] };
+function lvWord() {
+  if (!LV.list) return '';
+  var open = LV.list.filter(function (x) { return ['submitted', 'l1', 'l2'].indexOf(x.status) >= 0; }).length;
+  return open ? open + ' waiting' : 'Apply';
+}
+function lvLoad() { api('/api/app/leave').then(function (j) { if (j.ok) { LV.list = j.leaves || []; LV.types = j.types || LV.types; LV.moveDays = j.moveDays || 2; } else if (!j.updateRequired) toast(j.error || 'Could not load'); render(); }); }
+function lvCount(a, b) {
+  var x = Date.parse(a + 'T00:00:00Z'), y = Date.parse((b || a) + 'T00:00:00Z');
+  if (!(x > 0) || !(y > 0) || y < x) return 0;
+  return Math.round((y - x) / 86400000) + 1;
+}
+function lvNice(d) { try { return new Date(d + 'T00:00:00Z').toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric', timeZone: 'UTC' }); } catch (e) { return d; } }
+function lvRange(x) { return lvNice(x.from) + (x.days > 1 ? ' – ' + lvNice(x.to) : '') + ' · ' + x.days + ' day' + (x.days > 1 ? 's' : ''); }
+function lvRead() {
+  var f = LV.f; if (!f) return;
+  if ($('lvFrom')) f.from = $('lvFrom').value;
+  if ($('lvTo')) f.to = $('lvTo').value;
+  if ($('lvWhy')) f.reason = $('lvWhy').value;
+}
+function vLeave() {
+  var top = head(S('leave'), state.me ? state.me.name : '', { back: 'navProfile', noBell: true });
+  if (!LV.list) return scr(top, '<div class="empty">' + ic('hourglass_top') + 'Loading…</div>');
+  var step = function (lbl, s) { return '<div class="small">' + ic(s ? 'check_circle' : 'radio_button_unchecked').replace('class="ic', 'style="font-size:15px;color:' + (s ? 'var(--ok)' : 'var(--mut)') + '" class="ic') + ' ' + lbl + (s ? ' — <b>' + esc(s.by) + '</b> ' + dt(s.at) + (s.note ? ' · ' + esc(s.note) : '') : '') + '</div>'; };
+  var body = '<div class="pad"><div class="banner b-sky">' + ic('info') + '<span class="d">Apply any time. Your OHS, then your State Coordinator, then your manager / admin approve it. Leave of ' + LV.moveDays + ' days or more: your open cases go back to the office and are given to other field officers once it is approved.</span></div>' +
+    (LV.list.length ? LV.list.map(function (x) {
+      var t = LV_TAG[x.status] || [x.statusWord || x.status, 'c-line'], open = ['submitted', 'l1', 'l2'].indexOf(x.status) >= 0;
+      return '<div class="card big" style="display:flex;flex-direction:column;gap:6px"><div class="row"><b style="flex:1">' + esc(x.type || 'Leave') + '</b><span class="tag ' + t[1] + '">' + esc(t[0]) + '</span></div>' +
+        '<div class="small">' + ic('event').replace('class="ic', 'style="font-size:15px" class="ic') + ' ' + esc(lvRange(x)) + '</div><div class="small mut">' + esc(x.reason) + '</div>' +
+        step('OHS', x.l1) + step('State Coordinator', x.l2) + step('Manager / Admin', x.l3) +
+        (x.rejected ? '<div class="banner b-red">' + ic('block') + '<span><b>Rejected by ' + esc(x.rejected.by) + '</b><span class="d">' + esc(x.rejected.note) + '</span></span></div>' : '') +
+        (x.moved && x.moved.length ? '<div class="banner b-amb">' + ic('assignment_return') + '<span><b>' + x.moved.length + ' case(s) given back</b><span class="d">' + x.moved.map(esc).join(', ') + '</span></span></div>' : (x.movesCases && x.claims && x.claims.length && open ? '<div class="small" style="color:var(--amb)">' + ic('warning').replace('class="ic', 'style="font-size:15px" class="ic') + ' Once approved these go to other officers: ' + x.claims.map(esc).join(', ') + '</div>' : '')) +
+        (open ? '<button class="btn g" data-act="lvCancel" data-id="' + x.id + '" style="height:40px">' + ic('close') + (LV.cancelId === x.id ? 'Tap again to cancel this leave' : 'Cancel this leave') + '</button>' : '') + '</div>';
+    }).join('') : '<div class="empty">' + ic('beach_access') + 'No leave applied yet.</div>') + '</div>';
+  return scr(top, body, '<button class="btn grad" data-act="lvNew">' + ic('add') + 'Apply for leave</button>');
+}
+function vLeaveNew() {
+  var f = LV.f || (LV.f = { from: today(), to: today(), type: 'Casual leave', reason: '' });
+  var n = lvCount(f.from, f.to), w = LV.warn;
+  var body = '<div class="pad">' +
+    '<div class="row2"><div><div class="lbl">First day <span class="req">*</span></div><input class="inp" id="lvFrom" type="date" value="' + esc(f.from) + '"></div>' +
+    '<div><div class="lbl">Last day <span class="req">*</span></div><input class="inp" id="lvTo" type="date" value="' + esc(f.to) + '"></div></div>' +
+    '<div class="card" style="text-align:center"><b id="lvDays" style="font-size:18px">' + (n ? n + ' day' + (n > 1 ? 's' : '') : 'Check the days') + '</b><div class="small mut" id="lvDaysNote">' + (n >= LV.moveDays ? 'Your open cases will go to other field officers once approved' : 'Your cases stay with you') + '</div></div>' +
+    '<div class="lbl">Type</div>' + LV.types.map(function (t) { return '<button class="opt' + (f.type === t ? ' on' : '') + '" data-act="lvType" data-t="' + esc(t) + '">' + ic(f.type === t ? 'radio_button_checked' : 'radio_button_unchecked') + esc(t) + '</button>'; }).join('') +
+    '<div class="lbl">Reason <span class="req">*</span></div>' + boxWithMic('lvWhy', f.reason, 'Why do you need leave?', 3, 1000) +
+    (w ? '<div class="banner b-amb" style="flex-direction:column;align-items:stretch;gap:8px"><b>' + ic('warning') + ' ' + esc(w.error) + '</b>' +
+      '<div class="small">' + w.claims.map(function (c) { return '<div style="display:block">• <span style="font-weight:700">' + esc(c.claim) + '</span>' + (c.insured ? ' · ' + esc(c.insured) : '') + (c.client ? ' · ' + esc(c.client) : '') + '</div>'; }).join('') + '</div>' +
+      '<button class="opt' + (f.understood ? ' on' : '') + '" data-act="lvTick">' + ic(f.understood ? 'check_box' : 'check_box_outline_blank') + 'I understand — my cases will be given to other field officers</button></div>' : '') +
+    (state.err ? '<div class="err">' + esc(state.err) + '</div>' : '') + '</div>';
+  return scr(head('Apply for leave', state.me ? state.me.name : '', { back: 'leaveOpen', noBell: true }), body,
+    '<button class="btn grad" data-act="lvSend"' + (state.busy || (w && !f.understood) ? ' disabled' : '') + '>' + ic('send') + 'Send for approval</button>');
+}
+VIEWS.leave = vLeave; VIEWS.leaveNew = vLeaveNew;
+document.addEventListener('change', function (ev) {
+  var id = ev.target && ev.target.id;
+  if (id !== 'lvFrom' && id !== 'lvTo') return;
+  lvRead();
+  if (id === 'lvFrom' && LV.f && (!LV.f.to || LV.f.to < LV.f.from)) { LV.f.to = LV.f.from; if ($('lvTo')) $('lvTo').value = LV.f.from; }
+  var n = lvCount(LV.f.from, LV.f.to);
+  if ($('lvDays')) $('lvDays').textContent = n ? n + ' day' + (n > 1 ? 's' : '') : 'The last day is before the first';
+  if ($('lvDaysNote')) $('lvDaysNote').textContent = n >= LV.moveDays ? 'Your open cases will go to other field officers once approved' : 'Your cases stay with you';
+  if (LV.warn) { LV.warn = null; LV.f.understood = false; render(); }
+});
+document.addEventListener('click', function (ev) {
+  var b = ev.target.closest('[data-act]'); if (!b) return;
+  switch (b.dataset.act) {
+    case 'leaveOpen': state.err = ''; LV.cancelId = null; state.view = 'leave'; render(); lvLoad(); return;
+    case 'lvNew': LV.f = null; LV.warn = null; state.err = ''; state.view = 'leaveNew'; render(); return;
+    case 'lvType': readView(); LV.f.type = b.dataset.t; render(); return;
+    case 'lvTick': readView(); LV.f.understood = !LV.f.understood; render(); return;
+    case 'lvCancel': {
+      var id = Number(b.dataset.id);
+      if (LV.cancelId !== id) { LV.cancelId = id; render(); return; }
+      LV.cancelId = null;
+      api('/api/app/leave/cancel', { body: { id: id } }).then(function (j) { toast(j.ok ? 'Leave cancelled' : (j.error || 'Could not cancel')); lvLoad(); });
+      return;
+    }
+    case 'lvSend': {
+      readView(); var f = LV.f; state.err = '';
+      if (!lvCount(f.from, f.to)) { state.err = 'The last day cannot be before the first day.'; render(); return; }
+      if (String(f.reason || '').trim().length < 5) { state.err = 'Write the reason (5 letters or more).'; render(); return; }
+      state.busy = true; render();
+      api('/api/app/leave', { body: { from: f.from, to: f.to, type: f.type, reason: f.reason, reasonAudio: (state.voiceKeys || {}).lvWhy || [], understood: !!f.understood } }).then(function (j) {
+        state.busy = false;
+        if (j.needConfirm) { LV.warn = j; f.understood = false; render(); var sc = $('scroller'); if (sc) sc.scrollTop = sc.scrollHeight; return; }
+        if (!j.ok) { state.err = j.error || 'Could not send'; render(); return; }
+        toast('Leave sent — your OHS approves first.'); LV.f = null; LV.warn = null; state.view = 'leave'; lvLoad();
+      });
+      return;
+    }
+  }
+});
 /* the new buttons: chat, mentions, scanner, documents */
 document.addEventListener('click', function (ev) {
   var b = ev.target.closest('[data-act]'); if (!b) return;
@@ -2664,7 +2776,7 @@ window.addEventListener('online', function () { var q = store.get('sosQueue'); i
     else {
       api('/api/fo/v1/voice/lang').then(function (v) { if (v && v.ok) { state.voiceLang = v.lang; state.voiceMax = v.maxSeconds; state.voiceSil = v.silenceSeconds; } });
       setTimeout(function () { refreshQueue(); sendQueue(); trSync(); var rq = store.get('rpQueue'); if (rq) api('/api/app/report/complete', { body: JSON.parse(rq) }).then(function (k) { if (k.ok || !k.offline) store.set('rpQueue', null); }); }, 1500);
-      loadSos();
+      loadSos(); setTimeout(function () { if (!LV.list) api('/api/app/leave').then(function (k) { if (k.ok) { LV.list = k.leaves || []; if (state.view === 'profile') render(); } }); }, 2500);
       state.me = j.officer; state.onDuty = !!j.onDuty; state.dutySince = j.dutySince; state.bikeRate = j.bikeRate || 0; if (state.onDuty) trkStart();
     }
     if (j.ok && j.push === false) store.set('pushOk', null);

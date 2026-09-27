@@ -95,6 +95,14 @@ Reviewers need a way in. On the portal, go to **Pinaka App**, search for your ow
 Put the **Employee ID** and the **6-digit code** in the review notes. The code lasts 72 hours and works once, so make it on the day you submit. Make a fresh one if the store asks again.
 Mention in the notes: *"Internal app for TaaSen field officers. Access codes are issued by the employer's portal. New cases arrive as push alarms."*
 
+## What 2.1.0 adds (versionCode 4 / iOS build 4)
+- Team Chat on every case: chat icon in the Case Workspace header (count + yellow @), Chat tab with Chats and Mentions, @ tags that ring the tagged person, Reply, Voice → English, offline queue.
+- Document scanner on every touch point: the box turns green when the paper is inside and steady, crop corners, Clean / B&W / Original, pages → one PDF, "What is this document?" list (Field Masters), rename / re-scan / delete later.
+- Spot visit: 8 spot photos + 360° video.
+- SOS button in every header → his OHS, State Coordinator, admin and boss are rung; "I am safe now"; Call 112; offline queue.
+- Sign-in doors read TaaSen User / External User.
+- The app needs no new permission: camera, microphone and location were already declared.
+
 ## What 2.0.0 adds — the app is Sujit's design (pinaka-des)
 
 - **Sign in with the Employee ID** + password (set on the portal), then a daily PIN. No logout; only admin signs a phone out.

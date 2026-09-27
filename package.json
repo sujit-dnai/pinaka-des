@@ -1,6 +1,6 @@
 {
   "name": "pinaka-app",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "private": true,
   "description": "Pinaka — TaaSen Claims field officer app (Android + iPhone), connected to taasenclaims.com",
   "scripts": {

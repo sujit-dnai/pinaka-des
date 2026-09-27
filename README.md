@@ -101,6 +101,8 @@ Mention in the notes: *"Internal app for TaaSen field officers. Access codes are
 - Spot visit: 8 spot photos + 360° video.
 - SOS button in every header → his OHS, State Coordinator, admin and boss are rung; "I am safe now"; Call 112; offline queue.
 - Sign-in doors read TaaSen User / External User.
+- Leave (Profile → Leave): apply any time with the reason (Translator mic); OHS → State Coordinator → manager / admin approve step by step; 2 days or more lists his cases that go back to the office once approved ("I understand" tick); cancel until decided.
+- Old installed apps are stopped with "Please install the new Pinaka".
 - The app needs no new permission: camera, microphone and location were already declared.
 
 ## What 2.0.0 adds — the app is Sujit's design (pinaka-des)

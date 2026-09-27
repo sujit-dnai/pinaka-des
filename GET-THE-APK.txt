@@ -1,0 +1,9 @@
+PINAKA 2.1.0: UPDATE WITH LEAVE. Replaces Pinaka-App-2.1.0-update.zip. Adds Profile → Leave, sends its version, and shows the one-phone message.
+
+1. Upload www/index.html to github.com/sujit-dnai/pinaka-des (Add file → Upload files → drag the
+   "www" folder from this zip) → Commit. (package.json, package-lock.json, build.gradle and the
+   iOS project are already 2.1.0 in the repo; uploading them again is harmless.)
+2. The build starts by itself: Actions → "Android build" → wait for the green tick (~5 min).
+3. Open the run → Artifacts → "pinaka-debug-apk" → unzip → app-debug.apk → send to the phone →
+   install (allow "Install from this source").
+The build robot (.github/workflows/android.yml) is already in the repo and fixed.

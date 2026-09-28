@@ -1,6 +1,5 @@
-PINAKA 2.1.0: UPLOADS FIX + GPS FIX (28-Sep). Replaces Pinaka-App-2.1.0-update-GPS.zip (it includes that fix too).
-Fixes: the Translator (the app was sending "{}" instead of the voice), and photos / bills / scanned PDFs
-from the installed app, which went the same way. Also the "GPS is off" fix.
+PINAKA 2.1.0: FILES FIX (28-Sep). Upload the PORTAL zip first, then this.
+Fixes the Translator and photo / bill / scan uploads from the installed app (they arrived empty), plus the GPS fix.
 1. Upload the "www" folder from this zip to github.com/sujit-dnai/pinaka-des (Add file → Upload files) → Commit.
-2. Actions → "Android build" → wait for the green tick (~5 min).
+2. Actions → "Android build" → wait for the green tick (~3 min). Use the NEWEST run.
 3. Open the run → Artifacts → "pinaka-debug-apk" → unzip → app-debug.apk → send to the phone → install over the old one.

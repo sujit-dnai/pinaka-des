@@ -229,7 +229,7 @@ var ON_PORTAL = /taasenclaims\.com$|workers\.dev$/.test(location.hostname);
 var API = ON_PORTAL ? '' : PORTAL;
 var CAP = !!(window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform());
 var PLATFORM = CAP ? window.Capacitor.getPlatform() : (/iphone|ipad|ipod/i.test(navigator.userAgent) ? 'ios-web' : (/android/i.test(navigator.userAgent) ? 'android-web' : 'web'));
-var APP_V = '2.1.1 (portal v34.9)';
+var APP_V = '2.1.2 (portal v34.9)';
 /* v34.9 — every call says which app and which version, so an old installed app can be told to update */
 var APP_NUM = APP_V.split(' ')[0];
 function appHdr(h) { h['x-app-version'] = APP_NUM; h['x-app-platform'] = CAP ? PLATFORM : 'web'; return h; }
@@ -1593,11 +1593,33 @@ function camGot(blob) {
 }
 
 
+/* v34.9 — Sujit, 28-Sep: "insured name or petitioner name or hospital, police station, all details need to
+   be reflected in front page". One labelled line per detail the case carries; a detail SKD does not send
+   is simply not drawn (never a blank line). */
+function alarmDetails(c) {
+  var tp = c.product === 'TP' || /\bTP\b|motor/i.test(String(c.product || '') + ' ' + String(c.subProduct || ''));
+  var rows = [
+    [tp ? 'Insured / Petitioner' : 'Insured / Patient', c.insured],
+    ['Client', [c.client, c.subProduct || c.product].filter(Boolean).join(' · ')],
+    ['Hospital', [c.hospital, c.hospitalCity, c.hospitalPin].filter(Boolean).join(', ')],
+    ['Hospital address', c.hospitalAddress && c.hospitalAddress !== c.hospital ? c.hospitalAddress : ''],
+    ['Police station', c.policeStation],
+    ['Insured address', [c.insuredAddress, c.insuredCity, c.insuredPin].filter(Boolean).join(', ')],
+    ['Phone', c.contact],
+    ['Allotted', c.allotted],
+    ['Trigger', c.trigger ? String(c.trigger).slice(0, 220) + (String(c.trigger).length > 220 ? '…' : '') : '']
+  ].filter(function (r) { return r[1] && String(r[1]).trim(); });
+  if (!rows.length) return '';
+  return '<div style="border:1px solid var(--line);border-radius:14px;padding:10px 12px;display:grid;grid-template-columns:auto 1fr;gap:6px 12px;font-size:13.5px;line-height:1.35">' +
+    rows.map(function (r) { return '<span class="small mut" style="font-weight:700;white-space:nowrap">' + esc(r[0]) + '</span><div style="overflow-wrap:anywhere">' + (r[0] === 'Phone' ? '<a href="tel:' + esc(String(r[1]).replace(/[^\d+]/g, '')) + '" style="color:var(--link);font-weight:700">' + esc(r[1]) + '</a>' : esc(r[1])) + '</div>'; }).join('') + '</div>';
+}
+
 /* ═══ THE NEW-CASE ALARM (design "Accept 20:00" / "Night case" / "Missed ₹50") ════════════════ */
 function showAlarm() {
   if (!state.alarms.length) { hideAlarm(); return; }
   var a = state.alarms[0], el = $('alarm'), isTest = a.source === 'test';
-  var c = state.cases.filter(function (x) { return x.claim === a.claim; })[0] || { claim: a.claim, parts: [] };
+  /* v34.9 — the case rides on the alarm itself now (a.case), so the details show even before My Cases loads */
+  var c = state.cases.filter(function (x) { return x.claim === a.claim; })[0] || a.case || { claim: a.claim, parts: [] };
   function paint() {
     var night = a.clockAt && a.clockAt > Date.now(), left = a.acceptBy - Date.now(), over = !night && left < 0;
     var ring = night ? mmss(20 * 60000) : over ? '00:00' : mmss(left);
@@ -1610,7 +1632,8 @@ function showAlarm() {
       '<div style="flex:1;overflow-y:auto;background:var(--card);color:var(--ink);border-radius:22px 22px 0 0;padding:16px;display:flex;flex-direction:column;gap:8px">' +
       '<div class="row">' + (c.product ? prodChip(c) : '') + tatChip(c) + '<span class="small mut" style="margin-left:auto">' + (isTest ? 'test' : '') + '</span></div>' +
       '<b style="font-size:20px">' + esc(c.insured || a.claim) + '</b><div class="sub">' + esc(a.claim) + (c.client ? ' · ' + esc(c.client) : '') + '</div>' +
-      '<div class="kv" style="font-size:13.5px">' + (place(c) ? '<span>' + ic('location_on') + '</span><div>' + esc(place(c)) + '</div>' : '') + (c.manager ? '<span>' + ic('manage_accounts') + '</span><div>Manager ' + esc(c.manager) + '</div>' : '') + '<span>' + ic('send') + '</span><div>Allocated' + (a.by ? ' by ' + esc(a.by) : '') + ' · ' + dtm(a.assignedAt) + '</div></div>' +
+      alarmDetails(c) +
+      '<div class="kv" style="font-size:13.5px">' + (c.manager ? '<span>' + ic('manage_accounts') + '</span><div>Manager ' + esc(c.manager) + '</div>' : '') + '<span>' + ic('send') + '</span><div>Allocated' + (a.by ? ' by ' + esc(a.by) : '') + ' · ' + dtm(a.assignedAt) + '</div></div>' +
       '<div class="small mut" style="font-weight:700;letter-spacing:.05em;margin-top:4px">TOUCH POINTS · ' + ((c.parts && c.parts.length) || String(a.part || '').split(',').length) + '</div><div class="row" style="flex-wrap:wrap">' +
       ((c.parts && c.parts.length ? c.parts.map(function (p) { return p.name; }) : String(a.part || 'Full case').split(',')).map(function (p) { return '<span class="chip c-line">' + ic(TP_ICON(p)) + esc(String(p).trim()) + '</span>'; }).join('')) + '</div>' +
       (state.alarms.length > 1 ? '<div class="small mut">' + (state.alarms.length - 1) + ' ' + S('oneMore') + '</div>' : '') + '<div class="small mut" style="text-align:center">' + S('tapStop') + '</div></div>' +

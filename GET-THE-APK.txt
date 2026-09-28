@@ -1,5 +1,11 @@
-PINAKA 2.1.0: FILES FIX (28-Sep). Upload the PORTAL zip first, then this.
-Fixes the Translator and photo / bill / scan uploads from the installed app (they arrived empty), plus the GPS fix.
-1. Upload the "www" folder from this zip to github.com/sujit-dnai/pinaka-des (Add file → Upload files) → Commit.
+APP — Pinaka 2.1.1 (28-Sep). Upload to github.com/sujit-dnai/pinaka-des  (NOT skd-portal)
+Inside: never stuck on the start screen, Translator + uploads fixed, GPS fix, no gallery on the photo camera,
+Leave screens, one phone per officer. Same screens as the portal's PORTAL-ALL zip.
+
+1. Open the unzipped folder. Upload EVERYTHING inside it to pinaka-des (Add file → Upload files → drag the
+   folders "www", "android", "ios" and the files package.json, package-lock.json, README.md) → Commit.
 2. Actions → "Android build" → wait for the green tick (~3 min). Use the NEWEST run.
-3. Open the run → Artifacts → "pinaka-debug-apk" → unzip → app-debug.apk → send to the phone → install over the old one.
+3. Open the run → Artifacts → "pinaka-debug-apk" → unzip → app-debug.apk → install over the old one.
+4. In the app: Profile → the bottom line must say "Pinaka 2.1.1".
+5. When the new app is on the phones: Portal → Pinaka App → Officers tab → "Oldest app allowed"
+   → type 2.1.1 → Save. Older phones are then told to install the new app.

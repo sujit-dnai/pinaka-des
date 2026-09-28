@@ -229,7 +229,7 @@ var ON_PORTAL = /taasenclaims\.com$|workers\.dev$/.test(location.hostname);
 var API = ON_PORTAL ? '' : PORTAL;
 var CAP = !!(window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform());
 var PLATFORM = CAP ? window.Capacitor.getPlatform() : (/iphone|ipad|ipod/i.test(navigator.userAgent) ? 'ios-web' : (/android/i.test(navigator.userAgent) ? 'android-web' : 'web'));
-var APP_V = '2.1.0 (portal v34.9)';
+var APP_V = '2.1.1 (portal v34.9)';
 /* v34.9 — every call says which app and which version, so an old installed app can be told to update */
 var APP_NUM = APP_V.split(' ')[0];
 function appHdr(h) { h['x-app-version'] = APP_NUM; h['x-app-platform'] = CAP ? PLATFORM : 'web'; return h; }
@@ -287,7 +287,10 @@ function api(path, opts) {
   var h = appHdr({ 'content-type': 'application/json' });
   var tok = store.get('token');
   if (tok) h.authorization = 'Bearer ' + tok;
-  return fetch(API + path, { method: opts.method || (opts.body ? 'POST' : 'GET'), headers: h, body: opts.body ? JSON.stringify(opts.body) : undefined, credentials: 'omit' })
+  /* v34.9 (28-Sep) — a stalled mobile connection must never hang the app (it sat on the eagle screen) */
+  var ac = null, tmo = null; try { ac = new AbortController(); tmo = setTimeout(function () { try { ac.abort(); } catch (e) { } }, opts.timeout || 30000); } catch (e) { ac = null; }
+  return fetch(API + path, { method: opts.method || (opts.body ? 'POST' : 'GET'), headers: h, body: opts.body ? JSON.stringify(opts.body) : undefined, credentials: 'omit', signal: ac ? ac.signal : undefined })
+    .then(function (r) { clearTimeout(tmo); return r; }, function (e) { clearTimeout(tmo); throw e; })
     .then(function (r) { return r.json().catch(function () { return { ok: false, error: 'The portal answered ' + r.status }; }).then(function (j) { j._status = r.status; return j; }); })
     .then(function (j) {
       if (j && j.signedOut) { store.set('token', null); store.set('pinHash', null); idbPut(''); state.view = 'login'; render(); }
@@ -1535,7 +1538,7 @@ function camPaint(soft) {
     '<div id="camfall" style="position:absolute;inset:0;display:' + (CAM.noLive && !CAM.shot ? 'flex' : 'none') + ';align-items:center;justify-content:center;flex-direction:column;gap:10px;padding:20px;text-align:center"><span>This browser has no live camera. Use the phone camera:</span><label class="btn grad" style="width:auto;padding:0 18px">' + ic('photo_camera') + 'Open camera<input type="file" accept="image/*" capture="' + (o.selfie ? 'user' : 'environment') + '" id="camfile" hidden></label></div>' +
     '<div class="stamp" id="camstamp"><span class="mp"></span><span><b style="display:block;font-size:12px">' + esc(lines[0]) + '</b>' + esc(lines[1]) + '<br>' + esc(lines[2]) + '<br>' + esc(lines[3]) + '</span></div></div>' +
     (CAM.shot ? '<div style="padding:14px 12px calc(14px + env(safe-area-inset-bottom));display:grid;grid-template-columns:1fr 1.4fr;gap:10px"><button class="btn" style="background:rgba(255,255,255,.12);color:#fff" data-cam="retake">' + ic('replay') + S('retake') + '</button><button class="btn green" data-cam="use">' + ic('check') + S('usePhoto') + '</button></div>'
-      : '<div style="padding:14px 12px calc(18px + env(safe-area-inset-bottom));display:flex;align-items:center;justify-content:center;gap:40px"><label style="width:44px;height:44px;border-radius:10px;background:rgba(255,255,255,.15);display:grid;place-items:center">' + ic('photo_library') + '<input type="file" accept="image/*" id="camgal" hidden></label><button class="shutter" data-cam="snap" aria-label="Take photo"></button><span style="width:44px"></span></div>') + '</div>';
+      : '<div style="padding:14px 12px calc(18px + env(safe-area-inset-bottom));display:flex;align-items:center;justify-content:center;gap:40px"><span style="width:44px"></span><button class="shutter" data-cam="snap" aria-label="Take photo"></button><span style="width:44px"></span></div>') + '</div>';
   var v = $('camv'); if (v && CAM.stream) { v.srcObject = CAM.stream; v.play().catch(function () { }); }
   ['camfile', 'camgal'].forEach(function (id) { var f = $(id); if (f) f.onchange = function () { if (this.files && this.files[0]) camFromFile(this.files[0]); }; });
   el.onclick = function (ev) {
@@ -1728,7 +1731,7 @@ function afterUnlock() {
     if (!d.punched && d.punchOpen) { state.view = 'punch'; state.punch = {}; render(); getPos().then(function () { if (state.view === 'punch') render(); }); return; }
     if (d.punched && !d.committed && d.held) { openCommit(); return; }
     goHome();
-  });
+  }).catch(function () { if (state.view === 'boot') goHome(); });
   loadAlarms(true);
 }
 function goHome() { if (state.pendingChat) { var pc = state.pendingChat; state.pendingChat = null; loadCases(); openChat(pc.claim, pc.msg); return; } state.view = 'home'; render(); loadCases(); loadAlarms(false); loadDay().then(function () { if (state.view === 'home') render(); }); }
@@ -2824,15 +2827,21 @@ window.addEventListener('online', function () { var q = store.get('sosQueue'); i
       api('/api/fo/v1/voice/lang').then(function (v) { if (v && v.ok) { state.voiceLang = v.lang; state.voiceMax = v.maxSeconds; state.voiceSil = v.silenceSeconds; } });
       setTimeout(function () { refreshQueue(); sendQueue(); trSync(); var rq = store.get('rpQueue'); if (rq) api('/api/app/report/complete', { body: JSON.parse(rq) }).then(function (k) { if (k.ok || !k.offline) store.set('rpQueue', null); }); }, 1500);
       loadSos(); setTimeout(function () { if (!LV.list) api('/api/app/leave').then(function (k) { if (k.ok) { LV.list = k.leaves || []; if (state.view === 'profile') render(); } }); }, 2500);
-      state.me = j.officer; state.onDuty = !!j.onDuty; state.dutySince = j.dutySince; state.bikeRate = j.bikeRate || 0; if (state.onDuty) trkStart();
+      state.me = j.officer; state.onDuty = !!j.onDuty; state.dutySince = j.dutySince; state.bikeRate = j.bikeRate || 0; if (state.onDuty) { try { trkStart(); } catch (e) { } }
     }
     if (j.ok && j.push === false) store.set('pushOk', null);
-    if (CAP) wireNative();
+    if (CAP) { try { wireNative(); } catch (e) { } }
     else if ('serviceWorker' in navigator) navigator.serviceWorker.register('/pinaka/sw.js', { scope: '/pinaka/' }).catch(function () {});
     if (!store.get('pinHash')) { state.view = 'pin'; state.pinMode = 'set1'; render(); }
     else if (store.get('unlocked') !== today()) { state.view = 'pin'; state.pinMode = 'unlock'; render(); }
     else afterUnlock();
   });
+  /* v34.9 (28-Sep) — never more than 20 s on the eagle screen: open with what the phone already has */
+  setInterval(function () {
+    if (state.view !== 'boot') { state._bootAt = 0; return; }
+    state._bootAt = state._bootAt || Date.now();
+    if (Date.now() - state._bootAt > 20000) { state._bootAt = 0; toast('Slow network — showing what is on the phone. It will refresh by itself.'); if (!store.get('pinHash')) { state.view = 'pin'; state.pinMode = 'set1'; render(); } else goHome(); }
+  }, 2000);
   /* a second chance for the alarm while the app is open: ask every 20 seconds */
   setInterval(function () { if (store.get('token') && document.visibilityState === 'visible' && ['home', 'cases', 'case', 'profile', 'today'].indexOf(state.view) >= 0) loadAlarms(false); }, 20000);
   document.addEventListener('visibilitychange', function () { if (document.visibilityState === 'visible' && store.get('token') && state.view !== 'pin' && state.view !== 'login') { loadAlarms(true); loadCases(); } });

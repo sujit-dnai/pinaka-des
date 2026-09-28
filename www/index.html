@@ -296,10 +296,17 @@ function api(path, opts) {
     })
     .catch(function () { return { ok: false, error: 'No internet — check your data and try again.', offline: true }; });
 }
+/* v34.9 (28-Sep) — the store app's native network layer (CapacitorHttp) sends a plain Blob as the text "{}":
+   every Translator clip from Basavaraj's phone reached the portal as 2 bytes. A File is sent whole, so every
+   binary upload (photos, selfie, bills, scanned PDFs, voice) is wrapped as a File in the store app. */
+function binBody(blob, name) {
+  if (!CAP || !blob) return blob;
+  try { if (typeof File !== 'undefined' && blob instanceof File) return blob; return new File([blob], name || 'upload', { type: blob.type || 'application/octet-stream' }); } catch (e) { return blob; }
+}
 function upload(kind, blob, extra) {
   var h = appHdr({ 'content-type': blob.type || 'image/jpeg', authorization: 'Bearer ' + store.get('token'), 'x-kind': kind });
   Object.keys(extra || {}).forEach(function (k) { if (extra[k] != null) h['x-' + k] = encodeURIComponent(String(extra[k])); });
-  return fetch(API + '/api/app/upload', { method: 'POST', headers: h, body: blob, credentials: 'omit' })
+  return fetch(API + '/api/app/upload', { method: 'POST', headers: h, body: binBody(blob, kind), credentials: 'omit' })
     .then(function (r) { return r.json(); }).catch(function () { return { ok: false, offline: true, error: 'No internet — try again when the signal is back.' }; });
 }
 
@@ -980,7 +987,7 @@ function uploadBill(file) {
   if (file.size > 10 * 1024 * 1024) return Promise.resolve({ ok: false, error: 'File size too large. Please upload a smaller file.' });
   return shrinkImage(file).then(function (blob) {
     var h = appHdr({ 'content-type': blob.type || file.type || 'application/octet-stream', 'x-file-name': encodeURIComponent(file.name || 'bill'), authorization: 'Bearer ' + store.get('token') });
-    return fetch(API + '/api/app/expense/bill', { method: 'POST', headers: h, body: blob, credentials: 'omit' }).then(function (r) { return r.json(); }).catch(function () { return { ok: false, offline: true, error: 'No internet' }; });
+    return fetch(API + '/api/app/expense/bill', { method: 'POST', headers: h, body: binBody(blob, 'bill'), credentials: 'omit' }).then(function (r) { return r.json(); }).catch(function () { return { ok: false, offline: true, error: 'No internet' }; });
   });
 }
 function attachSheet() {
@@ -1239,7 +1246,7 @@ function trCancel() { if (!TR) return; TR.cancelled = true; try { TR.rec.stop();
 function trSend(seq, blob, secs) {
   var h = { 'content-type': blob.type || 'audio/webm', authorization: 'Bearer ' + store.get('token'), 'x-lang': TR.lang, 'x-field': TR.field, 'x-case': trCase(), 'x-clip': TR.clip, 'x-seq': String(seq), 'x-seconds': String(secs) };
   var me = TR;
-  return fetch(API + '/api/fo/v1/voice', { method: 'POST', headers: h, body: blob, credentials: 'omit' })
+  return fetch(API + '/api/fo/v1/voice', { method: 'POST', headers: h, body: binBody(blob, 'clip'), credentials: 'omit' })
     .then(function (r) { return r.json().then(function (j) { j._status = r.status; return j; }); })
     .then(function (j) { if (j.audioKey) me.keys.push(j.audioKey); return Object.assign({ seq: seq }, j); })
     .catch(function () { me.offline = true; return { seq: seq, ok: false, offline: true }; });
@@ -1319,7 +1326,7 @@ function trSync() {
         return p.then(function () {
           var v = it.v, keys = [];
           return Promise.all(v.blobs.map(function (x) {
-            return fetch(API + '/api/fo/v1/voice', { method: 'POST', headers: { 'content-type': x.blob.type || 'audio/webm', authorization: 'Bearer ' + store.get('token'), 'x-lang': v.lang, 'x-field': v.field, 'x-case': v.claim, 'x-clip': v.clip, 'x-seq': String(x.seq), 'x-seconds': String(x.secs) }, body: x.blob, credentials: 'omit' })
+            return fetch(API + '/api/fo/v1/voice', { method: 'POST', headers: { 'content-type': x.blob.type || 'audio/webm', authorization: 'Bearer ' + store.get('token'), 'x-lang': v.lang, 'x-field': v.field, 'x-case': v.claim, 'x-clip': v.clip, 'x-seq': String(x.seq), 'x-seconds': String(x.secs) }, body: binBody(x.blob, 'clip'), credentials: 'omit' })
               .then(function (r) { return r.json(); }).then(function (j) { if (j.audioKey) keys.push(j.audioKey); return Object.assign({ seq: x.seq }, j); });
           })).then(function (res) {
             res.sort(function (a, b) { return a.seq - b.seq; });

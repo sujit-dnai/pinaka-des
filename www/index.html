@@ -1111,13 +1111,39 @@ function trkStart() {
   try { TRK.buf = JSON.parse(localStorage.getItem('pinaka.trkbuf') || '[]') || []; } catch (e) { TRK.buf = []; }
   var BG = nativePlugins().BackgroundGeolocation;
   if (CAP && BG) {
-    BG.addWatcher({ backgroundTitle: 'Pinaka · On duty', backgroundMessage: 'Sharing your location with TaaSen while you are on duty.', requestPermissions: true, stale: false, distanceFilter: 50 },
-      function (loc, err) { if (err) { trkBad(); return; } if (loc) trkKeep(loc.latitude, loc.longitude, loc.accuracy, loc.speed); })
-      .then(function (id) { TRK.bg = id; });
+    trkBgAdd(BG, 0);
   } else if (navigator.geolocation) {
     TRK.watch = navigator.geolocation.watchPosition(function (p) { trkKeep(p.coords.latitude, p.coords.longitude, p.coords.accuracy, p.coords.speed); }, function () { trkBad(); }, { enableHighAccuracy: true, maximumAge: 30000, timeout: 120000 });
   } else trkBad();
   TRK.timer = setInterval(function () { trkFlush(false); if (state.view === 'home') render(); }, 60000);
+}
+/* v34.9 — the phone's tracker (Sujit, 27-Sep: "It's showing GPS is off, but I have kept it on"). Any error
+   from the tracker was shown as "GPS is off" and tracking stayed dead for the day. Now: "Service not running"
+   (the tracker not ready yet, just after the app opens) is retried; a real permission / location problem is
+   checked with a plain GPS read — if that works, the app tracks with it (while open) instead of locking;
+   only when the phone truly gives no location is it GPS off. "Try again" restarts the tracker. */
+function trkBgAdd(BG, n) {
+  TRK.bgFailed = false;
+  BG.addWatcher({ backgroundTitle: 'Pinaka · On duty', backgroundMessage: 'Sharing your location with TaaSen while you are on duty.', requestPermissions: true, stale: false, distanceFilter: 50 },
+    function (loc, err) {
+      if (err) {
+        if (TRK.bg) { try { BG.removeWatcher({ id: TRK.bg }); } catch (e) { } TRK.bg = null; }
+        TRK.bgFailed = true;
+        if (err.code !== 'NOT_AUTHORIZED' && n < 5) { setTimeout(function () { if (state.onDuty && !TRK.bg) trkBgAdd(BG, n + 1); }, 3000); return; }
+        TRK.bg = null; trkFallback(err); return;
+      }
+      if (loc) trkKeep(loc.latitude, loc.longitude, loc.accuracy, loc.speed);
+    })
+    .then(function (id) { if (TRK.bgFailed) { TRK.bgFailed = false; try { BG.removeWatcher({ id: id }); } catch (e) { } return; } TRK.bg = id; })
+    .catch(function (e) { if (n < 5) setTimeout(function () { if (state.onDuty && !TRK.bg) trkBgAdd(BG, n + 1); }, 3000); else trkFallback(e); });
+}
+function trkFallback(err) {
+  if (!navigator.geolocation) { trkBad(); return; }
+  navigator.geolocation.getCurrentPosition(function (p) {
+    if (TRK.watch == null) TRK.watch = navigator.geolocation.watchPosition(function (q) { trkKeep(q.coords.latitude, q.coords.longitude, q.coords.accuracy, q.coords.speed); }, function () { }, { enableHighAccuracy: true, maximumAge: 30000, timeout: 120000 });
+    trkKeep(p.coords.latitude, p.coords.longitude, p.coords.accuracy, p.coords.speed);
+    if (!trkFallback.told) { trkFallback.told = true; toast('Location works — for tracking with the screen off, allow Pinaka "Precise" location in phone Settings → Apps → Pinaka → Permissions → Location.'); }
+  }, function () { trkBad(); }, { enableHighAccuracy: true, maximumAge: 60000, timeout: 20000 });
 }
 function trkStop(keep) {
   if (TRK.watch != null && navigator.geolocation) navigator.geolocation.clearWatch(TRK.watch);
@@ -1985,7 +2011,7 @@ document.addEventListener('click', function (ev) {
       api('/api/app/duty', { body: { on: true } }).then(function (j) { if (!j.ok) { toast(j.error || 'Could not start duty'); return; } state.onDuty = true; state.dutySince = j.since; state.gpsBad = false; trkStart(); render(); if (!store.get('oemDone') && CAP) { state.view = 'battery'; render(); } });
       return;
     case 'dutyOff': if (!confirm('End duty? Your location stops being shared.')) return; trkStop(false); api('/api/app/duty', { body: { on: false } }).then(function () { state.onDuty = false; render(); }); return;
-    case 'gpsRetry': getPos(15000).then(function (p) { if (p) { state.gpsBad = false; trkFlush(false); toast('GPS is on ✅'); } else toast('Still no GPS — turn on Location in the phone settings.'); render(); }); return;
+    case 'gpsRetry': getPos(15000).then(function (p) { if (p) { state.gpsBad = false; trkFlush(false); if (state.onDuty) trkStart(); toast('GPS is on ✅'); } else toast('Still no GPS — turn on Location in the phone settings.'); render(); }); return;
     case 'tr': readView(); trOpen(b.dataset.f); return;
     case 'trReady': { var vr = state.voiceReady[b.dataset.f]; if (vr.failed) { delete state.voiceReady[b.dataset.f]; trError(S('trSilence'), b.dataset.f); } else trResult(b.dataset.f, vr.english, vr.original, vr.lang, vr.keys); return; }
     case 'trWait': toast(S('trWait')); trSync(); return;

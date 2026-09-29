@@ -1,5 +1,0 @@
-PORTAL — upload these 5 files to GitHub  sujit-dnai/skd-portal  (branch main) → Commit.
-(After PORTAL-UPDATE-5. If 5 is not uploaded yet, upload 5 first, then this.)
-
- • Every portal mail (OTP, chase mails, reports) now goes ONLY from no-reply@taasenclaims.com.
-   Your own mailbox is used only as a spare if no-reply ever refuses. Replies still come to you.
